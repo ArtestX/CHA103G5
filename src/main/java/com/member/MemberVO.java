@@ -1,14 +1,14 @@
 package com.member;
 
-public class Member {
+public class MemberVO {
 	private String member_no;
 	
-	public Member() {
+	public MemberVO() {
 		super();
 		
 	}
 	
-	public Member(String member_no) {
+	public MemberVO(String member_no) {
 		super();
 		this.member_no = member_no;
 	}
