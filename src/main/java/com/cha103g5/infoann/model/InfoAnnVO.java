@@ -1,25 +1,26 @@
-package com.cha103g5.ann;
+package com.cha103g5.infoann.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
-public class InformationAnnouncementVO implements java.io.Serializable{
+public class InfoAnnVO implements java.io.Serializable{
 	private Integer infoNo;
     private Integer adminNo;
     private String infoContent;
     private String infoTitle;
-    private Date infoTime;
+    private Timestamp infoTime;
     
-	public InformationAnnouncementVO() {
+	public InfoAnnVO() {
+		super();
 	}
-
-	public InformationAnnouncementVO(Integer infoNo, Integer adminNo, String infoContent, String infoTitle,
-			Date infoTime) {
-		this.infoNo = infoNo;
-		this.adminNo = adminNo;
-		this.infoContent = infoContent;
-		this.infoTitle = infoTitle;
-		this.infoTime = infoTime;
-	}
+//
+//	public InfoAnnVO(Integer infoNo, Integer adminNo, String infoContent, String infoTitle,
+//			Date infoTime) {
+//		this.infoNo = infoNo;
+//		this.adminNo = adminNo;
+//		this.infoContent = infoContent;
+//		this.infoTitle = infoTitle;
+//		this.infoTime = infoTime;
+//	}
 
 	public Integer getInfoNo() {
 		return infoNo;
@@ -53,11 +54,11 @@ public class InformationAnnouncementVO implements java.io.Serializable{
 		this.infoTitle = infoTitle;
 	}
 
-	public Date getInfoTime() {
+	public Timestamp getInfoTime() {
 		return infoTime;
 	}
 
-	public void setInfoTime(Date infoTime) {
+	public void setInfoTime(Timestamp infoTime) {
 		this.infoTime = infoTime;
 	}
     
