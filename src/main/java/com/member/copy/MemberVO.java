@@ -1,4 +1,4 @@
-package com.cha103g5.model;
+package com.member.copy;
 
 public class MemberVO {
 	private String member_no;
