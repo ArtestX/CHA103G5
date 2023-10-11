@@ -1,4 +1,4 @@
-package com.product_category.model;
+package com.cha103g5.product_category.model;
 
 public class Product_categoryVO implements java.io.Serializable {
     private Integer productCatNo;

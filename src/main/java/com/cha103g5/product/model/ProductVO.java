@@ -1,4 +1,4 @@
-package com.product;
+package com.cha103g5.product.model;
 import java.math.BigDecimal;
 import java.sql.Date;
 

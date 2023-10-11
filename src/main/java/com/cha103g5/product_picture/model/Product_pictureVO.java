@@ -1,4 +1,4 @@
-package com.product_picture.model;
+package com.cha103g5.product_picture.model;
 
 public class Product_pictureVO implements java.io.Serializable {
     private Integer productPicNo;

@@ -1,4 +1,4 @@
-package com.product_category_detail.model;
+package com.cha103g5.product_category_detail.model;
 
 public class Product_category_detailVO implements java.io.Serializable {
     private Integer productCatDetNo;
