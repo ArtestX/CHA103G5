@@ -1,18 +1,18 @@
 package com.cha103g5.member.model;
 
-import java.sql.Date;
+import java.sql.*;
 
-public class MemberPointRecordVO implements java.io.Serializable{
+public class MbrPointRecordVO implements java.io.Serializable{
 	private Integer memberPointNo;
     private Integer memberNo;
-    private Date getPointTime;
+    private Timestamp getPointTime;
     private Integer getPoint;
     private String getPointReason;
     
-	public MemberPointRecordVO() {
+	public MbrPointRecordVO() {
 		}
 
-	public MemberPointRecordVO(Integer memberPointNo, Integer memberNo, Date getPointTime, Integer getPoint,
+	public MbrPointRecordVO(Integer memberPointNo, Integer memberNo, Timestamp getPointTime, Integer getPoint,
 			String getPointReason) {
 		this.memberPointNo = memberPointNo;
 		this.memberNo = memberNo;
@@ -37,11 +37,11 @@ public class MemberPointRecordVO implements java.io.Serializable{
 		this.memberNo = memberNo;
 	}
 
-	public Date getGetPointTime() {
+	public Timestamp getGetPointTime() {
 		return getPointTime;
 	}
 
-	public void setGetPointTime(Date getPointTime) {
+	public void setGetPointTime(Timestamp getPointTime) {
 		this.getPointTime = getPointTime;
 	}
 
@@ -60,5 +60,11 @@ public class MemberPointRecordVO implements java.io.Serializable{
 	public void setGetPointReason(String getPointReason) {
 		this.getPointReason = getPointReason;
 	}
-    
+
+	@Override
+	public String toString() {
+		return "MbrPointRecordVO [memberPointNo=" + memberPointNo + ", memberNo=" + memberNo + ", getPointTime="
+				+ getPointTime + ", getPoint=" + getPoint + ", getPointReason=" + getPointReason + "]";
+	}
+	
 }
