@@ -1,8 +1,10 @@
 package com.cha103g5.member.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Arrays;
 
-public class MemberVO implements java.io.Serializable{
+public class MbrVO implements java.io.Serializable{
 	private Integer memberNo;
     private String memberAccount;
     private String memberName;
@@ -11,23 +13,23 @@ public class MemberVO implements java.io.Serializable{
     private String memberPhone;
     private String memberEmail;
     private String memberAddress;
-    private Date memberJoinTime;
-    private Date memberBirthday;
+    private Timestamp memberJoinTime;
+    private Timestamp memberBirthday;
     private String memberNation;
     private byte[] memberPic;
     private String memberCard;
-    private Double memberPoints;
+    private Integer memberPoints;
     private Integer memberStat;
     private String memberId;
     private String memberJob;
     private Integer memberSal;
     
-    public MemberVO() {
+    public MbrVO() {
 	}
     
-	public MemberVO(Integer memberNo, String memberAccount, String memberName, Integer memberGender,
-			String memberPassword, String memberPhone, String memberEmail, String memberAddress, Date memberJoinTime,
-			Date memberBirthday, String memberNation, byte[] memberPic, String memberCard, Double memberPoints,
+	public MbrVO(Integer memberNo, String memberAccount, String memberName, Integer memberGender,
+			String memberPassword, String memberPhone, String memberEmail, String memberAddress, Timestamp memberJoinTime,
+			Timestamp memberBirthday, String memberNation, byte[] memberPic, String memberCard, Integer memberPoints,
 			Integer memberStat, String memberId, String memberJob, Integer memberSal) {
 		this.memberNo = memberNo;
 		this.memberAccount = memberAccount;
@@ -113,19 +115,19 @@ public class MemberVO implements java.io.Serializable{
 		this.memberAddress = memberAddress;
 	}
 	
-	public Date getMemberJoinTime() {
+	public Timestamp getMemberJoinTime() {
 		return memberJoinTime;
 	}
 	
-	public void setMemberJoinTime(Date memberJoinTime) {
+	public void setMemberJoinTime(Timestamp memberJoinTime) {
 		this.memberJoinTime = memberJoinTime;
 	}
 	
-	public Date getMemberBirthday() {
+	public Timestamp getMemberBirthday() {
 		return memberBirthday;
 	}
 	
-	public void setMemberBirthday(Date memberBirthday) {
+	public void setMemberBirthday(Timestamp memberBirthday) {
 		this.memberBirthday = memberBirthday;
 	}
 	
@@ -153,11 +155,11 @@ public class MemberVO implements java.io.Serializable{
 		this.memberCard = memberCard;
 	}
 	
-	public Double getMemberPoints() {
+	public Integer getMemberPoints() {
 		return memberPoints;
 	}
 	
-	public void setMemberPoints(Double memberPoints) {
+	public void setMemberPoints(Integer memberPoints) {
 		this.memberPoints = memberPoints;
 	}
 	
@@ -191,6 +193,17 @@ public class MemberVO implements java.io.Serializable{
 	
 	public void setMemberSal(Integer memberSal) {
 		this.memberSal = memberSal;
+	}
+
+	@Override
+	public String toString() {
+		return "MbrVO [memberNo=" + memberNo + ", memberAccount=" + memberAccount + ", memberName=" + memberName
+				+ ", memberGender=" + memberGender + ", memberPassword=" + memberPassword + ", memberPhone="
+				+ memberPhone + ", memberEmail=" + memberEmail + ", memberAddress=" + memberAddress
+				+ ", memberJoinTime=" + memberJoinTime + ", memberBirthday=" + memberBirthday + ", memberNation="
+				+ memberNation + ", memberPic=" + Arrays.toString(memberPic) + ", memberCard=" + memberCard
+				+ ", memberPoints=" + memberPoints + ", memberStat=" + memberStat + ", memberId=" + memberId
+				+ ", memberJob=" + memberJob + ", memberSal=" + memberSal + "]";
 	}
 	
 	

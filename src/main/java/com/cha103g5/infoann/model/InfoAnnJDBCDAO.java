@@ -9,7 +9,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/g5?serverTimezone=Asia/Taipei";
 	String userid = "root";
-	String passwd = "zzzz1101";
+	String passwd = "123456";
 	
 	private static final String INSERT_STMT= 
 			"INSERT INTO information_announcement(admin_no, info_content, info_title, info_time) VALUES (?, ?, ?, ?)";
