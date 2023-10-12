@@ -4,7 +4,7 @@ import java.util.*;
 import java.sql.*;
 
 
-public class MbrJDBCDAO implements MbrDAO_interface{
+public class MemberJDBCDAO implements MemberDAOinterface{
 	private static final String INSERT_STMT = 
 			"INSERT INTO member(memberaccount, membername, membergender, memberpassword, memberphone, memberemail, memberaddress, memberjointime, memberbirthday, membernation, memberpic, membercard, memberpoints, memberstat, memberid, memberjob, membersal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STMT = 
@@ -24,7 +24,7 @@ public class MbrJDBCDAO implements MbrDAO_interface{
 	}
 
 	@Override
-	public void insert(MbrVO mbrVO) {
+	public int insert(MemberVO mbrVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -57,31 +57,31 @@ public class MbrJDBCDAO implements MbrDAO_interface{
 		} finally {
 			Util.closeResource(con, pstmt, null);
 		}
+		return 0;
 		
 		
 	}
 
 	@Override
-	public void update(MbrVO mbrVO) {
-		// TODO Auto-generated method stub
-		
+	public int update(MemberVO mbrVO) {
+		return 0;		
 	}
 
 	@Override
-	public MbrVO findByPrimaryKey(Integer memberNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<MbrVO> findByMbrName(String memberName) {
+	public MemberVO findByPrimaryKey(Integer memberNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public List<MemberVO> findByMbrName(String memberName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	@Override
-	public List<MbrVO> getAll() {
+	public List<MemberVO> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

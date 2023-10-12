@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="member")
-public class MbrVO implements java.io.Serializable{
+public class MemberVO implements java.io.Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="memberno", updatable=false)
@@ -69,10 +69,10 @@ public class MbrVO implements java.io.Serializable{
     @Column(name="membersal")
     private Integer membersal;
     
-    public MbrVO() {
+    public MemberVO() {
 	}
 
-	public MbrVO(Integer memberno, String memberaccount, String membername, Integer membergender, String memberpassword,
+	public MemberVO(Integer memberno, String memberaccount, String membername, Integer membergender, String memberpassword,
 			String memberphone, String memberemail, String memberaddress, Timestamp memberjointime,
 			Timestamp memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
 			Integer memberstat, String memberid, String memberjob, Integer membersal) {

@@ -1,12 +1,12 @@
-package com.cha103g5.mbrpointrecord.model;
+package com.cha103g5.memberpointrecord.model;
 
 import java.util.List;
 
-public class TestMbrPointRecordJDBCDAO {
+public class TestMemberPointRecordJDBCDAO {
 
 	public static void main(String[] args) {
 		
-		MbrPointRecordJDBCDAO dao = new MbrPointRecordJDBCDAO();
+		MemberPointRecordJDBCDAO dao = new MemberPointRecordJDBCDAO();
 
 		// 新增
 //		MbrPointRecordVO MbrPointRecordVO1 = new MbrPointRecordVO();
@@ -57,8 +57,8 @@ public class TestMbrPointRecordJDBCDAO {
 		
 		
 //		// 查詢多筆
-		List<MbrPointRecordVO> list = dao.getAll();
-		for (MbrPointRecordVO MbrPointRecord : list) {
+		List<MemberPointRecordVO> list = dao.getAll();
+		for (MemberPointRecordVO MbrPointRecord : list) {
 			System.out.print(MbrPointRecord.getMemberpointno() + ",");
 			System.out.print(MbrPointRecord.getMemberno() + ",");
 			System.out.print(MbrPointRecord.getGetpointtime() + ",");

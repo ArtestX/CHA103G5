@@ -1,11 +1,11 @@
-package com.cha103g5.infoann.model;
+package com.cha103g5.informationannouncement.model;
 
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
 
-public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
+public class informationannouncementJDBCDAO implements informationannouncementDAOinterface{
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/g5?serverTimezone=Asia/Taipei";
 	String userid = "root";
@@ -23,7 +23,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 			"SELECT * FROM informationannouncement";
 	
 	@Override
-	public void insert(InfoAnnVO InfoAnnVO) {
+	public void insert(informationannouncementVO InfoAnnVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -69,7 +69,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 	}
 
 	@Override
-	public void update(InfoAnnVO InfoAnnVO) {
+	public void update(informationannouncementVO InfoAnnVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -175,8 +175,8 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 	}
 
 	@Override
-	public InfoAnnVO findByPrimaryKey(Integer infono) {
-		InfoAnnVO InfoAnnVO = null;
+	public informationannouncementVO findByPrimaryKey(Integer infono) {
+		informationannouncementVO InfoAnnVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -193,7 +193,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 
 			while (rs.next()) {
 				// InfoAnnVO 也稱為 Domain objects
-				InfoAnnVO = new InfoAnnVO();
+				InfoAnnVO = new informationannouncementVO();
 				InfoAnnVO.setInfono(rs.getInt("info_no"));
 				InfoAnnVO.setAdminno(rs.getInt("admin_no"));
 				InfoAnnVO.setInfocontent(rs.getString("info_content"));
@@ -237,9 +237,9 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 	}
 
 	@Override
-	public List<InfoAnnVO> getAll() {
-		List<InfoAnnVO> list = new ArrayList<InfoAnnVO>();
-		InfoAnnVO InfoAnnVO = null;
+	public List<informationannouncementVO> getAll() {
+		List<informationannouncementVO> list = new ArrayList<informationannouncementVO>();
+		informationannouncementVO InfoAnnVO = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -253,7 +253,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				InfoAnnVO = new InfoAnnVO();
+				InfoAnnVO = new informationannouncementVO();
 				InfoAnnVO.setInfono(rs.getInt("info_no"));
 				InfoAnnVO.setAdminno(rs.getInt("admin_no"));
 				InfoAnnVO.setInfocontent(rs.getString("info_content"));
@@ -298,7 +298,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 
 	public static void main(String[] args) {
 
-		InfoAnnJDBCDAO dao = new InfoAnnJDBCDAO();
+		informationannouncementJDBCDAO dao = new informationannouncementJDBCDAO();
 		Date currentTime = new Date();
 		Timestamp currentTimestamp = new Timestamp(currentTime.getTime());
 
@@ -311,7 +311,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 //		dao.insert(infoAnnVO1);
 		
 		// 修改
-		InfoAnnVO infoAnnVO2= new InfoAnnVO();
+		informationannouncementVO infoAnnVO2= new informationannouncementVO();
 		infoAnnVO2.setInfono(12);
 	    infoAnnVO2.setAdminno(7);
 	    infoAnnVO2.setInfocontent("第12筆資料的內容");
@@ -323,7 +323,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 //		dao.delete(11);
 
 		// 查詢單筆公告資訊
-		InfoAnnVO infoann3 = dao.findByPrimaryKey(11);
+		informationannouncementVO infoann3 = dao.findByPrimaryKey(11);
 		System.out.print(infoann3.getInfono() + ",");
 		System.out.print(infoann3.getAdminno() + ",");
 		System.out.println(infoann3.getInfocontent());
@@ -332,8 +332,8 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 		System.out.println("---------------------");
 
 		// 查詢公告資訊總明細
-		List<InfoAnnVO> list = dao.getAll();
-		for (InfoAnnVO infoann : list) {
+		List<informationannouncementVO> list = dao.getAll();
+		for (informationannouncementVO infoann : list) {
 			System.out.print(infoann.getInfono() + ",");
 			System.out.print(infoann.getAdminno() + ",");
 			System.out.println(infoann.getInfocontent());

@@ -1,4 +1,4 @@
-package com.cha103g5.mbrpointrecord.model;
+package com.cha103g5.memberpointrecord.model;
 
 import java.sql.Timestamp;
 
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="memberpointrecord")
-public class MbrPointRecordVO implements java.io.Serializable{
+public class MemberPointRecordVO implements java.io.Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="memberpointno", updatable=false)
@@ -29,10 +29,10 @@ public class MbrPointRecordVO implements java.io.Serializable{
 	@Column(name="getpointreason")
     private String getpointreason;
     
-	public MbrPointRecordVO() {
+	public MemberPointRecordVO() {
 		}
 
-	public MbrPointRecordVO(Integer memberpointno, Integer memberno, Timestamp getpointtime, Integer getpoint,
+	public MemberPointRecordVO(Integer memberpointno, Integer memberno, Timestamp getpointtime, Integer getpoint,
 			String getpointreason) {
 		super();
 		this.memberpointno = memberpointno;

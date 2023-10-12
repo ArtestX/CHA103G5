@@ -1,4 +1,4 @@
-package com.cha103g5.mbrpointrecord.model;
+package com.cha103g5.memberpointrecord.model;
 
 import java.sql.*;
 import java.sql.Date;
@@ -6,7 +6,7 @@ import java.util.*;
 
 import com.cha103g5.member.model.Util;
 
-public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
+public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 	public static final String INSERT_STMT = 
 			"INSERT into memberpointrecord(memberno, getpointtime, getpoint, getpointreason) VALUES(?, ?, ?, ?)";
 	public static final String UPDATE_STMT = 
@@ -34,7 +34,7 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 	}
 
 	@Override
-	public void insert(MbrPointRecordVO MbrPointRecordVO) {
+	public void insert(MemberPointRecordVO MbrPointRecordVO) {
 		Connection con = null ;
 		PreparedStatement pstmt = null;
 		
@@ -58,7 +58,7 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 	}
 
 	@Override
-	public void update(MbrPointRecordVO MbrPointRecordVO) {
+	public void update(MemberPointRecordVO MbrPointRecordVO) {
 		Connection con = null ;
 		PreparedStatement pstmt = null;
 		
@@ -83,12 +83,12 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 	}
 
 	@Override
-	public List<MbrPointRecordVO> findBymemberNo(Integer memberno) {
-		List<MbrPointRecordVO> list = new ArrayList<MbrPointRecordVO>();
+	public List<MemberPointRecordVO> findBymemberNo(Integer memberno) {
+		List<MemberPointRecordVO> list = new ArrayList<MemberPointRecordVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		MbrPointRecordVO MbrPointRecordVO = null;
+		MemberPointRecordVO MbrPointRecordVO = null;
 		
 		try {
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
@@ -97,7 +97,7 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				MbrPointRecordVO = new MbrPointRecordVO();
+				MbrPointRecordVO = new MemberPointRecordVO();
 				MbrPointRecordVO.setMemberno(rs.getInt("memberno"));
 				MbrPointRecordVO.setGetpointtime(rs.getTimestamp("getpointtime"));
 				MbrPointRecordVO.setGetpoint(rs.getInt("getpoint"));
@@ -116,11 +116,11 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 	}
 	
 	@Override
-	public List<MbrPointRecordVO> getAll() {
+	public List<MemberPointRecordVO> getAll() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<MbrPointRecordVO> MbrPointRecordVOList = new ArrayList<>();
+		List<MemberPointRecordVO> MbrPointRecordVOList = new ArrayList<>();
 		
 		try {
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
@@ -129,7 +129,7 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 			
 			while(rs.next()) {
 				//利用MbrPointRecordVO Bean，包裝著查詢的資料回傳給呼叫端
-				MbrPointRecordVO MbrPointRecordVO =new MbrPointRecordVO();
+				MemberPointRecordVO MbrPointRecordVO =new MemberPointRecordVO();
 				MbrPointRecordVO .setMemberpointno(rs.getInt("member_point_no"));
 				MbrPointRecordVO .setMemberno(rs.getInt("member_no"));
 				MbrPointRecordVO .setGetpointtime(rs.getTimestamp("getpoint_time"));

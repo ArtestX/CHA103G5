@@ -4,17 +4,17 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 
-public class TestMbrJDBCDAO {
+public class TestMemberJDBCDAO {
 	
 	public static void main(String[] args) {
 
-		MbrJDBCDAO dao = new MbrJDBCDAO();
+		MemberJDBCDAO dao = new MemberJDBCDAO();
 		
 		Date currentTime = new Date();
 		Timestamp currentTimestamp = new Timestamp(currentTime.getTime());
 	
 		// 新增
-		MbrVO mbrVO = new MbrVO();
+		MemberVO mbrVO = new MemberVO();
 		mbrVO.setMemberaccount("abcd");
 		mbrVO.setMembername("David Wu");
 		mbrVO.setMembergender(1);

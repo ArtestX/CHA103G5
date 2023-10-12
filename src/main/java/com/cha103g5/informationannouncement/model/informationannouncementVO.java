@@ -1,4 +1,4 @@
-package com.cha103g5.infoann.model;
+package com.cha103g5.informationannouncement.model;
 
 import java.sql.Timestamp;
 
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="informationannouncement")
-public class InfoAnnVO implements java.io.Serializable{
+public class informationannouncementVO implements java.io.Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class InfoAnnVO implements java.io.Serializable{
     @Column(name="infotime")
     private Timestamp infotime;
     
-    public InfoAnnVO() {
+    public informationannouncementVO() {
 		super();
 	}
 
-	public InfoAnnVO(Integer infono, Integer adminno, String infocontent, String infotitle, Timestamp infotime) {
+	public informationannouncementVO(Integer infono, Integer adminno, String infocontent, String infotitle, Timestamp infotime) {
 		super();
 		this.infono = infono;
 		this.adminno = adminno;

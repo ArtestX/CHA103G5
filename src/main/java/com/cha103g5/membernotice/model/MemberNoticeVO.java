@@ -1,4 +1,4 @@
-package com.cha103g5.mbrnotice.model;
+package com.cha103g5.membernotice.model;
 
 import java.sql.Timestamp;
 
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="membernotice")
-public class MbrNoticeVO implements java.io.Serializable{
+public class MemberNoticeVO implements java.io.Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="membernoticeno", updatable=false)
@@ -27,13 +27,13 @@ public class MbrNoticeVO implements java.io.Serializable{
     private Timestamp noticetime;
 	
 	@Column(name="readstat")
-    private Integer readstat;
+    private Integer readstat = 0;
 
-	public MbrNoticeVO() {
+	public MemberNoticeVO() {
 		super();
 	}
 
-	public MbrNoticeVO(Integer membernoticeno, Integer memberno, String noticecontent, Timestamp noticetime,
+	public MemberNoticeVO(Integer membernoticeno, Integer memberno, String noticecontent, Timestamp noticetime,
 			Integer readstat) {
 		super();
 		this.membernoticeno = membernoticeno;
