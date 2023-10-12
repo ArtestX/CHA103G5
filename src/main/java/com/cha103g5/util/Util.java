@@ -13,7 +13,7 @@ public class Util {
 
     private static final String DRIVER = bundle.getString("driver");
 
-    public static final String URL = bundle.getString("url");
+    private  static final String URL = bundle.getString("url");
 
     private static final String USER = bundle.getString("user");
 
