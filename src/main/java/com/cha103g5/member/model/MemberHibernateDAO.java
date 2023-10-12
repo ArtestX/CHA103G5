@@ -11,11 +11,11 @@ import com.cha103g5.util.HibernateUtil;
 public class MemberHibernateDAO implements MemberDAOinterface {
 	
 	@Override
-	public int insert(MemberVO mbrVO) {
+	public int insert(MemberVO memberVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			Integer id = (Integer) session.save(mbrVO);
+			Integer id = (Integer) session.save(memberVO);
 			session.getTransaction().commit();
 			return id;
 		} catch (Exception e) {
@@ -26,11 +26,11 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 	}
 
 	@Override
-	public int update(MemberVO mbrVO) {
+	public int update(MemberVO memberVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			session.update(mbrVO);
+			session.update(memberVO);
 			session.getTransaction().commit();
 			return 1;
 		} catch (Exception e) {
@@ -45,9 +45,9 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			MemberVO MbrVO = session.get(MemberVO.class, memberno);
+			MemberVO memberVO = session.get(MemberVO.class, memberno);
 			session.getTransaction().commit();
-			return MbrVO;
+			return memberVO;
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -65,7 +65,7 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			List<MemberVO> list = session.createQuery("from MbrVO", MemberVO.class).list();
+			List<MemberVO> list = session.createQuery("from MemberVO", MemberVO.class).list();
 			session.getTransaction().commit();
 			return list;
 		} catch (Exception e) {

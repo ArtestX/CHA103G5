@@ -2,6 +2,7 @@ package com.cha103g5.member.model;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,31 +16,31 @@ import javax.persistence.Table;
 public class MemberVO implements java.io.Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="memberno", updatable=false)
+	@Column(name="memberno", updatable=false, nullable=false)
 	private Integer memberno;
 	
-	@Column(name="memberaccount", updatable=false)
+	@Column(name="memberaccount", updatable=false, nullable=false, unique=true)
     private String memberaccount;
 	
-	@Column(name="membername")
+	@Column(name="membername", nullable=false)
     private String membername;
 	
-	@Column(name="membergender")
+	@Column(name="membergender", columnDefinition = "tinyint", nullable=false)
     private Integer membergender;
 	
-	@Column(name="memberpassword")
+	@Column(name="memberpassword", nullable=false)
     private String memberpassword;
 	
 	@Column(name="memberphone")
     private String memberphone;
     
-    @Column(name="memberemail", updatable=false)
+    @Column(name="memberemail", updatable=false, unique=true)
     private String memberemail;
     
     @Column(name="memberaddress")
     private String memberaddress;
     
-    @Column(name="memberjointime")
+    @Column(name="memberjointime", updatable=false, nullable=false)
     private Timestamp memberjointime;
     
     @Column(name="memberbirthday")
@@ -48,7 +49,7 @@ public class MemberVO implements java.io.Serializable{
     @Column(name="membernation")
     private String membernation;
     
-    @Column(name="memberpic")
+    @Column(name="memberpic", columnDefinition = "mediumblob")
     private byte[] memberpic;
     
     @Column(name="membercard")
@@ -57,7 +58,7 @@ public class MemberVO implements java.io.Serializable{
     @Column(name="memberpoints")
     private Integer memberpoints;
     
-    @Column(name="memberstat")
+    @Column(name="memberstat",columnDefinition = "tinyint", nullable=false)
     private Integer memberstat;
     
     @Column(name="memberid")
@@ -251,5 +252,22 @@ public class MemberVO implements java.io.Serializable{
 				+ ", memberpoints=" + memberpoints + ", memberstat=" + memberstat + ", memberid=" + memberid
 				+ ", memberjob=" + memberjob + ", membersal=" + membersal + "]";
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(memberno);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MemberVO other = (MemberVO) obj;
+		return Objects.equals(memberno, other.memberno);
+	}
+
 }
