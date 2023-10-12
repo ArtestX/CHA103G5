@@ -1,4 +1,4 @@
-package com.cha103g5.csrec.model;
+package com.cha103g5.customerservicerecord.model;
 
 import com.cha103g5.util.Util;
 import java.sql.*;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CSRecJDBCDAO implements CSRecDAO_interface {
+public class CSRecJDBCDAO implements CSRecDAOInterface {
 
     private static final String INSERT_STMT =
             "INSERT INTO customerservicerecord (recordno,memberno,adminno,recordtime,interactioncontent,talkdirection) VALUES (?, ?, ?, ?, ?, ?)";

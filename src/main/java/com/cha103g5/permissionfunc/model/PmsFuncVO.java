@@ -1,7 +1,7 @@
-package com.cha103g5.pmsfunc.model;
+package com.cha103g5.permissionfunc.model;
 
 import javax.persistence.*;
-import java.util.Date;
+
 @Entity
 @Table(name = "permissionfunc")
 public class PmsFuncVO {

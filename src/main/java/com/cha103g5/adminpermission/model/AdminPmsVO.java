@@ -1,7 +1,7 @@
-package com.cha103g5.adminpms.model;
+package com.cha103g5.adminpermission.model;
 
 import javax.persistence.*;
-import java.util.Date;
+
 @Entity
 @Table(name = "adminpermission")
 public class AdminPmsVO {

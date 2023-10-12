@@ -1,11 +1,11 @@
-package com.cha103g5.adminpms.model;
+package com.cha103g5.adminpermission.model;
 
 import java.util.List;
 
 
 public class TestAdminPmsJDBCDAO {
     public static void main(String[] args) {
-        AdminPmsDAO_interface dao = new AdminPmsJDBCDAO();
+        AdminPmsDAOInterface dao = new AdminPmsJDBCDAO();
 
         // 新增
 //        AdminPmsVO adminPmsVO = new AdminPmsVO();

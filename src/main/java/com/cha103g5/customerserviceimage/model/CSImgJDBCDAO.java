@@ -1,4 +1,4 @@
-package com.cha103g5.adminpms.model;
+package com.cha103g5.customerserviceimage.model;
 
 import com.cha103g5.util.Util;
 
@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
+public class CSImgJDBCDAO implements CSImgDAOInterface {
 
     private static final String INSERT_STMT =
-            "INSERT INTO adminpermission (adminpmsno, permissionsno, adminno) VALUES (?, ?, ?)";
+            "INSERT INTO customerserviceimage (pictureno, recordno, picture) VALUES (?, ?, ?)";
     private static final String GET_ALL_STMT =
-            "SELECT adminpmsno, permissionsno, adminno FROM adminpermission order by adminpmsno";
+            "SELECT pictureno, recordno, picture FROM customerserviceimage order by pictureno";
     private static final String GET_ONE_STMT =
-            "SELECT adminpmsno, permissionsno, adminno FROM adminpermission where adminpmsno = ?";
+            "SELECT pictureno, recordno, picture FROM customerserviceimage where pictureno = ?";
 
 
     @Override
-    public void insert(AdminPmsVO adminPmsVO) {
+    public void insert(CSImgVO CSImgVO) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -26,13 +26,13 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
             con = Util.getConnection();
             pstmt = con.prepareStatement(INSERT_STMT);
 
-            pstmt.setInt(1, adminPmsVO.getAdminPmsNo());
-            pstmt.setInt(2, adminPmsVO.getPmsNo());
-            pstmt.setInt(3, adminPmsVO.getAdminNo());
+
+            pstmt.setInt(1, CSImgVO.getPictureNo());
+            pstmt.setInt(2, CSImgVO.getRecordNo());
+            pstmt.setBytes(3, CSImgVO.getPicture());
 
 
             pstmt.executeUpdate();
-
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred."
                     + se.getMessage());
@@ -41,10 +41,11 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
         }
     }
 
-    @Override
-    public AdminPmsVO findByPrimaryKey(Integer adminPmsNO) {
 
-        AdminPmsVO adminPmsVO = null;
+    @Override
+    public CSImgVO findByPrimaryKey(Integer pictureNo) {
+
+        CSImgVO csImgVO = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -53,29 +54,29 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
             con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
 
-            pstmt.setInt(1, adminPmsNO);
+            pstmt.setInt(1, pictureNo);
             rs = pstmt.executeQuery();
 
             while (rs.next()){
-                adminPmsVO = new AdminPmsVO();
-                adminPmsVO.setAdminPmsNo(rs.getInt("adminpmsno"));
-                adminPmsVO.setPmsNo(rs.getInt("permissionsno"));
-                adminPmsVO.setAdminNo(rs.getInt("adminno"));
+                csImgVO = new CSImgVO();
+                csImgVO.setPictureNo(rs.getInt("pictureno"));
+                csImgVO.setRecordNo(rs.getInt("recordno"));
+                csImgVO.setPicture(rs.getBytes("picture"));
             }
 
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred."
                     + se.getMessage());
         } finally {
-           Util.closeResources(con, pstmt, rs);
+            Util.closeResources(con, pstmt, rs);
         }
-        return adminPmsVO;
+        return csImgVO;
     }
 
     @Override
-    public List<AdminPmsVO> getAll() {
-        List<AdminPmsVO> list = new ArrayList<AdminPmsVO>();
-        AdminPmsVO adminPmsVO = null;
+    public List<CSImgVO> getAll() {
+        List<CSImgVO> list = new ArrayList<CSImgVO>();
+        CSImgVO csImgVO = null;
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -87,11 +88,11 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
             rs = pstmt.executeQuery();
 
             while (rs.next()){
-                adminPmsVO = new AdminPmsVO();
-                adminPmsVO.setAdminPmsNo(rs.getInt("adminpmsno"));
-                adminPmsVO.setPmsNo(rs.getInt("permissionsno"));
-                adminPmsVO.setAdminNo(rs.getInt("adminno"));
-                list.add(adminPmsVO);
+                csImgVO = new CSImgVO();
+                csImgVO.setPictureNo(rs.getInt("pictureno"));
+                csImgVO.setRecordNo(rs.getInt("recordno"));
+                csImgVO.setPicture(rs.getBytes("picture"));
+                list.add(csImgVO);
             }
 
         } catch (SQLException se) {

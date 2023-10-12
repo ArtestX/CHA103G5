@@ -2,7 +2,7 @@ package com.cha103g5.admin.model;
 
 import java.util.*;
 
-public interface AdminDAO_interface {
+public interface AdminDAOInterface {
     public void insert(AdminVO adminVO);
     public void update(AdminVO adminVO);
     public void delete(Integer adminNo);

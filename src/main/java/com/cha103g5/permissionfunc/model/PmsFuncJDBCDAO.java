@@ -1,4 +1,4 @@
-package com.cha103g5.pmsfunc.model;
+package com.cha103g5.permissionfunc.model;
 
 
 import com.cha103g5.util.Util;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PmsFuncJDBCDAO implements PmsFuncDAO_interface {
+public class PmsFuncJDBCDAO implements PmsFuncDAOInterface {
 
     private static final String INSERT_STMT =
             "INSERT INTO permissionfunc (permissionsno, permissionsname, permissionsdes) VALUES (?, ?, ?)";
