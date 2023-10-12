@@ -1,15 +1,31 @@
 package com.cha103g5.csrec.model;
 
+import javax.persistence.*;
 import java.util.Date;
-
+@Entity
+@Table(name = "customerservicerecord")
 public class CSRecVO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recordno", updatable = false)
     private Integer recordNo;
+
+    @Column(name = "memberno")
     private Integer memberNo;
+
+    @Column(name = "adminno")
     private Integer adminNo;
+
+    @Column(name = "recordtime")
     private Date recordTime;
+
+    @Column(name = "interactioncontent")
     private String interactionContent;
-    private byte[] attachments;
-    private Integer TalkDirection;
+
+    @Column(name = "talkdirection")
+    private Integer talkDirection;
+
 
     public Integer getRecordNo() {
         return recordNo;
@@ -51,19 +67,11 @@ public class CSRecVO {
         this.interactionContent = interactionContent;
     }
 
-    public byte[] getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(byte[] attachments) {
-        this.attachments = attachments;
-    }
-
     public Integer getTalkDirection() {
-        return TalkDirection;
+        return talkDirection;
     }
 
     public void setTalkDirection(Integer talkDirection) {
-        TalkDirection = talkDirection;
+        this.talkDirection = talkDirection;
     }
 }

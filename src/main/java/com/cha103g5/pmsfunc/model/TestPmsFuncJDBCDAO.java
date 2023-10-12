@@ -31,12 +31,12 @@ public class TestPmsFuncJDBCDAO {
 
 
 		// 查詢多筆
-//        List<PmsFuncVO> list = dao.getAll();
-//    	for (PmsFuncVO pmsFuncVOALL : list) {
-//            System.out.print(pmsFuncVOALL.getPmsNo() + ",");
-//            System.out.print(pmsFuncVOALL.getPmsName() + ",");
-//            System.out.print(pmsFuncVOALL.getPmsDes() + ",");
-//            System.out.println();
-//        }
+        List<PmsFuncVO> list = dao.getAll();
+    	for (PmsFuncVO pmsFuncVOALL : list) {
+            System.out.print(pmsFuncVOALL.getPmsNo() + ",");
+            System.out.print(pmsFuncVOALL.getPmsName() + ",");
+            System.out.print(pmsFuncVOALL.getPmsDes() + ",");
+            System.out.println();
+        }
     }
 }
