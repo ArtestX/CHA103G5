@@ -1,9 +1,19 @@
 package com.cha103g5.csimg.model;
 
-public class CSImgVO {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "customerserviceimage")
+public class CSImgVO {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pictureno", updatable = false)
     private Integer pictureNo;
+
+    @Column(name = "recordno")
     private Integer recordNo;
+
+    @Column(name = "picture")
     private byte[] picture;
 
 

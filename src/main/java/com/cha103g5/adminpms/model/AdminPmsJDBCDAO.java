@@ -1,5 +1,7 @@
 package com.cha103g5.adminpms.model;
 
+import com.cha103g5.util.Util;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,27 +10,20 @@ import java.util.List;
 public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
 
     private static final String INSERT_STMT =
-            "INSERT INTO admin_permission (admin_pms_no, permissions_no, admin_no) VALUES (?, ?, ?)";
+            "INSERT INTO adminpermission (adminpmsno, permissionsno, adminno) VALUES (?, ?, ?)";
     private static final String GET_ALL_STMT =
-            "SELECT admin_pms_no, permissions_no, admin_no FROM admin_permission order by admin_pms_no";
+            "SELECT adminpmsno, permissionsno, adminno FROM adminpermission order by adminpmsno";
     private static final String GET_ONE_STMT =
-            "SELECT admin_pms_no, permissions_no, admin_no FROM admin_permission where admin_pms_no = ?";
+            "SELECT adminpmsno, permissionsno, adminno FROM adminpermission where adminpmsno = ?";
 
-    static {
-        try {
-            Class.forName(Util.DRIVER);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Couldn't load database driver."
-                    + e.getMessage());
-        }
-    }
+
     @Override
     public void insert(AdminPmsVO adminPmsVO) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(com.cha103g5.csrec.model.Util.URL, com.cha103g5.csrec.model.Util.USER, com.cha103g5.csrec.model.Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(INSERT_STMT);
 
             pstmt.setInt(1, adminPmsVO.getAdminPmsNo());
@@ -42,7 +37,7 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
             throw new RuntimeException("Database error occurred."
                     + se.getMessage());
         } finally {
-            com.cha103g5.csrec.model.Util.closeResources(con, pstmt, null);
+            Util.closeResources(con, pstmt, null);
         }
     }
 
@@ -55,7 +50,7 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
 
             pstmt.setInt(1, adminPmsNO);
@@ -63,9 +58,9 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
 
             while (rs.next()){
                 adminPmsVO = new AdminPmsVO();
-                adminPmsVO.setAdminPmsNo(rs.getInt("admin_pms_no"));
-                adminPmsVO.setPmsNo(rs.getInt("permissions_no"));
-                adminPmsVO.setAdminNo(rs.getInt("admin_no"));
+                adminPmsVO.setAdminPmsNo(rs.getInt("adminpmsno"));
+                adminPmsVO.setPmsNo(rs.getInt("permissionsno"));
+                adminPmsVO.setAdminNo(rs.getInt("adminno"));
             }
 
         } catch (SQLException se) {
@@ -87,15 +82,15 @@ public class AdminPmsJDBCDAO implements AdminPmsDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(com.cha103g5.csrec.model.Util.URL, com.cha103g5.csrec.model.Util.USER, com.cha103g5.csrec.model.Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT);
             rs = pstmt.executeQuery();
 
             while (rs.next()){
                 adminPmsVO = new AdminPmsVO();
-                adminPmsVO.setAdminPmsNo(rs.getInt("admin_pms_no"));
-                adminPmsVO.setPmsNo(rs.getInt("permissions_no"));
-                adminPmsVO.setAdminNo(rs.getInt("admin_no"));
+                adminPmsVO.setAdminPmsNo(rs.getInt("adminpmsno"));
+                adminPmsVO.setPmsNo(rs.getInt("permissionsno"));
+                adminPmsVO.setAdminNo(rs.getInt("adminno"));
                 list.add(adminPmsVO);
             }
 

@@ -1,6 +1,8 @@
 package com.cha103g5.pmsfunc.model;
 
-import com.cha103g5.csrec.model.Util;
+
+import com.cha103g5.util.Util;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,31 +11,24 @@ import java.util.List;
 public class PmsFuncJDBCDAO implements PmsFuncDAO_interface {
 
     private static final String INSERT_STMT =
-            "INSERT INTO permission (permissions_no, permissions_name, permissions_des) VALUES (?, ?, ?)";
+            "INSERT INTO permissionfunc (permissionsno, permissionsname, permissionsdes) VALUES (?, ?, ?)";
     private static final String GET_ALL_STMT =
-            "SELECT permissions_no, permissions_name, permissions_des FROM permission order by permissions_no";
+            "SELECT permissionsno, permissionsname, permissionsdes FROM permissionfunc order by permissionsno";
     private static final String GET_ONE_STMT =
-            "SELECT permissions_no, permissions_name, permissions_des FROM permission where permissions_no = ?";
+            "SELECT permissionsno, permissionsname, permissionsdes FROM permissionfunc where permissionsno = ?";
     private static final String DELETE =
-            "DELETE FROM permission where permissions_no = ?";
+            "DELETE FROM permissionfunc where permissionsno = ?";
     private static final String UPDATE =
-            "UPDATE permission set permissions_name=?, permissions_des=? where permissions_no = ?";
+            "UPDATE permissionfunc set permissionsname=?, permissionsdes=? where permissionsno = ?";
 
-    static {
-        try {
-            Class.forName(Util.DRIVER);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Couldn't load database driver."
-                    + e.getMessage());
-        }
-    }
+
     @Override
     public void insert(PmsFuncVO pmsFuncVO) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(INSERT_STMT);
 
             pstmt.setInt(1, pmsFuncVO.getPmsNo());
@@ -56,7 +51,7 @@ public class PmsFuncJDBCDAO implements PmsFuncDAO_interface {
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(UPDATE);
 
             pstmt.setString(1, pmsFuncVO.getPmsName());
@@ -80,7 +75,7 @@ public class PmsFuncJDBCDAO implements PmsFuncDAO_interface {
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(DELETE);
 
             pstmt.setInt(1, pmsNo);
@@ -103,7 +98,7 @@ public class PmsFuncJDBCDAO implements PmsFuncDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
 
             pstmt.setInt(1, pmsNo);
@@ -111,9 +106,9 @@ public class PmsFuncJDBCDAO implements PmsFuncDAO_interface {
 
             while (rs.next()){
                 pmsFuncVO = new PmsFuncVO();
-                pmsFuncVO.setPmsNo(rs.getInt("permissions_no"));
-                pmsFuncVO.setPmsName(rs.getString("permissions_name"));
-                pmsFuncVO.setPmsDes(rs.getString("permissions_des"));
+                pmsFuncVO.setPmsNo(rs.getInt("permissionsno"));
+                pmsFuncVO.setPmsName(rs.getString("permissionsname"));
+                pmsFuncVO.setPmsDes(rs.getString("permissionsdes"));
 
             }
 
@@ -136,15 +131,15 @@ public class PmsFuncJDBCDAO implements PmsFuncDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT);
             rs = pstmt.executeQuery();
 
             while (rs.next()){
                 pmsFuncVO = new PmsFuncVO();
-                pmsFuncVO.setPmsNo(rs.getInt("permissions_no"));
-                pmsFuncVO.setPmsName(rs.getString("permissions_name"));
-                pmsFuncVO.setPmsDes(rs.getString("permissions_des"));
+                pmsFuncVO.setPmsNo(rs.getInt("permissionsno"));
+                pmsFuncVO.setPmsName(rs.getString("permissionsname"));
+                pmsFuncVO.setPmsDes(rs.getString("permissionsdes"));
                 list.add(pmsFuncVO);
             }
 

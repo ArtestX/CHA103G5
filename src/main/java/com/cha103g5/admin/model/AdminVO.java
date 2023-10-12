@@ -1,15 +1,35 @@
 package com.cha103g5.admin.model;
 
+import javax.persistence.*;
 import java.util.Date;
-
+@Entity
+@Table(name = "admin")
 public class AdminVO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "adminno", updatable = false)
     private Integer adminNo;
+
+    @Column(name = "adminaccount")
     private String adminAccount;
+
+    @Column(name = "adminpassword")
     private String adminPassword;
+
+    @Column(name = "adminname")
     private String adminName;
+
+    @Column(name = "createdate")
     private Date createDate;
+
+    @Column(name = "adminstat")
     private Integer adminStat;
+
+    @Column(name = "adminemail")
     private String adminEmail;
+
+    @Column(name = "adminphone")
     private String adminPhone;
 
     public Integer getAdminNo() {
@@ -48,7 +68,7 @@ public class AdminVO {
         return (java.sql.Date) createDate;
     }
 
-    public void setCreateDate(java.sql.Date createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -76,3 +96,4 @@ public class AdminVO {
         this.adminPhone = adminPhone;
     }
 }
+
