@@ -1,10 +1,20 @@
 package com.cha103g5.pmsfunc.model;
 
+import javax.persistence.*;
 import java.util.Date;
-
+@Entity
+@Table(name = "permissionfunc")
 public class PmsFuncVO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "permissionsno", updatable = false)
     private Integer pmsNo;
+
+    @Column(name = "pmsname")
     private String pmsName;
+
+    @Column(name = "permissionsdes")
     private String pmsDes;
 
     public Integer getPmsNo() {

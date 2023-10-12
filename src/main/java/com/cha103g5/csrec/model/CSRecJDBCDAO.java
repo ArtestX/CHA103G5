@@ -1,5 +1,6 @@
 package com.cha103g5.csrec.model;
 
+import com.cha103g5.util.Util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,28 +9,20 @@ import java.util.List;
 public class CSRecJDBCDAO implements CSRecDAO_interface {
 
     private static final String INSERT_STMT =
-            "INSERT INTO customer_service_record (record_no,member_no,admin_no,record_time,interaction_content,attachments,Talk_direction) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO customerservicerecord (recordno,memberno,adminno,recordtime,interactioncontent,talkdirection) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_STMT =
-            "SELECT record_no,member_no,admin_no,record_time,interaction_content,attachments,Talk_direction FROM customer_service_record order by record_no";
+            "SELECT recordno,memberno,adminno,recordtime,interactioncontent,talkdirection FROM customerservicerecord order by recordno";
     private static final String GET_ONE_STMT =
-            "SELECT record_no,member_no,admin_no,record_time,interaction_content,attachments,Talk_direction FROM customer_service_record where record_no = ?";
+            "SELECT recordno,memberno,adminno,recordtime,interactioncontent,talkdirection FROM customerservicerecord where recordno = ?";
 
 
-    static {
-        try {
-            Class.forName(Util.DRIVER);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Couldn't load database driver."
-                    + e.getMessage());
-        }
-    }
     @Override
     public void insert(CSRecVO CSRecVO) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(INSERT_STMT);
 
             pstmt.setInt(1, CSRecVO.getRecordNo());
@@ -37,8 +30,7 @@ public class CSRecJDBCDAO implements CSRecDAO_interface {
             pstmt.setInt(3, CSRecVO.getAdminNo());
             pstmt.setDate(4, CSRecVO.getRecordTime());
             pstmt.setString(5, CSRecVO.getInteractionContent());
-            pstmt.setBytes(6, CSRecVO.getAttachments());
-            pstmt.setInt(7, CSRecVO.getTalkDirection());
+            pstmt.setInt(6, CSRecVO.getTalkDirection());
 
             pstmt.executeUpdate();
         } catch (SQLException se) {
@@ -59,7 +51,7 @@ public class CSRecJDBCDAO implements CSRecDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
 
             pstmt.setInt(1, recordNo);
@@ -67,13 +59,12 @@ public class CSRecJDBCDAO implements CSRecDAO_interface {
 
             while (rs.next()){
                 csRecVO = new CSRecVO();
-                csRecVO.setRecordNo(rs.getInt("record_no"));
-                csRecVO.setMemberNo(rs.getInt("member_no"));
-                csRecVO.setAdminNo(rs.getInt("admin_no"));
-                csRecVO.setRecordTime(rs.getDate("record_time"));
-                csRecVO.setInteractionContent(rs.getString("interaction_content"));
-                csRecVO.setAttachments(rs.getBytes("attachments"));
-                csRecVO.setTalkDirection(rs.getInt("talk_direction"));
+                csRecVO.setRecordNo(rs.getInt("recordno"));
+                csRecVO.setMemberNo(rs.getInt("memberno"));
+                csRecVO.setAdminNo(rs.getInt("adminno"));
+                csRecVO.setRecordTime(rs.getDate("recordtime"));
+                csRecVO.setInteractionContent(rs.getString("interactioncontent"));
+                csRecVO.setTalkDirection(rs.getInt("talkdirection"));
             }
 
         } catch (SQLException se) {
@@ -95,19 +86,18 @@ public class CSRecJDBCDAO implements CSRecDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT);
             rs = pstmt.executeQuery();
 
             while (rs.next()){
                 csRecVO = new CSRecVO();
-                csRecVO.setRecordNo(rs.getInt("record_no"));
-                csRecVO.setMemberNo(rs.getInt("member_no"));
-                csRecVO.setAdminNo(rs.getInt("admin_no"));
-                csRecVO.setRecordTime(rs.getDate("record_time"));
-                csRecVO.setInteractionContent(rs.getString("interaction_content"));
-                csRecVO.setAttachments(rs.getBytes("attachments"));
-                csRecVO.setTalkDirection(rs.getInt("talk_direction"));
+                csRecVO.setRecordNo(rs.getInt("recordno"));
+                csRecVO.setMemberNo(rs.getInt("memberno"));
+                csRecVO.setAdminNo(rs.getInt("adminno"));
+                csRecVO.setRecordTime(rs.getDate("recordtime"));
+                csRecVO.setInteractionContent(rs.getString("interactioncontent"));
+                csRecVO.setTalkDirection(rs.getInt("talkdirection"));
                 list.add(csRecVO);
             }
 

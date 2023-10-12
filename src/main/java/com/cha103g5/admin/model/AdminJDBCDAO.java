@@ -1,5 +1,10 @@
 package com.cha103g5.admin.model;
 
+
+import com.cha103g5.admin.model.AdminDAO_interface;
+import com.cha103g5.admin.model.AdminVO;
+import com.cha103g5.util.Util;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,31 +13,33 @@ import java.util.List;
 public class AdminJDBCDAO implements AdminDAO_interface {
 
     private static final String INSERT_STMT =
-            "INSERT INTO admin (admin_account,admin_password,admin_name,created_date,admin_stat,admin_email,admin_phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO admin (adminaccount,adminpassword,adminname,createddate,adminstat,adminemail,adminphone) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_STMT =
-            "SELECT admin_no,admin_account,admin_password,admin_name,created_date,admin_stat,admin_email,admin_phone FROM admin order by admin_no";
+            "SELECT adminno,adminaccount,adminpassword,adminname,createddate,adminstat,adminemail,adminphone FROM admin order by adminno";
     private static final String GET_ONE_STMT =
-            "SELECT admin_no,admin_account,admin_password,admin_name,created_date,admin_stat,admin_email,admin_phone FROM admin where admin_no = ?";
+            "SELECT adminno,adminaccount,adminpassword,adminname,createddate,adminstat,adminemail,adminphone FROM admin where adminno = ?";
     private static final String DELETE =
-            "DELETE FROM admin where admin_no = ?";
+            "DELETE FROM admin where adminno = ?";
     private static final String UPDATE =
-            "UPDATE admin set admin_name=?, admin_email=?, admin_phone=?, admin_stat=? where admin_no = ?";
+            "UPDATE admin set adminname=?, adminemail=?, adminphone=?, adminstat=? where adminno = ?";
 
-    static {
-        try {
-            Class.forName(Util.DRIVER);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Couldn't load database driver."
-                    + e.getMessage());
-        }
-    }
+
+//    static {
+//        try {
+//            Class.forName(Util.DRIVER);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException("Couldn't load database driver."
+//                    + e.getMessage());
+//        }
+//    }
     @Override
     public void insert(AdminVO adminVO) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+//            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(INSERT_STMT);
 
             pstmt.setString(1, adminVO.getAdminAccount());
@@ -59,7 +66,8 @@ public class AdminJDBCDAO implements AdminDAO_interface {
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+//            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(UPDATE);
 
             pstmt.setString(1, adminVO.getAdminName());
@@ -85,7 +93,8 @@ public class AdminJDBCDAO implements AdminDAO_interface {
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+//            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(DELETE);
 
             pstmt.setInt(1, adminNo);
@@ -108,7 +117,8 @@ public class AdminJDBCDAO implements AdminDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+//            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
 
             pstmt.setInt(1, adminNo);
@@ -116,14 +126,14 @@ public class AdminJDBCDAO implements AdminDAO_interface {
 
             while (rs.next()){
                 adminVO = new AdminVO();
-                adminVO.setAdminNo(rs.getInt("admin_no"));
-                adminVO.setAdminAccount(rs.getString("admin_account"));
-                adminVO.setAdminPassword(rs.getString("admin_password"));
-                adminVO.setAdminName(rs.getString("admin_name"));
-                adminVO.setCreateDate(rs.getDate("created_date"));
-                adminVO.setAdminStat(rs.getInt("admin_stat"));
-                adminVO.setAdminEmail(rs.getString("admin_email"));
-                adminVO.setAdminPhone(rs.getString("admin_phone"));
+                adminVO.setAdminNo(rs.getInt("adminno"));
+                adminVO.setAdminAccount(rs.getString("adminaccount"));
+                adminVO.setAdminPassword(rs.getString("adminpassword"));
+                adminVO.setAdminName(rs.getString("adminname"));
+                adminVO.setCreateDate(rs.getDate("createddate"));
+                adminVO.setAdminStat(rs.getInt("adminstat"));
+                adminVO.setAdminEmail(rs.getString("adminemail"));
+                adminVO.setAdminPhone(rs.getString("adminphone"));
             }
 
         } catch (SQLException se) {
@@ -145,20 +155,21 @@ public class AdminJDBCDAO implements AdminDAO_interface {
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+//            con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT);
             rs = pstmt.executeQuery();
 
             while (rs.next()){
                 adminVO = new AdminVO();
-                adminVO.setAdminNo(rs.getInt("admin_no"));
-                adminVO.setAdminAccount(rs.getString("admin_account"));
-                adminVO.setAdminPassword(rs.getString("admin_password"));
-                adminVO.setAdminName(rs.getString("admin_name"));
-                adminVO.setCreateDate(rs.getDate("created_date"));
-                adminVO.setAdminStat(rs.getInt("admin_stat"));
-                adminVO.setAdminEmail(rs.getString("admin_email"));
-                adminVO.setAdminPhone(rs.getString("admin_phone"));
+                adminVO.setAdminNo(rs.getInt("adminno"));
+                adminVO.setAdminAccount(rs.getString("adminaccount"));
+                adminVO.setAdminPassword(rs.getString("adminpassword"));
+                adminVO.setAdminName(rs.getString("adminname"));
+                adminVO.setCreateDate(rs.getDate("createddate"));
+                adminVO.setAdminStat(rs.getInt("adminstat"));
+                adminVO.setAdminEmail(rs.getString("adminemail"));
+                adminVO.setAdminPhone(rs.getString("adminphone"));
                 list.add(adminVO);
             }
 

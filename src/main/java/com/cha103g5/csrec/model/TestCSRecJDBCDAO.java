@@ -1,10 +1,6 @@
 package com.cha103g5.csrec.model;
 
 
-import com.cha103g5.admin.model.AdminDAO_interface;
-import com.cha103g5.admin.model.AdminJDBCDAO;
-import com.cha103g5.admin.model.AdminVO;
-
 import java.util.List;
 
 public class TestCSRecJDBCDAO {
@@ -35,16 +31,15 @@ public class TestCSRecJDBCDAO {
 //		System.out.println("---------------------");
 
 		// 查詢多筆
-//        List<CSRecVO> list = dao.getAll();
-//    	for (CSRecVO csRecVOALL : list) {
-//            System.out.print(csRecVOALL.getRecordNo() + ",");
-//            System.out.print(csRecVOALL.getMemberNo() + ",");
-//            System.out.print(csRecVOALL.getAdminNo() + ",");;
-//            System.out.print(csRecVOALL.getRecordTime() + ",");
-//            System.out.print(csRecVOALL.getInteractionContent() + ",");
-//            System.out.print(csRecVOALL.getAttachments() + ",");
-//            System.out.print(csRecVOALL.getTalkDirection() + ",");
-//            System.out.println();
-//        }
+        List<CSRecVO> list = dao.getAll();
+    	for (CSRecVO csRecVOALL : list) {
+            System.out.print(csRecVOALL.getRecordNo() + ",");
+            System.out.print(csRecVOALL.getMemberNo() + ",");
+            System.out.print(csRecVOALL.getAdminNo() + ",");;
+            System.out.print(csRecVOALL.getRecordTime() + ",");
+            System.out.print(csRecVOALL.getInteractionContent() + ",");
+            System.out.print(csRecVOALL.getTalkDirection() + ",");
+            System.out.println();
+        }
     }
 }
