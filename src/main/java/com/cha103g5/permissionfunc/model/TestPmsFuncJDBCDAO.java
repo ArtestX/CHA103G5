@@ -1,10 +1,10 @@
-package com.cha103g5.pmsfunc.model;
+package com.cha103g5.permissionfunc.model;
 
 import java.util.List;
 
 public class TestPmsFuncJDBCDAO {
     public static void main(String[] args) {
-        PmsFuncDAO_interface dao = new PmsFuncJDBCDAO();
+        PmsFuncDAOInterface dao = new PmsFuncJDBCDAO();
 
         // 新增
 //        PmsFuncVO pmsFuncVO = new PmsFuncVO();

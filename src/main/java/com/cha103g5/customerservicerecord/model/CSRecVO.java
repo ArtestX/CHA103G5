@@ -1,4 +1,4 @@
-package com.cha103g5.csrec.model;
+package com.cha103g5.customerservicerecord.model;
 
 import javax.persistence.*;
 import java.util.Date;

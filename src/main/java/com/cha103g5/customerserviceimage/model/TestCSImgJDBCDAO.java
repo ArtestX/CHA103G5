@@ -1,11 +1,11 @@
-package com.cha103g5.csimg.model;
+package com.cha103g5.customerserviceimage.model;
 
 
 import java.util.List;
 
 public class TestCSImgJDBCDAO {
     public static void main(String[] args) {
-        CSImgDAO_interface dao = new CSImgJDBCDAO();
+        CSImgDAOInterface dao = new CSImgJDBCDAO();
 
         // 新增
 //        CSImgVO csImgVO = new CSImgVO();

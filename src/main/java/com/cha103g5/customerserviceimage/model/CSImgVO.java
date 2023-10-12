@@ -1,4 +1,4 @@
-package com.cha103g5.csimg.model;
+package com.cha103g5.customerserviceimage.model;
 
 import javax.persistence.*;
 

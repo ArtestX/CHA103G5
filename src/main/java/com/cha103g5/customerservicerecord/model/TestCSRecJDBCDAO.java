@@ -1,11 +1,11 @@
-package com.cha103g5.csrec.model;
+package com.cha103g5.customerservicerecord.model;
 
 
 import java.util.List;
 
 public class TestCSRecJDBCDAO {
     public static void main(String[] args) {
-        CSRecDAO_interface dao = new CSRecJDBCDAO();
+        CSRecDAOInterface dao = new CSRecJDBCDAO();
 
         // 新增
 //        CSRecVO csRecVO = new CSRecVO();

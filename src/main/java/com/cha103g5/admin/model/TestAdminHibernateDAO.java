@@ -2,16 +2,16 @@ package com.cha103g5.admin.model;
 
 import java.util.List;
 
-public class TestAdminJDBCDAO {
+public class TestAdminHibernateDAO {
     public static void main(String[] args) {
-        AdminDAOInterface dao = new AdminJDBCDAO();
+        AdminHibernateDAOInterface dao = new AdminHibernateDAO();
 
         // 新增
 //        AdminVO adminVO = new AdminVO();
-//        adminVO.setAdminAccount("XXX");
-//        adminVO.setAdminPassword("XXX");
+//        adminVO.setAdminAccount("TTT");
+//        adminVO.setAdminPassword("TTT");
 //        adminVO.setAdminName("GGYY");
-//        adminVO.setCreateDate(java.sql.Date.valueOf("2023-10-08"));
+//        adminVO.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
 //        adminVO.setAdminStat(1);
 //        adminVO.setAdminEmail("ggyy@gmail.com");
 //        adminVO.setAdminPhone("098759487");
@@ -20,9 +20,12 @@ public class TestAdminJDBCDAO {
 		// 修改
 //        AdminVO adminVO2 = new AdminVO();
 //        adminVO2.setAdminNo(40011);
-//        adminVO2.setAdminName("7788");
-//        adminVO2.setAdminEmail("OMG@gmail.com");
-//        adminVO2.setAdminPhone("6666666");
+//        adminVO2.setAdminAccount("ABCD");
+//        adminVO2.setAdminPassword("23456");
+//        adminVO2.setAdminName("59487");
+//        adminVO2.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
+//        adminVO2.setAdminEmail("OOOOOMG@gmail.com");
+//        adminVO2.setAdminPhone("666887936");
 //        adminVO2.setAdminStat(2);
 //        dao.update(adminVO2);
 
