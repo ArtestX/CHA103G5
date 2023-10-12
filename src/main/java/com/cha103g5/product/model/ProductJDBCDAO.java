@@ -1,19 +1,26 @@
 package com.cha103g5.product.model;
 
 import java.util.*;
+
+import com.cha103g5.product.model.Util;
+
 import java.sql.*;
 
 public class ProductJDBCDAO implements ProductDAO_interface {
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/yourdatabasename?serverTimezone=Asia/Taipei";
-	String userid = "root";
-	String passwd = "0616";
 
 	private static final String INSERT_STMT = "INSERT INTO product (product_cat_no,product_cat_det_no,product_name,product_price,product_info,product_stat,product_eval,product_eval_total,product_sale_num) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT product_no,product_cat_no,product_cat_det_no,product_name,product_price,product_info,product_stat,product_eval,product_eval_total,product_sale_num FROM product order by product_no";
 	private static final String GET_ONE_STMT = "SELECT product_no,product_cat_no,product_cat_det_no,product_name,product_price,product_info,product_stat,product_eval,product_eval_total,product_sale_num FROM product where product_no = ?";
 	private static final String DELETE = "DELETE FROM product where product_no = ?";
 	private static final String UPDATE = "UPDATE product set product_cat_no=?,product_cat_det_no=?,product_name=?,product_price=?,product_info=?,product_stat=?,product_eval=?,product_eval_total=?,product_sale_num=? where product_no = ?";
+
+	static {
+		try {
+			Class.forName(Util.DRIVER);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
+		}
+	}
 
 	@Override
 	public void insert(ProductVO productVO) {
@@ -22,9 +29,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, productVO.getProductCatNo());
@@ -39,30 +44,12 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
 
+		} finally {
+			Util.closeResources(con, pstmt, null);
+		}
 	}
 
 	@Override
@@ -72,9 +59,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, productVO.getProductCatNo());
@@ -90,72 +75,32 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			Util.closeResources(con, pstmt, null);
 		}
-
 	}
 
 	@Override
-	public void delete(Integer productno) { 
+	public void delete(Integer productno) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, productno);
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			Util.closeResources(con, pstmt, null);
 		}
-
 	}
 
 	@Override
@@ -167,9 +112,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		ResultSet rs = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, productno);
@@ -192,35 +135,10 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 
 			}
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			Util.closeResources(con, pstmt, rs);
 		}
 		return productVO;
 	}
@@ -235,15 +153,13 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		ResultSet rs = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				// empVO 也稱為 Domain objects
-				productVO  = new ProductVO();
+				productVO = new ProductVO();
 				productVO.setProductNo(rs.getInt("product_no"));
 				productVO.setProductCatNo(rs.getInt("product_cat_no"));
 				productVO.setProductCatDetNo(rs.getInt("product_cat_det_no"));
@@ -258,35 +174,10 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 
 			}
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			Util.closeResources(con, pstmt, rs);
 		}
 		return list;
 	}

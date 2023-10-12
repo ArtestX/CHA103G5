@@ -1,7 +1,9 @@
 package com.cha103g5.admin.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "admin")
 public class AdminVO {
@@ -20,10 +22,10 @@ public class AdminVO {
     @Column(name = "adminname")
     private String adminName;
 
-    @Column(name = "createdate")
-    private Date createDate;
+    @Column(name = "createddate")
+    private Timestamp createDate;
 
-    @Column(name = "adminstat")
+    @Column(name = "adminstat", columnDefinition = "tinyint")
     private Integer adminStat;
 
     @Column(name = "adminemail")
@@ -64,11 +66,11 @@ public class AdminVO {
         this.adminName = adminName;
     }
 
-    public java.sql.Date getCreateDate() {
-        return (java.sql.Date) createDate;
+    public Timestamp getCreateDate() {
+        return  createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
