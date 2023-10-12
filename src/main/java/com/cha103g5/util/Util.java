@@ -1,4 +1,4 @@
-package util;
+package com.cha103g5.util;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

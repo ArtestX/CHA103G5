@@ -1,7 +1,7 @@
-package com.cha103g5;
+package com.cha103g5.pet.model;
 
 
-import java.util.Date;
+import java.sql.Date;
 
 public class PetVO {
 	private Integer petid;

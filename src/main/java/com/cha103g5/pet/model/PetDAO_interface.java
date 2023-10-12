@@ -1,4 +1,4 @@
-package com.cha103g5;
+package com.cha103g5.pet.model;
 
 import java.util.List;
 
