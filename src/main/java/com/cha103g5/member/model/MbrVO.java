@@ -1,210 +1,255 @@
 package com.cha103g5.member.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="member")
 public class MbrVO implements java.io.Serializable{
-	private Integer memberNo;
-    private String memberAccount;
-    private String memberName;
-    private Integer memberGender;
-    private String memberPassword;
-    private String memberPhone;
-    private String memberEmail;
-    private String memberAddress;
-    private Timestamp memberJoinTime;
-    private Timestamp memberBirthday;
-    private String memberNation;
-    private byte[] memberPic;
-    private String memberCard;
-    private Integer memberPoints;
-    private Integer memberStat;
-    private String memberId;
-    private String memberJob;
-    private Integer memberSal;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="memberno", updatable=false)
+	private Integer memberno;
+	
+	@Column(name="memberaccount", updatable=false)
+    private String memberaccount;
+	
+	@Column(name="membername")
+    private String membername;
+	
+	@Column(name="membergender")
+    private Integer membergender;
+	
+	@Column(name="memberpassword")
+    private String memberpassword;
+	
+	@Column(name="memberphone")
+    private String memberphone;
+    
+    @Column(name="memberemail", updatable=false)
+    private String memberemail;
+    
+    @Column(name="memberaddress")
+    private String memberaddress;
+    
+    @Column(name="memberjointime")
+    private Timestamp memberjointime;
+    
+    @Column(name="memberbirthday")
+    private Timestamp memberbirthday;
+    
+    @Column(name="membernation")
+    private String membernation;
+    
+    @Column(name="memberpic")
+    private byte[] memberpic;
+    
+    @Column(name="membercard")
+    private String membercard;
+    
+    @Column(name="memberpoints")
+    private Integer memberpoints;
+    
+    @Column(name="memberstat")
+    private Integer memberstat;
+    
+    @Column(name="memberid")
+    private String memberid;
+    
+    @Column(name="memberjob")
+    private String memberjob;
+    
+    @Column(name="membersal")
+    private Integer membersal;
     
     public MbrVO() {
 	}
-    
-	public MbrVO(Integer memberNo, String memberAccount, String memberName, Integer memberGender,
-			String memberPassword, String memberPhone, String memberEmail, String memberAddress, Timestamp memberJoinTime,
-			Timestamp memberBirthday, String memberNation, byte[] memberPic, String memberCard, Integer memberPoints,
-			Integer memberStat, String memberId, String memberJob, Integer memberSal) {
-		this.memberNo = memberNo;
-		this.memberAccount = memberAccount;
-		this.memberName = memberName;
-		this.memberGender = memberGender;
-		this.memberPassword = memberPassword;
-		this.memberPhone = memberPhone;
-		this.memberEmail = memberEmail;
-		this.memberAddress = memberAddress;
-		this.memberJoinTime = memberJoinTime;
-		this.memberBirthday = memberBirthday;
-		this.memberNation = memberNation;
-		this.memberPic = memberPic;
-		this.memberCard = memberCard;
-		this.memberPoints = memberPoints;
-		this.memberStat = memberStat;
-		this.memberId = memberId;
-		this.memberJob = memberJob;
-		this.memberSal = memberSal;
+
+	public MbrVO(Integer memberno, String memberaccount, String membername, Integer membergender, String memberpassword,
+			String memberphone, String memberemail, String memberaddress, Timestamp memberjointime,
+			Timestamp memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
+			Integer memberstat, String memberid, String memberjob, Integer membersal) {
+		super();
+		this.memberno = memberno;
+		this.memberaccount = memberaccount;
+		this.membername = membername;
+		this.membergender = membergender;
+		this.memberpassword = memberpassword;
+		this.memberphone = memberphone;
+		this.memberemail = memberemail;
+		this.memberaddress = memberaddress;
+		this.memberjointime = memberjointime;
+		this.memberbirthday = memberbirthday;
+		this.membernation = membernation;
+		this.memberpic = memberpic;
+		this.membercard = membercard;
+		this.memberpoints = memberpoints;
+		this.memberstat = memberstat;
+		this.memberid = memberid;
+		this.memberjob = memberjob;
+		this.membersal = membersal;
 	}
 
-	public Integer getMemberNo() {
-		return memberNo;
+	public Integer getMemberno() {
+		return memberno;
 	}
-	
-	public void setMemberNo(Integer memberNo) {
-		this.memberNo = memberNo;
+
+	public void setMemberno(Integer memberno) {
+		this.memberno = memberno;
 	}
-	
-	public String getMemberAccount() {
-		return memberAccount;
+
+	public String getMemberaccount() {
+		return memberaccount;
 	}
-	
-	public void setMemberAccount(String memberAccount) {
-		this.memberAccount = memberAccount;
+
+	public void setMemberaccount(String memberaccount) {
+		this.memberaccount = memberaccount;
 	}
-	
-	public String getMemberName() {
-		return memberName;
+
+	public String getMembername() {
+		return membername;
 	}
-	
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
+
+	public void setMembername(String membername) {
+		this.membername = membername;
 	}
-	
-	public Integer getMemberGender() {
-		return memberGender;
+
+	public Integer getMembergender() {
+		return membergender;
 	}
-	
-	public void setMemberGender(Integer memberGender) {
-		this.memberGender = memberGender;
+
+	public void setMembergender(Integer membergender) {
+		this.membergender = membergender;
 	}
-	
-	public String getMemberPassword() {
-		return memberPassword;
+
+	public String getMemberpassword() {
+		return memberpassword;
 	}
-	
-	public void setMemberPassword(String memberPassword) {
-		this.memberPassword = memberPassword;
+
+	public void setMemberpassword(String memberpassword) {
+		this.memberpassword = memberpassword;
 	}
-	
-	public String getMemberPhone() {
-		return memberPhone;
+
+	public String getMemberphone() {
+		return memberphone;
 	}
-	
-	public void setMemberPhone(String memberPhone) {
-		this.memberPhone = memberPhone;
+
+	public void setMemberphone(String memberphone) {
+		this.memberphone = memberphone;
 	}
-	
-	public String getMemberEmail() {
-		return memberEmail;
+
+	public String getMemberemail() {
+		return memberemail;
 	}
-	
-	public void setMemberEmail(String memberEmail) {
-		this.memberEmail = memberEmail;
+
+	public void setMemberemail(String memberemail) {
+		this.memberemail = memberemail;
 	}
-	
-	public String getMemberAddress() {
-		return memberAddress;
+
+	public String getMemberaddress() {
+		return memberaddress;
 	}
-	
-	public void setMemberAddress(String memberAddress) {
-		this.memberAddress = memberAddress;
+
+	public void setMemberaddress(String memberaddress) {
+		this.memberaddress = memberaddress;
 	}
-	
-	public Timestamp getMemberJoinTime() {
-		return memberJoinTime;
+
+	public Timestamp getMemberjointime() {
+		return memberjointime;
 	}
-	
-	public void setMemberJoinTime(Timestamp memberJoinTime) {
-		this.memberJoinTime = memberJoinTime;
+
+	public void setMemberjointime(Timestamp memberjointime) {
+		this.memberjointime = memberjointime;
 	}
-	
-	public Timestamp getMemberBirthday() {
-		return memberBirthday;
+
+	public Timestamp getMemberbirthday() {
+		return memberbirthday;
 	}
-	
-	public void setMemberBirthday(Timestamp memberBirthday) {
-		this.memberBirthday = memberBirthday;
+
+	public void setMemberbirthday(Timestamp memberbirthday) {
+		this.memberbirthday = memberbirthday;
 	}
-	
-	public String getMemberNation() {
-		return memberNation;
+
+	public String getMembernation() {
+		return membernation;
 	}
-	
-	public void setMemberNation(String memberNation) {
-		this.memberNation = memberNation;
+
+	public void setMembernation(String membernation) {
+		this.membernation = membernation;
 	}
-	
-	public byte[] getMemberPic() {
-		return memberPic;
+
+	public byte[] getMemberpic() {
+		return memberpic;
 	}
-	
-	public void setMemberPic(byte[] memberPic) {
-		this.memberPic = memberPic;
+
+	public void setMemberpic(byte[] memberpic) {
+		this.memberpic = memberpic;
 	}
-	
-	public String getMemberCard() {
-		return memberCard;
+
+	public String getMembercard() {
+		return membercard;
 	}
-	
-	public void setMemberCard(String memberCard) {
-		this.memberCard = memberCard;
+
+	public void setMembercard(String membercard) {
+		this.membercard = membercard;
 	}
-	
-	public Integer getMemberPoints() {
-		return memberPoints;
+
+	public Integer getMemberpoints() {
+		return memberpoints;
 	}
-	
-	public void setMemberPoints(Integer memberPoints) {
-		this.memberPoints = memberPoints;
+
+	public void setMemberpoints(Integer memberpoints) {
+		this.memberpoints = memberpoints;
 	}
-	
-	public Integer getMemberStat() {
-		return memberStat;
+
+	public Integer getMemberstat() {
+		return memberstat;
 	}
-	
-	public void setMemberStat(Integer memberStat) {
-		this.memberStat = memberStat;
+
+	public void setMemberstat(Integer memberstat) {
+		this.memberstat = memberstat;
 	}
-	
-	public String getMemberId() {
-		return memberId;
+
+	public String getMemberid() {
+		return memberid;
 	}
-	
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+
+	public void setMemberid(String memberid) {
+		this.memberid = memberid;
 	}
-	
-	public String getMemberJob() {
-		return memberJob;
+
+	public String getMemberjob() {
+		return memberjob;
 	}
-	
-	public void setMemberJob(String memberJob) {
-		this.memberJob = memberJob;
+
+	public void setMemberjob(String memberjob) {
+		this.memberjob = memberjob;
 	}
-	
-	public Integer getMemberSal() {
-		return memberSal;
+
+	public Integer getMembersal() {
+		return membersal;
 	}
-	
-	public void setMemberSal(Integer memberSal) {
-		this.memberSal = memberSal;
+
+	public void setMembersal(Integer membersal) {
+		this.membersal = membersal;
 	}
 
 	@Override
 	public String toString() {
-		return "MbrVO [memberNo=" + memberNo + ", memberAccount=" + memberAccount + ", memberName=" + memberName
-				+ ", memberGender=" + memberGender + ", memberPassword=" + memberPassword + ", memberPhone="
-				+ memberPhone + ", memberEmail=" + memberEmail + ", memberAddress=" + memberAddress
-				+ ", memberJoinTime=" + memberJoinTime + ", memberBirthday=" + memberBirthday + ", memberNation="
-				+ memberNation + ", memberPic=" + Arrays.toString(memberPic) + ", memberCard=" + memberCard
-				+ ", memberPoints=" + memberPoints + ", memberStat=" + memberStat + ", memberId=" + memberId
-				+ ", memberJob=" + memberJob + ", memberSal=" + memberSal + "]";
+		return "MbrVO [memberno=" + memberno + ", memberaccount=" + memberaccount + ", membername=" + membername
+				+ ", membergender=" + membergender + ", memberpassword=" + memberpassword + ", memberphone="
+				+ memberphone + ", memberemail=" + memberemail + ", memberaddress=" + memberaddress
+				+ ", memberjointime=" + memberjointime + ", memberbirthday=" + memberbirthday + ", membernation="
+				+ membernation + ", memberpic=" + Arrays.toString(memberpic) + ", membercard=" + membercard
+				+ ", memberpoints=" + memberpoints + ", memberstat=" + memberstat + ", memberid=" + memberid
+				+ ", memberjob=" + memberjob + ", membersal=" + membersal + "]";
 	}
-	
 	
 }

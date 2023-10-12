@@ -15,23 +15,23 @@ public class TestMbrJDBCDAO {
 	
 		// 新增
 		MbrVO mbrVO = new MbrVO();
-		mbrVO.setMemberAccount("abcd");
-		mbrVO.setMemberName("David Wu");
-		mbrVO.setMemberGender(1);
-		mbrVO.setMemberPassword("123");
-		mbrVO.setMemberPhone("0912345678");
-		mbrVO.setMemberEmail("123456@gmail.com");
-		mbrVO.setMemberAddress("桃園市中壢區復興路46號8F");
-		mbrVO.setMemberJoinTime(currentTimestamp);
-		mbrVO.setMemberBirthday(java.sql.Timestamp.valueOf("2023-10-11 00:00:00"));
-		mbrVO.setMemberNation("桃園");
-		mbrVO.setMemberPic(null);
-		mbrVO.setMemberCard("1234-2345-3456-4567");
-		mbrVO.setMemberPoints(0);
-		mbrVO.setMemberStat(0);
-		mbrVO.setMemberId("A123456789");
-		mbrVO.setMemberJob("manager");
-		mbrVO.setMemberSal(1);
+		mbrVO.setMemberaccount("abcd");
+		mbrVO.setMembername("David Wu");
+		mbrVO.setMembergender(1);
+		mbrVO.setMemberpassword("123");
+		mbrVO.setMemberphone("0912345678");
+		mbrVO.setMemberemail("123456@gmail.com");
+		mbrVO.setMemberaddress("桃園市中壢區復興路46號8F");
+		mbrVO.setMemberjointime(currentTimestamp);
+		mbrVO.setMemberbirthday(java.sql.Timestamp.valueOf("2023-10-11 00:00:00"));
+		mbrVO.setMembernation("桃園");
+		mbrVO.setMemberpic(null);
+		mbrVO.setMembercard("1234-2345-3456-4567");
+		mbrVO.setMemberpoints(0);
+		mbrVO.setMemberstat(0);
+		mbrVO.setMemberid("A123456789");
+		mbrVO.setMemberjob("manager");
+		mbrVO.setMembersal(1);
 		dao.insert(mbrVO);
 		
 	}

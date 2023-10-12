@@ -2,64 +2,91 @@ package com.cha103g5.infoann.model;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="informationannouncement")
 public class InfoAnnVO implements java.io.Serializable{
-	private Integer infoNo;
-    private Integer adminNo;
-    private String infoContent;
-    private String infoTitle;
-    private Timestamp infoTime;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="infono", updatable=false)
+	private Integer infono;
+	
+	@Column(name="adminno")
+    private Integer adminno;
+	
+    @Column(name="infocontent")
+    private String infocontent;
     
-	public InfoAnnVO() {
+    @Column(name="infotitle")
+    private String infotitle;
+    
+    @Column(name="infotime")
+    private Timestamp infotime;
+    
+    public InfoAnnVO() {
 		super();
 	}
-//
-//	public InfoAnnVO(Integer infoNo, Integer adminNo, String infoContent, String infoTitle,
-//			Date infoTime) {
-//		this.infoNo = infoNo;
-//		this.adminNo = adminNo;
-//		this.infoContent = infoContent;
-//		this.infoTitle = infoTitle;
-//		this.infoTime = infoTime;
-//	}
 
-	public Integer getInfoNo() {
-		return infoNo;
+	public InfoAnnVO(Integer infono, Integer adminno, String infocontent, String infotitle, Timestamp infotime) {
+		super();
+		this.infono = infono;
+		this.adminno = adminno;
+		this.infocontent = infocontent;
+		this.infotitle = infotitle;
+		this.infotime = infotime;
 	}
 
-	public void setInfoNo(Integer infoNo) {
-		this.infoNo = infoNo;
+	public Integer getInfono() {
+		return infono;
 	}
 
-	public Integer getAdminNo() {
-		return adminNo;
+	public void setInfono(Integer infono) {
+		this.infono = infono;
 	}
 
-	public void setAdminNo(Integer adminNo) {
-		this.adminNo = adminNo;
+	public Integer getAdminno() {
+		return adminno;
 	}
 
-	public String getInfoContent() {
-		return infoContent;
+	public void setAdminno(Integer adminno) {
+		this.adminno = adminno;
 	}
 
-	public void setInfoContent(String infoContent) {
-		this.infoContent = infoContent;
+	public String getInfocontent() {
+		return infocontent;
 	}
 
-	public String getInfoTitle() {
-		return infoTitle;
+	public void setInfocontent(String infocontent) {
+		this.infocontent = infocontent;
 	}
 
-	public void setInfoTitle(String infoTitle) {
-		this.infoTitle = infoTitle;
+	public String getInfotitle() {
+		return infotitle;
 	}
 
-	public Timestamp getInfoTime() {
-		return infoTime;
+	public void setInfotitle(String infotitle) {
+		this.infotitle = infotitle;
 	}
 
-	public void setInfoTime(Timestamp infoTime) {
-		this.infoTime = infoTime;
+	public Timestamp getInfotime() {
+		return infotime;
 	}
-    
+
+	public void setInfotime(Timestamp infotime) {
+		this.infotime = infotime;
+	}
+
+	@Override
+	public String toString() {
+		return "InfoAnnVO [infono=" + infono + ", adminno=" + adminno + ", infocontent=" + infocontent + ", infotitle="
+				+ infotitle + ", infotime=" + infotime + "]";
+	}
+
 }

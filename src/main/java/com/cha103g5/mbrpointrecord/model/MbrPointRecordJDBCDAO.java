@@ -1,16 +1,18 @@
-package com.cha103g5.member.model;
+package com.cha103g5.mbrpointrecord.model;
 
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
+import com.cha103g5.member.model.Util;
+
 public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 	public static final String INSERT_STMT = 
-			"INSERT into member_point_record(member_no, getpoint_time, getpoint, getpoint_reason) VALUES(?, ?, ?, ?)";
+			"INSERT into memberpointrecord(memberno, getpointtime, getpoint, getpointreason) VALUES(?, ?, ?, ?)";
 	public static final String UPDATE_STMT = 
-			"UPDATE member_point_record SET member_no = ?, getpoint_time = ?, getpoint = ?, getpoint_reason = ? WHERE member_point_no = ?";
+			"UPDATE memberpointrecord SET memberno = ?, getpointtime = ?, getpoint = ?, getpointreason = ? WHERE memberpointno = ?";
 	public static final String FIND_BY_MBRNO= 
-			"SELECT member_no, getpoint_time, getpoint, getpoint_reason FROM member_point_record WHERE member_no = ?";
+			"SELECT memberno, getpointtime, getpoint, getpointreason FROM memberpointrecord WHERE memberno = ?";
 //	public static final String FIND_BY_MBRNAME= 
 //			"SELECT mpr.member_no, mpr.getpoint_time, mpr.getpoint, mpr.getpoint_reason"
 //			+ "FROM member_point_record mpr"
@@ -20,7 +22,7 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 //			"SELECT member_no, getpoint_time, getpoint, getpoint_reason"
 //			+ "FROM member_point_record"
 //			+ "WHERE getpoint_time BETWEEN ? AND ?";
-	public static final String GET_ALL = "SELECT * from member_point_record";
+	public static final String GET_ALL = "SELECT * from memberpointrecord";
 	
 	static {
 		try {
@@ -40,10 +42,10 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setInt(1, MbrPointRecordVO.getMemberNo());
-			pstmt.setTimestamp(2, MbrPointRecordVO.getGetPointTime());
-			pstmt.setInt(3, MbrPointRecordVO.getGetPoint());
-			pstmt.setString(4, MbrPointRecordVO.getGetPointReason());
+			pstmt.setInt(1, MbrPointRecordVO.getMemberno());
+			pstmt.setTimestamp(2, MbrPointRecordVO.getGetpointtime());
+			pstmt.setInt(3, MbrPointRecordVO.getGetpoint());
+			pstmt.setString(4, MbrPointRecordVO.getGetpointreason());
 			
 			pstmt.executeUpdate();
 			
@@ -64,11 +66,11 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
-			pstmt.setInt(1, MbrPointRecordVO.getMemberNo());
-			pstmt.setTimestamp(2, MbrPointRecordVO.getGetPointTime());
-			pstmt.setInt(3, MbrPointRecordVO.getGetPoint());
-			pstmt.setString(4, MbrPointRecordVO.getGetPointReason());
-			pstmt.setInt(5, MbrPointRecordVO.getMemberPointNo());
+			pstmt.setInt(1, MbrPointRecordVO.getMemberno());
+			pstmt.setTimestamp(2, MbrPointRecordVO.getGetpointtime());
+			pstmt.setInt(3, MbrPointRecordVO.getGetpoint());
+			pstmt.setString(4, MbrPointRecordVO.getGetpointreason());
+			pstmt.setInt(5, MbrPointRecordVO.getMemberpointno());
 			
 			pstmt.executeUpdate();
 			
@@ -81,7 +83,7 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 	}
 
 	@Override
-	public List<MbrPointRecordVO> findBymemberNo(Integer memberNo) {
+	public List<MbrPointRecordVO> findBymemberNo(Integer memberno) {
 		List<MbrPointRecordVO> list = new ArrayList<MbrPointRecordVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -91,15 +93,15 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 		try {
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_MBRNO);
-			pstmt.setInt(1, memberNo);
+			pstmt.setInt(1, memberno);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				MbrPointRecordVO = new MbrPointRecordVO();
-				MbrPointRecordVO.setMemberNo(rs.getInt("member_no"));
-				MbrPointRecordVO.setGetPointTime(rs.getTimestamp("getpoint_time"));
-				MbrPointRecordVO.setGetPoint(rs.getInt("getpoint"));
-				MbrPointRecordVO.setGetPointReason(rs.getString("getpoint_reason"));
+				MbrPointRecordVO.setMemberno(rs.getInt("memberno"));
+				MbrPointRecordVO.setGetpointtime(rs.getTimestamp("getpointtime"));
+				MbrPointRecordVO.setGetpoint(rs.getInt("getpoint"));
+				MbrPointRecordVO.setGetpointreason(rs.getString("getpointreason"));
 				list.add(MbrPointRecordVO); // Store the row in the list
 			}
 			
@@ -128,11 +130,11 @@ public class MbrPointRecordJDBCDAO implements MbrPointRecordDAO_interface{
 			while(rs.next()) {
 				//利用MbrPointRecordVO Bean，包裝著查詢的資料回傳給呼叫端
 				MbrPointRecordVO MbrPointRecordVO =new MbrPointRecordVO();
-				MbrPointRecordVO .setMemberPointNo(rs.getInt("member_point_no"));
-				MbrPointRecordVO .setMemberNo(rs.getInt("member_no"));
-				MbrPointRecordVO .setGetPointTime(rs.getTimestamp("getpoint_time"));
-				MbrPointRecordVO .setGetPoint(rs.getInt("getpoint"));
-				MbrPointRecordVO .setGetPointReason(rs.getString("getpoint_reason"));
+				MbrPointRecordVO .setMemberpointno(rs.getInt("member_point_no"));
+				MbrPointRecordVO .setMemberno(rs.getInt("member_no"));
+				MbrPointRecordVO .setGetpointtime(rs.getTimestamp("getpoint_time"));
+				MbrPointRecordVO .setGetpoint(rs.getInt("getpoint"));
+				MbrPointRecordVO .setGetpointreason(rs.getString("getpoint_reason"));
 				//用集合收集著包裝好的部門物件
 				MbrPointRecordVOList.add(MbrPointRecordVO);
 			}

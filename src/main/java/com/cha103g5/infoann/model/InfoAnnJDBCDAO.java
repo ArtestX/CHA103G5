@@ -12,15 +12,15 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 	String passwd = "123456";
 	
 	private static final String INSERT_STMT= 
-			"INSERT INTO information_announcement(admin_no, info_content, info_title, info_time) VALUES (?, ?, ?, ?)";
+			"INSERT INTO informationannouncement(adminno, infocontent, infotitle, infotime) VALUES (?, ?, ?, ?)";
 	private static final String UPDATE_STMT = 
-			"UPDATE information_announcement SET admin_no = ?, info_content = ?, info_title = ?, info_time = ? WHERE info_no = ?";
+			"UPDATE informationannouncement SET adminno = ?, infocontent = ?, infotitle = ?, infotime = ? WHERE infono = ?";
 	private static final String DELETE_STMT = 
-			"DELETE FROM information_announcement WHERE info_no = ?";
+			"DELETE FROM informationannouncement WHERE infono = ?";
 	private static final String FIND_BY_PK = 
-			"SELECT * FROM information_announcement WHERE info_no = ?";
+			"SELECT * FROM informationannouncement WHERE infono = ?";
 	private static final String GET_ALL = 
-			"SELECT * FROM information_announcement";
+			"SELECT * FROM informationannouncement";
 	
 	@Override
 	public void insert(InfoAnnVO InfoAnnVO) {
@@ -33,10 +33,10 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			pstmt.setInt(1, InfoAnnVO.getAdminNo());
-			pstmt.setString(2, InfoAnnVO.getInfoContent());
-			pstmt.setString(3, InfoAnnVO.getInfoTitle());
-			pstmt.setTimestamp(4, InfoAnnVO.getInfoTime());
+			pstmt.setInt(1, InfoAnnVO.getAdminno());
+			pstmt.setString(2, InfoAnnVO.getInfocontent());
+			pstmt.setString(3, InfoAnnVO.getInfotitle());
+			pstmt.setTimestamp(4, InfoAnnVO.getInfotime());
 
 			pstmt.executeUpdate();//執行動態指令，不需要參數，已預先交給資料庫
 
@@ -79,11 +79,11 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 
-			pstmt.setInt(1, InfoAnnVO.getAdminNo());
-			pstmt.setString(2, InfoAnnVO.getInfoContent());
-			pstmt.setString(3, InfoAnnVO.getInfoTitle());
-			pstmt.setTimestamp(4, InfoAnnVO.getInfoTime());
-			pstmt.setInt(5, InfoAnnVO.getInfoNo());
+			pstmt.setInt(1, InfoAnnVO.getAdminno());
+			pstmt.setString(2, InfoAnnVO.getInfocontent());
+			pstmt.setString(3, InfoAnnVO.getInfotitle());
+			pstmt.setTimestamp(4, InfoAnnVO.getInfotime());
+			pstmt.setInt(5, InfoAnnVO.getInfono());
 			
 
 			pstmt.executeUpdate();//執行動態指令，不需要參數，已預先交給資料庫
@@ -117,7 +117,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 	}
 
 	@Override
-	public void delete(Integer infoNo) {
+	public void delete(Integer infono) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -131,7 +131,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 
 			// 刪除公告
 			pstmt = con.prepareStatement(DELETE_STMT);
-			pstmt.setInt(1, infoNo);
+			pstmt.setInt(1, infono);
 			pstmt.executeUpdate();
 			
 			// 2●設定於 pstm.executeUpdate()之後
@@ -175,7 +175,7 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 	}
 
 	@Override
-	public InfoAnnVO findByPrimaryKey(Integer infoNo) {
+	public InfoAnnVO findByPrimaryKey(Integer infono) {
 		InfoAnnVO InfoAnnVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -187,18 +187,18 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(FIND_BY_PK);
 
-			pstmt.setInt(1, infoNo);
+			pstmt.setInt(1, infono);
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				// InfoAnnVO 也稱為 Domain objects
 				InfoAnnVO = new InfoAnnVO();
-				InfoAnnVO.setInfoNo(rs.getInt("info_no"));
-				InfoAnnVO.setAdminNo(rs.getInt("admin_no"));
-				InfoAnnVO.setInfoContent(rs.getString("info_content"));
-				InfoAnnVO.setInfoTitle(rs.getString("info_title"));
-				InfoAnnVO.setInfoTime(rs.getTimestamp("info_time"));
+				InfoAnnVO.setInfono(rs.getInt("info_no"));
+				InfoAnnVO.setAdminno(rs.getInt("admin_no"));
+				InfoAnnVO.setInfocontent(rs.getString("info_content"));
+				InfoAnnVO.setInfotitle(rs.getString("info_title"));
+				InfoAnnVO.setInfotime(rs.getTimestamp("info_time"));
 			}
 
 			// Handle any driver errors
@@ -254,11 +254,11 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 
 			while (rs.next()) {
 				InfoAnnVO = new InfoAnnVO();
-				InfoAnnVO.setInfoNo(rs.getInt("info_no"));
-				InfoAnnVO.setAdminNo(rs.getInt("admin_no"));
-				InfoAnnVO.setInfoContent(rs.getString("info_content"));
-				InfoAnnVO.setInfoTitle(rs.getString("info_title"));
-				InfoAnnVO.setInfoTime(rs.getTimestamp("info_time"));
+				InfoAnnVO.setInfono(rs.getInt("info_no"));
+				InfoAnnVO.setAdminno(rs.getInt("admin_no"));
+				InfoAnnVO.setInfocontent(rs.getString("info_content"));
+				InfoAnnVO.setInfotitle(rs.getString("info_title"));
+				InfoAnnVO.setInfotime(rs.getTimestamp("info_time"));
 				list.add(InfoAnnVO); // Store the row in the list
 			}
 
@@ -312,11 +312,11 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 		
 		// 修改
 		InfoAnnVO infoAnnVO2= new InfoAnnVO();
-		infoAnnVO2.setInfoNo(12);
-	    infoAnnVO2.setAdminNo(7);
-	    infoAnnVO2.setInfoContent("第12筆資料的內容");
-	    infoAnnVO2.setInfoTitle("第12筆資料的標題");
-	    infoAnnVO2.setInfoTime(currentTimestamp);
+		infoAnnVO2.setInfono(12);
+	    infoAnnVO2.setAdminno(7);
+	    infoAnnVO2.setInfocontent("第12筆資料的內容");
+	    infoAnnVO2.setInfotitle("第12筆資料的標題");
+	    infoAnnVO2.setInfotime(currentTimestamp);
 		dao.update(infoAnnVO2);
 
 		// 刪除
@@ -324,21 +324,21 @@ public class InfoAnnJDBCDAO implements InfoAnnDAO_interface{
 
 		// 查詢單筆公告資訊
 		InfoAnnVO infoann3 = dao.findByPrimaryKey(11);
-		System.out.print(infoann3.getInfoNo() + ",");
-		System.out.print(infoann3.getAdminNo() + ",");
-		System.out.println(infoann3.getInfoContent());
-		System.out.println(infoann3.getInfoTitle());
-		System.out.println(infoann3.getInfoTime());
+		System.out.print(infoann3.getInfono() + ",");
+		System.out.print(infoann3.getAdminno() + ",");
+		System.out.println(infoann3.getInfocontent());
+		System.out.println(infoann3.getInfotitle());
+		System.out.println(infoann3.getInfotime());
 		System.out.println("---------------------");
 
 		// 查詢公告資訊總明細
 		List<InfoAnnVO> list = dao.getAll();
 		for (InfoAnnVO infoann : list) {
-			System.out.print(infoann.getInfoNo() + ",");
-			System.out.print(infoann.getAdminNo() + ",");
-			System.out.println(infoann.getInfoContent());
-			System.out.println(infoann.getInfoTitle());
-			System.out.println(infoann.getInfoTime());
+			System.out.print(infoann.getInfono() + ",");
+			System.out.print(infoann.getAdminno() + ",");
+			System.out.println(infoann.getInfocontent());
+			System.out.println(infoann.getInfotitle());
+			System.out.println(infoann.getInfotime());
 			System.out.println();
 		}
 		

@@ -6,13 +6,13 @@ import java.sql.*;
 
 public class MbrJDBCDAO implements MbrDAO_interface{
 	private static final String INSERT_STMT = 
-			"INSERT INTO member(member_account, member_name, member_gender, member_password, member_phone, member_email, member_address, member_join_time, member_birthday, member_nation, member_pic, member_card, member_points, member_stat, member_id, member_job, member_sal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			"INSERT INTO member(memberaccount, membername, membergender, memberpassword, memberphone, memberemail, memberaddress, memberjointime, memberbirthday, membernation, memberpic, membercard, memberpoints, memberstat, memberid, memberjob, membersal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STMT = 
-			"UPDATE member SET member_name = ?, member_password = ?, member_phone = ?, member_email = ?, member_address = ?, member_birthday = ?, member_nation = ?, member_pic = ?, member_card = ?, member_id = ?, member_job = ?, member_sal = ? WHERE member_no = ?";
+			"UPDATE member SET membername = ?, memberpassword = ?, memberphone = ?, memberemail = ?, memberaddress = ?, memberbirthday = ?, membernation = ?, memberpic = ?, membercard = ?, memberid = ?, memberjob = ?, membersal = ? WHERE memberno = ?";
 	private static final String FIND_BY_PK = 
-			"SELECT * FROM member WHERE member_no = ?";
+			"SELECT * FROM member WHERE memberno = ?";
 	private static final String FIND_BY_BMRNAME = 
-			"SELECT * FROM member WHERE member_name = ?";
+			"SELECT * FROM member WHERE membername = ?";
 	private static final String GET_ALL = "SELECT * FROM member";
 	
 	static {
@@ -32,23 +32,23 @@ public class MbrJDBCDAO implements MbrDAO_interface{
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setString(1, mbrVO.getMemberAccount());
-			pstmt.setString(2, mbrVO.getMemberName());
-			pstmt.setInt(3, mbrVO.getMemberGender());
-			pstmt.setString(4, mbrVO.getMemberPassword());
-			pstmt.setString(5, mbrVO.getMemberPhone());
-			pstmt.setString(6, mbrVO.getMemberEmail());
-			pstmt.setString(7, mbrVO.getMemberAddress());
-			pstmt.setTimestamp(8, mbrVO.getMemberJoinTime());
-			pstmt.setTimestamp(9, mbrVO.getMemberBirthday());
-			pstmt.setString(10, mbrVO.getMemberNation());
-			pstmt.setObject(11, mbrVO.getMemberPic());
-			pstmt.setString(12, mbrVO.getMemberCard());
-			pstmt.setInt(13, mbrVO.getMemberPoints());
-			pstmt.setInt(14, mbrVO.getMemberStat());
-			pstmt.setString (15, mbrVO.getMemberId());
-			pstmt.setString (16, mbrVO.getMemberJob());
-			pstmt.setInt(17, mbrVO.getMemberSal());
+			pstmt.setString(1, mbrVO.getMemberaccount());
+			pstmt.setString(2, mbrVO.getMembername());
+			pstmt.setInt(3, mbrVO.getMembergender());
+			pstmt.setString(4, mbrVO.getMemberpassword());
+			pstmt.setString(5, mbrVO.getMemberphone());
+			pstmt.setString(6, mbrVO.getMemberemail());
+			pstmt.setString(7, mbrVO.getMemberaddress());
+			pstmt.setTimestamp(8, mbrVO.getMemberjointime());
+			pstmt.setTimestamp(9, mbrVO.getMemberbirthday());
+			pstmt.setString(10, mbrVO.getMembernation());
+			pstmt.setObject(11, mbrVO.getMemberpic());
+			pstmt.setString(12, mbrVO.getMembercard());
+			pstmt.setInt(13, mbrVO.getMemberpoints());
+			pstmt.setInt(14, mbrVO.getMemberstat());
+			pstmt.setString (15, mbrVO.getMemberid());
+			pstmt.setString (16, mbrVO.getMemberjob());
+			pstmt.setInt(17, mbrVO.getMembersal());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
