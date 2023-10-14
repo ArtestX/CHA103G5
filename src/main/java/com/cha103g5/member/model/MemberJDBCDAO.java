@@ -36,7 +36,7 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 			pstmt.setString(6, mbrVO.getMemberemail());
 			pstmt.setString(7, mbrVO.getMemberaddress());
 			pstmt.setTimestamp(8, mbrVO.getMemberjointime());
-			pstmt.setTimestamp(9, mbrVO.getMemberbirthday());
+			pstmt.setDate(9, mbrVO.getMemberbirthday());
 			pstmt.setString(10, mbrVO.getMembernation());
 			pstmt.setObject(11, mbrVO.getMemberpic());
 			pstmt.setString(12, mbrVO.getMembercard());
@@ -70,7 +70,7 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 	}
 
 	@Override
-	public List<MemberVO> findByMbrName(String memberName) {
+	public List<MemberVO> findByMemberName(String memberName) {
 		// TODO Auto-generated method stub
 		return null;
 	}

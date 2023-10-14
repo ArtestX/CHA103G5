@@ -2,10 +2,13 @@ package com.cha103g5.member.model;
 
 import java.util.List;
 
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import com.cha103g5.util.HibernateUtil;
+
 
 
 public class MemberHibernateDAO implements MemberDAOinterface {
@@ -56,8 +59,22 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 	}
 
 	@Override
-	public List<MemberVO> findByMbrName(String membername) {
-		return null;
+	public List<MemberVO> findByMemberName(String membername) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+	        Query<MemberVO> query = session.createQuery("from MemberVO where membername = :name", MemberVO.class);
+	        query.setParameter("name", membername);
+
+	        List<MemberVO> members = query.list();
+	        session.getTransaction().commit();
+
+	        return members;
+	    } catch (Exception e) {
+	        session.getTransaction().rollback();
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 
 	@Override

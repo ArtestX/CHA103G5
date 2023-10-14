@@ -1,5 +1,6 @@
 package com.cha103g5.member.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Objects;
@@ -44,7 +45,7 @@ public class MemberVO implements java.io.Serializable{
     private Timestamp memberjointime;
     
     @Column(name="memberbirthday")
-    private Timestamp memberbirthday;
+    private Date memberbirthday;
     
     @Column(name="membernation")
     private String membernation;
@@ -75,7 +76,7 @@ public class MemberVO implements java.io.Serializable{
 
 	public MemberVO(Integer memberno, String memberaccount, String membername, Integer membergender, String memberpassword,
 			String memberphone, String memberemail, String memberaddress, Timestamp memberjointime,
-			Timestamp memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
+			Date memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
 			Integer memberstat, String memberid, String memberjob, Integer membersal) {
 		super();
 		this.memberno = memberno;
@@ -170,12 +171,12 @@ public class MemberVO implements java.io.Serializable{
 		this.memberjointime = memberjointime;
 	}
 
-	public Timestamp getMemberbirthday() {
+	public Date getMemberbirthday() {
 		return memberbirthday;
 	}
 
-	public void setMemberbirthday(Timestamp memberbirthday) {
-		this.memberbirthday = memberbirthday;
+	public void setMemberbirthday(Date date) {
+		this.memberbirthday = date;
 	}
 
 	public String getMembernation() {

@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Set;
 
 public interface MemberDAOinterface {
-	int insert(MemberVO memberVO);
-	int update(MemberVO memberVO);
+	public int insert(MemberVO memberVO);
+	public int update(MemberVO memberVO);
+	
 	public MemberVO findByPrimaryKey(Integer memberno);
-	public List<MemberVO> findByMbrName(String membername);
+	public List<MemberVO> findByMemberName(String membername);
 	public List<MemberVO> getAll();
 	
 }
