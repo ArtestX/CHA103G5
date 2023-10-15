@@ -10,25 +10,25 @@ public class TestMemberHibernateDAO {
 		MemberDAOinterface dao = new MemberHibernateDAO();
 
 		// 新增
-//		MemberVO memberVO1 = new MemberVO();
-//		memberVO1.setMemberaccount("abcde");
-//		memberVO1.setMembername("David");
-//		memberVO1.setMembergender(1);
-//		memberVO1.setMemberpassword("123456");
-//		memberVO1.setMemberphone("0912345678");
-//		memberVO1.setMemberemail("123456@gmail.com");
-//		memberVO1.setMemberaddress("桃園市中壢區復興路46號");
-//		memberVO1.setMemberjointime(new Timestamp(new java.util.Date().getTime()));
-//		memberVO1.setMemberbirthday(java.sql.Date.valueOf("1998-03-11"));
-//		memberVO1.setMembernation("桃園");
-//		memberVO1.setMemberpic(null);
-//		memberVO1.setMembercard("1234-2345-3456-4567");
-//		memberVO1.setMemberpoints(0);
-//		memberVO1.setMemberstat(0);
-//		memberVO1.setMemberid("A123456789");
-//		memberVO1.setMemberjob("manager");
-//		memberVO1.setMembersal(2);		
-//		dao.insert(memberVO1);
+		MemberVO memberVO1 = new MemberVO();
+		memberVO1.setMemberaccount("abcde");
+		memberVO1.setMembername("David");
+		memberVO1.setMembergender(1);
+		memberVO1.setMemberpassword("123456");
+		memberVO1.setMemberphone("0912345678");
+		memberVO1.setMemberemail("123456@gmail.com");
+		memberVO1.setMemberaddress("桃園市中壢區復興路46號");
+		memberVO1.setMemberjointime(new Timestamp(new java.util.Date().getTime()));
+		memberVO1.setMemberbirthday(java.sql.Date.valueOf("1998-03-11"));
+		memberVO1.setMembernation("桃園");
+		memberVO1.setMemberpic(null);
+		memberVO1.setMembercard("1234-2345-3456-4567");
+		memberVO1.setMemberpoints(0);
+		memberVO1.setMemberstat(0);
+		memberVO1.setMemberid("A123456789");
+		memberVO1.setMemberjob("manager");
+		memberVO1.setMembersal(2);		
+		dao.insert(memberVO1);
 
 //		// 修改
 //		MemberVO memberVO2 = new MemberVO();
