@@ -2,20 +2,23 @@ package com.cha103g5.member.model;
 
 import java.util.List;
 
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import com.cha103g5.util.HibernateUtil;
+
 
 
 public class MemberHibernateDAO implements MemberDAOinterface {
 	
 	@Override
-	public int insert(MemberVO mbrVO) {
+	public int insert(MemberVO memberVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			Integer id = (Integer) session.save(mbrVO);
+			Integer id = (Integer) session.save(memberVO);
 			session.getTransaction().commit();
 			return id;
 		} catch (Exception e) {
@@ -26,11 +29,11 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 	}
 
 	@Override
-	public int update(MemberVO mbrVO) {
+	public int update(MemberVO memberVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			session.update(mbrVO);
+			session.update(memberVO);
 			session.getTransaction().commit();
 			return 1;
 		} catch (Exception e) {
@@ -45,9 +48,9 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			MemberVO MbrVO = session.get(MemberVO.class, memberno);
+			MemberVO memberVO = session.get(MemberVO.class, memberno);
 			session.getTransaction().commit();
-			return MbrVO;
+			return memberVO;
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -56,8 +59,22 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 	}
 
 	@Override
-	public List<MemberVO> findByMbrName(String membername) {
-		return null;
+	public List<MemberVO> findByMemberName(String membername) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+	        Query<MemberVO> query = session.createQuery("from MemberVO where membername = :name", MemberVO.class);
+	        query.setParameter("name", membername);
+
+	        List<MemberVO> members = query.list();
+	        session.getTransaction().commit();
+
+	        return members;
+	    } catch (Exception e) {
+	        session.getTransaction().rollback();
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 
 	@Override
@@ -65,7 +82,7 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			List<MemberVO> list = session.createQuery("from MbrVO", MemberVO.class).list();
+			List<MemberVO> list = session.createQuery("from MemberVO", MemberVO.class).list();
 			session.getTransaction().commit();
 			return list;
 		} catch (Exception e) {

@@ -3,8 +3,7 @@ package com.cha103g5.memberpointrecord.model;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
-
-import com.cha103g5.member.model.Util;
+import com.cha103g5.util.Util;
 
 public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 	public static final String INSERT_STMT = 
@@ -24,14 +23,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 //			+ "WHERE getpoint_time BETWEEN ? AND ?";
 	public static final String GET_ALL = "SELECT * from memberpointrecord";
 	
-	static {
-		try {
-			Class.forName(Util.DRIVER);
-		}catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
-		}
-		
-	}
+	Util util = new Util();
 
 	@Override
 	public void insert(MemberPointRecordVO MbrPointRecordVO) {
@@ -39,7 +31,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
 			pstmt.setInt(1, MbrPointRecordVO.getMemberno());
@@ -52,7 +44,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 		}catch(SQLException se) {
 			se.printStackTrace();
 		}finally {
-			Util.closeResource(con, pstmt, null);
+			Util.closeResources(con, pstmt, null);
 		}
 		
 	}
@@ -63,7 +55,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
 			pstmt.setInt(1, MbrPointRecordVO.getMemberno());
@@ -77,7 +69,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 		}catch(SQLException se) {
 			se.printStackTrace();
 		}finally {
-			Util.closeResource(con, pstmt, null);
+			Util.closeResources(con, pstmt, null);
 		}
 		
 	}
@@ -91,7 +83,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 		MemberPointRecordVO MbrPointRecordVO = null;
 		
 		try {
-			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_MBRNO);
 			pstmt.setInt(1, memberno);
 			rs = pstmt.executeQuery();
@@ -109,7 +101,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 			
 			e.printStackTrace();
 		}finally {
-			Util.closeResource(con, pstmt, rs);
+			Util.closeResources(con, pstmt, null);
 		}
 		
 		return list;
@@ -123,7 +115,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 		List<MemberPointRecordVO> MbrPointRecordVOList = new ArrayList<>();
 		
 		try {
-			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 			
@@ -143,7 +135,7 @@ public class MemberPointRecordJDBCDAO implements MemberPointRecordDAOinterface{
 			
 			e.printStackTrace();
 		}finally {
-			Util.closeResource(con, pstmt, rs);
+			Util.closeResources(con, pstmt, rs);
 		}
 		return MbrPointRecordVOList;
 	

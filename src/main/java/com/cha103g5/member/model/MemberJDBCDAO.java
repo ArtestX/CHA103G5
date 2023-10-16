@@ -2,9 +2,10 @@ package com.cha103g5.member.model;
 
 import java.util.*;
 import java.sql.*;
-
+import com.cha103g5.util.Util;
 
 public class MemberJDBCDAO implements MemberDAOinterface{
+	
 	private static final String INSERT_STMT = 
 			"INSERT INTO member(memberaccount, membername, membergender, memberpassword, memberphone, memberemail, memberaddress, memberjointime, memberbirthday, membernation, memberpic, membercard, memberpoints, memberstat, memberid, memberjob, membersal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STMT = 
@@ -15,21 +16,16 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 			"SELECT * FROM member WHERE membername = ?";
 	private static final String GET_ALL = "SELECT * FROM member";
 	
-	static {
-		try {
-			Class.forName(Util.DRIVER);
-		} catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
-		}
-	}
-
+	Util util = new Util();
+	
 	@Override
 	public int insert(MemberVO mbrVO) {
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
 			pstmt.setString(1, mbrVO.getMemberaccount());
@@ -40,7 +36,7 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 			pstmt.setString(6, mbrVO.getMemberemail());
 			pstmt.setString(7, mbrVO.getMemberaddress());
 			pstmt.setTimestamp(8, mbrVO.getMemberjointime());
-			pstmt.setTimestamp(9, mbrVO.getMemberbirthday());
+			pstmt.setDate(9, mbrVO.getMemberbirthday());
 			pstmt.setString(10, mbrVO.getMembernation());
 			pstmt.setObject(11, mbrVO.getMemberpic());
 			pstmt.setString(12, mbrVO.getMembercard());
@@ -54,9 +50,9 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, null);
-		}
+		}finally {
+			Util.closeResources(con, pstmt, null);
+		} 
 		return 0;
 		
 		
@@ -74,7 +70,7 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 	}
 
 	@Override
-	public List<MemberVO> findByMbrName(String memberName) {
+	public List<MemberVO> findByMemberName(String memberName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
