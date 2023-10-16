@@ -1,7 +1,9 @@
 package com.cha103g5.member.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,40 +17,40 @@ import javax.persistence.Table;
 public class MemberVO implements java.io.Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="memberno", updatable=false)
+	@Column(name="memberno", updatable=false, nullable=false)
 	private Integer memberno;
 	
-	@Column(name="memberaccount", updatable=false)
+	@Column(name="memberaccount", updatable=false, nullable=false, unique=true)
     private String memberaccount;
 	
-	@Column(name="membername")
+	@Column(name="membername", nullable=false)
     private String membername;
 	
-	@Column(name="membergender")
+	@Column(name="membergender", columnDefinition = "tinyint", nullable=false)
     private Integer membergender;
 	
-	@Column(name="memberpassword")
+	@Column(name="memberpassword", nullable=false)
     private String memberpassword;
 	
 	@Column(name="memberphone")
     private String memberphone;
     
-    @Column(name="memberemail", updatable=false)
+    @Column(name="memberemail", updatable=false, unique=true)
     private String memberemail;
     
     @Column(name="memberaddress")
     private String memberaddress;
     
-    @Column(name="memberjointime")
+    @Column(name="memberjointime", updatable=false, nullable=false)
     private Timestamp memberjointime;
     
     @Column(name="memberbirthday")
-    private Timestamp memberbirthday;
+    private Date memberbirthday;
     
     @Column(name="membernation")
     private String membernation;
     
-    @Column(name="memberpic")
+    @Column(name="memberpic", columnDefinition = "mediumblob")
     private byte[] memberpic;
     
     @Column(name="membercard")
@@ -57,7 +59,7 @@ public class MemberVO implements java.io.Serializable{
     @Column(name="memberpoints")
     private Integer memberpoints;
     
-    @Column(name="memberstat")
+    @Column(name="memberstat",columnDefinition = "tinyint", nullable=false)
     private Integer memberstat;
     
     @Column(name="memberid")
@@ -74,7 +76,7 @@ public class MemberVO implements java.io.Serializable{
 
 	public MemberVO(Integer memberno, String memberaccount, String membername, Integer membergender, String memberpassword,
 			String memberphone, String memberemail, String memberaddress, Timestamp memberjointime,
-			Timestamp memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
+			Date memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
 			Integer memberstat, String memberid, String memberjob, Integer membersal) {
 		super();
 		this.memberno = memberno;
@@ -169,12 +171,12 @@ public class MemberVO implements java.io.Serializable{
 		this.memberjointime = memberjointime;
 	}
 
-	public Timestamp getMemberbirthday() {
+	public Date getMemberbirthday() {
 		return memberbirthday;
 	}
 
-	public void setMemberbirthday(Timestamp memberbirthday) {
-		this.memberbirthday = memberbirthday;
+	public void setMemberbirthday(Date date) {
+		this.memberbirthday = date;
 	}
 
 	public String getMembernation() {
@@ -251,5 +253,22 @@ public class MemberVO implements java.io.Serializable{
 				+ ", memberpoints=" + memberpoints + ", memberstat=" + memberstat + ", memberid=" + memberid
 				+ ", memberjob=" + memberjob + ", membersal=" + membersal + "]";
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(memberno);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MemberVO other = (MemberVO) obj;
+		return Objects.equals(memberno, other.memberno);
+	}
+
 }
