@@ -2,16 +2,16 @@ package com.cha103g5.member.model;
 
 import java.sql.*;
 import java.util.*; 
-
+import com.cha103g5.member.model.*;
 
 public class TestMemberHibernateDAO {
 	
 	public static void main(String[] args) throws Exception {
-		MemberDAOinterface dao = new MemberHibernateDAO();
+		MemberDAOinterface dao = new MemberHibernateDAO(null);
 
 		// 新增
 		MemberVO memberVO1 = new MemberVO();
-		memberVO1.setMemberaccount("abcde");
+		memberVO1.setMemberaccount("abcdets");
 		memberVO1.setMembername("David");
 		memberVO1.setMembergender(1);
 		memberVO1.setMemberpassword("123456");

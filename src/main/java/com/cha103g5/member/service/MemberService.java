@@ -5,12 +5,16 @@ import java.sql.Timestamp;
 
 import com.cha103g5.member.model.*;
 
+import com.cha103g5.util.HibernateUtil;
+
+import com.cha103g5.member.model.MemberDAOinterface;
+
 public class MemberService {
 	
 	private MemberDAOinterface dao;
-	
+
 	public MemberService() {
-		dao = new MemberHibernateDAO();
+		dao = new MemberJNDIDAO();
 	}
 	
 	public MemberVO addMember(String memberaccount, String membername, Integer membergender, String memberpassword,
