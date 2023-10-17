@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
 
 public class AdminJNDIDAO implements AdminDAOInterface{
 
@@ -34,8 +35,7 @@ public class AdminJNDIDAO implements AdminDAOInterface{
     private static final String DELETE =
             "DELETE FROM admin where adminno = ?";
     private static final String UPDATE =
-            "UPDATE admin set adminname=?, adminemail=?, adminphone=?, adminstat=? where adminno = ?";
-
+            "UPDATE admin set adminno=?,adminaccount=?,adminpassword=?, adminname=?,createddate=?, adminstat=?, adminemail=?, adminphone=? where adminno = ?";
 
     @Override
     public void insert(AdminVO adminVO) {
@@ -73,11 +73,16 @@ public class AdminJNDIDAO implements AdminDAOInterface{
             con = Util.getConnection();
             pstmt = con.prepareStatement(UPDATE);
 
-            pstmt.setString(1, adminVO.getAdminName());
-            pstmt.setString(2, adminVO.getAdminEmail());
-            pstmt.setString(3, adminVO.getAdminPhone());
-            pstmt.setInt(4, adminVO.getAdminStat());
-            pstmt.setInt(5, adminVO.getAdminNo());
+
+            pstmt.setInt(1, adminVO.getAdminNo());
+            pstmt.setString(2, adminVO.getAdminAccount());
+            pstmt.setString(3, adminVO.getAdminPassword());
+            pstmt.setString(4, adminVO.getAdminName());
+            pstmt.setTimestamp(5, adminVO.getCreateDate());
+            pstmt.setInt(6, adminVO.getAdminStat());
+            pstmt.setString(7, adminVO.getAdminEmail());
+            pstmt.setString(8, adminVO.getAdminPhone());
+            pstmt.setInt(9, adminVO.getAdminNo());
 
             pstmt.executeUpdate();
 

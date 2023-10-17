@@ -48,7 +48,7 @@
 
 <table id="table-1">
     <tr><td>
-        <h3>員工資料修改 - update_emp_input.jsp</h3>
+        <h3>員工資料修改 - updateAdmin.jsp</h3>
         <h4><a href="selectPage.jsp"><img src="images/dog.jpg" width="100" height="32" border="0">回首頁</a></h4>
     </td></tr>
 </table>
@@ -59,7 +59,7 @@
     <table>
         <tr>
             <td>員工編號:</td>
-            <td><input type="TEXT" name="adminNo" value="${param.adminNo}" size="45"/></td> <td>${errorMsgs.adminNo}</td>
+           <td><input type="TEXT" name="adminNo" value="${param.adminNo}" size="45"/></td> <td>${errorMsgs.adminNo}</td>
         </tr>
         <tr>
             <td>員工帳號:</td>
@@ -87,13 +87,14 @@
         </tr>
         <tr>
             <td>員工電話:</td>
-            <td><input name="adminPhone" id="adminPhone" type="text" ></td> <td>${errorMsgs.adminPhone}</td>
+            <td><input type="TEXT" name="adminPhone"   value="${param.adminPhone}"   size="45"/></td> <td>${errorMsgs.adminPhone}</td>
         </tr>
 
     </table>
     <br>
-    <input type="hidden" name="action" value="insert">
-    <input type="submit" value="送出新增"></FORM>
+    <input type="hidden" name="action" value="update">
+    <input type="hidden" name="adminNo" value="${param.adminNo}">
+    <input type="submit" value="送出修改"></FORM>
 </body>
 
 

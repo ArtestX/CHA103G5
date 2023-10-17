@@ -47,6 +47,7 @@ public class AdminService {
                            Integer adminStat,
                            String adminEmail,
                            String adminPhone
+                           
     ) {
 
         AdminVO adminVO = new AdminVO();
@@ -79,6 +80,7 @@ public class AdminService {
     public List<AdminVO> getAll() {
         return dao.getAll();
     }
+
 
 
 }

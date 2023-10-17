@@ -33,8 +33,64 @@
     </style>
 
 </head>
-<body>
-<a href="<%=request.getContextPath()%>/listAllAdmin.jsp">查看所有員工</a>
+<body bgcolor='white'>
+
+<table id="table-1">
+    <tr>
+        <td><h3>員工管理系統首頁</h3><h4>( MVC )</h4></td>
+    </tr>
+</table>
+
+<h3>資料查詢:</h3>
+
+<ul>
+    <li><a href='listAllAdmin.jsp'>List</a> all Emps. <br><br></li>
+
+
+    <li>
+        <FORM METHOD="post" ACTION="admin.do">
+            <b>輸入員工編號 (如40010):</b>
+            <input type="text" name="adminNo" value="${param.adminNo}"><font color=red>${errorMsgs.adminNo}</font>
+            <input type="hidden" name="action" value="getOne_For_Display">
+            <input type="submit" value="送出">
+        </FORM>
+    </li>
+
+    <jsp:useBean id="adminSvc" scope="page" class="com.cha103g5.admin.model.AdminService"/>
+
+    <li>
+        <FORM METHOD="post" ACTION="admin.do">
+            <b>選擇員工編號:</b>
+            <select size="1" name="adminNo">
+                <c:forEach var="adminVO" items="${adminSvc.all}">
+                <option value="${adminVO.adminNo}">${adminVO.adminNo}
+                    </c:forEach>
+            </select>
+            <input type="hidden" name="action" value="getOne_For_Display">
+            <input type="submit" value="送出">
+        </FORM>
+    </li>
+
+    <li>
+        <FORM METHOD="post" ACTION="admin.do">
+            <b>選擇員工姓名:</b>
+            <select size="1" name="adminNo">
+                <c:forEach var="adminVO" items="${adminSvc.all}">
+                <option value="${adminVO.adminNo}">${adminVO.adminName}
+                    </c:forEach>
+            </select>
+            <input type="hidden" name="action" value="getOne_For_Display">
+            <input type="submit" value="送出">
+        </FORM>
+    </li>
+</ul>
+
+
+<h3>員工管理</h3>
+
+<ul>
+    <li><a href='addAdmin.jsp'>Add</a> a new Emp.</li>
+</ul>
 
 </body>
 </html>
