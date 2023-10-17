@@ -1,51 +1,77 @@
 package com.cha103g5.member.service;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import static com.cha103g5.member.model.Constants.PAGE_MAX_RESULT;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.cha103g5.member.model.*;
-
 import com.cha103g5.util.HibernateUtil;
 
-import com.cha103g5.member.model.MemberDAOinterface;
-
-public class MemberService {
+public class MemberService implements MemberServiceInterface{
 	
 	private MemberDAOinterface dao;
-
+	
 	public MemberService() {
-		dao = new MemberJNDIDAO();
+		dao = new MemberHibernateDAO(HibernateUtil.getSessionFactory());
+	}
+
+	@Override
+	public MemberVO addMember(MemberVO memberVO) {
+		return null;
+	}
+
+	@Override
+	public MemberVO updateMember(MemberVO memberVO) {
+		return null;
+	}
+
+	@Override
+	public MemberVO getMemberByMemberno(Integer memberno) {
+		return null;
+	}
+
+	@Override
+	public List<MemberVO> getAllMembers(int currentPage) {
+		return dao.getAll(currentPage);
+	}
+
+	@Override
+	public int getPageTotal() {
+		long total = dao.getTotal(); 
+		// 計算Member數量每頁3筆的話總共有幾頁
+		int pageQty = (int)(total % PAGE_MAX_RESULT == 0 ? (total / PAGE_MAX_RESULT) : (total / PAGE_MAX_RESULT + 1));
+		return pageQty;
+	}
+
+	@Override
+	public List<MemberVO> getMembersByCompositeQuery(Map<String, String[]> map) {
+		Map<String, String> query = new HashMap<>();
+		// Map.Entry即代表一組key-value
+		Set<Map.Entry<String, String[]>> entry = map.entrySet();
+		
+		for (Map.Entry<String, String[]> row : entry) {
+			String key = row.getKey();
+			// 因為請求參數裡包含了action，做個去除動作
+			if ("action".equals(key)) {
+				continue;
+			}
+			// 若是value為空即代表沒有查詢條件，做個去除動作
+			String value = row.getValue()[0];
+			if (value.isEmpty() || value == null) {
+				continue;
+			}
+			query.put(key, value);
+		}
+		
+		System.out.println(query);
+		
+		return dao.getByCompositeQuery(query);
 	}
 	
-	public MemberVO addMember(String memberaccount, String membername, Integer membergender, String memberpassword,
-				String memberphone, String memberemail, String memberaddress, Timestamp memberjointime,
-				Date memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
-				Integer memberstat, String memberid, String memberjob, Integer membersal){
-		MemberVO memberVO1 = new MemberVO();
-		memberVO1.setMemberaccount(memberaccount);
-		memberVO1.setMembername(membername);
-		memberVO1.setMembergender(membergender);
-		memberVO1.setMemberpassword(memberpassword);
-		memberVO1.setMemberphone(memberphone);
-		memberVO1.setMemberemail(memberemail);
-		memberVO1.setMemberaddress(memberaddress);
-		memberVO1.setMemberjointime(memberjointime);
-		memberVO1.setMemberbirthday(memberbirthday);
-		memberVO1.setMembernation(membernation);
-		memberVO1.setMemberpic(memberpic);
-		memberVO1.setMembercard(membercard);
-		memberVO1.setMemberpoints(memberpoints);
-		memberVO1.setMemberstat(memberstat);
-		memberVO1.setMemberid(memberid);
-		memberVO1.setMemberjob(memberjob);
-		memberVO1.setMembersal(membersal);		
-		dao.insert(memberVO1);
-
-		return memberVO1;
-	}
-
-	//預留給 Struts 2 或 Spring MVC 用
-	public void addMember(MemberVO memberVO) {
-		dao.insert(memberVO);
-	}
+	
+	
+	
 }

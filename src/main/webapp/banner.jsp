@@ -33,15 +33,11 @@
                 <div class="col-lg-3 col-12 ms-auto d-lg-block d-none">
                     <ul class="social-icon">
                         <li class="social-icon-item">
-                            <a href="#" class="social-icon-link bi-facebook"></a>
+                            <a href="https://www.facebook.com/TibaMe" class="social-icon-link bi-facebook"></a>
                         </li>
 
                         <li class="social-icon-item">
-                            <a href="#" class="social-icon-link bi-instagram"></a>
-                        </li>
-
-                        <li class="social-icon-item">
-                            <a href="#" class="social-icon-link bi-youtube"></a>
+                            <a href="https://www.youtube.com/@TibaMe" class="social-icon-link bi-youtube"></a>
                         </li>
                     </ul>
                 </div>
@@ -51,8 +47,8 @@
     </header>
     <nav class="navbar navbar-expand-lg bg-light shadow-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <img src="${pageContext.request.contextPath}/img/logo2.png" class="logo img-fluid" alt="Kind Heart Charity">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">
+                <img src="${pageContext.request.contextPath}/img/logo.png" class="logo img-fluid" alt="Kind Heart Charity">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,23 +58,23 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link click-scroll" href="#top">首頁</a>
+                        <a class="nav-link click-scroll" href="${pageContext.request.contextPath}/index.jsp">首頁</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link click-scroll" href="#section_2">關於我們</a>
+                        <a class="nav-link click-scroll" href="">關於我們</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link click-scroll" href="#section_3">寵物領養</a>
+                        <a class="nav-link click-scroll" href="">寵物領養</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link click-scroll" href="#section_4">精選商店</a>
+                        <a class="nav-link click-scroll" href="">精選商店</a>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link click-scroll" href="#section_5">公告資訊</a>
+                        <a class="nav-link click-scroll" href="">公告資訊</a>
                     </li>
 
                     <li class="nav-item">
@@ -86,7 +82,7 @@
                     </li>
 
                     <li class="nav-item ms-3">
-                        <a class="nav-link custom-btn custom-border-btn btn" href="">會員登入</a>
+                        <a class="nav-link custom-btn custom-border-btn btn" href="${pageContext.request.contextPath}/login.jsp">會員登入</a>
                     </li>
                 </ul>
             </div>
