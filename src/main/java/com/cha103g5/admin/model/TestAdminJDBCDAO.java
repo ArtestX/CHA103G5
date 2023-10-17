@@ -1,21 +1,22 @@
 package com.cha103g5.admin.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class TestAdminJDBCDAO {
     public static void main(String[] args) {
-//        AdminDAOInterface dao = new AdminJDBCDAO();
+        AdminDAOInterface dao = new AdminJDBCDAO();
 
         // 新增
-//        AdminVO adminVO = new AdminVO();
-//        adminVO.setAdminAccount("XXX");
-//        adminVO.setAdminPassword("XXX");
-//        adminVO.setAdminName("GGYY");
-//        adminVO.setCreateDate(java.sql.Date.valueOf("2023-10-08"));
-//        adminVO.setAdminStat(1);
-//        adminVO.setAdminEmail("ggyy@gmail.com");
-//        adminVO.setAdminPhone("098759487");
-//        dao.insert(adminVO);
+        AdminVO adminVO = new AdminVO();
+        adminVO.setAdminAccount("XXX");
+        adminVO.setAdminPassword("XXX");
+        adminVO.setAdminName("GGYY");
+        adminVO.setCreateDate(Timestamp.valueOf("2023-10-08 14:30:45"));
+        adminVO.setAdminStat(1);
+        adminVO.setAdminEmail("ggyy@gmail.com");
+        adminVO.setAdminPhone("098759487");
+        dao.insert(adminVO);
 
 		// 修改
 //        AdminVO adminVO2 = new AdminVO();
@@ -42,17 +43,17 @@ public class TestAdminJDBCDAO {
 //		System.out.println("---------------------");
 
 		// 查詢多筆
-//        List<AdminVO> list = dao.getAll();
-//    	for (AdminVO adminVOALL : list) {
-//            System.out.print(adminVOALL.getAdminNo() + ",");
-//            System.out.print(adminVOALL.getAdminAccount() + ",");
-//            System.out.print(adminVOALL.getAdminPassword() + ",");
-//            System.out.print(adminVOALL.getAdminName() + ",");
-//            System.out.print(adminVOALL.getCreateDate() + ",");
-//            System.out.print(adminVOALL.getAdminStat() + ",");
-//            System.out.print(adminVOALL.getAdminEmail() + ",");
-//            System.out.print(adminVOALL.getAdminPhone());
-//            System.out.println();
-//        }
+        List<AdminVO> list = dao.getAll();
+    	for (AdminVO adminVOALL : list) {
+            System.out.print(adminVOALL.getAdminNo() + ",");
+            System.out.print(adminVOALL.getAdminAccount() + ",");
+            System.out.print(adminVOALL.getAdminPassword() + ",");
+            System.out.print(adminVOALL.getAdminName() + ",");
+            System.out.print(adminVOALL.getCreateDate() + ",");
+            System.out.print(adminVOALL.getAdminStat() + ",");
+            System.out.print(adminVOALL.getAdminEmail() + ",");
+            System.out.print(adminVOALL.getAdminPhone());
+            System.out.println();
+        }
     }
 }

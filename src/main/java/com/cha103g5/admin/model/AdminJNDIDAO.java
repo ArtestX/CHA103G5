@@ -1,14 +1,29 @@
 package com.cha103g5.admin.model;
 
-
 import com.cha103g5.util.Util;
 
-import java.sql.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+public class AdminJNDIDAO implements AdminDAOInterface{
 
-public class AdminJDBCDAO implements AdminDAOInterface {
+    private static DataSource ds = null;
+    static {
+        try {
+            Context ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB2");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static final String INSERT_STMT =
             "INSERT INTO admin (adminaccount,adminpassword,adminname,createddate,adminstat,adminemail,adminphone) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -20,6 +35,7 @@ public class AdminJDBCDAO implements AdminDAOInterface {
             "DELETE FROM admin where adminno = ?";
     private static final String UPDATE =
             "UPDATE admin set adminname=?, adminemail=?, adminphone=?, adminstat=? where adminno = ?";
+
 
     @Override
     public void insert(AdminVO adminVO) {
@@ -166,4 +182,5 @@ public class AdminJDBCDAO implements AdminDAOInterface {
         return list;
 
     }
+
 }
