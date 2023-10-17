@@ -2,30 +2,45 @@ package com.cha103g5.member.model;
 
 import java.util.*;
 import java.sql.*;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.cha103g5.util.Util;
 
-public class MemberJDBCDAO implements MemberDAOinterface{
+public class MemberJNDIDAO implements MemberDAOinterface{
+	
+	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
+		private static DataSource ds = null;
+		static {
+			try {
+				Context ctx = new InitialContext();
+				ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB2");
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+		}
 	
 	private static final String INSERT_STMT = 
 			"INSERT INTO member(memberaccount, membername, membergender, memberpassword, memberphone, memberemail, memberaddress, memberjointime, memberbirthday, membernation, memberpic, membercard, memberpoints, memberstat, memberid, memberjob, membersal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String UPDATE_STMT = 
-			"UPDATE member SET membername = ?, memberpassword = ?, memberphone = ?, memberemail = ?, memberaddress = ?, memberbirthday = ?, membernation = ?, memberpic = ?, membercard = ?, memberid = ?, memberjob = ?, membersal = ? WHERE memberno = ?";
-	private static final String FIND_BY_PK = 
-			"SELECT * FROM member WHERE memberno = ?";
-	private static final String FIND_BY_BMRNAME = 
-			"SELECT * FROM member WHERE membername = ?";
-	private static final String GET_ALL = "SELECT * FROM member";
-	
-	Util util = new Util();
+//	private static final String UPDATE_STMT = 
+//			"UPDATE member SET membername = ?, memberpassword = ?, memberphone = ?, memberemail = ?, memberaddress = ?, memberbirthday = ?, membernation = ?, memberpic = ?, membercard = ?, memberid = ?, memberjob = ?, membersal = ? WHERE memberno = ?";
+//	private static final String FIND_BY_PK = 
+//			"SELECT * FROM member WHERE memberno = ?";
+//	private static final String FIND_BY_BMRNAME = 
+//			"SELECT * FROM member WHERE membername = ?";
+//	private static final String GET_ALL = "SELECT * FROM member";
 	
 	@Override
-	public int insert(MemberVO mbrVO) {
+	public void insert(MemberVO mbrVO) {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = Util.getConnection();
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
 			pstmt.setString(1, mbrVO.getMemberaccount());
@@ -53,7 +68,7 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 		}finally {
 			Util.closeResources(con, pstmt, null);
 		} 
-		return 0;
+		return;
 		
 		
 	}
@@ -65,20 +80,19 @@ public class MemberJDBCDAO implements MemberDAOinterface{
 
 	@Override
 	public MemberVO findByPrimaryKey(Integer memberNo) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<MemberVO> findByMemberName(String memberName) {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
 
-
 	@Override
 	public List<MemberVO> getAll() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	

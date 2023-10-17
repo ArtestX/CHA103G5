@@ -1,5 +1,6 @@
 package com.cha103g5.member.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -9,23 +10,27 @@ import org.hibernate.query.Query;
 
 import com.cha103g5.util.HibernateUtil;
 
-
-
 public class MemberHibernateDAO implements MemberDAOinterface {
+	// SessionFactory 為 thread-safe，可宣告為屬性讓請求執行緒們共用
+		private SessionFactory factory;
+
+		public MemberHibernateDAO(SessionFactory factory) {
+			this.factory = factory;
+		}
+		
+		// Session 為 not thread-safe，所以此方法在各個增刪改查方法裡呼叫
+		// 以避免請求執行緒共用了同個 Session
+		private Session getSession() {
+			return factory.getCurrentSession();
+		}
 	
 	@Override
-	public int insert(MemberVO memberVO) {
+	public void insert(MemberVO memberVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			session.beginTransaction();
-			Integer id = (Integer) session.save(memberVO);
-			session.getTransaction().commit();
-			return id;
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		return -1;
+		session.beginTransaction();
+		session.save(memberVO);
+		session.getTransaction().commit();
+		return;
 	}
 
 	@Override
