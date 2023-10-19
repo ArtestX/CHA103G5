@@ -1,4 +1,4 @@
-package com.cha103g5.order.model;
+package com.cha103g5.ordertable.model;
 
 
 import java.sql.Connection;
