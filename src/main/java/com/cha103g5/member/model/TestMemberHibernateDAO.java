@@ -1,34 +1,48 @@
 package com.cha103g5.member.model;
 
 import java.sql.*;
-import java.util.*; 
 
+import org.hibernate.Session;
+
+import com.cha103g5.util.HibernateUtil;
 
 public class TestMemberHibernateDAO {
 	
 	public static void main(String[] args) throws Exception {
-		MemberDAOinterface dao = new MemberHibernateDAO();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-		// 新增
-		MemberVO memberVO1 = new MemberVO();
-		memberVO1.setMemberaccount("abcde");
-		memberVO1.setMembername("David");
-		memberVO1.setMembergender(1);
-		memberVO1.setMemberpassword("123456");
-		memberVO1.setMemberphone("0912345678");
-		memberVO1.setMemberemail("123456@gmail.com");
-		memberVO1.setMemberaddress("桃園市中壢區復興路46號");
-		memberVO1.setMemberjointime(new Timestamp(new java.util.Date().getTime()));
-		memberVO1.setMemberbirthday(java.sql.Date.valueOf("1998-03-11"));
-		memberVO1.setMembernation("桃園");
-		memberVO1.setMemberpic(null);
-		memberVO1.setMembercard("1234-2345-3456-4567");
-		memberVO1.setMemberpoints(0);
-		memberVO1.setMemberstat(0);
-		memberVO1.setMemberid("A123456789");
-		memberVO1.setMemberjob("manager");
-		memberVO1.setMembersal(2);		
-		dao.insert(memberVO1);
+		try {
+			session.beginTransaction();
+			// 新增
+			MemberVO memberVO1 = new MemberVO();
+			memberVO1.setMemberaccount("abcdets");
+			memberVO1.setMembername("Tom");
+			memberVO1.setMembergender(1);
+			memberVO1.setMemberpassword("123456");
+			memberVO1.setMemberphone("0912345678");
+			memberVO1.setMemberemail("abcd1234@gmail.com");
+			memberVO1.setMemberaddress("桃園市中壢區復興路46號");
+			memberVO1.setMemberjointime(new Timestamp(new java.util.Date().getTime()));
+			memberVO1.setMemberbirthday(java.sql.Date.valueOf("1998-03-11"));
+			memberVO1.setMembernation("桃園");
+			memberVO1.setMemberpic(null);
+			memberVO1.setMembercard("1234-2345-3456-4567");
+			memberVO1.setMemberpoints(0);
+			memberVO1.setMemberstat(0);
+			memberVO1.setMemberid("A123456789");
+			memberVO1.setMemberjob("manager");
+			memberVO1.setMembersal(2);	
+			
+			session.save(memberVO1);
+			
+			session.getTransaction().commit();
+			
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+		} finally {
+			HibernateUtil.shutdown();
+		}
 
 //		// 修改
 //		MemberVO memberVO2 = new MemberVO();
@@ -60,11 +74,11 @@ public class TestMemberHibernateDAO {
 		
 		
 		// 用會員姓名查詢資料
-		List<MemberVO> memberVO4 = dao.findByMemberName("David");
-		for (MemberVO member : memberVO4) {
-			System.out.println(member);
-			System.out.println("---------------------");
-		}
+//		List<MemberVO> memberVO4 = dao.findByMemberName("David");
+//		for (MemberVO member : memberVO4) {
+//			System.out.println(member);
+//			System.out.println("---------------------");
+//		}
 		// 查詢多筆
 //		List<MemberVO> list = dao.getAll();
 //		for (MemberVO MbrVO : list) {

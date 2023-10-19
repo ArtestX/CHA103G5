@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name="member")
 public class MemberVO implements java.io.Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//自動生成
 	@Column(name="memberno", updatable=false, nullable=false)
 	private Integer memberno;
 	
@@ -35,7 +35,7 @@ public class MemberVO implements java.io.Serializable{
 	@Column(name="memberphone")
     private String memberphone;
     
-    @Column(name="memberemail", updatable=false, unique=true)
+    @Column(name="memberemail", updatable=false, nullable=false, unique=true)
     private String memberemail;
     
     @Column(name="memberaddress")

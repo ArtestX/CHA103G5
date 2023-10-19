@@ -1,14 +1,20 @@
 package com.cha103g5.member.model;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public interface MemberDAOinterface {
-	public int insert(MemberVO memberVO);
-	public int update(MemberVO memberVO);
+	int insert(MemberVO memberVO);
 	
-	public MemberVO findByPrimaryKey(Integer memberno);
-	public List<MemberVO> findByMemberName(String membername);
-	public List<MemberVO> getAll();
+	int update(MemberVO memberVO);
 	
+	MemberVO findByPrimaryKey(Integer memberno);
+	
+	List<MemberVO> getAll();
+	
+	List<MemberVO> getByCompositeQuery(Map<String, String> map);
+	
+	List<MemberVO> getAll(int currentPage);
+	
+	long getTotal();
 }

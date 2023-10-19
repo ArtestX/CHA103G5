@@ -1,8 +1,9 @@
 package com.cha103g5.admin.model;
 
 import javax.persistence.*;
-import java.sql.Date;
+
 import java.sql.Timestamp;
+
 
 @Entity
 @Table(name = "admin")
