@@ -3,8 +3,11 @@ target/
 .classpath
 .project
 bin/
+out/
+web/
 .DS_Store
 .idea
 *.iml
 src/main/resources/hibernate.cfg.xml
 src/main/resources/jdbc.properties
+src/main/webapp/META-INF/context.xml
