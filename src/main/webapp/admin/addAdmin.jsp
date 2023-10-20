@@ -88,7 +88,7 @@
         </tr>
         <tr>
             <td>員工電話:</td>
-            <td><input name="adminPhone" id="adminPhone" type="text" ></td> <td>${errorMsgs.adminPhone}</td>
+            <td><input name="adminPhone" id="adminPhone" type="text" value="${param.adminPhone}"   size="45" ></td> <td>${errorMsgs.adminPhone}</td>
         </tr>
 
     </table>

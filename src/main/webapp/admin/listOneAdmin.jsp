@@ -3,7 +3,7 @@
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-  // AdminVO adminVO = (AdminVO) request.getAttribute("adminVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
+  AdminVO adminVO = (AdminVO) request.getAttribute("adminVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
 %>
 
 <html>
