@@ -10,7 +10,6 @@
         <welcome-file>index.xhtml</welcome-file>
         <welcome-file>index.htm</welcome-file>
         <welcome-file>index.jsp</welcome-file>
-        <welcome-file>MemberRegister.jsp</welcome-file>
     </welcome-file-list>
 
     <resource-ref>
@@ -33,7 +32,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MemberServlet</servlet-name>
-        <url-pattern>/mem.do</url-pattern>
+        <url-pattern>/member/mem.do</url-pattern>
     </servlet-mapping>
 
 

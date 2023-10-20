@@ -8,27 +8,27 @@ public class TestAdminHibernateDAO {
         AdminHibernateDAOInterface dao = new AdminHibernateDAO();
 
         // 新增
-//        AdminVO adminVO = new AdminVO();
-//        adminVO.setAdminAccount("TTT");
-//        adminVO.setAdminPassword("TTT");
-//        adminVO.setAdminName("GGYY");
-//        adminVO.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
-//        adminVO.setAdminStat(1);
-//        adminVO.setAdminEmail("ggyy@gmail.com");
-//        adminVO.setAdminPhone("098759487");
-//        dao.insert(adminVO);
+        AdminVO adminVO = new AdminVO();
+        adminVO.setAdminAccount("TTT");
+        adminVO.setAdminPassword("TTT");
+        adminVO.setAdminName("GGYY");
+        adminVO.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
+        adminVO.setAdminStat(1);
+        adminVO.setAdminEmail("ggyy@gmail.com");
+        adminVO.setAdminPhone("098759487");
+        dao.insert(adminVO);
 
 		// 修改
-        AdminVO adminVO2 = new AdminVO();
-        adminVO2.setAdminNo(40032);
-        adminVO2.setAdminAccount("ABCD");
-        adminVO2.setAdminPassword("23456");
-        adminVO2.setAdminName("59487");
-        adminVO2.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
-        adminVO2.setAdminEmail("OOOOOMG@gmail.com");
-        adminVO2.setAdminPhone("666887936");
-        adminVO2.setAdminStat(2);
-        dao.update(adminVO2);
+//        AdminVO adminVO2 = new AdminVO();
+//        adminVO2.setAdminNo(40032);
+//        adminVO2.setAdminAccount("ABCD");
+//        adminVO2.setAdminPassword("23456");
+//        adminVO2.setAdminName("59487");
+//        adminVO2.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
+//        adminVO2.setAdminEmail("OOOOOMG@gmail.com");
+//        adminVO2.setAdminPhone("666887936");
+//        adminVO2.setAdminStat(2);
+//        dao.update(adminVO2);
 
 		// 刪除
 //		dao.delete(12);

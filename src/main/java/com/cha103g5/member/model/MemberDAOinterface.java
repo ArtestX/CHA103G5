@@ -8,13 +8,12 @@ public interface MemberDAOinterface {
 	
 	int update(MemberVO memberVO);
 	
+	void delete(Integer memberno);
+	
 	MemberVO findByPrimaryKey(Integer memberno);
 	
 	List<MemberVO> getAll();
 	
 	List<MemberVO> getByCompositeQuery(Map<String, String> map);
 	
-	List<MemberVO> getAll(int currentPage);
-	
-	long getTotal();
 }
