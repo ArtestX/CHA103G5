@@ -1,5 +1,6 @@
 package com.cha103g5.admin.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class TestAdminHibernateDAO {
@@ -7,19 +8,19 @@ public class TestAdminHibernateDAO {
         AdminHibernateDAOInterface dao = new AdminHibernateDAO();
 
         // 新增
-//        AdminVO adminVO = new AdminVO();
-//        adminVO.setAdminAccount("TTT");
-//        adminVO.setAdminPassword("TTT");
-//        adminVO.setAdminName("GGYY");
-//        adminVO.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
-//        adminVO.setAdminStat(1);
-//        adminVO.setAdminEmail("ggyy@gmail.com");
-//        adminVO.setAdminPhone("098759487");
-//        dao.insert(adminVO);
+        AdminVO adminVO = new AdminVO();
+        adminVO.setAdminAccount("TTT");
+        adminVO.setAdminPassword("TTT");
+        adminVO.setAdminName("GGYY");
+        adminVO.setCreateDate(Timestamp.valueOf("2023-10-12 14:30:45"));
+        adminVO.setAdminStat(1);
+        adminVO.setAdminEmail("ggyy@gmail.com");
+        adminVO.setAdminPhone("098759487");
+        dao.insert(adminVO);
 
 		// 修改
 //        AdminVO adminVO2 = new AdminVO();
-//        adminVO2.setAdminNo(40011);
+//        adminVO2.setAdminNo(40032);
 //        adminVO2.setAdminAccount("ABCD");
 //        adminVO2.setAdminPassword("23456");
 //        adminVO2.setAdminName("59487");

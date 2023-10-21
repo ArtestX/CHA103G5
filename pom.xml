@@ -32,6 +32,20 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>2.14.0</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+		<dependency>
+		    <groupId>javax.websocket</groupId>
+		    <artifactId>javax.websocket-api</artifactId>
+		    <version>1.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>javax.persistence</groupId>
+		    <artifactId>javax.persistence-api</artifactId>
+		    <version>2.2</version> <!-- 选择适合你的版本 -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -73,6 +87,7 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<build>

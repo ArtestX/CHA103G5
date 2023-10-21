@@ -6,7 +6,7 @@ import com.cha103g5.product.model.Util;
 
 import java.sql.*;
 
-public class ProductJDBCDAO implements ProductDAO_interface {
+public class ProductJDBCDAO implements ProductDAO {
 
 	private static final String INSERT_STMT = "INSERT INTO product (product_cat_no,product_cat_det_no,product_name,product_price,product_info,product_stat,product_eval,product_eval_total,product_sale_num) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT product_no,product_cat_no,product_cat_det_no,product_name,product_price,product_info,product_stat,product_eval,product_eval_total,product_sale_num FROM product order by product_no";
@@ -23,7 +23,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 	}
 
 	@Override
-	public void insert(ProductVO productVO) {
+	public int insert(Product product) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -32,15 +32,15 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			pstmt.setInt(1, productVO.getProductCatNo());
-			pstmt.setInt(2, productVO.getProductCatDetNo());
-			pstmt.setString(3, productVO.getProductName());
-			pstmt.setDouble(4, productVO.getProductPrice());
-			pstmt.setString(5, productVO.getProductInfo());
-			pstmt.setInt(6, productVO.getProductStat());
-			pstmt.setInt(7, productVO.getProductEval());
-			pstmt.setInt(8, productVO.getProductEvalTotal());
-			pstmt.setInt(9, productVO.getProductSaleNum());
+			pstmt.setInt(1, product.getProductCatNo());
+			pstmt.setInt(2, product.getProductCatDetNo());
+			pstmt.setString(3, product.getProductName());
+			pstmt.setDouble(4, product.getProductPrice());
+			pstmt.setString(5, product.getProductInfo());
+			pstmt.setInt(6, product.getProductStat());
+			pstmt.setInt(7, product.getProductEval());
+			pstmt.setInt(8, product.getProductEvalTotal());
+			pstmt.setInt(9, product.getProductSaleNum());
 
 			pstmt.executeUpdate();
 
@@ -50,10 +50,11 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		} finally {
 			Util.closeResources(con, pstmt, null);
 		}
+		return 0;
 	}
 
 	@Override
-	public void update(ProductVO productVO) {
+	public int update(Product product) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -62,16 +63,16 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setInt(1, productVO.getProductCatNo());
-			pstmt.setInt(2, productVO.getProductCatDetNo());
-			pstmt.setString(3, productVO.getProductName());
-			pstmt.setDouble(4, productVO.getProductPrice());
-			pstmt.setString(5, productVO.getProductInfo());
-			pstmt.setInt(6, productVO.getProductStat());
-			pstmt.setInt(7, productVO.getProductEval());
-			pstmt.setInt(8, productVO.getProductEvalTotal());
-			pstmt.setInt(9, productVO.getProductSaleNum());
-			pstmt.setInt(10, productVO.getProductNo());
+			pstmt.setInt(1, product.getProductCatNo());
+			pstmt.setInt(2, product.getProductCatDetNo());
+			pstmt.setString(3, product.getProductName());
+			pstmt.setDouble(4, product.getProductPrice());
+			pstmt.setString(5, product.getProductInfo());
+			pstmt.setInt(6, product.getProductStat());
+			pstmt.setInt(7, product.getProductEval());
+			pstmt.setInt(8, product.getProductEvalTotal());
+			pstmt.setInt(9, product.getProductSaleNum());
+			pstmt.setInt(10, product.getProductNo());
 
 			pstmt.executeUpdate();
 
@@ -80,10 +81,11 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		} finally {
 			Util.closeResources(con, pstmt, null);
 		}
+		return 0;
 	}
 
 	@Override
-	public void delete(Integer productno) {
+	public int delete(Integer productno) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -101,12 +103,12 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		} finally {
 			Util.closeResources(con, pstmt, null);
 		}
+		return productno;
 	}
 
-	@Override
-	public ProductVO findByPrimaryKey(Integer productno) {
+	public Product findByPrimaryKey(Integer productno) {
 
-		ProductVO productVO = null;
+		Product product = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -121,17 +123,17 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 
 			while (rs.next()) {
 				// empVo 也稱為 Domain objects
-				productVO = new ProductVO();
-				productVO.setProductNo(rs.getInt("product_no"));
-				productVO.setProductCatNo(rs.getInt("product_cat_no"));
-				productVO.setProductCatDetNo(rs.getInt("product_cat_det_no"));
-				productVO.setProductName(rs.getString("product_name"));
-				productVO.setProductPrice(rs.getDouble("product_price"));
-				productVO.setProductInfo(rs.getString("product_info"));
-				productVO.setProductStat(rs.getInt("product_stat"));
-				productVO.setProductEval(rs.getInt("product_eval"));
-				productVO.setProductEvalTotal(rs.getInt("product_eval_total"));
-				productVO.setProductSaleNum(rs.getInt("product_sale_num"));
+				product = new Product();
+				product.setProductNo(rs.getInt("product_no"));
+				product.setProductCatNo(rs.getInt("product_cat_no"));
+				product.setProductCatDetNo(rs.getInt("product_cat_det_no"));
+				product.setProductName(rs.getString("product_name"));
+				product.setProductPrice(rs.getDouble("product_price"));
+				product.setProductInfo(rs.getString("product_info"));
+				product.setProductStat(rs.getInt("product_stat"));
+				product.setProductEval(rs.getInt("product_eval"));
+				product.setProductEvalTotal(rs.getInt("product_eval_total"));
+				product.setProductSaleNum(rs.getInt("product_sale_num"));
 
 			}
 
@@ -140,13 +142,13 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		} finally {
 			Util.closeResources(con, pstmt, rs);
 		}
-		return productVO;
+		return product;
 	}
 
 	@Override
-	public List<ProductVO> getAll() {
-		List<ProductVO> list = new ArrayList<ProductVO>();
-		ProductVO productVO = null;
+	public List<Product> getAll() {
+		List<Product> list = new ArrayList<Product>();
+		Product product = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -159,18 +161,18 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 
 			while (rs.next()) {
 				// empVO 也稱為 Domain objects
-				productVO = new ProductVO();
-				productVO.setProductNo(rs.getInt("product_no"));
-				productVO.setProductCatNo(rs.getInt("product_cat_no"));
-				productVO.setProductCatDetNo(rs.getInt("product_cat_det_no"));
-				productVO.setProductName(rs.getString("product_name"));
-				productVO.setProductPrice(rs.getDouble("product_price"));
-				productVO.setProductInfo(rs.getString("product_info"));
-				productVO.setProductStat(rs.getInt("product_stat"));
-				productVO.setProductEval(rs.getInt("product_eval"));
-				productVO.setProductEvalTotal(rs.getInt("product_eval_total"));
-				productVO.setProductSaleNum(rs.getInt("product_sale_num"));
-				list.add(productVO); // 將行存儲在列表中
+				product = new Product();
+				product.setProductNo(rs.getInt("product_no"));
+				product.setProductCatNo(rs.getInt("product_cat_no"));
+				product.setProductCatDetNo(rs.getInt("product_cat_det_no"));
+				product.setProductName(rs.getString("product_name"));
+				product.setProductPrice(rs.getDouble("product_price"));
+				product.setProductInfo(rs.getString("product_info"));
+				product.setProductStat(rs.getInt("product_stat"));
+				product.setProductEval(rs.getInt("product_eval"));
+				product.setProductEvalTotal(rs.getInt("product_eval_total"));
+				product.setProductSaleNum(rs.getInt("product_sale_num"));
+				list.add(product); // 將行存儲在列表中
 
 			}
 
@@ -187,7 +189,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		ProductJDBCDAO dao = new ProductJDBCDAO();
 
 		// 新增
-		ProductVO productVO1 = new ProductVO();
+		Product productVO1 = new Product();
 		productVO1.setProductCatNo(1);
 		productVO1.setProductCatDetNo(101);
 		productVO1.setProductName("商品1");
@@ -225,20 +227,44 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 //		System.out.println("---------------------");
 
 		// 查詢
-		List<ProductVO> list = dao.getAll();
-		for (ProductVO productVO : list) {
-			System.out.print(productVO.getProductNo() + ",");
-			System.out.print(productVO.getProductCatNo() + ",");
-			System.out.print(productVO.getProductCatDetNo() + ",");
-			System.out.print(productVO.getProductName() + ",");
-			System.out.print(productVO.getProductPrice() + ",");
-			System.out.print(productVO.getProductInfo() + ",");
-			System.out.print(productVO.getProductStat() + ",");
-			System.out.print(productVO.getProductEval() + ",");
-			System.out.print(productVO.getProductEvalTotal() + ",");
-			System.out.print(productVO.getProductSaleNum());
+		List<Product> list = dao.getAll();
+		for (Product product : list) {
+			System.out.print(product.getProductNo() + ",");
+			System.out.print(product.getProductCatNo() + ",");
+			System.out.print(product.getProductCatDetNo() + ",");
+			System.out.print(product.getProductName() + ",");
+			System.out.print(product.getProductPrice() + ",");
+			System.out.print(product.getProductInfo() + ",");
+			System.out.print(product.getProductStat() + ",");
+			System.out.print(product.getProductEval() + ",");
+			System.out.print(product.getProductEvalTotal() + ",");
+			System.out.print(product.getProductSaleNum());
 			System.out.println();
 		}
 
+	}
+
+	@Override
+	public Product getById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> getByCompositeQuery(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> getAll(int currentPage) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long getTotal() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

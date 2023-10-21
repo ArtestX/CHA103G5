@@ -16,12 +16,12 @@ import javax.persistence.Table;
 @Table(name="member")
 public class MemberVO implements java.io.Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//自動生成
 	@Column(name="memberno", updatable=false, nullable=false)
 	private Integer memberno;
 	
-	@Column(name="memberaccount", updatable=false, nullable=false, unique=true)
-    private String memberaccount;
+    @Column(name="memberemail", updatable=false, nullable=false, unique=true)
+    private String memberemail;
 	
 	@Column(name="membername", nullable=false)
     private String membername;
@@ -34,9 +34,6 @@ public class MemberVO implements java.io.Serializable{
 	
 	@Column(name="memberphone")
     private String memberphone;
-    
-    @Column(name="memberemail", updatable=false, unique=true)
-    private String memberemail;
     
     @Column(name="memberaddress")
     private String memberaddress;
@@ -74,18 +71,17 @@ public class MemberVO implements java.io.Serializable{
     public MemberVO() {
 	}
 
-	public MemberVO(Integer memberno, String memberaccount, String membername, Integer membergender, String memberpassword,
-			String memberphone, String memberemail, String memberaddress, Timestamp memberjointime,
+	public MemberVO(Integer memberno, String memberemail, String membername, Integer membergender,
+			String memberpassword, String memberphone, String memberaddress, Timestamp memberjointime,
 			Date memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
 			Integer memberstat, String memberid, String memberjob, Integer membersal) {
 		super();
 		this.memberno = memberno;
-		this.memberaccount = memberaccount;
+		this.memberemail = memberemail;
 		this.membername = membername;
 		this.membergender = membergender;
 		this.memberpassword = memberpassword;
 		this.memberphone = memberphone;
-		this.memberemail = memberemail;
 		this.memberaddress = memberaddress;
 		this.memberjointime = memberjointime;
 		this.memberbirthday = memberbirthday;
@@ -107,12 +103,12 @@ public class MemberVO implements java.io.Serializable{
 		this.memberno = memberno;
 	}
 
-	public String getMemberaccount() {
-		return memberaccount;
+	public String getMemberemail() {
+		return memberemail;
 	}
 
-	public void setMemberaccount(String memberaccount) {
-		this.memberaccount = memberaccount;
+	public void setMemberemail(String memberemail) {
+		this.memberemail = memberemail;
 	}
 
 	public String getMembername() {
@@ -147,14 +143,6 @@ public class MemberVO implements java.io.Serializable{
 		this.memberphone = memberphone;
 	}
 
-	public String getMemberemail() {
-		return memberemail;
-	}
-
-	public void setMemberemail(String memberemail) {
-		this.memberemail = memberemail;
-	}
-
 	public String getMemberaddress() {
 		return memberaddress;
 	}
@@ -175,8 +163,8 @@ public class MemberVO implements java.io.Serializable{
 		return memberbirthday;
 	}
 
-	public void setMemberbirthday(Date date) {
-		this.memberbirthday = date;
+	public void setMemberbirthday(Date memberbirthday) {
+		this.memberbirthday = memberbirthday;
 	}
 
 	public String getMembernation() {
@@ -245,13 +233,13 @@ public class MemberVO implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return "MbrVO [memberno=" + memberno + ", memberaccount=" + memberaccount + ", membername=" + membername
+		return "MemberVO [memberno=" + memberno + ", memberemail=" + memberemail + ", membername=" + membername
 				+ ", membergender=" + membergender + ", memberpassword=" + memberpassword + ", memberphone="
-				+ memberphone + ", memberemail=" + memberemail + ", memberaddress=" + memberaddress
-				+ ", memberjointime=" + memberjointime + ", memberbirthday=" + memberbirthday + ", membernation="
-				+ membernation + ", memberpic=" + Arrays.toString(memberpic) + ", membercard=" + membercard
-				+ ", memberpoints=" + memberpoints + ", memberstat=" + memberstat + ", memberid=" + memberid
-				+ ", memberjob=" + memberjob + ", membersal=" + membersal + "]";
+				+ memberphone + ", memberaddress=" + memberaddress + ", memberjointime=" + memberjointime
+				+ ", memberbirthday=" + memberbirthday + ", membernation=" + membernation + ", memberpic="
+				+ Arrays.toString(memberpic) + ", membercard=" + membercard + ", memberpoints=" + memberpoints
+				+ ", memberstat=" + memberstat + ", memberid=" + memberid + ", memberjob=" + memberjob + ", membersal="
+				+ membersal + "]";
 	}
 
 	@Override
@@ -271,4 +259,6 @@ public class MemberVO implements java.io.Serializable{
 		return Objects.equals(memberno, other.memberno);
 	}
 
+    
 }
+	
