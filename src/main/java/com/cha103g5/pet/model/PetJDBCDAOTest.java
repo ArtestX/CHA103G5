@@ -9,10 +9,10 @@ public class PetJDBCDAOTest {
         PetVO pet = new PetVO();
         pet.setPetid(124);
         pet.setPettype(1); // 設定寵物類型
-        pet.setMemberid(2); // 設定會員編號
+        pet.setMemberno(2); // 設定會員編號
         pet.setPetname("Fluffy"); // 設定寵物名稱
         pet.setPetsex("公"); // 設定寵物性別
-        pet.setPetage(3); // 設定寵物年齡
+        pet.setPetage("3"); // 設定寵物年齡
         pet.setPetnote("A cute pet"); // 設定寵物備註
         pet.setStat((byte) 1); // 設定寵物狀態
         pet.setApplicationdeadline(new Date(System.currentTimeMillis())); // 設定申請截止日期

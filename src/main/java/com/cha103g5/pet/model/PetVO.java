@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,14 +13,15 @@ import javax.persistence.Table;
 @Table(name="pet")
 public class PetVO {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="petid")
     private Integer petid;
 	
 	@Column(name="pettype")
     private Integer pettype;
 	
-	@Column(name="memnerid")
-    private Integer memberid;
+	@Column(name="memberno")
+    private Integer memberno;
 	
 	@Column(name="petname")
     private String petname;
@@ -27,7 +30,7 @@ public class PetVO {
     private String petsex;
 	
 	@Column(name="petage")
-    private Integer petage;
+    private String petage;
 	
 	@Column(name="petnote")
     private String petnote;
@@ -42,11 +45,11 @@ public class PetVO {
     	super();
     }
 
-    public PetVO(Integer petid, Integer pettype, Integer memberid, String petname, String petsex, Integer petage, String petnote, byte stat, Date applicationdeadline) {
+    public PetVO(Integer petid, Integer pettype, Integer memberno, String petname, String petsex, String petage, String petnote, byte stat, Date applicationdeadline) {
         super();
     	this.petid = petid;
         this.pettype = pettype;
-        this.memberid = memberid;
+        this.memberno = memberno;
         this.petname = petname;
         this.petsex = petsex;
         this.petage = petage;
@@ -71,12 +74,12 @@ public class PetVO {
         this.pettype = pettype;
     }
 
-    public Integer getMemberid() {
-        return memberid;
+    public Integer getMemberno() {
+        return memberno;
     }
 
-    public void setMemberid(Integer memberid) {
-        this.memberid = memberid;
+    public void setMemberno(Integer memberno) {
+        this.memberno = memberno;
     }
 
     public String getPetname() {
@@ -95,11 +98,11 @@ public class PetVO {
         this.petsex = petsex;
     }
 
-    public Integer getPetage() {
+    public String getPetage() {
         return petage;
     }
 
-    public void setPetage(Integer petage) {
+    public void setPetage(String petage) {
         this.petage = petage;
     }
 
@@ -127,20 +130,4 @@ public class PetVO {
         this.applicationdeadline = applicationdeadline;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PetVO { ");
-        sb.append("寵物編號: ").append(petid);
-        sb.append(", 寵物類型: ").append(pettype);
-        sb.append(", 會員編號: ").append(memberid);
-        sb.append(", 寵物名稱: ").append(petname);
-        sb.append(", 寵物性別: ").append(petsex);
-        sb.append(", 寵物年齡: ").append(petage);
-        sb.append(", 備註: ").append(petnote);
-        sb.append(", 狀態: ").append(stat);
-        sb.append(", 申請截止日期: ").append(applicationdeadline);
-        sb.append(" }");
-        return sb.toString();
-    }
 }

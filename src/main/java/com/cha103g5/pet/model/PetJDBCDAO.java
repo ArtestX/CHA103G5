@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PetJDBCDAO implements PetDAO_interface {
+public class PetJDBCDAO implements PetDAOinterface {
 	private static final String INSERT_STMT = "INSERT INTO pet (petid,pettype,memberno,petname,petsex,petage,petnote,stat,applicationdeadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT petid,pettype,memberno,petname,petsex,petage,petnote,stat,applicationdeadline FROM pet order by petid";
 	private static final String GET_ONE_STMT = "SELECT petid,pettype,memberno,petname,petsex,petage,petnote,stat,applicationdeadline FROM pet where petid = ?";
@@ -31,10 +31,10 @@ public class PetJDBCDAO implements PetDAO_interface {
 			
 			pstmt.setInt(1, petVO.getPetid());
 			pstmt.setInt(2, petVO.getPettype());
-			pstmt.setInt(3, petVO.getMemberid());
+			pstmt.setInt(3, petVO.getMemberno());
 			pstmt.setString(4, petVO.getPetname());
 			pstmt.setString(5, petVO.getPetsex());
-			pstmt.setInt(6, petVO.getPetage());
+			pstmt.setString(6, petVO.getPetage());
 			pstmt.setString(7, petVO.getPetnote());
 			pstmt.setByte(8, petVO.getStat());
 			pstmt.setDate(9, petVO.getApplicationdeadline());
@@ -58,10 +58,10 @@ public class PetJDBCDAO implements PetDAO_interface {
             pstmt = con.prepareStatement(UPDATE);
 
             pstmt.setInt(1, petVO.getPettype());
-            pstmt.setInt(2, petVO.getMemberid());
+            pstmt.setInt(2, petVO.getMemberno());
             pstmt.setString(3, petVO.getPetname());
             pstmt.setString(4, petVO.getPetsex());
-            pstmt.setInt(5, petVO.getPetage());
+            pstmt.setString(5, petVO.getPetage());
             pstmt.setString(6, petVO.getPetnote());
             pstmt.setByte(7, petVO.getStat());
 
@@ -116,10 +116,10 @@ public class PetJDBCDAO implements PetDAO_interface {
                 petVO = new PetVO();
                 petVO.setPetid(rs.getInt("petid"));
                 petVO.setPettype(rs.getInt("pettype"));
-                petVO.setMemberid(rs.getInt("memberno"));
+                petVO.setMemberno(rs.getInt("memberno"));
                 petVO.setPetname(rs.getString("petname"));
                 petVO.setPetsex(rs.getString("petsex"));
-                petVO.setPetage(rs.getInt("petage"));
+                petVO.setPetage(rs.getString("petage"));
                 petVO.setPetnote(rs.getString("petnote"));
                 petVO.setStat(rs.getByte("stat"));
                 petVO.setApplicationdeadline(rs.getDate("applicationdeadline"));
@@ -149,10 +149,10 @@ public class PetJDBCDAO implements PetDAO_interface {
                 PetVO petVO = new PetVO();
                 petVO.setPetid(rs.getInt("petid"));
                 petVO.setPettype(rs.getInt("pettype"));
-                petVO.setMemberid(rs.getInt("memberno"));
+                petVO.setMemberno(rs.getInt("memberno"));
                 petVO.setPetname(rs.getString("petname"));
                 petVO.setPetsex(rs.getString("petsex"));
-                petVO.setPetage(rs.getInt("petage"));
+                petVO.setPetage(rs.getString("petage"));
                 petVO.setPetnote(rs.getString("petnote"));
                 petVO.setStat(rs.getByte("stat"));
                 petVO.setApplicationdeadline(rs.getDate("applicationdeadline"));
