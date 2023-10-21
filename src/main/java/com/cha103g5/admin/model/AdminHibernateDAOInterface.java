@@ -9,4 +9,10 @@ public interface AdminHibernateDAOInterface {
 	int delete(Integer adminNo);
 	AdminVO findByPrimaryKey(Integer adminNo);
 	List<AdminVO> getAll();
+	
+//	public void insert(AdminVO adminVO);
+//	public void update(AdminVO adminVO);
+//	public void delete(Integer adminNo);
+//	public AdminVO findByPrimaryKey(Integer adminNo);
+//	public List<AdminVO> getAll();
 }

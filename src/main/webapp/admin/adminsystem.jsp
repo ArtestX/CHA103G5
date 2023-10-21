@@ -17,6 +17,19 @@ pageContext.setAttribute("list", list);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>員工管理系統</title>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<style>
+.error-message {
+	color: red; /* 設置文字顏色為紅色，你可以根據需要進行調整 */
+	margin-top: 5px; /* 設置上邊距，控制它與<input>元素之間的距離 */
+	margin-left: 12px;
+}
+
+#navigateButton {
+	width: 100px; /* 设置按钮的宽度 */
+	height: 40px; /* 设置按钮的高度 */
+}
+</style>
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -45,8 +58,8 @@ pageContext.setAttribute("list", list);
 							<li><a class="dropdown-item" href="#">Something else
 									here</a></li>
 						</ul></li>
-					<li class="nav-item"><a class="nav-link disabled"
-						aria-disabled="true">Disabled</a></li>
+					<!-- 					<li class="nav-item"><a class="nav-link disabled" -->
+					<!-- 						aria-disabled="true">Disabled</a></li> -->
 				</ul>
 				<form class="d-flex" role="search">
 					<input class="form-control me-2" type="search" placeholder="Search"
@@ -63,13 +76,12 @@ pageContext.setAttribute("list", list);
 				<!--左邊-->
 				<div class="list-group">
 					<a href="#" class="list-group-item list-group-item-action active"
-						aria-current="true"> The current link item </a> <a href="#"
-						class="list-group-item list-group-item-action">A second link
-						item</a> <a href="#" class="list-group-item list-group-item-action">A
-						third link item</a> <a href="#"
-						class="list-group-item list-group-item-action">A fourth link
-						item</a> <a class="list-group-item list-group-item-action disabled"
-						aria-disabled="true">A disabled link item</a>
+						aria-current="true"> 員工管理 </a> <a href="#"
+						class="list-group-item list-group-item-action">商品管理</a> <a
+						href="#" class="list-group-item list-group-item-action">訂單管理</a> <a
+						href="#" class="list-group-item list-group-item-action">寵物領養管理</a>
+					<a href="#" class="list-group-item list-group-item-action"
+						aria-disabled="true">會員資料管理</a>
 				</div>
 			</div>
 			<div class="col-lg-10 g-3">
@@ -90,50 +102,64 @@ pageContext.setAttribute("list", list);
 								<div>
 									<div class="input-group">
 										<input type="text" class="form-control" placeholder="請輸入員工編號"
+											name="adminNo" value="${param.adminNo}"
 											aria-label="Recipient's username"
-											aria-describedby="button-addon2">
-										<button class="btn btn-outline-secondary" type="button"
+											aria-describedby="button-addon2"> <input
+											type="hidden" name="action" value="getOne_For_Display">
+										<button class="btn btn-outline-secondary" type="submit"
 											id="button-addon2">搜尋</button>
+									</div>
+									<div class="error-message">${errorMsgs.adminNo}</div>
+								</div>
+							</form>
+
+							<jsp:useBean id="adminSel" scope="page"
+								class="com.cha103g5.admin.model.AdminService" />
+
+							<form method="post" action="admin.do" id="adminNoSel"
+								class="dropdown col-md-2 ">
+								<div class="dropdown col-md-2">
+									<div class="dropdown">
+										<button class="btn btn-secondary dropdown-toggle"
+											type="submit" data-bs-toggle="dropdown" aria-expanded="false">
+											選擇員工編號</button>
+										<ul class="dropdown-menu" id="adminNoMenu">
+											<c:forEach var="adminVO" items="${adminSel.all}">
+												<li><a class="dropdown-item" href="#"
+													data-admin-no="${adminVO.adminNo}"> ${adminVO.adminNo}
+												</a></li>
+											</c:forEach>
+										</ul>
+										<input type="hidden" name="action" value="getOne_For_Display">
 									</div>
 								</div>
 							</form>
-							<form method="post" action="admin.do" id="adminId"
-								class="dropdown col-md-2">
-								<div class="dropdown">
-									<a class="btn btn-secondary dropdown-toggle" href="#"
-										role="button" data-bs-toggle="dropdown" aria-expanded="false">
-										選擇員工編號 </a>
-									<ul class="dropdown-menu" id="employeeDropdown">
-										<c:forEach var="adminVO" items="${adminSvc.all}">
-											<li><a class="dropdown-item" href="#"
-												data-admin-no="${adminVO.adminNo}">${adminVO.adminNo}</a></li>
-										</c:forEach>
-									</ul>
-								</div>
-								<input type="hidden" name="adminNo" value="">
-								<input type="hidden" name="action" value="getOne_For_Display">
-							</form>
 
-							<form method="post" action="admin.do"
-								class="dropdown col-md-4 custom-dropdown">
-								<div>
-									<a class="btn btn-secondary dropdown-toggle text-start"
-										href="#" role="button" data-bs-toggle="dropdown"
-										aria-expanded="false"> 選擇員工姓名 </a>
-									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">Action</a></li>
-										<li><a class="dropdown-item" href="#">Another action</a></li>
-										<li><a class="dropdown-item" href="#">Something else
-												here</a></li>
-									</ul>
+							<form method="post" action="admin.do" id="adminName"
+								class="dropdown col-md-3 offset--2" style="margin-left: -35px;">
+								<div class="dropdown col-md-3">
+									<div class="dropdown">
+										<button class="btn btn-secondary dropdown-toggle fixed-button"
+											type="submit" data-bs-toggle="dropdown" aria-expanded="false">
+											選擇員工姓名</button>
+										<ul class="dropdown-menu" id="adminNameMenu">
+											<c:forEach var="adminVO" items="${adminSel.all}">
+												<li><a class="dropdown-item" href="#"
+													data-admin-no="${adminVO.adminNo}">
+														${adminVO.adminName} </a></li>
+											</c:forEach>
+										</ul>
+									</div>
+									<input type="hidden" name="action" value="getOne_For_Display">
 								</div>
 							</form>
-							<div class="col-md-3 d-flex justify-content-end">
+							<div class="col-md-4 d-flex justify-content-end"
+								style="margin-left: 25px;">
 								<button class="btn btn-primary" id="navigateButton">新增</button>
 							</div>
 						</div>
 						<!--./row-->
-						<div style="margin-top: 20px;">
+						<div>
 							<table class="table table-hover table-striped">
 								<thead>
 									<tr>
@@ -148,7 +174,8 @@ pageContext.setAttribute("list", list);
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="adminVO" items="${list}">
+									<%@ include file="page1.file" %> 
+									<c:forEach var="adminVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 										<tr>
 											<th>${adminVO.adminNo}</th>
 											<th>${adminVO.adminAccount}</th>
@@ -178,33 +205,28 @@ pageContext.setAttribute("list", list);
 												</FORM>
 											</td>
 											</th>
-											<!-- 											<th> -->
-											<!-- 												<FORM METHOD="post" -->
-											<%-- 													ACTION="<%=request.getContextPath()%>/admin/admin.do" --%>
-											<!-- 													style="margin-bottom: 0px;"> -->
-											<!-- 													<input type="submit" value="修改"> <input -->
-											<%-- 														type="hidden" name="adminNo" value="${adminVO.adminNo}"> --%>
-											<!-- 													<input type="hidden" name="action" -->
-											<!-- 														value="getOne_For_Update"> -->
-											<!-- 												</FORM> -->
-											<!-- 											</th> -->
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
-							<nav aria-label="Page navigation example" class="text-center">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-									</a></li>
-								</ul>
-							</nav>
+							<%@ include file="page2.file" %>
+
+<!-- 							<nav aria-label="Page navigation example" class="text-center"> -->
+<!-- 								<ul class="pagination"> -->
+<!-- 									<li class="page-item" id="previousPage"><a -->
+<!-- 										class="page-link" href="#" aria-label="Previous"><span -->
+<!-- 											aria-hidden="true">&laquo;</span></a></li> -->
+<!-- 									<li class="page-item" id="page1"><a class="page-link" -->
+<!-- 										href="#">1</a></li> -->
+<!-- 									<li class="page-item" id="page2"><a class="page-link" -->
+<!-- 										href="#">2</a></li> -->
+<!-- 									<li class="page-item" id="page3"><a class="page-link" -->
+<!-- 										href="#">3</a></li> -->
+<!-- 									<li class="page-item" id="nextPage"><a class="page-link" -->
+<!-- 										href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li> -->
+<!-- 								</ul> -->
+<!-- 							</nav> -->
+
 						</div>
 					</div>
 				</div>
@@ -213,31 +235,44 @@ pageContext.setAttribute("list", list);
 		</div>
 	</div>
 	<script>
-		// 获取按钮元素
-		let navigateButton = document.getElementById('navigateButton');
-
-		// 添加点击事件处理程序
-		navigateButton.addEventListener('click', function() {
-			// 执行页面导航，跳转到 addAdmin.jsp
-			window.location.href = 'addadminNew.jsp';
-		});
-		
-
 		document.addEventListener("DOMContentLoaded", function() {
-		    let employeeForm = document.getElementById("adminId");
-		    let employeeDropdown = document.getElementById("employeeDropdown");
+			// 监听导航按钮的点击事件
+			let navigateButton = document.getElementById('navigateButton');
+			navigateButton.addEventListener('click', function() {
+				window.location.href = 'addadminNew.jsp';
+			});
 
-		    employeeDropdown.addEventListener("click", function(event) {
-		        let selectedAdminNo = event.target.getAttribute("data-admin-no");
-		        if (selectedAdminNo) {
-		            let adminNoInput = document.querySelector('input[name="adminNo"]');
-		            adminNoInput.value = selectedAdminNo;
-		            employeeForm.submit();
-		        }
-		    });
+			// 监听员工姓名下拉菜单的点击事件
+			let adminNameDropdown = document.getElementById("adminName");
+			let adminNameInput = document
+					.querySelector('input[name="adminNo"]');
+			let formName = document.getElementById("adminNameMenu");
+
+			adminNameDropdown.addEventListener("click", function(event) {
+				if (event.target.hasAttribute("data-admin-no")) {
+					const selectedAdminNo = event.target
+							.getAttribute("data-admin-no");
+					adminNameInput.value = selectedAdminNo;
+					formName.submit(); // 提交表单
+				}
+			});
+
+			// 监听员工编号下拉菜单的点击事件
+			let adminNoDropdown = document.getElementById("adminNoSel");
+			let adminNoInput = document.querySelector('input[name="adminNo"]');
+			let formNo = document.getElementById("adminNoMenu");
+
+			adminNoDropdown.addEventListener("click", function(event) {
+				if (event.target.hasAttribute("data-admin-no")) {
+					const selectedAdminNo = event.target
+							.getAttribute("data-admin-no");
+					adminNoInput.value = selectedAdminNo;
+					formNo.submit(); // 提交表单
+				}
+			});
 		});
-
 	</script>
+
 
 	<script src="../js/popper.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>

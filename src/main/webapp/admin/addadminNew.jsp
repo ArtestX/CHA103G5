@@ -40,7 +40,7 @@ span {
 			<div class="row border rounded-5 p-3 bg-white shadow box-area">
 				<div class="header-text text-center">
 					<div class="d-flex justify-content-end">
-						<button type="button" class="btn btn-primary" id="mainPage">首頁</button>
+						<button type="button" class="btn btn-primary" id="mainPage">返回</button>
 					</div>
 					<h3>請填寫員工資料</h3>
 				</div>
@@ -148,9 +148,7 @@ span {
 		</div>
 		<script>
 			let mainPage = document.getElementById('mainPage');
-			// 添加点击事件处理程序
 			mainPage.addEventListener('click', function() {
-				// 执行页面导航，跳转到 addAdmin.jsp
 				window.location.href = 'adminsystem.jsp';
 			});
 		</script>

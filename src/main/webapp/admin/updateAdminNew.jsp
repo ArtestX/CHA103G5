@@ -40,7 +40,7 @@ span {
 			<div class="row border rounded-5 p-3 bg-white shadow box-area">
 				<div class="header-text text-center">
 					<div class="d-flex justify-content-end">
-						<button type="button" class="btn btn-primary" id="mainPage">回首頁</button>
+						<button type="button" class="btn btn-primary" id="mainPage">返回</button>
 					</div>
 					<h3>請填寫員工資料</h3>
 				</div>

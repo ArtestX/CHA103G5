@@ -5,11 +5,11 @@ import java.util.List;
 
 public class AdminService {
 
-    private AdminDAOInterface dao;
+    private AdminHibernateDAOInterface dao;
 
     public AdminService() {
 
-        dao = new AdminJNDIDAO();
+        dao = new AdminHibernateDAO();
     }
 
     public AdminVO addAdmin(Integer adminNo,
