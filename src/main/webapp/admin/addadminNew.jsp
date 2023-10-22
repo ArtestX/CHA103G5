@@ -30,11 +30,13 @@ span {
         white-space: nowrap;
 }		
 
+
+
 </style>
 </head>
 
 <body>
-	<FORM METHOD="post" ACTION="admin.do" name="form1">
+	<FORM METHOD="post" ACTION="admin.do" name="form1" enctype="multipart/form-data">
 		<div
 			class="container d-flex justify-content-center align-items-center min-vh-100">
 			<div class="row border rounded-5 p-3 bg-white shadow box-area">
@@ -44,18 +46,18 @@ span {
 					</div>
 					<h3>請填寫員工資料</h3>
 				</div>
-				<div class="row g-1 align-items-center ms-5">
-					<div class="col-auto offset-1">
-						<label for="text1" class="col-form-label">員工編號 :</label>
-					</div>
-					<div class="col-auto">
-						<div class="d-flex align-items-center">
-							<input type="text" id="text1" class="form-control" name="adminNo" value="${param.adminNo}" size="15"
-								placeholder="請輸入編號"> <span class="float-end ms-2">
-								${errorMsgs.adminNo} </span>
-						</div>
-					</div>
-				</div>
+<%--				<div class="row g-1 align-items-center ms-5">--%>
+<%--					<div class="col-auto offset-1">--%>
+<%--						<label for="text1" class="col-form-label">員工編號 :</label>--%>
+<%--					</div>--%>
+<%--					<div class="col-auto">--%>
+<%--						<div class="d-flex align-items-center">--%>
+<%--							<input type="hidden" id="text1" class="form-control" name="adminNo" value="${param.adminNo}" size="15"--%>
+<%--								placeholder="請輸入編號"> <span class="float-end ms-2">--%>
+<%--								${errorMsgs.adminNo} </span>--%>
+<%--						</div>--%>
+<%--					</div>--%>
+<%--				</div>--%>
 				<div class="row g-1 align-items-center ms-5">
 					<div class="col-auto offset-1">
 						<label for="text2" class="col-form-label">員工帳號 :</label>
@@ -123,39 +125,93 @@ span {
 					</div>
 					<div class="col-auto ">
 						<div class="d-flex align-items-center">
-							<input type="text" id="text7" class="form-control" name="createDate"   value="${param.createDate}"   size="15"
+							<input type="text" id="text7" class="form-control" name="createDate" value="${param.createDate}"   size="15"
 								placeholder="請輸入日期"> <span class="float-end  ms-2">
 								${errorMsgs.createDate}</span>
 						</div>
 					</div>
 				</div>
+<!-- 				<div class="row g-1 ms-5 align-items-center"> -->
+<!-- 					<div class="col-auto offset-1"> -->
+<!-- 						<label for="text8" class="col-form-label">員工狀態 :</label> -->
+<!-- 					</div> -->
+<!-- 					<div class="col-auto"> -->
+<!-- 						<div class="d-flex align-items-center"> -->
+<%-- 							<input type="text" id="text8" class="form-control" name="adminStat"   value="${param.adminStat}"   size="15" --%>
+<%-- 								placeholder="請輸入狀態"> <span class="float-end ms-2">${errorMsgs.adminStat}</span> --%>
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 				<div class="row g-1 ms-5 align-items-center">
 					<div class="col-auto offset-1">
 						<label for="text8" class="col-form-label">員工狀態 :</label>
 					</div>
 					<div class="col-auto">
+						 <label>
+				            <input type="radio" id="text8" name="adminStat" value="1" checked> 在職
+				        </label>
+				        <label>
+				            <input type="radio" id="text9" name="adminStat" value="2"> 離職
+				        </label>
+					</div>
+				</div>
+				<div class="row g-1 align-items-center ms-5">
+					<div class="col-auto offset-1">
+						<label for="text6" class="col-form-label">員工照片:</label>
+					</div>
+					<div class="col-auto">
 						<div class="d-flex align-items-center">
-							<input type="text" id="text8" class="form-control" name="adminStat"   value="${param.adminStat}"   size="15"
-								placeholder="請輸入狀態"> <span class="float-end ms-2">${errorMsgs.adminStat}</span>
+							<input type="file" id="text6" name="image" value="${param.adminPic}">
 						</div>
 					</div>
 				</div>
+<!-- 				<div class="d-flex ms-5 offset-2"> -->
+<!-- 						<button type="button" class="btn btn-primary" id="mainPage">新增照片</button> -->
+<!-- 					</div> -->
 				<div class="input-group g-3 mb-2">
 					<button type="submit" class="btn btn-lg btn-primary w-100 fs-6">送出</button>
 					<input type="hidden" name="action" value="insert">
 				</div>
 			</div>
 		</div>
+			</FORM>
+			
 		<script>
 			let mainPage = document.getElementById('mainPage');
 			mainPage.addEventListener('click', function() {
-				window.location.href = 'adminsystem.jsp';
+				window.location.href = 'adminSystem.jsp';
 			});
 		</script>
-
+		
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
+<style>
+  .xdsoft_datetimepicker .xdsoft_datepicker {
+           width:  300px;   /* width:  300px; */
+  }
+  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+           height: 151px;   /* height:  151px; */
+  }
+</style>
+<script> 
+        $.datetimepicker.setLocale('zh');
+		$('#text7').datetimepicker({
+		   	theme: ' ',              //theme: 'dark',
+		    timepicker:false,       //timepicker:true,
+		    step: 60,                //step: 60 (這是timepicker的預設間隔60分鐘)
+		    format:'Y-m-d',         //format:'Y-m-d H:i:s',
+			value: '${param.createDate}', // value:   new Date(),
+		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+		   //startDate:	            '2017/07/10',  // 起始日
+		   //minDate:               '-1970-01-01', // 去除今日(不含)之前
+		   //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+		});
+</script>        
+		
 		<script src="../js/popper.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 	
-	</FORM>
+
 </body>
 </html>

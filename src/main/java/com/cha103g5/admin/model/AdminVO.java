@@ -2,7 +2,7 @@ package com.cha103g5.admin.model;
 
 import javax.persistence.*;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 
 @Entity
@@ -24,7 +24,7 @@ public class AdminVO {
     private String adminName;
 
     @Column(name = "createddate")
-    private Timestamp createDate;
+    private Date createDate;
 
     @Column(name = "adminstat", columnDefinition = "tinyint")
     private Integer adminStat;
@@ -34,6 +34,10 @@ public class AdminVO {
 
     @Column(name = "adminphone")
     private String adminPhone;
+
+    @Column(name = "adminpic", columnDefinition = "MEDIUMBLOB")
+    private byte[] adminPic;
+    
 
     public Integer getAdminNo() {
         return adminNo;
@@ -67,11 +71,11 @@ public class AdminVO {
         this.adminName = adminName;
     }
 
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
         return  createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -98,5 +102,14 @@ public class AdminVO {
     public void setAdminPhone(String adminPhone) {
         this.adminPhone = adminPhone;
     }
+
+	public byte[] getAdminPic() {
+		return adminPic;
+	}
+
+	public void setAdminPic(byte[] adminPic) {
+		this.adminPic = adminPic;
+	}
+
 }
 

@@ -8,10 +8,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.io.InputStream;
+import java.sql.Date;
+import java.util.*;
 
 public class AdminServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -39,7 +43,7 @@ public class AdminServlet extends HttpServlet {
             // Send the use back to the form, if there were errors
             if (!errorMsgs.isEmpty()) {
                 RequestDispatcher failureView = req
-                        .getRequestDispatcher("/admin/adminsystem.jsp"); // admin/selectPage.jsp
+                        .getRequestDispatcher("/admin/adminSystem.jsp"); // admin/selectPage.jsp
                 failureView.forward(req, res);
                 return;//程式中斷
             }
@@ -53,7 +57,7 @@ public class AdminServlet extends HttpServlet {
             // Send the use back to the form, if there were errors
             if (!errorMsgs.isEmpty()) {
                 RequestDispatcher failureView = req
-                        .getRequestDispatcher("/admin/adminsystem.jsp"); // admin/selectPage.jsp
+                        .getRequestDispatcher("/admin/adminSystem.jsp"); // admin/selectPage.jsp
                 failureView.forward(req, res);
                 return;//程式中斷
             }
@@ -67,14 +71,14 @@ public class AdminServlet extends HttpServlet {
             // Send the use back to the form, if there were errors
             if (!errorMsgs.isEmpty()) {
                 RequestDispatcher failureView = req
-                        .getRequestDispatcher("/admin/adminsystem.jsp"); // admin/selectPage.jsp
+                        .getRequestDispatcher("/admin/adminSystem.jsp"); // admin/selectPage.jsp
                 failureView.forward(req, res);
                 return;//程式中斷
             }
 
             /***************************3.查詢完成,準備轉交(Send the Success view)*************/
             req.setAttribute("AdminVO", adminVO); // 資料庫取出的AdminVO物件,存入req
-            String url = "/admin/listOneAdminNew.jsp"; 
+            String url = "/admin/listOneAdminNew.jsp";
             RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmin.jsp
             successView.forward(req, res);
         }
@@ -134,28 +138,28 @@ public class AdminServlet extends HttpServlet {
             String adminAccoutReg2 = "^[(a-zA-Z0-9_)]{6,12}$";
             if (adminAccount == null || adminAccount.trim().length() == 0) {
                 errorMsgs.put("adminAccount", "帳號請勿空白");
-            } else if (!adminAccount.trim().matches(adminAccountReg)) { 
+            } else if (!adminAccount.trim().matches(adminAccountReg)) {
                 errorMsgs.put("adminAccount", "只能是英文、數字和_");
-            } else if (!adminAccount.trim().matches(adminAccoutReg2)) { 
+            } else if (!adminAccount.trim().matches(adminAccoutReg2)) {
                 errorMsgs.put("adminAccount", "長度需在6到12之間");
             }
-            
+
             String adminPassword = req.getParameter("adminPassword").trim();
             String adminPasswordReg = "^[a-zA-Z0-9!@]+$";
             String adminPasswordReg2 = "^[a-zA-Z0-9!@]{8,16}$";
 
             if (adminPassword == null || adminPassword.length() == 0) {
                 errorMsgs.put("adminPassword", "密碼請勿空白");
-            } else if (!adminPassword.matches(adminPasswordReg)) { 
+            } else if (!adminPassword.matches(adminPasswordReg)) {
                 errorMsgs.put("adminPassword", "只能是英文、數字、@、!");
             } else if (!adminPassword.matches(adminPasswordReg2)) {
                 errorMsgs.put("adminPassword", "長度需在8到16之間");
             }
 
 
-            Timestamp createDate = null;
+            Date createDate = null;
             try {
-                createDate = Timestamp.valueOf(req.getParameter("createDate").trim());
+                createDate = java.sql.Date.valueOf(req.getParameter("createDate").trim());
             } catch (IllegalArgumentException e) {
                 errorMsgs.put("createDate", "請輸入日期");
             }
@@ -177,6 +181,17 @@ public class AdminServlet extends HttpServlet {
                 errorMsgs.put("adminPhone", "電話請勿空白");
             }
 
+            byte[] adminPic = null;
+	    	try {
+		    		Part part = req.getPart("adminPic");
+		    		if (part != null) {
+			    		var inputstream = part.getInputStream();
+		    			adminPic = IOUtils.toByteArray(inputstream);
+		    		}
+			} catch (IOException e) {
+			    e.printStackTrace();
+			}
+
 
             // Send the use back to the form, if there were errors
             if (!errorMsgs.isEmpty()) {
@@ -188,7 +203,7 @@ public class AdminServlet extends HttpServlet {
 
             /***************************2.開始修改資料*****************************************/
             AdminService adminSvc = new AdminService();
-            AdminVO adminVO = adminSvc.updateAdmin(adminNo,adminAccount,adminPassword,adminName,createDate,adminStat, adminEmail,adminPhone);
+            AdminVO adminVO = adminSvc.updateAdmin(adminNo,adminAccount,adminPassword,adminName,createDate,adminStat, adminEmail,adminPhone,adminPic);
 
             /***************************3.修改完成,準備轉交(Send the Success view)*************/
             req.setAttribute("AdminVO", adminVO); // 資料庫update成功後,正確的的AdminVO物件,存入req
@@ -211,40 +226,33 @@ public class AdminServlet extends HttpServlet {
                 errorMsgs.put("adminName", "不得特殊符號且長度2~10");
             }
 
-            Integer adminNo = null;
-            try {
-                adminNo = Integer.valueOf(req.getParameter("adminNo").trim());
-            } catch (NumberFormatException e) {
-                errorMsgs.put("adminNo", "請填數字");
-            }
-
             String adminAccount = req.getParameter("adminAccount").trim();
             String adminAccountReg = "[a-zA-Z0-9_]+";
             String adminAccoutReg2 = "^[(a-zA-Z0-9_)]{6,12}$";
             if (adminAccount == null || adminAccount.trim().length() == 0) {
                 errorMsgs.put("adminAccount", "帳號請勿空白");
-            } else if (!adminAccount.trim().matches(adminAccountReg)) { 
+            } else if (!adminAccount.trim().matches(adminAccountReg)) {
                 errorMsgs.put("adminAccount", "只能是英文、數字和_");
-            } else if (!adminAccount.trim().matches(adminAccoutReg2)) { 
+            } else if (!adminAccount.trim().matches(adminAccoutReg2)) {
                 errorMsgs.put("adminAccount", "長度需在6到12之間");
             }
-            
+
             String adminPassword = req.getParameter("adminPassword").trim();
             String adminPasswordReg = "^[a-zA-Z0-9!@]+$";
             String adminPasswordReg2 = "^[a-zA-Z0-9!@]{8,16}$";
 
             if (adminPassword == null || adminPassword.length() == 0) {
                 errorMsgs.put("adminPassword", "密碼請勿空白");
-            } else if (!adminPassword.matches(adminPasswordReg)) { 
+            } else if (!adminPassword.matches(adminPasswordReg)) {
                 errorMsgs.put("adminPassword", "只能是英文、數字、@、!");
             } else if (!adminPassword.matches(adminPasswordReg2)) {
                 errorMsgs.put("adminPassword", "長度需在8到16之間");
             }
 
 
-            Timestamp createDate = null;
+            Date createDate = null;
             try {
-                createDate = Timestamp.valueOf(req.getParameter("createDate").trim());
+                createDate = java.sql.Date.valueOf(req.getParameter("createDate").trim());
             } catch (IllegalArgumentException e) {
                 errorMsgs.put("createDate", "請輸入日期");
             }
@@ -257,14 +265,53 @@ public class AdminServlet extends HttpServlet {
             }
 
             String adminEmail = req.getParameter("adminEmail").trim();
+            String adminEmailReg = "^[a-zA-Z0-9._%+-]+@.+\\.[a-zA-Z]{2,}$";
             if (adminEmail == null || adminEmail.trim().length() == 0) {
                 errorMsgs.put("adminEmail", "信箱請勿空白");
+            } else if (!adminEmail.trim().matches(adminEmailReg)) {
+                errorMsgs.put("adminEmail", "信箱格式錯誤");
             }
 
+
             String adminPhone = req.getParameter("adminPhone").trim();
+            String adminPhoneReg = "^09[0-9]{8}$";
             if (adminPhone == null || adminPhone.trim().length() == 0) {
-                errorMsgs.put("adminPhone", "電話請勿空白");
+                errorMsgs.put("adminPhone", "手機請勿空白");
+            } else if (!adminPhone.trim().matches(adminPhoneReg)) {
+                errorMsgs.put("adminPhone", "手機格式09開頭共10碼");
             }
+
+
+            Part image = null;
+            try {
+                Collection<Part> parts = req.getParts();
+                for (Part part : parts) {
+                    if ("image".equals(part.getName())) image = part;
+                }
+            } catch (IllegalArgumentException e){
+                e.printStackTrace();
+            }
+            byte[] adminPic = null;
+            if(image != null){
+                try (InputStream inputStream = image.getInputStream()){
+                    adminPic = inputStream.readAllBytes();
+                    inputStream.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+
+//            byte[] adminPic = null;
+//	    	try {
+//		    		Part part = req.getPart("adminPic");
+//		    		if (part != null) {
+//			    		var inputstream = part.getInputStream();
+//		    			adminPic = IOUtils.toByteArray(inputstream);
+//		    		}
+//			} catch (IOException e) {
+//			    e.printStackTrace();
+//			}
 
 
             // Send the use back to the form, if there were errors
@@ -277,10 +324,10 @@ public class AdminServlet extends HttpServlet {
 
             /***************************2.開始新增資料***************************************/
             AdminService adminSvc = new AdminService();
-            adminSvc.addAdmin(adminNo,adminAccount, adminPassword, adminName, createDate, adminStat, adminEmail, adminPhone);
+            adminSvc.addAdmin(adminAccount, adminPassword, adminName, createDate, adminStat, adminEmail, adminPhone,adminPic);
 
             /***************************3.新增完成,準備轉交(Send the Success view)***********/
-            String url = "/admin/adminsystem.jsp";
+            String url = "/admin/adminSystem.jsp";
             RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllAdmin.jsp
             successView.forward(req, res);
         }
@@ -299,7 +346,7 @@ public class AdminServlet extends HttpServlet {
             adminSvc.deleteAdmin(adminNo);
 
             /***************************3.刪除完成,準備轉交(Send the Success view)***********/
-            String url = "/admin/adminsystem.jsp";
+            String url = "/admin/adminSystem.jsp";
             RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
             successView.forward(req, res);
         }

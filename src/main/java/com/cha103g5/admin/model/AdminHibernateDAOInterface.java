@@ -6,7 +6,7 @@ public interface AdminHibernateDAOInterface {
 	// 此介面定義對資料庫的相關存取抽象方法
 	int insert(AdminVO adminVO);
 	int update(AdminVO adminVO);
-	int delete(Integer adminNo);
+	void delete(Integer adminNo); //int with JNDI version
 	AdminVO findByPrimaryKey(Integer adminNo);
 	List<AdminVO> getAll();
 	

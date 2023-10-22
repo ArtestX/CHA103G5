@@ -51,4 +51,15 @@
         <servlet-name>AdminServlet</servlet-name>
         <url-pattern>/admin/admin.do</url-pattern>
         </servlet-mapping>
-        </web-app>
+         
+    <servlet>
+        <servlet-name>imageReaderServlet</servlet-name>
+        <servlet-class>com.cha103g5.admin.controller.ImageReader</servlet-class> 
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>imageReaderServlet</servlet-name> 
+        <url-pattern>/ReadIMG</url-pattern> 
+    </servlet-mapping>
+        
+</web-app>

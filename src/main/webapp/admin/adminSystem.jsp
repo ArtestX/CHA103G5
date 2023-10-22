@@ -28,13 +28,23 @@ pageContext.setAttribute("list", list);
 	width: 100px; /* 设置按钮的宽度 */
 	height: 40px; /* 设置按钮的高度 */
 }
+
+ img { 
+     max-width: 100px;
+     height: 50px; 
+ } 
+
+th {
+    text-align: center;
+}
+
 </style>
 
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">後台管理系統</a>
+			<a class="navbar-brand" href="adminMain.jsp">後台管理系統</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -75,13 +85,13 @@ pageContext.setAttribute("list", list);
 			<div class="col-lg-2 g-3">
 				<!--左邊-->
 				<div class="list-group">
-					<a href="#" class="list-group-item list-group-item-action active"
-						aria-current="true"> 員工管理 </a> <a href="#"
-						class="list-group-item list-group-item-action">商品管理</a> <a
-						href="#" class="list-group-item list-group-item-action">訂單管理</a> <a
-						href="#" class="list-group-item list-group-item-action">寵物領養管理</a>
-					<a href="#" class="list-group-item list-group-item-action"
-						aria-disabled="true">會員資料管理</a>
+					<a href="#" class="list-group-item list-group-item-action active" aria-current="true"> 員工管理 </a> 
+					<a href="#" class="list-group-item list-group-item-action">商品管理</a> 
+					<a href="#" class="list-group-item list-group-item-action">訂單管理</a>
+					<a href="#" class="list-group-item list-group-item-action">客服管理</a>
+					<a href="#" class="list-group-item list-group-item-action">寵物領養管理</a>
+					<a href="#" class="list-group-item list-group-item-action">公告資訊管理</a>
+					<a href="#" class="list-group-item list-group-item-action" aria-disabled="true">會員資料管理</a>
 				</div>
 			</div>
 			<div class="col-lg-10 g-3">
@@ -171,6 +181,7 @@ pageContext.setAttribute("list", list);
 										<th>電話</th>
 										<th>到職日</th>
 										<th>狀態</th>
+										<th >照片</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -184,7 +195,16 @@ pageContext.setAttribute("list", list);
 											<th>${adminVO.adminEmail}</th>
 											<th>${adminVO.adminPhone}</th>
 											<th>${adminVO.createDate}</th>
-											<th>${adminVO.adminStat}</th>
+											<th>
+									            <c:choose>
+									                <c:when test="${adminVO.adminStat == 1}">在職</c:when>
+									                <c:otherwise>離職</c:otherwise>
+									            </c:choose>
+									        </th>
+											<th>
+												<img src="${pageContext.request.contextPath}/ReadIMG?id=${adminVO.adminNo}">
+											</th>
+							
 											<th class="text-center">
 											<td>
 												<FORM METHOD="post"
