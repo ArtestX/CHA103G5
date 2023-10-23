@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.cha103g5.admin.model.AdminVO;
+import org.hibernate.Session;
+
 import com.cha103g5.util.HibernateUtil;
 
 public class MemberService {
@@ -83,31 +84,14 @@ public class MemberService {
 	public List<MemberVO> getAllMembers() {
 		return dao.getAll();
 	}
-
-	public List<MemberVO> getMembersByCompositeQuery(Map<String, String[]> map) {
-		Map<String, String> query = new HashMap<>();
-		// Map.Entry即代表一組key-value
-		Set<Map.Entry<String, String[]>> entry = map.entrySet();
-		
-		for (Map.Entry<String, String[]> row : entry) {
-			String key = row.getKey();
-			// 因為請求參數裡包含了action，做個去除動作
-			if ("action".equals(key)) {
-				continue;
-			}
-			// 若是value為空即代表沒有查詢條件，做個去除動作
-			String value = row.getValue()[0];
-			if (value.isEmpty() || value == null) {
-				continue;
-			}
-			query.put(key, value);
-		}
-		
-		System.out.println(query);
-		
-		return dao.getByCompositeQuery(query);
-	}
 	
+	public MemberVO getByEmail(String memberemail) {
+		MemberVO membervo = dao.getByEmail(memberemail);
+		if (membervo != null ) {
+		    return membervo; // 返回列表中的第一个对象
+		}
+		return null; // 或者返回 null，如果没有匹配的对象
+	}
 
 	
 }

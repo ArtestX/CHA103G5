@@ -1,10 +1,12 @@
 package com.cha103g5.member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -15,12 +17,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 
 import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
+import com.google.gson.Gson;
 
 @WebServlet("/member/mem.do")
 @MultipartConfig
@@ -32,9 +36,8 @@ public class MemberServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
-		
+// 來自select_page.jsp的請求		
 		if ("getOne_For_Display".equals(action)) { 
-		// 來自select_page.jsp的請求
 			   	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 			   	req.setAttribute("errorMsgs", errorMsgs);
 
@@ -87,8 +90,8 @@ public class MemberServlet extends HttpServlet {
 				successView.forward(req, res);
 		 }
 		
+// 來自listAllEmp.jsp的請求		
 		 if ("getOne_For_Update".equals(action)) { 
-		 // 來自listAllEmp.jsp的請求
 			
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
@@ -123,8 +126,8 @@ public class MemberServlet extends HttpServlet {
 				successView.forward(req, res);
 		 }
 		
-		 if ("update".equals(action)) { 
-		 // 來自update_Mbr_input.jsp的請求
+// 來自update_Mbr_input.jsp的請求
+		 if ("update".equals(action)) {
 			
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
@@ -216,8 +219,8 @@ public class MemberServlet extends HttpServlet {
 				successView.forward(req, res);
 		 }
 		
+// 來自signUpMbr.jsp的請求  
 		 if ("insert".equals(action)) { 
-		 // 來自signUpMbr.jsp的請求  
 			    Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 
@@ -329,10 +332,9 @@ public class MemberServlet extends HttpServlet {
 			 			
 		 }
 		
-		
+// 來自listAllEmp.jsp		
 		 if ("delete".equals(action)) { 
-		 // 來自listAllEmp.jsp
-
+		 
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 	
@@ -348,9 +350,69 @@ public class MemberServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 		 }
+		 
+// 來自memberlogin.jsp//	 
+		 if ("memberlogin".equals(action)) { 
+			 
+
+					Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+					req.setAttribute("errorMsgs", errorMsgs);
+		
+					/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
+				    String memberemail = req.getParameter("memberemail");
+				    String memberpassword = req.getParameter("memberpassword");
+				    String contextPath = req.getContextPath();
+				       //  Ajax  //
+				       Map<String, Object> response = new HashMap<>();
+				       PrintWriter out = res.getWriter();
+				       res.setContentType("application/json");
+				       res.setCharacterEncoding("UTF-8");
+				       //  Ajax  //
+				       MemberService mbrSvc = new MemberService();
+				       MemberVO memberVO = mbrSvc.getByEmail(memberemail);
+
+				       if (memberVO != null) {
+				           String storedPassword = memberVO.getMemberpassword(); // 假設密碼儲存在memberVO物件的memberpassword中
+
+				           if (storedPassword.equals(memberpassword)) {
+				               // 密碼匹配，執行登入操作
+				               // 例如，將用戶信息存儲在Session中
+				               HttpSession session = req.getSession();
+				               session.setAttribute("memberemail", memberemail);
+				        //  Ajax  //
+				               response.put("success", true);
+				               out.write(new Gson().toJson(response)); // 使用Gson库将Map转换为JSON字符串
+				               out.close();
+				         //  Ajax  //
+				               // 重定向到登入成功的頁面
+				               res.sendRedirect(contextPath + "/index.jsp");
+				           } else {
+				               // 密碼不匹配，顯示錯誤消息
+				               errorMsgs.put("error", "密碼不正確");
+				           }
+				       } else {
+				           // 未找到用戶記錄，顯示錯誤消息
+				           errorMsgs.put("error", "用戶不存在");
+				       }
+
+				       // 构建错误消息的JSON响应
+				       
+				       //  Ajax  //
+				       response.put("errors", errorMsgs);
+
+				       // 设置响应类型和字符编码
+				       
+
+				       // 将JSON响应发送回客户端
+				       
+				       out.write(new Gson().toJson(response)); // 使用Gson库将Map转换为JSON字符串
+				       out.close();
+				       //==ajax
+				   }
+	
 		
 	}
-	
+	 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		doPost(req, res);
