@@ -92,6 +92,11 @@ public class AdminService {
     public List<AdminVO> getAll() {
         return dao.getAll();
     }
+    
+    public AdminVO userAuth(String adminAccount,String adminPassword) {
+    	return dao.findByNamePassword(adminAccount,adminPassword);
+        
+    }
 
 
 }
