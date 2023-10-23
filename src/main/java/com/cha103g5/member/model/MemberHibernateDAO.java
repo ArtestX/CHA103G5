@@ -1,6 +1,5 @@
 package com.cha103g5.member.model;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import com.cha103g5.util.HibernateUtil;
 
@@ -131,52 +131,22 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 	}
 
 	@Override
-	public List<MemberVO> getByCompositeQuery(Map<String, String> map) {
-			if (map.size() == 0)
-				return getAll();
-	
-			CriteriaBuilder builder = getSession().getCriteriaBuilder();
-			CriteriaQuery<MemberVO> criteria = builder.createQuery(MemberVO.class);
-			Root<MemberVO> root = criteria.from(MemberVO.class);
-	
-			List<Predicate> predicates = new ArrayList<>();
-			
-			if (map.containsKey("startmemberjointime") && map.containsKey("endmemberjointime"))
-				predicates.add(builder.between(root.get("memberjointime"), Timestamp.valueOf(map.get("startmemberjointime")), Timestamp.valueOf(map.get("endmemberjointime"))));
-			
-		
-			for (Map.Entry<String, String> row : map.entrySet()) {
-				if ("startmemberjointime".equals(row.getKey())) {
-					if (!map.containsKey("endmemberjointime"))
-						predicates.add(builder.greaterThanOrEqualTo(root.get("memberjointime"), Timestamp.valueOf(row.getValue())));
-				}
-	
-				if ("endmemberjointime".equals(row.getKey())) {
-					if (!map.containsKey("startmemberjointime"))
-						predicates.add(builder.lessThanOrEqualTo(root.get("memberjointime"), Timestamp.valueOf(row.getValue())));
-	
-				}
-				
-				if ("memberemail".equals(row.getKey())) {
-				    predicates.add(builder.equal(root.get("memberemail"), row.getValue()));
-				}
-				
-			}
-			
-			criteria.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
-			criteria.orderBy(builder.asc(root.get("memberno")));
-			TypedQuery<MemberVO> query = getSession().createQuery(criteria);
-	
-			return query.getResultList();
-	
+	public MemberVO getByEmail(String memberemail) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.beginTransaction();
+			MemberVO list = session.get(MemberVO.class, memberemail);
+			session.getTransaction().commit();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+	        if (session != null && session.isOpen()) {
+	            session.close();
+	        }
+	    }
+		return null;
 	}
 
 }
-
-
-
-
-
-
-
-	

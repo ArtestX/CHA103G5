@@ -1,25 +1,31 @@
 package com.cha103g5.admin.model;
 
-import java.sql.Timestamp;
+import com.cha103g5.member.model.MemberVO;
+import com.cha103g5.util.HibernateUtil;
+
+import net.bytebuddy.description.DeclaredByType;
+
+import java.sql.Date;
 import java.util.List;
 
 public class AdminService {
 
-    private AdminDAOInterface dao;
+    private AdminHibernateDAOInterface dao;
 
     public AdminService() {
 
-        dao = new AdminJNDIDAO();
+        dao = new AdminHibernateDAO(HibernateUtil.getSessionFactory());
     }
 
-    public AdminVO addAdmin(Integer adminNo,
-                            String adminAccount,
+    public AdminVO addAdmin(
+                           	String adminAccount,
                             String adminPassword,
                             String adminName,
-                            Timestamp createDate,
+                            Date createDate,
                             Integer adminStat,
                             String adminEmail,
-                            String adminPhone
+                            String adminPhone,
+                            byte[] adminPic
     ) {
 
         AdminVO adminVO = new AdminVO();
@@ -30,6 +36,7 @@ public class AdminService {
         adminVO.setAdminStat(adminStat);
         adminVO.setAdminEmail(adminEmail);
         adminVO.setAdminPhone(adminPhone);
+        adminVO.setAdminPic(adminPic);
         dao.insert(adminVO);
         return adminVO;
     }
@@ -43,24 +50,26 @@ public class AdminService {
                            String adminAccount,
                            String adminPassword,
                            String adminName,
-                           Timestamp createDate,
+                           Date createDate,
                            Integer adminStat,
                            String adminEmail,
-                           String adminPhone
+                           String adminPhone,
+                           byte[] adminPic
                            
     ) {
-
-        AdminVO adminVO = new AdminVO();
-        adminVO.setAdminNo(adminNo);
-        adminVO.setAdminAccount(adminAccount);
-        adminVO.setAdminPassword(adminPassword);
-        adminVO.setAdminName(adminName);
-        adminVO.setCreateDate(createDate);
-        adminVO.setAdminStat(adminStat);
-        adminVO.setAdminEmail(adminEmail);
-        adminVO.setAdminPhone(adminPhone);
-        dao.update(adminVO);
-
+        AdminVO adminVO = dao.findByPrimaryKey(adminNo); 
+        if (adminVO != null) {
+            adminVO.setAdminNo(adminNo);
+            adminVO.setAdminAccount(adminAccount);
+            adminVO.setAdminPassword(adminPassword);
+            adminVO.setAdminName(adminName);
+            adminVO.setCreateDate(createDate);
+            adminVO.setAdminStat(adminStat);
+            adminVO.setAdminEmail(adminEmail);
+            adminVO.setAdminPhone(adminPhone);
+            adminVO.setAdminPic(adminPic);
+            dao.update(adminVO);
+        }
         return dao.findByPrimaryKey(adminNo);
     }
 
@@ -69,8 +78,11 @@ public class AdminService {
 //        dao.update(adminVO);
 //    }
 
-    public void deleteAdmin(Integer adminNo) {
-        dao.delete(adminNo);
+    public AdminVO deleteAdmin(Integer adminNo) {
+        AdminVO memberVO = dao.findByPrimaryKey(adminNo); // 先獲取現有的 MemberVO 物件
+        if (memberVO != null)
+            dao.delete(adminNo);
+        return null;
     }
 
     public AdminVO getOneAdmin(Integer adminNo) {
@@ -80,7 +92,6 @@ public class AdminService {
     public List<AdminVO> getAll() {
         return dao.getAll();
     }
-
 
 
 }
