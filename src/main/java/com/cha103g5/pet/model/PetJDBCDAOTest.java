@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class PetJDBCDAOTest {
     public static void main(String[] args) {
+    	PetDAOinterface dao = new PetJDBCDAO();
 
         // 創建一個 PetVO 物件
         PetVO pet = new PetVO();
@@ -28,8 +29,7 @@ public class PetJDBCDAOTest {
 //        System.out.println("Pet updated with ID: " + pet.getPetid());
 //
 //        // 測試 delete 方法
-        petDAO.delete(pet);
-        System.out.println("Pet deleted with ID: " + pet.getPetid());
+//        dao.delete(12);
     }
 }
 

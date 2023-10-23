@@ -5,8 +5,8 @@ import java.util.List;
 public interface PetDAOinterface {
 	public void insert(PetVO petVO);
 	public void update(PetVO petVO);
-	public void delete(PetVO petVO);
+	public void delete(Integer petid);
 	public PetVO findByPrimaryKey(Integer petid);
-	public List<PetVO> getALL();
+	public List<PetVO> getAll();
 
 }

@@ -1,5 +1,7 @@
 package com.cha103g5.pet.model;
 
+import com.cha103g5.util.Util;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +13,13 @@ public class PetJDBCDAO implements PetDAOinterface {
 	private static final String DELETE = "DELETE FROM pet where petid = ?";
 	private static final String UPDATE = "UPDATE pet set petid=?, pettype=?, memberno=?, petname=?, petsex=?, petage=?, petnote=?, stat=?, applicationdeadline=? where petid = ?";
 
-	static {
-		try {
-			Class.forName(util.DRIVER);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
-		}
-	}
-
 	@Override
 	public void insert(PetVO petVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
-			con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			
@@ -44,7 +38,7 @@ public class PetJDBCDAO implements PetDAOinterface {
 		} catch (SQLException se) {
 			throw new RuntimeException("Database error occurred." + se.getMessage());
 		} finally {
-			util.closeResources(con, pstmt, null);
+			Util.closeResources(con, pstmt, null);
 		}
 	}
 
@@ -54,7 +48,7 @@ public class PetJDBCDAO implements PetDAOinterface {
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(UPDATE);
 
             pstmt.setInt(1, petVO.getPettype());
@@ -76,26 +70,26 @@ public class PetJDBCDAO implements PetDAOinterface {
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, null);
+            Util.closeResources(con, pstmt, null);
         }
     }
 
     @Override
-    public void delete(PetVO petVO) {
+    public void delete(Integer petid) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(DELETE);
 
-            pstmt.setInt(1, petVO.getPetid());
+            pstmt.setInt(1, petid);
 
             pstmt.executeUpdate();
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, null);
+            Util.closeResources(con, pstmt, null);
         }
     }
 
@@ -107,7 +101,7 @@ public class PetJDBCDAO implements PetDAOinterface {
         PetVO petVO = null;
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
             pstmt.setInt(1, petid);
             rs = pstmt.executeQuery();
@@ -127,21 +121,21 @@ public class PetJDBCDAO implements PetDAOinterface {
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, rs);
+            Util.closeResources(con, pstmt, rs);
         }
 
         return petVO;
     }
 
     @Override
-    public List<PetVO> getALL() {
+    public List<PetVO> getAll() {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<PetVO> petList = new ArrayList<>();
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT);
             rs = pstmt.executeQuery();
 
@@ -161,7 +155,7 @@ public class PetJDBCDAO implements PetDAOinterface {
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, rs);
+            Util.closeResources(con, pstmt, rs);
         }
 
         return petList;

@@ -3,17 +3,13 @@ package com.cha103g5.pet.model;
 import java.sql.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+
 
 public class TestPetHibernateDAO {
 
 	public static void main(String[] args) {
-		PetHibernateDAOInterface dao = new PetHibernateDAO();
+		PetHibernateDAOinterface dao = new PetHibernateDAO(null);
 
 		// 新增
 //		PetVO petVO = new PetVO();
@@ -57,7 +53,7 @@ public class TestPetHibernateDAO {
 //		System.out.println("---------------------");
 		
 		// 多筆查詢
-		List<PetVO> list = dao.getALL();
+		List<PetVO> list = dao.getAll();
 		for (PetVO petVOALL : list) {
 			System.out.print(petVOALL.getPetid() + ",");
 			System.out.print(petVOALL.getPettype() + ",");
