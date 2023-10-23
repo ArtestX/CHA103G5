@@ -18,10 +18,18 @@ body {
 	background: linear-gradient(45deg, #c5deea 0%, #8abbd7 31%, #066dab 100%);
 }
 
-/*------------ Login container ------------*/
 .box-area {
 	width: 1230px;
 }
+
+th {
+    text-align: center;
+}
+
+img { 
+     max-width: 100px;
+     height: 50px; 
+ } 
 </style>
 </head>
 <body>
@@ -54,10 +62,11 @@ body {
 								<th>員工帳號</th>
 								<th>員工密碼</th>
 								<th>員工姓名</th>
-								<th>雇用日期</th>
-								<th>員工狀態</th>
 								<th>員工信箱</th>
 								<th>員工電話</th>
+								<th>到職日</th>
+								<th>員工狀態</th>
+								<th>照片</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,10 +75,18 @@ body {
 								<th>${AdminVO.adminAccount}</th>
 								<th>${AdminVO.adminPassword}</th>
 								<th>${AdminVO.adminName}</th>
-								<th>${AdminVO.createDate}</th>
-								<th>${AdminVO.adminStat}</th>
 								<th>${AdminVO.adminEmail}</th>
 								<th>${AdminVO.adminPhone}</th>
+								<th>${AdminVO.createDate}</th>
+								<th>
+						            <c:choose>
+						                <c:when test="${adminVO.adminStat == 1}">在職</c:when>
+						                <c:otherwise>離職</c:otherwise>
+						            </c:choose>
+						        </th>
+								<th>
+									<img src="${pageContext.request.contextPath}/ReadIMG?id=${AdminVO.adminNo}">
+								</th>
 								<th class="text-center">
 								<td>
 									<FORM METHOD="post"
@@ -100,7 +117,7 @@ body {
 		// 添加点击事件处理程序
 		mainPage.addEventListener('click', function() {
 			// 执行页面导航，跳转到 addAdmin.jsp
-			window.location.href = 'adminsystem.jsp';
+			window.location.href = 'adminSystem.jsp';
 		});
 	</script>
 	<script src="../js/popper.min.js"></script>

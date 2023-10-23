@@ -4,7 +4,7 @@
 <%@ page import="com.cha103g5.admin.model.*"%>
 
 <%
-    AdminService adminSvc = new AdminService();
+AdminService adminSvc = new AdminService();
     List<AdminVO> list = adminSvc.getAll();
     pageContext.setAttribute("list",list);
 %>
