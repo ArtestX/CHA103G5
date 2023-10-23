@@ -50,11 +50,11 @@ span {
 					</div>
 					<div class="col-auto">
 						<div>${param.adminNo}</div>
-						<!-- 						<div class="d-flex align-items-center"> -->
-						<%-- 							<input type="text" id="text1" class="form-control" name="adminNo" value="${param.adminNo}" size="15" --%>
-						<!-- 								placeholder="請輸入編號"> <span class="float-end ms-2"> -->
-						<%-- 								${errorMsgs.adminNo} </span> --%>
-						<!-- 						</div> -->
+<!-- 							<div class="d-flex align-items-center"> -->
+<%-- 								<input type="text" id="text1" class="form-control" name="adminNo" value="${param.adminNo}" size="15" --%>
+<!-- 									placeholder="請輸入編號"> <span class="float-end ms-2"> -->
+<%-- 									${errorMsgs.adminNo} </span> --%>
+<!-- 							</div> -->
 					</div>
 				</div>
 				<div class="row g-1 align-items-center ms-5">
@@ -172,7 +172,8 @@ span {
 				<!-- 					</div> -->
 				<div class="input-group g-3 mb-2">
 					<button type="submit" class="btn btn-lg btn-primary w-100 fs-6">送出</button>
-					<input type="hidden" name="action" value="insert">
+					<input type="hidden" name="action" value="update">
+					<input type="hidden" name="adminNo" value="${param.adminNo}">
 				</div>
 			</div>
 		</div>

@@ -4,6 +4,7 @@ import com.cha103g5.admin.model.AdminVO;
 import org.hibernate.Session;
 import com.cha103g5.util.HibernateUtil;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -98,6 +99,32 @@ public class AdminHibernateDAO implements AdminHibernateDAOInterface {
 		}
 		return null;
 	}
+	
+	public AdminVO findByNamePassword(String adminAccount, String adminPassword) {
+	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	    try {
+	        session.beginTransaction();
+	        
+	        String hql = "from AdminVO where adminAccount = :account and adminPassword = :password";
+	        Query<AdminVO> query = session.createQuery(hql, AdminVO.class);
+	        query.setParameter("account", adminAccount);
+	        query.setParameter("password", adminPassword);
+	        
+	        AdminVO adminVO = query.uniqueResult(); // Assuming there should be only one matching user.
+	        
+	        session.getTransaction().commit();
+	        return adminVO;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        session.getTransaction().rollback();
+	    } finally {
+	        if (session != null && session.isOpen()) {
+	            session.close();
+	        }
+	    }
+	    return null;
+	}
+
 
 	@Override
 	public List<AdminVO> getAll() {
