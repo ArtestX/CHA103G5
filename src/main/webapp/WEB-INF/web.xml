@@ -30,6 +30,7 @@
             <file-size-threshold>1048576</file-size-threshold>
         </multipart-config>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>MemberServlet</servlet-name>
         <url-pattern>/member/mem.do</url-pattern>
@@ -50,7 +51,7 @@
         <servlet-mapping>
         <servlet-name>AdminServlet</servlet-name>
         <url-pattern>/admin/admin.do</url-pattern>
-        </servlet-mapping>
+    </servlet-mapping>
          
     <servlet>
         <servlet-name>imageReaderServlet</servlet-name>

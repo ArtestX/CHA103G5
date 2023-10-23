@@ -1,23 +1,17 @@
 package com.cha103g5.pet.model;
 
+import com.cha103g5.util.Util;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PetJDBCDAO implements PetDAO_interface {
+public class PetJDBCDAO implements PetDAOinterface {
 	private static final String INSERT_STMT = "INSERT INTO pet (petid,pettype,memberno,petname,petsex,petage,petnote,stat,applicationdeadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT petid,pettype,memberno,petname,petsex,petage,petnote,stat,applicationdeadline FROM pet order by petid";
 	private static final String GET_ONE_STMT = "SELECT petid,pettype,memberno,petname,petsex,petage,petnote,stat,applicationdeadline FROM pet where petid = ?";
 	private static final String DELETE = "DELETE FROM pet where petid = ?";
 	private static final String UPDATE = "UPDATE pet set petid=?, pettype=?, memberno=?, petname=?, petsex=?, petage=?, petnote=?, stat=?, applicationdeadline=? where petid = ?";
-
-	static {
-		try {
-			Class.forName(util.DRIVER);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
-		}
-	}
 
 	@Override
 	public void insert(PetVO petVO) {
@@ -25,16 +19,16 @@ public class PetJDBCDAO implements PetDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			
 			pstmt.setInt(1, petVO.getPetid());
 			pstmt.setInt(2, petVO.getPettype());
-			pstmt.setInt(3, petVO.getMemberid());
+			pstmt.setInt(3, petVO.getMemberno());
 			pstmt.setString(4, petVO.getPetname());
 			pstmt.setString(5, petVO.getPetsex());
-			pstmt.setInt(6, petVO.getPetage());
+			pstmt.setString(6, petVO.getPetage());
 			pstmt.setString(7, petVO.getPetnote());
 			pstmt.setByte(8, petVO.getStat());
 			pstmt.setDate(9, petVO.getApplicationdeadline());
@@ -44,7 +38,7 @@ public class PetJDBCDAO implements PetDAO_interface {
 		} catch (SQLException se) {
 			throw new RuntimeException("Database error occurred." + se.getMessage());
 		} finally {
-			util.closeResources(con, pstmt, null);
+			Util.closeResources(con, pstmt, null);
 		}
 	}
 
@@ -54,14 +48,14 @@ public class PetJDBCDAO implements PetDAO_interface {
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(UPDATE);
 
             pstmt.setInt(1, petVO.getPettype());
-            pstmt.setInt(2, petVO.getMemberid());
+            pstmt.setInt(2, petVO.getMemberno());
             pstmt.setString(3, petVO.getPetname());
             pstmt.setString(4, petVO.getPetsex());
-            pstmt.setInt(5, petVO.getPetage());
+            pstmt.setString(5, petVO.getPetage());
             pstmt.setString(6, petVO.getPetnote());
             pstmt.setByte(7, petVO.getStat());
 
@@ -76,26 +70,26 @@ public class PetJDBCDAO implements PetDAO_interface {
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, null);
+            Util.closeResources(con, pstmt, null);
         }
     }
 
     @Override
-    public void delete(PetVO petVO) {
+    public void delete(Integer petid) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(DELETE);
 
-            pstmt.setInt(1, petVO.getPetid());
+            pstmt.setInt(1, petid);
 
             pstmt.executeUpdate();
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, null);
+            Util.closeResources(con, pstmt, null);
         }
     }
 
@@ -107,7 +101,7 @@ public class PetJDBCDAO implements PetDAO_interface {
         PetVO petVO = null;
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
             pstmt.setInt(1, petid);
             rs = pstmt.executeQuery();
@@ -116,10 +110,10 @@ public class PetJDBCDAO implements PetDAO_interface {
                 petVO = new PetVO();
                 petVO.setPetid(rs.getInt("petid"));
                 petVO.setPettype(rs.getInt("pettype"));
-                petVO.setMemberid(rs.getInt("memberno"));
+                petVO.setMemberno(rs.getInt("memberno"));
                 petVO.setPetname(rs.getString("petname"));
                 petVO.setPetsex(rs.getString("petsex"));
-                petVO.setPetage(rs.getInt("petage"));
+                petVO.setPetage(rs.getString("petage"));
                 petVO.setPetnote(rs.getString("petnote"));
                 petVO.setStat(rs.getByte("stat"));
                 petVO.setApplicationdeadline(rs.getDate("applicationdeadline"));
@@ -127,21 +121,21 @@ public class PetJDBCDAO implements PetDAO_interface {
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, rs);
+            Util.closeResources(con, pstmt, rs);
         }
 
         return petVO;
     }
 
     @Override
-    public List<PetVO> getALL() {
+    public List<PetVO> getAll() {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<PetVO> petList = new ArrayList<>();
 
         try {
-            con = DriverManager.getConnection(util.URL, util.USER, util.PASSWORD);
+            con = Util.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT);
             rs = pstmt.executeQuery();
 
@@ -149,10 +143,10 @@ public class PetJDBCDAO implements PetDAO_interface {
                 PetVO petVO = new PetVO();
                 petVO.setPetid(rs.getInt("petid"));
                 petVO.setPettype(rs.getInt("pettype"));
-                petVO.setMemberid(rs.getInt("memberno"));
+                petVO.setMemberno(rs.getInt("memberno"));
                 petVO.setPetname(rs.getString("petname"));
                 petVO.setPetsex(rs.getString("petsex"));
-                petVO.setPetage(rs.getInt("petage"));
+                petVO.setPetage(rs.getString("petage"));
                 petVO.setPetnote(rs.getString("petnote"));
                 petVO.setStat(rs.getByte("stat"));
                 petVO.setApplicationdeadline(rs.getDate("applicationdeadline"));
@@ -161,7 +155,7 @@ public class PetJDBCDAO implements PetDAO_interface {
         } catch (SQLException se) {
             throw new RuntimeException("Database error occurred: " + se.getMessage());
         } finally {
-            util.closeResources(con, pstmt, rs);
+            Util.closeResources(con, pstmt, rs);
         }
 
         return petList;
