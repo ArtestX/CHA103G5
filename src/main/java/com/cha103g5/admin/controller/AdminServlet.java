@@ -445,7 +445,7 @@ public class AdminServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("adminVO", adminVO);
             req.setAttribute("AdminVO", adminVO); // 資料庫取出的AdminVO物件,存入req
-            String url = "/admin/adminSystem.jsp";
+            String url = "/admin/backendMain.jsp";
             RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmin.jsp
             successView.forward(req, res);
 
