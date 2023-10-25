@@ -1,60 +1,60 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.cha103g5.admin.model.*"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/backendlogin.css">
     <title>員工登入</title>
+    <style>
+    
+    div.right-box .error-message {
+    color: red;
+    margin-top: 0px; /* 調整上邊距的數值 */
+    margin-left: 12px;
+	}
+	
+    </style>
 </head>
-
 <body>
-
-    <!----------------------- Main Container -------------------------->
-
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-
-        <!----------------------- Login Container -------------------------->
-
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
-
-            <!--------------------------- Left Box ----------------------------->
-
             <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
                 style="background: #ffffff;">
                 <div class="featured-image mb-3">
                     <img src="../img/backend.png" class="img-fluid" style="width: 250px;">
                 </div>
             </div>
-
-            <!-------------------- ------ Right Box ---------------------------->
-
             <div class="col-md-6 right-box">
                 <div class="row align-items-center">
                     <div class="header-text mb-2">
                         <p class="text-black fs-4"
                             style="font-family: 'Courier New', Courier, monospace; font-weight: 550;">後台管理系統</p>
                     </div>
+                    <form method="post" action="admin.do">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入帳號" name="adminAccount" value="${param.adminAccount}">
+                    </div>
+                    	<div class="error-message">${requestScope.errorMsgs.adminAccount}</div>
+                    <div class="input-group mb-2">
+                        <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入密碼" name="adminPassword" value="${param.adminPassword}">
+                    </div>
+                        <div class="error-message">${requestScope.errorMsgs.adminPassword}</div>
+					<br>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入帳號">
-                    </div>
-                    <div class="input-group mb-4">
-                        <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入密碼">
-                    </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-lg btn-primary w-100 fs-6">登入</button>
-                    </div>
-                    <div class="input-group mb-1">
-                        <small>此處預留顯示錯誤處裡 <a href="#">錯誤</a></small>
+                        <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">登入</button>
                     </div>
                 </div>
+                <input type="hidden" name="action" value="userAuth">
+                </form>
             </div>
         </div>
     </div>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
 </body>
-
 </html>

@@ -9,13 +9,13 @@ body {
 /*------------ Login container ------------*/
 
 .box-area{
-    width: 630px;
+    width: 530px;
 }
 
 /*------------ Right box ------------*/
 
 .right-box{
-    padding: 40px 30px 40px 40px;
+    padding: 40px 30px 35px 20px;
 }
 
 /*------------ Custom Placeholder ------------*/

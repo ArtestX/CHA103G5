@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
@@ -125,13 +126,15 @@ public class AdminServlet extends HttpServlet {
             } else if (!adminName.trim().matches(adminNameReg)) { //以下練習正則(規)表示式(regular-expression)
                 errorMsgs.put("adminName", "不得特殊符號且長度2~10");
             }
+            
+            Integer adminNo = Integer.valueOf(req.getParameter("adminNo").trim());
 
-            Integer adminNo = null;
-            try {
-                adminNo = Integer.valueOf(req.getParameter("adminNo").trim());
-            } catch (NumberFormatException e) {
-                errorMsgs.put("adminNo", "請填數字");
-            }
+//            Integer adminNo = null;
+//            try {
+//                adminNo = Integer.valueOf(req.getParameter("adminNo").trim());
+//            } catch (NumberFormatException e) {
+//                errorMsgs.put("adminNo", "請填數字");
+//            }
 
             String adminAccount = req.getParameter("adminAccount").trim();
             String adminAccountReg = "[a-zA-Z0-9_]+";
@@ -163,13 +166,15 @@ public class AdminServlet extends HttpServlet {
             } catch (IllegalArgumentException e) {
                 errorMsgs.put("createDate", "請輸入日期");
             }
+            
+            Integer adminStat = Integer.valueOf(req.getParameter("adminStat").trim());
 
-            Integer adminStat = null;
-            try {
-                adminStat = Integer.valueOf(req.getParameter("adminStat").trim());
-            } catch (NumberFormatException e) {
-                errorMsgs.put("adminStat", "請填數字");
-            }
+//            Integer adminStat = null;
+//            try {
+//                adminStat = Integer.valueOf(req.getParameter("adminStat").trim());
+//            } catch (NumberFormatException e) {
+//                errorMsgs.put("adminStat", "請填數字");
+//            }
 
             String adminEmail = req.getParameter("adminEmail").trim();
             if (adminEmail == null || adminEmail.trim().length() == 0) {
@@ -180,17 +185,42 @@ public class AdminServlet extends HttpServlet {
             if (adminPhone == null || adminPhone.trim().length() == 0) {
                 errorMsgs.put("adminPhone", "電話請勿空白");
             }
-
+            
+            Part image = null;
+            try {
+                Collection<Part> parts = req.getParts();
+                for (Part part : parts) {
+                    if ("image".equals(part.getName())) image = part;
+                }
+            } catch (IllegalArgumentException e){
+                e.printStackTrace();
+            }
+            
+            AdminService adminSvc = new AdminService();
             byte[] adminPic = null;
-	    	try {
-		    		Part part = req.getPart("adminPic");
-		    		if (part != null) {
-			    		var inputstream = part.getInputStream();
-		    			adminPic = IOUtils.toByteArray(inputstream);
-		    		}
-			} catch (IOException e) {
-			    e.printStackTrace();
-			}
+            int length = image.getInputStream().available() ;
+            if(length != 0){
+                try (InputStream inputStream = image.getInputStream()){
+                    adminPic = inputStream.readAllBytes();
+                    inputStream.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }else {
+            	adminPic=adminSvc.getOneAdmin(adminNo).getAdminPic();
+            }
+            
+
+//            byte[] adminPic = null;
+//	    	try {
+//		    		Part part = req.getPart("adminPic");
+//		    		if (part != null) {
+//			    		var inputstream = part.getInputStream();
+//		    			adminPic = IOUtils.toByteArray(inputstream);
+//		    		}
+//			} catch (IOException e) {
+//			    e.printStackTrace();
+//			}
 
 
             // Send the use back to the form, if there were errors
@@ -202,7 +232,7 @@ public class AdminServlet extends HttpServlet {
             }
 
             /***************************2.開始修改資料*****************************************/
-            AdminService adminSvc = new AdminService();
+           
             AdminVO adminVO = adminSvc.updateAdmin(adminNo,adminAccount,adminPassword,adminName,createDate,adminStat, adminEmail,adminPhone,adminPic);
 
             /***************************3.修改完成,準備轉交(Send the Success view)*************/
@@ -291,6 +321,8 @@ public class AdminServlet extends HttpServlet {
             } catch (IllegalArgumentException e){
                 e.printStackTrace();
             }
+            
+            
             byte[] adminPic = null;
             if(image != null){
                 try (InputStream inputStream = image.getInputStream()){
@@ -350,5 +382,74 @@ public class AdminServlet extends HttpServlet {
             RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
             successView.forward(req, res);
         }
+        
+        if ("userAuth".equals(action)) { 
+        	System.out.println("XXXX");
+
+            Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
+            req.setAttribute("errorMsgs", errorMsgs);
+
+            /***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
+
+            String adminAccount = req.getParameter("adminAccount").trim();
+            String adminAccountReg = "[a-zA-Z0-9_]+";
+            String adminAccoutReg2 = "^[(a-zA-Z0-9_)]{6,12}$";
+            if (adminAccount == null || adminAccount.trim().length() == 0) {
+                errorMsgs.put("adminAccount", "帳號請勿空白");
+            } else if (!adminAccount.trim().matches(adminAccountReg)) {
+                errorMsgs.put("adminAccount", "只能是英文、數字和_");
+            } else if (!adminAccount.trim().matches(adminAccoutReg2)) {
+                errorMsgs.put("adminAccount", "長度需在6到12之間");
+            }
+
+            String adminPassword = req.getParameter("adminPassword").trim();
+            String adminPasswordReg = "^[a-zA-Z0-9!@]+$";
+            String adminPasswordReg2 = "^[a-zA-Z0-9!@]{8,16}$";
+
+            if (adminPassword == null || adminPassword.length() == 0) {
+                errorMsgs.put("adminPassword", "密碼請勿空白");
+            } else if (!adminPassword.matches(adminPasswordReg)) {
+                errorMsgs.put("adminPassword", "只能是英文、數字、@、!");
+            } else if (!adminPassword.matches(adminPasswordReg2)) {
+                errorMsgs.put("adminPassword", "長度需在8到16之間");
+            }
+
+
+            // Send the use back to the form, if there were errors
+            if (!errorMsgs.isEmpty()) {
+                RequestDispatcher failureView = req
+                        .getRequestDispatcher("/admin/adminLogin.jsp");
+                failureView.forward(req, res);
+                return;
+            }
+            
+            /***************************2.開始查詢資料*****************************************/
+            AdminService adminSvc = new AdminService();
+            AdminVO adminVO = adminSvc.userAuth(adminAccount, adminPassword);
+    
+            if (adminVO == null) {
+                errorMsgs.put("adminAccount", "查無資料");
+                errorMsgs.put("adminPassword", "密碼錯誤");
+            }
+            req.setAttribute("errorMsgs", errorMsgs);
+           
+         // Send the use back to the form, if there were errors
+            if (!errorMsgs.isEmpty()) {
+                RequestDispatcher failureView = req
+                        .getRequestDispatcher("/admin/adminLogin.jsp"); // admin/selectPage.jsp
+                failureView.forward(req, res);
+                return;//程式中斷
+            }
+
+            /***************************3.查詢完成,準備轉交(Send the Success view)*************/
+            HttpSession session = req.getSession();
+            session.setAttribute("adminVO", adminVO);
+            req.setAttribute("AdminVO", adminVO); // 資料庫取出的AdminVO物件,存入req
+            String url = "/admin/backendMain.jsp";
+            RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmin.jsp
+            successView.forward(req, res);
+
+        }
+
     }
 }
