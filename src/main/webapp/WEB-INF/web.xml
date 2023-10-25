@@ -62,5 +62,22 @@
         <servlet-name>imageReaderServlet</servlet-name> 
         <url-pattern>/ReadIMG</url-pattern> 
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>PetServlet</servlet-name>
+    <servlet-class>com.cha103g5.pet.controller.PetServlet</servlet-class>
+
+    <multipart-config>
+        <location>/tmp</location>
+        <max-file-size>20848820</max-file-size>
+        <max-request-size>418018841</max-request-size>
+        <file-size-threshold>1048576</file-size-threshold>
+    </multipart-config>
+        </servlet>
+        <servlet-mapping>
+        <servlet-name>PetServlet</servlet-name>
+        <url-pattern>/pet/pet.do</url-pattern>
+    </servlet-mapping>
+    
         
 </web-app>

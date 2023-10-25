@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "pet")
-public class PetVO implements java.io.Serializable{
+public class PetVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "petid", updatable=false, nullable=false)
@@ -35,29 +35,12 @@ public class PetVO implements java.io.Serializable{
 	@Column(name = "petnote")
 	private String petnote;
 
-	@Column(name = "stat")
+	@Column(name = "stat", columnDefinition = "tinyint")
 	private byte stat;
 
 	@Column(name = "applicationdeadline")
 	private Date applicationdeadline;
 
-	public PetVO() {
-		super();
-	}
-
-	public PetVO(Integer petid, Integer pettype, Integer memberno, String petname, String petsex, String petage,
-			String petnote, byte stat, Date applicationdeadline) {
-		super();
-		this.petid = petid;
-		this.pettype = pettype;
-		this.memberno = memberno;
-		this.petname = petname;
-		this.petsex = petsex;
-		this.petage = petage;
-		this.petnote = petnote;
-		this.stat = stat;
-		this.applicationdeadline = applicationdeadline;
-	}
 
 	public Integer getPetid() {
 		return petid;
