@@ -445,10 +445,35 @@ public class AdminServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("adminVO", adminVO);
             req.setAttribute("AdminVO", adminVO); // 資料庫取出的AdminVO物件,存入req
-            String url = "/admin/backendMain.jsp";
-            RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmin.jsp
-            successView.forward(req, res);
+            
+            adminVO = (AdminVO) session.getAttribute("adminVO");
+            
+            if (adminVO != null) {
+                // 执行登录验证逻辑，比较adminVO中的字段与数据库中的值
+                String url = "/admin/backendMain.jsp";
+                res.sendRedirect(req.getContextPath() + url);
+            } else {
+                res.sendRedirect(req.getContextPath() + "/admin/adminLogin.jsp");
+            }
 
+//            if (adminVO != null) {
+//                // 执行登录验证逻辑，比较adminVO中的字段与数据库中的值
+//            	String url = "/admin/backendMain.jsp";
+//                RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmin.jsp
+//                successView.forward(req, res);
+//            } else {
+//            	res.sendRedirect("./adminLogin.jsp");
+//            }
+
+        }
+        
+        if ("backendlogout".equals(action)) {
+            HttpSession session = req.getSession(false);
+            if (session != null) {
+                session.invalidate(); // 登出，终止会话
+                System.out.println("成功登出");
+            }
+            res.sendRedirect("./adminLogin.jsp");
         }
 
     }

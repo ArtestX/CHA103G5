@@ -5,6 +5,16 @@
 <%@ page import="com.cha103g5.admin.model.*"%>
 
 <%
+    Object adminAccount = session.getAttribute("adminVO");                  // 從 session內取出 (key) adminVO的值
+    if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
+    	System.out.print("OOXX");
+    	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+      response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+      return;
+    }
+%>
+
+<%
 AdminService adminSvc = new AdminService();
 List<AdminVO> list = adminSvc.getAll();
 pageContext.setAttribute("list", list);
@@ -46,6 +56,12 @@ th {
       <img src="../img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       後臺管理系統
     </a>
+    <div class="ms-auto">
+      <form method="POST" action="./admin.do">
+      	<button class="btn btn-danger">登出</button>
+      	<input type="hidden" name="action" value="backendlogout">
+      </form>
+    </div>
   </div>
 </nav>
 	<div class="container-fluid">
