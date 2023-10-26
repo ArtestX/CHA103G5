@@ -45,7 +45,11 @@ th {
     text-align: center;
 }
 
-
+.error-message {
+	color: red; /* 設置文字顏色為紅色，你可以根據需要進行調整 */
+	margin-top: 5px; /* 設置上邊距，控制它與<input>元素之間的距離 */
+	margin-left: 12px;
+}
 </style>
 
 </head>

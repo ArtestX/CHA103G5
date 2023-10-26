@@ -447,7 +447,6 @@ public class AdminServlet extends HttpServlet {
             req.setAttribute("AdminVO", adminVO); // 資料庫取出的AdminVO物件,存入req
             
             adminVO = (AdminVO) session.getAttribute("adminVO");
-            
             if (adminVO != null) {
                 // 执行登录验证逻辑，比较adminVO中的字段与数据库中的值
                 String url = "/admin/backendMain.jsp";
@@ -457,7 +456,6 @@ public class AdminServlet extends HttpServlet {
             }
 
 //            if (adminVO != null) {
-//                // 执行登录验证逻辑，比较adminVO中的字段与数据库中的值
 //            	String url = "/admin/backendMain.jsp";
 //                RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmin.jsp
 //                successView.forward(req, res);
