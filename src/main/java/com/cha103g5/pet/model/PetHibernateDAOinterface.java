@@ -5,7 +5,7 @@ import java.util.List;
 public interface PetHibernateDAOinterface {
 	int insert(PetVO petVO);
 	int update(PetVO petVO);
-	int delete(Integer petId);
-	PetVO findByPrimaryKey(Integer petId);
+	int delete(Integer petid);
+	PetVO findByPrimaryKey(Integer petid);
 	List<PetVO> getAll();
 }

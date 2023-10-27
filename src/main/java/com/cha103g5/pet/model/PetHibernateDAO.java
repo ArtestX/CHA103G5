@@ -28,9 +28,9 @@ public class PetHibernateDAO implements PetHibernateDAOinterface {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			Integer id = (Integer) session.save(petVO);
+			session.save(petVO);
 			session.getTransaction().commit();
-			return id;
+			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -58,9 +58,9 @@ public class PetHibernateDAO implements PetHibernateDAOinterface {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			PetVO adminVO = session.get(PetVO.class, petId);
-			if (adminVO != null) {
-				session.delete(adminVO);
+			PetVO petVO = session.get(PetVO.class, petId);
+			if (petVO != null) {
+				session.delete(petVO);
 			}
 			session.getTransaction().commit();
 			return 1;
