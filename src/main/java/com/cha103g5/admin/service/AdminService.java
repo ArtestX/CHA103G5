@@ -1,4 +1,4 @@
-package com.cha103g5.admin.model;
+package com.cha103g5.admin.service;
 
 import com.cha103g5.admin.model.AdminHibernateDAO;
 import com.cha103g5.admin.model.AdminHibernateDAOInterface;

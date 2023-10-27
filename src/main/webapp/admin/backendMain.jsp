@@ -4,14 +4,21 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
 
+<%
+    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+    response.setHeader("Cache-Control", "post-check=0, pre-check=0");
+    response.setHeader("Pragma", "no-cache");
+%>
 
 <%
-    Object adminAccount = session.getAttribute("adminVO");                  // 從 session內取出 (key) adminVO的值
-    	if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
-      	System.out.println("GGYY");
+    Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
+    if (adminAccount == null) {
+    	System.out.println("再次確認清除");                                        // 如為 null, 代表此user未登入過 , 才做以下工作
     	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
         response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
      	return;
+    }else{
+    	System.out.println("再次確認沒有清除");
     }
 %>
 
@@ -21,6 +28,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>員工管理系統</title>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 <style>

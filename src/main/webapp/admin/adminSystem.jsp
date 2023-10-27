@@ -1,17 +1,18 @@
+<%@page import="com.cha103g5.admin.service.AdminService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
+<%@ page import="com.cha103g5.admin.service.*"%>
 
 <%
-    Object adminAccount = session.getAttribute("adminVO");                  // 從 session內取出 (key) adminVO的值
-    if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
-    	System.out.print("OOXX");
-    	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
-      response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
-      return;
-    }
+//     Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
+//     if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
+//     	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+//         response.sendRedirect(request.getContextPath()+"/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+//      	return;
+//     }
 %>
 
 <%
@@ -194,7 +195,7 @@ th {
 							</form>
 
 							<jsp:useBean id="adminSel" scope="page"
-								class="com.cha103g5.admin.model.AdminService" />
+								class="com.cha103g5.admin.service.AdminService" />
 
 							<form method="post" action="admin.do" id="adminNoSel"
 								class="dropdown col-md-2 ">

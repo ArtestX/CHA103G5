@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
+
+<% Object account = session.getAttribute("adminAccount");
+		if (account == null) {
+			System.out.println("確認清除");
+		}
+%>
+
 <%
     response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
     response.setHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -45,7 +52,7 @@
                         <p class="text-black fs-4"
                             style="font-family: 'Courier New', Courier, monospace; font-weight: 550;">後台管理系統</p>
                     </div>
-                    <form method="post" action="admin.do">
+                    <form method="post" action="adminLoginHandler">
                     <div class="input-group mb-2">
                         <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入帳號" name="adminAccount" value="${param.adminAccount}">
                     </div>
@@ -59,7 +66,7 @@
                         <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">登入</button>
                     </div>
                 </div>
-                <input type="hidden" name="action" value="userAuth">
+<!--                 <input type="hidden" name="action" value="userAuth"> -->
                 </form>
             </div>
         </div>
