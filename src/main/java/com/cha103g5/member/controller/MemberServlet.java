@@ -13,7 +13,6 @@ import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +25,7 @@ import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
 import com.google.gson.Gson;
 
-@WebServlet("/member/mem.do")
+
 @MultipartConfig
 public class MemberServlet extends HttpServlet {
 	
