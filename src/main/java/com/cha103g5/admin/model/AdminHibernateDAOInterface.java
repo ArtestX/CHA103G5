@@ -8,6 +8,7 @@ public interface AdminHibernateDAOInterface {
 	int update(AdminVO adminVO);
 	void delete(Integer adminNo); //int with JNDI version
 	AdminVO findByPrimaryKey(Integer adminNo);
+	AdminVO findByNamePassword(String adminAccount,String adminPassword);
 	List<AdminVO> getAll();
 	
 //	public void insert(AdminVO adminVO);

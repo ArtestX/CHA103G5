@@ -1,4 +1,3 @@
-<%@page import="com.cha103g5.admin.service.AdminService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,18 +6,9 @@
 <%@ page import="com.cha103g5.admin.service.*"%>
 
 <%
-//     Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
-//     if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
-//     	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
-//         response.sendRedirect(request.getContextPath()+"/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
-//      	return;
-//     }
-%>
-
-<%
-AdminService adminSvc = new AdminService();
-List<AdminVO> list = adminSvc.getAll();
-pageContext.setAttribute("list", list);
+// AdminService adminSvc = new AdminService();
+// List<AdminVO> list = adminSvc.getAll();
+// pageContext.setAttribute("list", list);
 %>
 
 <!DOCTYPE html>
@@ -29,145 +19,85 @@ pageContext.setAttribute("list", list);
 <title>員工管理系統</title>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 <style>
-body {
-            background-image: url('../img/desktop.jpg');
-            background-size: cover;
-            background-attachment: fixed; /* 可选，固定背景图片 */
-            background-repeat: no-repeat;
-        }
-        
- .custom-bg-color { 
-/* 	background-color: #EDEEF0; /* 自定义颜色代码 */ */
-	} 
-
-
-
-th {
-    text-align: center;
-}
-
 .error-message {
 	color: red; /* 設置文字顏色為紅色，你可以根據需要進行調整 */
 	margin-top: 5px; /* 設置上邊距，控制它與<input>元素之間的距離 */
 	margin-left: 12px;
 }
+
+#navigateButton {
+	width: 100px; /* 设置按钮的宽度 */
+	height: 40px; /* 设置按钮的高度 */
+}
+
+ img { 
+     max-width: 100px;
+     height: 50px; 
+ } 
+
+th {
+    text-align: center;
+}
+
 </style>
 
 </head>
 <body>
-	<nav class="navbar custom-bg-color">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="backendMain.jsp">
-      <img src="../img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-      後臺管理系統
-    </a>
-    <div class="ms-auto">
-      <form method="POST" action="./admin.do">
-      	<button class="btn btn-danger">登出</button>
-      	<input type="hidden" name="action" value="backendlogout">
-      </form>
-    </div>
-  </div>
-</nav>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="adminMain.jsp">後台管理系統</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Action</a></li>
+							<li><a class="dropdown-item" href="#">Another action</a></li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="#">Something else
+									here</a></li>
+						</ul></li>
+					<!-- 					<li class="nav-item"><a class="nav-link disabled" -->
+					<!-- 						aria-disabled="true">Disabled</a></li> -->
+				</ul>
+				<form class="d-flex" role="search">
+					<input class="form-control me-2" type="search" placeholder="Search"
+						aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-2 g-3">
-			<!--左邊-->
-				<div class="accordion" id="accordionExample">
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-				        員工管理
-				      </button>
-				    </h2>
-				    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
-				      </div>
-				      <div class="accordion-body">
-				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-				        商品管理
-				      </button>
-				    </h2>
-				    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-				        訂單管理
-				      </button>
-				    </h2>
-				    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-				        客服管理
-				      </button>
-				    </h2>
-				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-				        寵物領養管理
-				      </button>
-				    </h2>
-				    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-				        會員資料管理
-				      </button>
-				    </h2>
-				    <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
-				        公告資訊管理
-				      </button>
-				    </h2>
-				    <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
+				<!--左邊-->
+				<div class="list-group">
+					<a href="#" class="list-group-item list-group-item-action active" aria-current="true"> 員工管理 </a> 
+					<a href="#" class="list-group-item list-group-item-action">商品管理</a> 
+					<a href="#" class="list-group-item list-group-item-action">訂單管理</a>
+					<a href="#" class="list-group-item list-group-item-action">客服管理</a>
+					<a href="#" class="list-group-item list-group-item-action">寵物領養管理</a>
+					<a href="#" class="list-group-item list-group-item-action">公告資訊管理</a>
+					<a href="#" class="list-group-item list-group-item-action" aria-disabled="true">會員資料管理</a>
 				</div>
 			</div>
-			<!--左邊-->
-			
 			<div class="col-lg-10 g-3">
-			<!--右邊-->
-			<div class="card">
+				<!--右邊-->
+				<div class="card">
 					<div class="card-header">
 						員工列表
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -256,8 +186,8 @@ th {
 									</tr>
 								</thead>
 								<tbody>
-									<%@ include file="page1.file" %> 
-									<c:forEach var="adminVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+<%-- 									<%@ include file="page1.file" %>  --%>
+<%-- 									<c:forEach var="adminVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>"> --%>
 										<tr>
 											<th>${adminVO.adminNo}</th>
 											<th>${adminVO.adminAccount}</th>
@@ -273,7 +203,7 @@ th {
 									            </c:choose>
 									        </th>
 											<th>
-												<img src="${pageContext.request.contextPath}/ReadIMG?id=${adminVO.adminNo}" style="max-width: 100px; height: 50px;">
+												<img src="${pageContext.request.contextPath}/ReadIMG?id=${adminVO.adminNo}">
 											</th>
 							
 											<th class="text-center">
@@ -297,10 +227,10 @@ th {
 											</td>
 											</th>
 										</tr>
-									</c:forEach>
+<%-- 									</c:forEach> --%>
 								</tbody>
 							</table>
-							<%@ include file="page2.file" %>
+<%-- 							<%@ include file="page2.file" %> --%>
 
 <!-- 							<nav aria-label="Page navigation example" class="text-center"> -->
 <!-- 								<ul class="pagination"> -->
