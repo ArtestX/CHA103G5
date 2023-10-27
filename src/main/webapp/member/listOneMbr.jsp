@@ -3,7 +3,7 @@
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-  //EmpVO empVO = (EmpVO) request.getAttribute("empVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
+MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet.java(Concroller), 存入req的MemberVO物件
 %>
 
 <html>
@@ -88,7 +88,9 @@
 			<td>${MemberVO.memberjointime}</td>
 			<td>${MemberVO.memberbirthday}</td>
 			<td>${MemberVO.membernation}</td>
-			<td>${MemberVO.memberpic}</td>
+			<td>
+				<img src="<%=request.getContextPath()%>/ReadMbrIMG?id=${MemberVO.memberno}" width=70px height= 70px>
+			</td>
 			<td>${MemberVO.membercard}</td>
 			<td>${MemberVO.memberpoints}</td> 
 			<td>${MemberVO.memberstat}</td>

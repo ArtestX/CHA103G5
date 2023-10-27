@@ -1,19 +1,19 @@
 package com.cha103g5.member.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,9 +24,8 @@ import org.apache.commons.io.IOUtils;
 
 import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
-@WebServlet("/member/mem.do")
 @MultipartConfig
 public class MemberServlet extends HttpServlet {
 	
@@ -35,9 +34,96 @@ public class MemberServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+/**********************登出**********************/
+/**********************登出**********************/
+/**********************登出**********************/				
+		if("logout".equals(action)) {
+			
+		    HttpSession  session = req.getSession();
+		    
+		    session.removeAttribute("user");
+		    res.sendRedirect(req.getContextPath() + "/index.jsp");
+		    
+		   
+		    System.out.println(session.getId() +"刪除");
+            String user = (String) session.getAttribute("user");
+            if (user == null) {
+                System.out.println("User is not in session.");
+            }    
+           
+		}
+/**********************登入**********************/
+/**********************登入**********************/
+/**********************登入**********************/		
+		if ("memberlogin".equals(action)) { // 來自memberLogin.jsp的請求	
+				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+			   	req.setAttribute("errorMsgs", errorMsgs);
+			   	/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+			   	String memberemail = req.getParameter("memberemail");
+				
+				if (memberemail == null || (memberemail.trim()).length() == 0) {
+					errorMsgs.put("memberemail","會員帳號:請勿空白");
+				}
+				
+				String memberpassword = req.getParameter("memberpassword");
+				
+				if (memberpassword == null || (memberpassword.trim()).length() == 0) {
+					errorMsgs.put("memberpassword","會員密碼:請勿空白");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/member/memberLogin.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+				
+				/***************************2.開始查詢資料*****************************************/
+				MemberService mbrSvc = new MemberService();
+				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+				
+				
+				if (memberVO != null && memberpassword.equals(memberVO.getMemberpassword())) {
+		            // 登入成功，將訊息儲存在session中
+					HttpSession session = req.getSession();
+		            session.setAttribute("user",memberemail);
+		           
+		  
+		            System.out.println(session.getId());//印出session確認
+		            	            
+//		            if (memberemail != null && memberpassword != null) {
+//		              	JsonObject jsonResponse = new JsonObject();
+//		                jsonResponse.addProperty("success", true);
+//		                res.setContentType("application/json");
+//		                PrintWriter out = res.getWriter();
+//		                out.print(jsonResponse.toString());
+//		                out.flush();
+//		            }
+		            // 重導頁面
+//		            String location = (String) session.getAttribute("location");// 看看有無來源網頁。有可設定重導回去原本網頁
+			        String url = req.getContextPath() + "/index.jsp";
+					res.sendRedirect(url);
+		            
+		        } else {
+		        	errorMsgs.put("memberlogin","帳號 或 密碼 不正確");
+		        	
+		        	// Send the use back to the form, if there were errors
+					if (!errorMsgs.isEmpty()) {
+						RequestDispatcher failureView = req
+								.getRequestDispatcher("/member/memberLogin.jsp");
+						failureView.forward(req, res);
+						return;//程式中斷
+					}	
+					 
+		        }
+
+		}
 		
-// 來自select_page.jsp的請求		
-		if ("getOne_For_Display".equals(action)) { 
+/**********************查詢**********************/
+/**********************查詢**********************/
+/**********************查詢**********************/	
+		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求	
+			
 			   	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 			   	req.setAttribute("errorMsgs", errorMsgs);
 
@@ -68,11 +154,11 @@ public class MemberServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
-				
+						
 				/***************************2.開始查詢資料*****************************************/
 				MemberService mbrSvc = new MemberService();
-				MemberVO MemberVO = mbrSvc.getMemberByMemberno(memberno);
-				if (MemberVO == null) {
+				MemberVO memberVO = mbrSvc.getMemberByMemberno(memberno);
+				if (memberVO == null) {
 					errorMsgs.put("memberno","查無資料");
 				}
 				// Send the use back to the form, if there were errors
@@ -84,17 +170,29 @@ public class MemberServlet extends HttpServlet {
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("MemberVO", MemberVO); // 資料庫取出的MemberVO物件,存入req
+				req.setAttribute("MemberVO", memberVO); // 資料庫取出的MemberVO物件,存入req
 				String url = "/member/listOneMbr.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneMbr.jsp
 				successView.forward(req, res);
 		 }
 		
-// 來自listAllEmp.jsp的請求		
-		 if ("getOne_For_Update".equals(action)) { 
+/**********************查詢單筆**********************/
+/**********************查詢單筆**********************/
+/**********************查詢單筆**********************/	
+		 	
+		 if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp的請求	
 			
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
+				
+				//【從 session 判斷此user是否登入過】//
+				HttpSession session = req.getSession();
+				Object account = session.getAttribute("account");
+				if (account == null) {
+					session.setAttribute("location", req.getRequestURI());
+					res.sendRedirect(req.getContextPath() + "/index.jsp");
+					return;
+				}
 			
 				/***************************1.接收請求參數****************************************/
 				Integer memberno = Integer.valueOf(req.getParameter("memberno"));
@@ -126,8 +224,10 @@ public class MemberServlet extends HttpServlet {
 				successView.forward(req, res);
 		 }
 		
-// 來自update_Mbr_input.jsp的請求
-		 if ("update".equals(action)) {
+/**********************修改**********************/
+/**********************修改**********************/
+/**********************修改**********************/	
+		 if ("update".equals(action)) {// 來自update_Mbr_input.jsp的請求
 			
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
@@ -171,12 +271,16 @@ public class MemberServlet extends HttpServlet {
 				String membernation = req.getParameter("membernation").trim();
 				
 				byte[] memberpic = null;
+				MemberService mbrSvc = new MemberService();
 		    	try {	
-			    		Part part = req.getPart("memberpic");
-			    		if (part != null) {
-				    		var inputstream = part.getInputStream();
+			    		Part part = req.getPart("memberpic"); //part 不能直接設定成O，要設定part的長度
+			    		int lenth = part.getInputStream().available(); //part的長度值(用available)
+			    		if (lenth != 0) {
+				    		var inputstream = part.getInputStream();//長度不等於0，有圖片所以修改
 			    			memberpic = IOUtils.toByteArray(inputstream);
-			    		}	
+			    		}else {
+			    			memberpic = mbrSvc.getMemberByMemberno(memberno).getMemberpic();//沒有圖片所以維持原樣
+			    		}
 				} catch (IOException e) {
 				    e.printStackTrace();
 				}
@@ -207,7 +311,7 @@ public class MemberServlet extends HttpServlet {
 				}
 				
 				/***************************2.開始修改資料*****************************************/
-				MemberService mbrSvc = new MemberService();
+				
 				MemberVO memberVO = mbrSvc.updateMember(memberno, membername, membergender, 
 						memberpassword, memberphone, memberaddress, memberbirthday, membernation,
 						memberpic, membercard, memberid, memberjob, membersal);
@@ -218,9 +322,12 @@ public class MemberServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMbr.jsp
 				successView.forward(req, res);
 		 }
-		
-// 來自signUpMbr.jsp的請求  
-		 if ("insert".equals(action)) { 
+		 
+/**********************新增**********************/
+/**********************新增**********************/
+/**********************新增**********************/				
+
+		 if ("insert".equals(action)) { // 來自signUpMbr.jsp的請求  
 			    Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 
@@ -277,16 +384,27 @@ public class MemberServlet extends HttpServlet {
 					
 				String membernation = req.getParameter("membernation").trim();
 					
-				byte[] memberpic = null;
-			    try {	
-				    Part part = req.getPart("memberpic");
-				    if (part != null) {
-					    var inputstream = part.getInputStream();
-				        memberpic = IOUtils.toByteArray(inputstream);
-				    }	
-				} catch (IOException e) {
-				    e.printStackTrace();
-				}
+				Part image = null;
+	            try {
+	                Collection<Part> parts = req.getParts();
+	                for (Part part : parts) {
+	                    if ("image".equals(part.getName())) {
+	                    	image = part;
+	                    }
+	                }
+	            } catch (IllegalArgumentException e){
+	                e.printStackTrace();
+	            }
+	            
+	            byte[] memberpic = null;
+	            if(image != null){
+	                try (InputStream inputStream = image.getInputStream()){
+	                	memberpic = inputStream.readAllBytes();
+	                    inputStream.close();
+	                } catch (IOException e){
+	              	    e.printStackTrace();
+	                }
+	            }
 			    	
 				String membercard = req.getParameter("membercard").trim();
 				String mcardReg = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
@@ -301,7 +419,7 @@ public class MemberServlet extends HttpServlet {
 				String memberid = req.getParameter("memberid").trim();
 				String midReg= "^[A-Za-z][1-2]\\d{8}$";
 				if(!memberid.trim().matches(midReg)) { 
-					errorMsgs.put("membercard","不符合身分證格式");
+					errorMsgs.put("memberid","不符合身分證格式");
 				}
 					
 				String memberjob = req.getParameter("memberjob").trim();
@@ -319,6 +437,7 @@ public class MemberServlet extends HttpServlet {
 				}
 					
 			   /***************************2.開始新增資料***************************************/
+				
 				MemberService memberService = new MemberService();
 				memberService.signUpMember(memberemail, membername, membergender, 
 				memberpassword, memberphone, memberaddress, memberjointime,
@@ -326,14 +445,15 @@ public class MemberServlet extends HttpServlet {
 				memberstat, memberid, memberjob, membersal);
 			
 			    /***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/member/listAllMbr.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllMbr.jsp
-				successView.forward(req, res);	 	
+				String url = req.getContextPath() + "/member/memberLogin.jsp";
+				res.sendRedirect(url);
 			 			
 		 }
 		
-// 來自listAllEmp.jsp		
-		 if ("delete".equals(action)) { 
+/**********************刪除**********************/
+/**********************刪除**********************/
+/**********************刪除**********************/					
+		 if ("delete".equals(action)) { // 來自listAllEmp.jsp
 		 
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
@@ -349,67 +469,9 @@ public class MemberServlet extends HttpServlet {
 				String url = "/member/listAllMbr.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
-		 }
 		 
-// 來自memberlogin.jsp//	 
-		 if ("memberlogin".equals(action)) { 
-			 
-
-					Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
-					req.setAttribute("errorMsgs", errorMsgs);
-		
-					/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
-				    String memberemail = req.getParameter("memberemail");
-				    String memberpassword = req.getParameter("memberpassword");
-				    String contextPath = req.getContextPath();
-				       //  Ajax  //
-				       Map<String, Object> response = new HashMap<>();
-				       PrintWriter out = res.getWriter();
-				       res.setContentType("application/json");
-				       res.setCharacterEncoding("UTF-8");
-				       //  Ajax  //
-				       MemberService mbrSvc = new MemberService();
-				       MemberVO memberVO = mbrSvc.getByEmail(memberemail);
-
-				       if (memberVO != null) {
-				           String storedPassword = memberVO.getMemberpassword(); // 假設密碼儲存在memberVO物件的memberpassword中
-
-				           if (storedPassword.equals(memberpassword)) {
-				               // 密碼匹配，執行登入操作
-				               // 例如，將用戶信息存儲在Session中
-				               HttpSession session = req.getSession();
-				               session.setAttribute("memberemail", memberemail);
-				        //  Ajax  //
-				               response.put("success", true);
-				               out.write(new Gson().toJson(response)); // 使用Gson库将Map转换为JSON字符串
-				               out.close();
-				         //  Ajax  //
-				               // 重定向到登入成功的頁面
-				               res.sendRedirect(contextPath + "/index.jsp");
-				           } else {
-				               // 密碼不匹配，顯示錯誤消息
-				               errorMsgs.put("error", "密碼不正確");
-				           }
-				       } else {
-				           // 未找到用戶記錄，顯示錯誤消息
-				           errorMsgs.put("error", "用戶不存在");
-				       }
-
-				       // 构建错误消息的JSON响应
-				       
-				       //  Ajax  //
-				       response.put("errors", errorMsgs);
-
-				       // 设置响应类型和字符编码
-				       
-
-				       // 将JSON响应发送回客户端
-				       
-				       out.write(new Gson().toJson(response)); // 使用Gson库将Map转换为JSON字符串
-				       out.close();
-				       //==ajax
-				   }
-	
+		 }
+    
 		
 	}
 	 

@@ -1,20 +1,13 @@
 package com.cha103g5.member.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
 import com.cha103g5.util.HibernateUtil;
+
 
 public class MemberHibernateDAO implements MemberDAOinterface {
 
@@ -131,13 +124,15 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 	}
 
 	@Override
-	public MemberVO getByEmail(String memberemail) {
+	public MemberVO findByMemberEmail(String memberemail) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			MemberVO list = session.get(MemberVO.class, memberemail);
+			MemberVO memberVO = (MemberVO) session.createQuery("FROM MemberVO WHERE memberemail = :memberemail")
+	                 .setParameter("memberemail",memberemail)
+	                 .uniqueResult();
 			session.getTransaction().commit();
-			return list;
+			return memberVO;
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -148,5 +143,7 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 	    }
 		return null;
 	}
+
+	
 
 }

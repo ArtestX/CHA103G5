@@ -1,15 +1,10 @@
+
+/***********登入畫面***********/
 * {
     padding: 0;
     margin: 0;
     list-style: none;
 }
-
-.navbar {
-		    position: sticky;;
-		    top: 0;
-		    z-index: 1000; /* 確定導覽列在其他元素上層顯示 */
-		    background-color: #FAE899;
-}		
 
 .hero-section{
     background:url(../img/bg.png) no-repeat center center / cover;
@@ -17,8 +12,8 @@
 }
 
 .hero-section > :first-child {
-    width: 380px;
-    height: 430px;
+    width: 400px;
+    height: 480px;
     padding: 50px;
     background-color: rgba(#000, 0.6);
     border-radius: 60px;
@@ -34,7 +29,7 @@ h3 {
     /*會員登入*/
     color: #422E2F;
     margin-top: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -75,6 +70,7 @@ label.form-label {
 }
 
 .btnAccess:hover {
+	 /*登入*/
     background-color: #bae5f3fb;
 }
 
@@ -88,11 +84,13 @@ label.form-label {
 
 #btn-group-login a:hover,
 #btn-group-login aactive {
+	 /* 會員註冊&忘記密碼 */
     background-color: #656767fb !important;
     border: 1px solid #6b6a6a !important;
 }
 
 .facebook-icon {
+	/* 透過facebook登入 */
     width: 65%; 
     height: auto; 
     border-radius: 5px;

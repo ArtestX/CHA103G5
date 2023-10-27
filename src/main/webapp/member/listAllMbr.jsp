@@ -99,7 +99,9 @@
 			<td>${MemberVO.memberjointime}</td>
 			<td>${MemberVO.memberbirthday}</td>
 			<td>${MemberVO.membernation}</td>
-			<td>${MemberVO.memberpic}</td>
+			<th>
+				<img src="<%=request.getContextPath()%>/ReadMbrIMG?id=${MemberVO.memberno}" width=70px height= 70px>
+			</th>
 			<td>${MemberVO.membercard}</td>
 			<td>${MemberVO.memberpoints}</td> 
 			<td>${MemberVO.memberstat}</td>
