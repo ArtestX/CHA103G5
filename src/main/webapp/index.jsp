@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/banner.css">
 </head>
 <body>
+
     <section class="hero-section hero-section-full-height">
         <div class="container-fluid">
             <div class="row">
@@ -45,7 +46,6 @@
     
         <!-- JAVASCRIPT FILES -->
         <script src="js/jquery.min.js"></script>
-  
 		
 </body>
 </html>

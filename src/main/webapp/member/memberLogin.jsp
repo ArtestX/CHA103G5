@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/banner.jsp" flush="true"/>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@
 				</div>
 
 				<div id="rmbr">
-					<input type="checkbox" name="remberme" id="remember"> 
+					<input type="checkbox" name="remberme" id="remember" checked> 
 					<label for="remberme"><b>記住帳號</b></label>
 				</div>
 			
@@ -47,42 +48,53 @@
 
 				<div class="br-style-1 my-4"></div>
 
-				<div class="form-group has-feedback row">
-					<div class="col-md-12">
-						<div class="social-link text-center mt-40">
-							<div class="facebook">
-								<a href="https://www.facebook.com/v2.5/dialog/oauth?client_id=130903614662985&amp;state=fd47ec52dad200d2b801f302ab03299d&amp;response_type=code&amp;sdk=php-sdk-5.0.0&amp;redirect_uri=https%3A%2F%2Fnoramichi.app%2Fmember%2Foauth%2Ffacebook&amp;scope=public_profile%2Cemail&amp;state=%7B%22ref%22%3A%22https%3A%5C%2F%5C%2Fnoramichi.app%5C%2Fmember%22%7D">
-									<img src="${pageContext.request.contextPath}/img/facebook.png" class="facebook-icon" alt="透過FaceBook登入"> 
-									<i class="fa fa-facebook-square pr-2"></i>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
+<!-- 				<div class="form-group has-feedback row"> -->
+<!-- 					<div class="col-md-12"> -->
+<!-- 						<div class="social-link text-center mt-40"> -->
+<!-- 							<div class="facebook"> -->
+<!-- 								<a href="https://www.facebook.com/v2.5/dialog/oauth?client_id=130903614662985&amp;state=fd47ec52dad200d2b801f302ab03299d&amp;response_type=code&amp;sdk=php-sdk-5.0.0&amp;redirect_uri=https%3A%2F%2Fnoramichi.app%2Fmember%2Foauth%2Ffacebook&amp;scope=public_profile%2Cemail&amp;state=%7B%22ref%22%3A%22https%3A%5C%2F%5C%2Fnoramichi.app%5C%2Fmember%22%7D"> -->
+<%-- 									<img src="${pageContext.request.contextPath}/img/facebook.png" class="facebook-icon" alt="透過FaceBook登入">  --%>
+<!-- 									<i class="fa fa-facebook-square pr-2"></i> -->
+<!-- 								</a> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 			</form>
 		</div>
 	</section>
 	<script>
-		  let username= document.getElementById("username");
-// 		  let password= document.getElementById("password");
-		  let remember= document.getElementById("remember");
-		  let account= JSON.parse(localStorage.getItem("account"));
-		  
-		  if(account){
-			  username.value= account.username;
-// 			  password.value= account.password;
-			  remember.checked= true;
+		let username = document.getElementById("username");
+		let remember = document.getElementById("remember");
+		let account = JSON.parse(localStorage.getItem("account"));
+	
+		// 載入頁面時檢查 localStorage 中的帳號
+		if (account) {
+		  username.value = account.username;
+		  remember.checked = true;
+		}
+	
+		// 監聽欄位的input事件
+		username.addEventListener("input", function () {
+		  if (username.value.trim() === "") {
+		    remember.checked = false;
 		  }
-		  
-		  remember.onchange = function(){
-			  if(this.checked){
-				  var data={username:username.value};
-// 				  var data={username:username.value,password:password.value};
-				  localStorage.setItem("account",JSON.stringify(data));
-			  }else{
-				  localStorage.removeItem("account");
-			  }
+		});
+	
+		remember.onchange = function () {
+		  if (this.checked) {
+		    if (username.value.trim() !== "") { // 檢查帳號是否不為空
+		      let data = { username: username.value };
+		      localStorage.setItem("account", JSON.stringify(data));
+		    } else {
+		      // 如果帳號是空的，不要選中記住帳號
+		      this.checked = false;
+		    }
+		  } else {
+		    localStorage.removeItem("account"); // 清空 localStorage 中的帳號資料
+		    username.value = ''; // 清空帳號欄位
 		  }
+		}
 
 	</script>
 </body>

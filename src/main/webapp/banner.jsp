@@ -103,15 +103,15 @@
   				</a>
 			<!-- 	********小鈴鐺按鈕********* -->
 				<button type="button" class="btn btn-primary position-relative" id="bellIcon">
-  		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-   						99+
-   						<span class="visually-hidden">unread messages</span>
-  		 			</span>
+<!--   		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> -->
+<!-- <!--    						99+ -->
+<!--    						<span class="visually-hidden">unread messages</span> -->
+<!--   		 			</span> -->
         		</button>
 
 				<div class="d-none d-lg-block narrow-div">
-<%-- 					<input type="text" name="action" value="${sessionScope.user}"> --%>
-					${sessionScope.user}
+					
+
 			<!-- 	********登入按鈕********* -->
 					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
@@ -126,9 +126,7 @@
 				</div>	
 			</div>
 		</div>
-			
-		
-
+		<input type="hidden" value="${sessionScope.user}">
 		<!-- 	********搜尋列********* -->
 		<nav id="search" class="navbar navbar-expand-lg">
 			<div class="container-fluid">
