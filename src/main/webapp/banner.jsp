@@ -1,97 +1,182 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="icon" type="image/png" href="./img/backend.png">
-    <title>
-        浪愛有家
-    </title>
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/bootstrap-icons.css">
-    
-    <style>
-    	.navbar {
-		    position: sticky;;
-		    top: 0;
-		    z-index: 1000; /* 確定導覽列在其他元素上層顯示 */
-		    background-color: #FAE899; 
-		}
-		
-		.nav-item b{
-			color: #422E2F;
-			font-size: 20px;
-		}		
-    </style>
-</head> 
+<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/img/backend.png">
+<title>浪愛有家</title>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-icons.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/banner.css">
+</head>
 <body>
-	<nav class="navbar navbar-expand-md">
+
+	<nav class="navbar navbar-expand-lg">
 		<div class="container">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp"> 
-				<img src="./img/logo3.png" class="logo img" alt="You can Adopt" style="width: 125px; height: 75px">
+			<a class="navbar-brand"
+				href="<%=request.getContextPath()%>/index.jsp"> <img
+				src="<%=request.getContextPath()%>/img/logo3.png" class="logo img"
+				alt="You can Adopt" style="width: 125px; height: 70px">
 			</a>
 
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarNav"
-				aria-controls="navbarNav" aria-expanded="false"
-				aria-label="Toggle navigation">
+			<div class="d-lg-none ms-auto me-4">
+				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+					<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon1">
+				</a>
+
+				<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
+					<input type="hidden" name="action" value="logout"> 
+					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon"> 
+						<img src="<%=request.getContextPath()%>/img/logout.png" alt="Login out" id="logoutIcon1">
+					</a>
+				</form>
+			</div>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav" style="margin-right: auto">
-					<li class="nav-item"><a class="nav-link click-scroll"
-						href="${pageContext.request.contextPath}/index.jsp">
-						<b>首頁</b></a></li>
+				<ul class="navbar-nav ms-lg-5 me-lg-auto">
+					<li class="nav-item">
+						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/index.jsp">
+							<b>首頁</b>
+						</a>
+					</li>
 
-					<li class="nav-item"><a class="nav-link click-scroll"
-						href="#section_2"><b>最新消息</b></a></li>
+					<li class="nav-item">
+						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/member/select_page.jsp">
+							<b>最新消息</b>
+						</a>
+					</li>
 
-					<li class="nav-item"><a class="nav-link click-scroll"
-						href="#section_3"><b>寵物領養</b></a></li>
+					<li class="nav-item">
+						<a class="nav-link click-scroll" href="#section_3">
+							<b>寵物領養</b>
+						</a>
+					</li>
 
-					<li class="nav-item"><a class="nav-link click-scroll"
-						href="#section_4"><b>精選商城</b></a></li>
+					<li class="nav-item">
+						<a class="nav-link click-scroll" href="#section_4">
+							<b>精選商城</b>
+						</a>
+					</li>
 
-					<li class="nav-item"><a class="nav-link click-scroll"
-						href="#section_5"><b>聯絡我們</b></a></li>
+					<li class="nav-item">
+						<a class="nav-link click-scroll" href="#section_5">
+							<b>聯絡我們</b>
+						</a>
+					</li>
 
-					<!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+					<li class="nav-item" id="memberlogin">
+						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/member/memberLogin.jsp" id="memberlogin">
+						    <b>會員登入</b>
+						</a>
+					</li>
 
-                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                        <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
+					<li class="nav-item dropdown hover" id="membercenter">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="true"> 
+							<b>會員中心</b>
+						</a>
 
-                        <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
-                    </ul>
-                </li> -->
+						<ul class="dropdown-menu dropdown-menu-light border border-top-0" aria-labelledby="navbarLightDropdownMenuLink">
+							<li>
+								<a class="dropdown-item" href="">會員資料</a>
+							</li>
+
+							<li>
+								<form METHOD="post"
+									ACTION="<%=request.getContextPath()%>/member/mem.do"
+									class="form">
+									<input type="hidden" name="action" value="logout"> <a
+										class="dropdown-item"
+										href="<%=request.getContextPath()%>/member/mem.do?action=logout"
+										id="memberlogout">登出</a>
+								</form>
+							</li>
+						</ul>
+					</li>
 				</ul>
+			<!-- 	********購物車按鈕********* -->
+				<a href="#" class="navbar-icon"> 
+   					<img src="<%=request.getContextPath()%>/img/cart.png" alt="Shopping Cart" id="CartIcon">
+  				</a>
+			<!-- 	********小鈴鐺按鈕********* -->
+				<button type="button" class="btn btn-primary position-relative" id="bellIcon">
+  		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+   						99+
+   						<span class="visually-hidden">unread messages</span>
+  		 			</span>
+        		</button>
 
-				<div class="d-none d-lg-block">
-					<a href="${pageContext.request.contextPath}/memberlogin.jsp" class="navbar-icon"> <img src="./img/login.png"  id="login"  alt="Login in"></a> 
-					<a href="#top" class="navbar-icon"> <img src="./img/logout.png" id="logout" alt="Login out"></a> 
-				
-				</div>
+				<div class="d-none d-lg-block narrow-div">
+<%-- 					<input type="text" name="action" value="${sessionScope.user}"> --%>
+					${sessionScope.user}
+			<!-- 	********登入按鈕********* -->
+					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
+					</a>
+			<!-- 	********登出按鈕********* -->
+					<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
+						<input type="hidden" name="action" value="logout"> 
+						<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon">
+						  <img src="<%=request.getContextPath()%>/img/logout.png" alt="Login out" id="logoutIcon">
+						</a>
+					</form>	
+				</div>	
 			</div>
 		</div>
+			
+		
+
+		<!-- 	********搜尋列********* -->
+		<nav id="search" class="navbar navbar-expand-lg">
+			<div class="container-fluid">
+				<form class="d-flex" role="search">
+					<input class="form-control me-0" type="search" placeholder="Search"
+						aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</nav>
 	</nav>
 
-	<!-- JAVASCRIPT FILES -->
-	<script src="./js/bootstrap.bundle.min.js"></script>
-	<script src="./js/bootstrap.min.js"></script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-	        var loginIcon = document.getElementById("login");
-	        var logoutIcon = document.getElementById("logout");
-	        var userLoggedIn = false; 
 
-	        if (userLoggedIn) {
-	            loginIcon.style.display  = "none";
-	            logoutIcon.style.display = "block";
-	        } else {
-	            loginIcon.style.display  = "block";
-	            logoutIcon.style.display = "none";
-	        }
-	    });
+	<!-- JAVASCRIPT FILES -->
+	<script src="<%=request.getContextPath()%>/js/bootstrap.bundle.min.js"></script>
+	<script>
+	
+		function watchUser() {
+			let loginIcon1 = document.getElementById("loginIcon1");
+			let logoutIcon1 = document.getElementById("logoutIcon1");
+			let loginIcon = document.getElementById("loginIcon");
+			let logoutIcon = document.getElementById("logoutIcon");
+			let membercenter = document.getElementById("membercenter");
+			let memberlogin = document.getElementById("memberlogin");
+			let user = "${sessionScope.user}";
+
+			if (user === "") {
+				loginIcon.style.display = "block";
+				loginIcon1.style.display = "block";
+				memberlogin.style.display = "block";
+				logoutIcon.style.display = "none";
+				logoutIcon1.style.display = "none";
+				membercenter.style.display = "none";
+			} else {
+				loginIcon.style.display = "none";
+				loginIcon1.style.display = "none";
+				memberlogin.style.display = "none";
+				logoutIcon.style.display = "block";
+				logoutIcon1.style.display = "block";
+				membercenter.style.display = "block";
+			}
+		}
+
+			watchUser();
+			var observer = new MutationObserver(watchUser);
+			observer.observe(document.documentElement, {subtree : true,attributes : true
+		});
+				
 	</script>
 
 </body>

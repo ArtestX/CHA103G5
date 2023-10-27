@@ -1,18 +1,18 @@
-package com.cha103g5.admin.controller;
+package com.cha103g5.member.controller;
 
-import com.cha103g5.admin.model.AdminHibernateDAO;
-import com.cha103g5.admin.model.AdminVO;
-import com.cha103g5.member.model.*;
-import com.cha103g5.util.HibernateUtil;
-import org.hibernate.SessionFactory;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.hibernate.SessionFactory;
+
+import com.cha103g5.member.model.MemberHibernateDAO;
+import com.cha103g5.member.model.MemberVO;
+import com.cha103g5.util.HibernateUtil;
 
 public class ImageReader extends HttpServlet {
 
@@ -27,10 +27,10 @@ public class ImageReader extends HttpServlet {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
 
-			AdminHibernateDAO adminHibernateDAO = new AdminHibernateDAO(sessionFactory);
-			AdminVO adminVO = adminHibernateDAO.findByPrimaryKey(id);
-			if (adminVO != null) {
-				byte[] image = adminVO.getAdminPic();
+			MemberHibernateDAO memberHibernateDAO = new MemberHibernateDAO(sessionFactory);
+			MemberVO memberVO = memberHibernateDAO.findByPrimaryKey(id);
+			if (memberVO != null) {
+				byte[] image = memberVO.getMemberpic();
 				System.out.println("image");
 				outputStream.write(image);
 				outputStream.close();
