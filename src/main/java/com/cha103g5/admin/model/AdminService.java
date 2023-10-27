@@ -1,5 +1,8 @@
 package com.cha103g5.admin.model;
 
+import com.cha103g5.admin.model.AdminHibernateDAO;
+import com.cha103g5.admin.model.AdminHibernateDAOInterface;
+import com.cha103g5.admin.model.AdminVO;
 import com.cha103g5.member.model.MemberVO;
 import com.cha103g5.util.HibernateUtil;
 
