@@ -2,11 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
+<%@ page import="com.cha103g5.admin.service.*"%>
 
 <%
-AdminService adminSvc = new AdminService();
-    List<AdminVO> list = adminSvc.getAll();
-    pageContext.setAttribute("list",list);
+// AdminService adminSvc = new AdminService();
+//     List<AdminVO> list = adminSvc.getAll();
+//     pageContext.setAttribute("list",list);
 %>
 
 <!doctype html>

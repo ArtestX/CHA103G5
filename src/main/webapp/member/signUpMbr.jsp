@@ -56,7 +56,7 @@
 
 <h5>資料新增:</h5>
 
-<FORM METHOD="post" ACTION="mem.do" name="form1">
+<FORM METHOD="post" ENCTYPE="multipart/form-data" ACTION="mem.do"  name="form1">
 <table>
 	<tr>
 	  	<!-- <td>會員編號:<font color=red><b>*</b></font></td>-->
@@ -113,7 +113,7 @@
 	
 	<tr>
 		<td>大頭照:</td>
-		<td><input type="file" name="memberpic" value="${param.memberpic}"/></td> 
+		<td><input type="file" name="image" value="${param.memberpic}"/></td> <td>${errorMsgs.memberpic}</td>
 	</tr>
 	
 	<tr>

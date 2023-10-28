@@ -3,11 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
+<%@ page import="com.cha103g5.admin.service.*"%>
 
 <%
-AdminService adminSvc = new AdminService();
-List<AdminVO> list = adminSvc.getAll();
-pageContext.setAttribute("list", list);
+// AdminService adminSvc = new AdminService();
+// List<AdminVO> list = adminSvc.getAll();
+// pageContext.setAttribute("list", list);
 %>
 
 <!DOCTYPE html>
@@ -124,7 +125,7 @@ th {
 							</form>
 
 							<jsp:useBean id="adminSel" scope="page"
-								class="com.cha103g5.admin.model.AdminService" />
+								class="com.cha103g5.admin.service.AdminService" />
 
 							<form method="post" action="admin.do" id="adminNoSel"
 								class="dropdown col-md-2 ">

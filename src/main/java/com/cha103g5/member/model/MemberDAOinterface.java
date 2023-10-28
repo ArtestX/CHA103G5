@@ -13,9 +13,11 @@ public interface MemberDAOinterface {
 	
 	MemberVO findByPrimaryKey(Integer memberno);
 	
+	MemberVO findByMemberEmail(String memberemail);
+	
 	List<MemberVO> getAll();
 	
-	MemberVO getByEmail(String memberemail);
+	
 		  
 	
 }

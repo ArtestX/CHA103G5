@@ -2,10 +2,10 @@ package com.cha103g5.admin.controller;
 
 import com.cha103g5.admin.model.AdminHibernateDAO;
 import com.cha103g5.admin.model.AdminVO;
+import com.cha103g5.member.model.*;
 import com.cha103g5.util.HibernateUtil;
 import org.hibernate.SessionFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;

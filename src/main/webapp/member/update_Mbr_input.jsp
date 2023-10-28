@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.member.model.*"%>
 
+
 <%
   // EmpVO empVO = (EmpVO) request.getAttribute("empVO");
 %>
@@ -68,7 +69,7 @@
 <!-- 	</ul> -->
 <%-- </c:if> --%>
 
-<FORM method="post" action="mem.do" name="form1">
+<FORM method="post" enctype="multipart/form-data" action="mem.do"  name="form1">
 <table>
 	 <tr>
 	  	<td>會員編號:<font color=red><b>*</b></font></td>
@@ -125,7 +126,7 @@
 	
 	<tr>
 		<td>大頭照:</td>
-		<td><input type="file" name="memberpic" value="${param.memberpic}"/></td> 
+		<td><input type="file" name="memberpic" value="${param.memberpic}"/></td> <td>${errorMsgs.memberpic}</td>
 	</tr>
 	
 	<tr>

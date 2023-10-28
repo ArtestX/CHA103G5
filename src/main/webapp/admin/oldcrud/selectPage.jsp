@@ -56,7 +56,7 @@
         </FORM>
     </li>
 
-    <jsp:useBean id="adminSvc" scope="page" class="com.cha103g5.admin.model.AdminService"/>
+    <jsp:useBean id="adminSvc" scope="page" class="com.cha103g5.admin.service.AdminService"/>
 
     <li>
         <FORM METHOD="post" ACTION="admin.do">

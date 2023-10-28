@@ -1,23 +1,23 @@
 package com.cha103g5.admin.controller;
 
-import com.cha103g5.admin.model.AdminService;
 import com.cha103g5.admin.model.AdminVO;
+import com.cha103g5.admin.service.AdminService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.util.*;
 
+@WebServlet("/admin/admin.do")
 public class AdminServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
@@ -30,9 +30,10 @@ public class AdminServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
 
-
+        System.out.println("admin.do有成功");
+        System.out.println(action);
         if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
-
+        	System.out.println("成功getOne_For_Display");
             Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
             req.setAttribute("errorMsgs", errorMsgs);
 
@@ -86,7 +87,7 @@ public class AdminServlet extends HttpServlet {
 
 
         if ("getOne_For_Update".equals(action)) { // 來自listAllAdmin.jsp的請求
-
+        	System.out.println("成功getOne_For_Update");
             Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
             req.setAttribute("errorMsgs", errorMsgs);
 
@@ -114,7 +115,7 @@ public class AdminServlet extends HttpServlet {
 
 
         if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
-
+        	System.out.println("成功進update");
             Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
             req.setAttribute("errorMsgs", errorMsgs);
 
@@ -243,7 +244,7 @@ public class AdminServlet extends HttpServlet {
         }
 
         if ("insert".equals(action)) { // 來自addAdmin.jsp的請求
-
+        	System.out.println("成功進insert");
             Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
             req.setAttribute("errorMsgs", errorMsgs);
 
@@ -366,7 +367,7 @@ public class AdminServlet extends HttpServlet {
 
 
         if ("delete".equals(action)) { // 來自listAllAdmin.jsp
-
+        	System.out.println("成功進delete");
             Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
             req.setAttribute("errorMsgs", errorMsgs);
 
@@ -383,72 +384,13 @@ public class AdminServlet extends HttpServlet {
             successView.forward(req, res);
         }
         
-        if ("userAuth".equals(action)) { 
-        	System.out.println("XXXX");
-
-            Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
-            req.setAttribute("errorMsgs", errorMsgs);
-
-            /***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
-
-            String adminAccount = req.getParameter("adminAccount").trim();
-            String adminAccountReg = "[a-zA-Z0-9_]+";
-            String adminAccoutReg2 = "^[(a-zA-Z0-9_)]{6,12}$";
-            if (adminAccount == null || adminAccount.trim().length() == 0) {
-                errorMsgs.put("adminAccount", "帳號請勿空白");
-            } else if (!adminAccount.trim().matches(adminAccountReg)) {
-                errorMsgs.put("adminAccount", "只能是英文、數字和_");
-            } else if (!adminAccount.trim().matches(adminAccoutReg2)) {
-                errorMsgs.put("adminAccount", "長度需在6到12之間");
+        if ("backendlogout".equals(action)) {
+            HttpSession session = req.getSession(false);
+            if (session != null) {
+                session.invalidate(); // 登出，终止会话
+                System.out.println("成功登出");
             }
-
-            String adminPassword = req.getParameter("adminPassword").trim();
-            String adminPasswordReg = "^[a-zA-Z0-9!@]+$";
-            String adminPasswordReg2 = "^[a-zA-Z0-9!@]{8,16}$";
-
-            if (adminPassword == null || adminPassword.length() == 0) {
-                errorMsgs.put("adminPassword", "密碼請勿空白");
-            } else if (!adminPassword.matches(adminPasswordReg)) {
-                errorMsgs.put("adminPassword", "只能是英文、數字、@、!");
-            } else if (!adminPassword.matches(adminPasswordReg2)) {
-                errorMsgs.put("adminPassword", "長度需在8到16之間");
-            }
-
-
-            // Send the use back to the form, if there were errors
-            if (!errorMsgs.isEmpty()) {
-                RequestDispatcher failureView = req
-                        .getRequestDispatcher("/admin/adminLogin.jsp");
-                failureView.forward(req, res);
-                return;
-            }
-            
-            /***************************2.開始查詢資料*****************************************/
-            AdminService adminSvc = new AdminService();
-            AdminVO adminVO = adminSvc.userAuth(adminAccount, adminPassword);
-    
-            if (adminVO == null) {
-                errorMsgs.put("adminAccount", "查無資料");
-                errorMsgs.put("adminPassword", "密碼錯誤");
-            }
-            req.setAttribute("errorMsgs", errorMsgs);
-           
-         // Send the use back to the form, if there were errors
-            if (!errorMsgs.isEmpty()) {
-                RequestDispatcher failureView = req
-                        .getRequestDispatcher("/admin/adminLogin.jsp"); // admin/selectPage.jsp
-                failureView.forward(req, res);
-                return;//程式中斷
-            }
-
-            /***************************3.查詢完成,準備轉交(Send the Success view)*************/
-            HttpSession session = req.getSession();
-            session.setAttribute("adminVO", adminVO);
-            req.setAttribute("AdminVO", adminVO); // 資料庫取出的AdminVO物件,存入req
-            String url = "/admin/backendMain.jsp";
-            RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmin.jsp
-            successView.forward(req, res);
-
+            res.sendRedirect("./adminLogin.jsp");
         }
 
     }

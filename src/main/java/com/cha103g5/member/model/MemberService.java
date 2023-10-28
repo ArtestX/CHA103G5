@@ -2,12 +2,7 @@ package com.cha103g5.member.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.hibernate.Session;
 
 import com.cha103g5.util.HibernateUtil;
 
@@ -85,12 +80,8 @@ public class MemberService {
 		return dao.getAll();
 	}
 	
-	public MemberVO getByEmail(String memberemail) {
-		MemberVO membervo = dao.getByEmail(memberemail);
-		if (membervo != null ) {
-		    return membervo; // 返回列表中的第一个对象
-		}
-		return null; // 或者返回 null，如果没有匹配的对象
+	public MemberVO getMemberByMemberemail(String memberemail) {
+		return dao.findByMemberEmail(memberemail);
 	}
 
 	
