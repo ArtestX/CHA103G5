@@ -44,7 +44,7 @@
 <h3>資料查詢:</h3>
 
 <ul>
-    <li><a href='listAllAdmin.jsp'>List</a> all Emps. <br><br></li>
+    <li><a href='adminsystem.jsp'>List</a> all Emps. <br><br></li>
 
 
     <li>

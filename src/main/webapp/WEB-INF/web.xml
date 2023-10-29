@@ -13,6 +13,14 @@
 		<welcome-file>MemberRegister.jsp</welcome-file>
 	</welcome-file-list>
 
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/TestDB</res-ref-name>
@@ -23,6 +31,7 @@
 	<servlet>
 		<servlet-name>MemberServlet</servlet-name>
 		<servlet-class>com.cha103g5.member.controller.MemberServlet</servlet-class>
+
 
 		<multipart-config>
 			<location>/tmp</location>
@@ -35,6 +44,8 @@
 		<servlet-name>MemberServlet</servlet-name>
 		<url-pattern>/mem.do</url-pattern>
 	</servlet-mapping>
+
+
 
 
 	<servlet>

@@ -33,6 +33,14 @@
 		    <version>2.14.0</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+		<dependency>
+		    <groupId>javax.websocket</groupId>
+		    <artifactId>javax.websocket-api</artifactId>
+		    <version>1.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 		    <groupId>javax.persistence</groupId>
 		    <artifactId>javax.persistence-api</artifactId>
@@ -79,6 +87,17 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+		
+		
+
+        <!-- Thymeleaf相關依賴 -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.1.2.RELEASE</version> <!-- 請使用最新版本 -->
+        </dependency>
+ 
+
 		
 	</dependencies>
 

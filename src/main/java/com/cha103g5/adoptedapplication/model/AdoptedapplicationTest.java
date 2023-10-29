@@ -6,8 +6,8 @@ import java.util.List;
 public class AdoptedapplicationTest {
 	public static void main(String[] args) {
 		
-		AdoptedapplicationDAO dao = new AdoptedapplicationDAOImpl();
-
+//		AdoptedapplicationDAO dao = new AdoptedapplicationDAOImpl();
+//	
 //	    // 第一筆假資料
 //	    AdoptedapplicationVO adoptedapplicationVO1 = new AdoptedapplicationVO();
 //	    adoptedapplicationVO1.setAdminno(101);
@@ -49,7 +49,7 @@ public class AdoptedapplicationTest {
 //	    adoptedapplicationVO3.setAgreement("第三筆協議書".getBytes());
 //	    adoptedapplicationVO3.setApplicationdate(Date.valueOf("2023-01-09"));
 //	    dao.insert(adoptedapplicationVO3);
-
+//
 //	    AdoptedapplicationVO adoptedapplicationVO = new AdoptedapplicationVO();
 //	    adoptedapplicationVO.setApplicationno(200002);
 //	    adoptedapplicationVO.setAdminno(101);
@@ -64,7 +64,7 @@ public class AdoptedapplicationTest {
 //	    adoptedapplicationVO.setApplicationdate(Date.valueOf("2023-02-03"));
 //
 //	    dao.update(adoptedapplicationVO);
-		
+//		
 //		List<AdoptedapplicationVO> result = dao.findByPetidAndLotterydate(301, Date.valueOf("2023-02-02"));
 //		for (AdoptedapplicationVO vo : result) {
 //		    System.out.println(vo.toString());

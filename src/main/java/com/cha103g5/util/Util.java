@@ -1,10 +1,10 @@
 package com.cha103g5.util;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.DriverManager;
 import java.util.ResourceBundle;
 
 public class Util {
@@ -53,3 +53,4 @@ public class Util {
 	}
 
 }
+

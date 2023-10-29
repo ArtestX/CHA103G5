@@ -74,6 +74,14 @@ h4 {
             </td>
             <td>${errorMsgs.productNo}</td>
         </tr>
+         <tr>
+            <td>類別編號:</td>
+            <td>
+                <input type="text" name="productCatNo" value="${param.productCatNo}" size="45"/>
+            </td>
+            <td>${errorMsgs.productCatNo}</td>
+        </tr>
+        <tr>
         <tr>
             <td>產品名稱:</td>
             <td>

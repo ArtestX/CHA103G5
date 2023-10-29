@@ -68,7 +68,7 @@ public class ProductServlet extends HttpServlet {
 			}
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-			req.setAttribute("Product", product); // 資料庫取出的productVO物件,存入req
+			req.setAttribute("ProductVO", product); // 資料庫取出的productVO物件,存入req
 			String url = "/product/listOneProduct.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneProduct.jsp
 			successView.forward(req, res);
@@ -146,9 +146,18 @@ public class ProductServlet extends HttpServlet {
 
 			Integer productStat = null;
 			try {
-				productStat = Integer.valueOf(req.getParameter("productStat").trim());
+			    String productStatParam = req.getParameter("productStat").trim();
+			    if (!productStatParam.isEmpty()) {
+			        if (productStatParam.equals("0") || productStatParam.equals("1")) {
+			            productStat = Integer.valueOf(productStatParam);
+			        } else {
+			            errorMsgs.put("productStat", "狀態只能輸入0:下架或1:上架");
+			        }
+			    } else {
+			        errorMsgs.put("productStat", "請輸入狀態");
+			    }
 			} catch (NumberFormatException e) {
-				errorMsgs.put("productStat", "狀態請填數字");
+			    errorMsgs.put("productStat", "狀態請填數字");
 			}
 
 			Integer productEval = null;
@@ -181,7 +190,7 @@ public class ProductServlet extends HttpServlet {
 
 			/*************************** 2.開始修改資料 *****************************************/
 			ProductService productSvc = new ProductService();
-			ProductVO product = productSvc.updateProduct(productNo, productName, productPrice, productInfo, productStat,
+			ProductVO product = productSvc.updateProduct(productNo,productCatNo, productName, productPrice, productInfo, productStat,
 					productEval, productEvalTotal, productSaleNum);
 
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
@@ -200,9 +209,9 @@ public class ProductServlet extends HttpServlet {
 			String productName = req.getParameter("productName");
 			String productNameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 			if (productName == null || productName.trim().length() == 0) {
-				errorMsgs.put("productName", "員工姓名: 請勿空白");
+				errorMsgs.put("productName", "商品名稱: 請勿空白");
 			} else if (!productName.trim().matches(productNameReg)) { // 以下練習正則(規)表示式(regular-expression)
-				errorMsgs.put("productName", "員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
+				errorMsgs.put("productName", "商品名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 			}
 
 			Integer productNo = null;
@@ -240,9 +249,18 @@ public class ProductServlet extends HttpServlet {
 
 			Integer productStat = null;
 			try {
-				productStat = Integer.valueOf(req.getParameter("productStat").trim());
+			    String productStatParam = req.getParameter("productStat").trim();
+			    if (!productStatParam.isEmpty()) {
+			        if (productStatParam.equals("0") || productStatParam.equals("1")) {
+			            productStat = Integer.valueOf(productStatParam);
+			        } else {
+			            errorMsgs.put("productStat", "狀態只能輸入0:下架或1:上架");
+			        }
+			    } else {
+			        errorMsgs.put("productStat", "請輸入狀態");
+			    }
 			} catch (NumberFormatException e) {
-				errorMsgs.put("productStat", "狀態請填數字");
+			    errorMsgs.put("productStat", "狀態請填數字");
 			}
 
 			Integer productEval = null;
@@ -275,7 +293,7 @@ public class ProductServlet extends HttpServlet {
 
 			/*************************** 2.開始新增資料 ***************************************/
 			ProductService productSvc = new ProductService();
-			productSvc.addProduct(productNo, productName, productPrice, productInfo, productStat, productEval,
+			productSvc.addProduct(productNo,productCatNo, productName, productPrice, productInfo, productStat, productEval,
 					productEvalTotal, productSaleNum);
 
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/

@@ -36,17 +36,17 @@ public class TestProductHibernateDAO {
 //		dao.delete(10);
 
         // 查詢單筆
-//		ProductVO productVO3 = dao.findByPrimaryKey(2);
-//		System.out.print(productVO3.getProductNo() + ",");
-//		System.out.print(productVO3.getProductCatNo() + ",");
-//		System.out.print(productVO3.getProductName() + ",");
-//		System.out.print(productVO3.getProductPrice() + ",");
-//		System.out.print(productVO3.getProductInfo() + ",");
-//		System.out.print(productVO3.getProductStat() + ",");
-//		System.out.println(productVO3.getProductEval()+",");
-//		System.out.println(productVO3.getProductEvalTotal()+",");
-//		System.out.println(productVO3.getProductSaleNum());
-//		System.out.println("---------------------");
+		ProductVO productVO3 = dao.findByPrimaryKey(2);
+		System.out.print(productVO3.getProductNo() + ",");
+		System.out.print(productVO3.getProductCatNo() + ",");
+		System.out.print(productVO3.getProductName() + ",");
+		System.out.print(productVO3.getProductPrice() + ",");
+		System.out.print(productVO3.getProductInfo() + ",");
+		System.out.print(productVO3.getProductStat() + ",");
+		System.out.println(productVO3.getProductEval()+",");
+		System.out.println(productVO3.getProductEvalTotal()+",");
+		System.out.println(productVO3.getProductSaleNum());
+		System.out.println("---------------------");
 
         // 查詢多筆
 		List<ProductVO> list = dao.getAll();

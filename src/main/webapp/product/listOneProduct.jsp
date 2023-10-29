@@ -1,9 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.cha103g5.product.model.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.*" %>
 
 <%
-//Product product = (Product) request.getAttribute("product"); //ProductServlet.java(Concroller), 存入req的product物件
+    String productNo = request.getParameter("productNo");
+    if (productNo != null) {
+        ProductService productSvc = new ProductService();
+        ProductVO product = productSvc.getOneProduct(Integer.parseInt(productNo));
+        List<ProductVO> list = new ArrayList<>();
+        list.add(product); // 將查詢結果添加到list
+        pageContext.setAttribute("list", list); // 設置list到listOneproduct.jsp
+    }
 %>
+
 
 <html>
 <head>
@@ -11,13 +21,13 @@
 
 <style>
 body {
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            background-image: url('images/product2.jpg');
-            background-position: center -200px; /* 使用像素值調整位置 */
-	        background-size: cover; /* 背景圖片覆蓋整個視窗 */
-	        background-repeat: no-repeat; /* 防止圖片重複 */
-        }
+	background-color: #f0f0f0;
+	font-family: Arial, sans-serif;
+	background-image: url('images/product2.jpg');
+	background-position: center -200px; /* 使用像素值調整位置 */
+	background-size: cover; /* 背景圖片覆蓋整個視窗 */
+	background-repeat: no-repeat; /* 防止圖片重複 */
+}
 
 table#table-1 {
 	background-color: #CCCCFF;
@@ -63,7 +73,7 @@ th, td {
 	<table id="table-1">
 		<tr>
 			<td>
-				<h3>產品資料 - listOneProduct.jsp</h3>
+				<h3>產品資料 - listOneproduct.jsp</h3>
 				<h4>
 					<a href="selectPage.jsp">回首頁</a>
 				</h4>
@@ -74,6 +84,7 @@ th, td {
 	<table>
 		<tr>
 			<th>產品編號</th>
+			<th>類別編號</th>
 			<th>產品名稱</th>
 			<th>產品價格</th>
 			<th>產品資訊</th>
@@ -82,16 +93,19 @@ th, td {
 			<th>產品總評價</th>
 			<th>銷售數量</th>
 		</tr>
+		<c:forEach var="productVO" items="${list}">
 		<tr>
-			<td>${product.productNo}</td>
-			<td>${product.productName}</td>
-			<td>${product.productPrice}</td>
-			<td>${product.productInfo}</td>
-			<td>${product.productStat}</td>
-			<td>${product.productEval}</td>
-			<td>${product.productEvalTotal}</td>
-			<td>${product.productSaleNum}</td>
+			<td>${productVO.productNo}</td>
+			<td>${productVO.productCatNo}</td>
+			<td>${productVO.productName}</td>
+			<td>${productVO.productPrice}</td>
+			<td>${productVO.productInfo}</td>
+			<td>${productVO.productStat}</td>
+			<td>${productVO.productEval}</td>
+			<td>${productVO.productEvalTotal}</td>
+			<td>${productVO.productSaleNum}</td>
 		</tr>
+		</c:forEach>
 	</table>
 
 </body>

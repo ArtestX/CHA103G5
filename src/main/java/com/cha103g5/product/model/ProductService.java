@@ -5,15 +5,16 @@ import java.util.List;
 
 public class ProductService {
 
-	private ProductDAOInterface dao;
+	private ProductHibernateDAO dao;
 
 	public ProductService() {
 
-		dao = new ProductJNDIDAO();
+		dao = new ProductHibernateDAO();
 	}
 
 	public ProductVO updateProduct(
 			Integer productNo, 
+			Integer productCatNo,
 			String productName, 
 			BigDecimal productPrice, 
 			String productInfo,
@@ -24,6 +25,7 @@ public class ProductService {
 
 		ProductVO product = new ProductVO();
 		product.setProductNo(productNo);
+		product.setProductCatNo(productCatNo);
 		product.setProductName(productName);
 		product.setProductPrice(productPrice);
 		product.setProductInfo(productInfo);
@@ -41,7 +43,8 @@ public class ProductService {
 //	    }
 
 	public ProductVO addProduct(
-			Integer productNo, 
+			Integer productNo,
+			Integer productCatNo,
 			String productName, 
 			BigDecimal productPrice, 
 			String productInfo,
@@ -52,6 +55,7 @@ public class ProductService {
 
 		ProductVO product = new ProductVO();
 		product.setProductNo(productNo);
+		product.setProductCatNo(productCatNo);
 		product.setProductName(productName);
 		product.setProductPrice(productPrice);
 		product.setProductInfo(productInfo);

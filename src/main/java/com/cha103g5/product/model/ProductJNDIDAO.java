@@ -41,7 +41,7 @@ public class ProductJNDIDAO implements ProductDAOInterface {
 		PreparedStatement pstmt = null;
 
 		try {
-			con = ds.getConnection();
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, product.getProductCatNo());
@@ -68,7 +68,7 @@ public class ProductJNDIDAO implements ProductDAOInterface {
 		PreparedStatement pstmt = null;
 
 		try {
-			con = ds.getConnection();
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 			
 			pstmt.setInt(1, product.getProductCatNo());
@@ -79,7 +79,8 @@ public class ProductJNDIDAO implements ProductDAOInterface {
 			pstmt.setInt(6, product.getProductEval());
 			pstmt.setInt(7, product.getProductEvalTotal());
 			pstmt.setInt(8, product.getProductSaleNum());
-
+			pstmt.setInt(9, product.getProductNo());
+			
 			pstmt.executeUpdate();
 		} catch (SQLException se) {
 			throw new RuntimeException("Database error occurred: " + se.getMessage());
@@ -94,7 +95,7 @@ public class ProductJNDIDAO implements ProductDAOInterface {
 		PreparedStatement pstmt = null;
 
 		try {
-			con = ds.getConnection();
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, productNo);
@@ -116,7 +117,7 @@ public class ProductJNDIDAO implements ProductDAOInterface {
 		ResultSet rs = null;
 
 		try {
-			con = ds.getConnection();
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, productNo);
@@ -155,7 +156,7 @@ public class ProductJNDIDAO implements ProductDAOInterface {
 		ResultSet rs = null;
 
 		try {
-			con = ds.getConnection();
+			con = Util.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 

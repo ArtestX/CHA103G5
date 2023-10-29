@@ -2,14 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.cha103g5.product.model.*" %>
-
 <%
-
-
-	/* 	ProductService productSvc = new ProductService();	*/
-/*     List<ProductVO> productList = productSvc.getAll();
-     pageContext.setAttribute("productList", productList);*/
+    ProductService productSvc = new ProductService();
+    List<ProductVO> list = productSvc.getAll();
+    pageContext.setAttribute("list",list);
 %>
+
 
 <!doctype html>
 <html lang="en">
@@ -84,6 +82,7 @@
 <table>
     <tr>
         <th>產品編號</th>
+        <th>類別編號</th>
         <th>產品名稱</th>
         <th>產品價格</th>
         <th>產品資訊</th>
@@ -94,28 +93,29 @@
         <th>修改</th>
         <th>刪除</th>
     </tr>
-    <c:forEach var="product" items="${productList}">
+    <c:forEach var="productVO" items="${list}">
 
         <tr>
-            <td>${product.productNo}</td>
-            <td>${product.productName}</td>
-            <td>${product.productPrice}</td>
-            <td>${product.productInfo}</td>
-            <td>${product.productStat}</td>
-            <td>${product.productEval}</td>
-            <td>${product.productEvalTotal}</td>
-            <td>${product.productSaleNum}</td>
+            <td>${productVO.productNo}</td>
+            <td>${productVO.productCatNo}</td>
+            <td>${productVO.productName}</td>
+            <td>${productVO.productPrice}</td>
+            <td>${productVO.productInfo}</td>
+            <td>${productVO.productStat}</td>
+            <td>${productVO.productEval}</td>
+            <td>${productVO.productEvalTotal}</td>
+            <td>${productVO.productSaleNum}</td>
             <td>
                 <form method="post" action="<%=request.getContextPath()%>/product/product.do" style="margin-bottom: 0px;">
                     <input type="submit" value="修改">
-                    <input type="hidden" name="productNo" value="${product.productNo}">
+                    <input type="hidden" name="productNo" value="${productVO.productNo}">
                     <input type="hidden" name="action" value="getOne_For_Update">
                 </form>
             </td>
             <td>
                 <form method="post" action="<%=request.getContextPath()%>/product/product.do" style="margin-bottom: 0px;">
                     <input type="submit" value="刪除">
-                    <input type="hidden" name="productNo" value="${product.productNo}">
+                    <input type="hidden" name="productNo" value="${productVO.productNo}">
                     <input type="hidden" name="action" value="delete">
                 </form>
             </td>

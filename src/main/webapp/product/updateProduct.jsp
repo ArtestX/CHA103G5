@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.cha103g5.product.model.ProductVO" %>
 
+
+<%
+    // ProductVO productVO = (ProductVO) request.getAttribute("productVO");
+%>
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -66,9 +70,23 @@
 
 <FORM METHOD="post" ACTION="product.do" name="form1">
     <table>
-        <tr>
-            <td>產品編號:</td>
-            <td><input type="text" name="productNo" value="${product.productNo}" size="45"/></td>
+    <jsp:useBean id="productSvc" scope="page" class="com.cha103g5.product.model.ProductService"/>
+    	<FORM METHOD="post" ACTION="product.do">
+				<b>選擇產品編號:</b> <select size="1" name="productNo">
+					<c:forEach var="productVO" items="${productSvc.all}">
+						<option value="${productVO.productNo}">${productVO.productNo}
+					</c:forEach>
+				</select> <input type="hidden" name="action" value="getOne_For_Display">
+			</FORM>
+    
+    
+<!--         <tr> -->
+<!--             <td>產品編號:</td> -->
+<%--             <td><input type="text" name="productNo" value="${product.productNo}" size="45"/></td> --%>
+<!--         </tr> -->
+         <tr>
+            <td>類別編號:</td>
+            <td><input type="text" name="productCatNo" value="${product.productCatNo}" size="45"/></td>
         </tr>
         <tr>
             <td>產品名稱:</td>
@@ -101,6 +119,7 @@
     </table>
     <br>
     <input type="hidden" name="action" value="update">
+    <input type="hidden" name="productNo" value="${param.productNo}">
     <input type="submit" value="送出修改">
 </FORM>
 </body>
