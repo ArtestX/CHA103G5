@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
+<%@ page import="com.cha103g5.admin.service.*"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +35,7 @@ span {
 </head>
 
 <body>
-	<FORM METHOD="post" ACTION="admin.do" name="form1" enctype="multipart/form-data">
+	<FORM METHOD="post" ACTION="admin.do" name="form1" enctype="multipart/form-data"> <!--enctype="multipart/form-data" -->
 		<div
 			class="container d-flex justify-content-center align-items-center min-vh-100">
 			<div class="row border rounded-5 p-3 bg-white shadow box-area">
