@@ -50,22 +50,22 @@
 		<res-auth>Container</res-auth>
 	</resource-ref>
 
-	<!-- <servlet> -->
-	<!-- <servlet-name>MemberServlet</servlet-name> -->
-	<!-- <servlet-class>com.cha103g5.member.controller.MemberServlet</servlet-class> -->
+	<servlet>
+	<servlet-name>MemberServlet</servlet-name>
+	<servlet-class>com.cha103g5.member.controller.MemberServlet</servlet-class>
 
-	<!-- <multipart-config> -->
-	<!-- <location>/tmp</location> -->
-	<!-- <max-file-size>20848820</max-file-size> -->
-	<!-- <max-request-size>418018841</max-request-size> -->
-	<!-- <file-size-threshold>1048576</file-size-threshold> -->
-	<!-- </multipart-config> -->
-	<!-- </servlet> -->
+	<multipart-config>
+	<location>/tmp</location>
+	<max-file-size>20848820</max-file-size>
+	<max-request-size>418018841</max-request-size>
+	<file-size-threshold>1048576</file-size-threshold>
+	</multipart-config>
+	</servlet>
 
-	<!-- <servlet-mapping> -->
-	<!-- <servlet-name>MemberServlet</servlet-name> -->
-	<!-- <url-pattern>/member/mem.do</url-pattern> -->
-	<!-- </servlet-mapping> -->
+	<servlet-mapping>
+	<servlet-name>MemberServlet</servlet-name>
+	<url-pattern>/member/mem.do</url-pattern>
+	</servlet-mapping>
 
 
 	<servlet>
@@ -77,24 +77,6 @@
 		<servlet-name>AnimalTypeServlet</servlet-name>
 		<url-pattern>/animalTypeServlet</url-pattern>
 	</servlet-mapping>
-
-
-
-<!-- 	<servlet> -->
-<!-- 		<servlet-name>AdminServlet</servlet-name> -->
-<!-- 		<servlet-class>com.cha103g5.admin.controller.AdminServlet</servlet-class> -->
-
-<!-- 		<multipart-config> -->
-<!-- 			<location>/tmp</location> -->
-<!-- 			<max-file-size>20848820</max-file-size> -->
-<!-- 			<max-request-size>418018841</max-request-size> -->
-<!-- 			<file-size-threshold>1048576</file-size-threshold> -->
-<!-- 		</multipart-config> -->
-<!-- 	</servlet> -->
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>AdminServlet</servlet-name> -->
-<!-- 		<url-pattern>/admin.do</url-pattern> -->
-<!-- 	</servlet-mapping> -->
 
 	<servlet>
 		<servlet-name>imageReaderServlet</servlet-name>

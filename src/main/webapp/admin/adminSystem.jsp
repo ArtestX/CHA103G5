@@ -7,12 +7,12 @@
 <%@ page import="com.cha103g5.admin.service.*"%>
 
 <%
-//     Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
-//     if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
-//     	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
-//         response.sendRedirect(request.getContextPath()+"/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
-//      	return;
-//     }
+    Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
+    if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
+    	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+        response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+     	return;
+    }
 %>
 
 <%
@@ -27,7 +27,7 @@ pageContext.setAttribute("list", list);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>員工管理系統</title>
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <style>
 body {
             background-image: url('../img/desktop.jpg');
@@ -327,13 +327,13 @@ th {
 	</div>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			// 监听导航按钮的点击事件
+			// 監聽導航按鈕的點擊事件
 			let navigateButton = document.getElementById('navigateButton');
 			navigateButton.addEventListener('click', function() {
 				window.location.href = 'addadminNew.jsp';
 			});
 
-			// 监听员工姓名下拉菜单的点击事件
+			//監聽員工編號下拉菜单的點擊事件
 			let adminNameDropdown = document.getElementById("adminName");
 			let adminNameInput = document
 					.querySelector('input[name="adminNo"]');
@@ -348,7 +348,7 @@ th {
 				}
 			});
 
-			// 监听员工编号下拉菜单的点击事件
+			//監聽員工編號下拉菜单的點擊事件
 			let adminNoDropdown = document.getElementById("adminNoSel");
 			let adminNoInput = document.querySelector('input[name="adminNo"]');
 			let formNo = document.getElementById("adminNoMenu");
@@ -365,7 +365,7 @@ th {
 	</script>
 
 
-	<script src="../js/popper.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </body>
 </html>
