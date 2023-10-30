@@ -1,8 +1,12 @@
 package com.cha103g5.member.controller;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -10,10 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +31,8 @@ import org.apache.commons.io.IOUtils;
 
 import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
-import com.google.gson.JsonObject;
 
+@WebServlet("/member/mem.do")
 @MultipartConfig
 public class MemberServlet extends HttpServlet {
 	
@@ -86,19 +93,19 @@ public class MemberServlet extends HttpServlet {
 				if (memberVO != null && memberpassword.equals(memberVO.getMemberpassword())) {
 		            // 登入成功，將訊息儲存在session中
 					HttpSession session = req.getSession();
-		            session.setAttribute("user",memberemail);
+		            session.setAttribute("user",memberVO);
 		           
-		  
+		       
 		            System.out.println(session.getId());//印出session確認
+		            
+//		            Map<String, Object> resultMap = new HashMap<>();
+//		            resultMap.put("user", memberVO); // 放入使用者資訊
+//		            
+//		            Gson gson = new Gson();
+//		            String json= gson.toJson(resultMap);
+//		            res.getWriter().write(json);
+//		            System.out.println(json);
 		            	            
-//		            if (memberemail != null && memberpassword != null) {
-//		              	JsonObject jsonResponse = new JsonObject();
-//		                jsonResponse.addProperty("success", true);
-//		                res.setContentType("application/json");
-//		                PrintWriter out = res.getWriter();
-//		                out.print(jsonResponse.toString());
-//		                out.flush();
-//		            }
 		            // 重導頁面
 //		            String location = (String) session.getAttribute("location");// 看看有無來源網頁。有可設定重導回去原本網頁
 			        String url = req.getContextPath() + "/index.jsp";
@@ -184,15 +191,6 @@ public class MemberServlet extends HttpServlet {
 			
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
-				
-				//【從 session 判斷此user是否登入過】//
-				HttpSession session = req.getSession();
-				Object account = session.getAttribute("account");
-				if (account == null) {
-					session.setAttribute("location", req.getRequestURI());
-					res.sendRedirect(req.getContextPath() + "/index.jsp");
-					return;
-				}
 			
 				/***************************1.接收請求參數****************************************/
 				Integer memberno = Integer.valueOf(req.getParameter("memberno"));
@@ -407,25 +405,25 @@ public class MemberServlet extends HttpServlet {
 	            }
 			    	
 				String membercard = req.getParameter("membercard").trim();
-				String mcardReg = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
-				if(!membercard.trim().matches(mcardReg)) { 
-					errorMsgs.put("membercard","不符合信用卡格式");
-		        }
+//				String mcardReg = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
+//				if(!membercard.trim().matches(mcardReg)) { 
+//					errorMsgs.put("membercard","不符合信用卡格式");
+//		        }
 					
 				Integer memberpoints = Integer.valueOf(req.getParameter("memberpoints"));
 					
 				Integer memberstat = Integer.valueOf( req.getParameter("memberstat"));
 					
 				String memberid = req.getParameter("memberid").trim();
-				String midReg= "^[A-Za-z][1-2]\\d{8}$";
-				if(!memberid.trim().matches(midReg)) { 
-					errorMsgs.put("memberid","不符合身分證格式");
-				}
+//				String midReg= "^[A-Za-z][1-2]\\d{8}$";
+//				if(!memberid.trim().matches(midReg)) { 
+//					errorMsgs.put("memberid","不符合身分證格式");
+//				}
 					
 				String memberjob = req.getParameter("memberjob").trim();
-				if (memberjob == null || memberjob.trim().length() == 0) {
-					errorMsgs.put("memberjob","職位請勿空白");
-				}
+//				if (memberjob == null || memberjob.trim().length() == 0) {
+//					errorMsgs.put("memberjob","職位請勿空白");
+//				}
 					
 				Integer membersal = Integer.valueOf(req.getParameter("membersal").trim());
 				
@@ -478,7 +476,46 @@ public class MemberServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		doPost(req, res);
+		
+				int width = 130;
+        int height = 50;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        OutputStream out = res.getOutputStream();
+        
+        //獲取畫筆
+        Graphics g=image.getGraphics();
+        //設定背景色
+        g.setColor(new Color(100, 100, 100));
+        g.fillRect(0,0,width,height);
+        //取隨機產生的驗證碼(4位數字)
+        Random rnd=new Random();
+     // 生成随机的颜色
+     	int red = rnd.nextInt(256); // 0-255
+     	int green = rnd.nextInt(256); // 0-255
+     	int blue = rnd.nextInt(256); // 0-255
+     		
+     	Color randomColor = new Color(red, green, blue);
+        int randNum=rnd.nextInt(8999)+1000;
+        String randStr=String.valueOf(randNum);
+        //將驗證碼存入session
+        HttpSession session = req.getSession();
+        session.setAttribute("randStr",randStr);
+        //將驗證碼顯示到影象中
+        g.setColor(randomColor);
+        g.setFont(new Font("", Font.PLAIN,40));
+        g.drawString(randStr,30,45);
+        //隨機產生100個干擾點，使影象中的驗證碼不易被其他程式探測到
+          for (int i = 0; i < 100; i++) {
+         
+         
+              int x=rnd.nextInt(width);
+              int y=rnd.nextInt(height);
+              g.drawOval(x,y,1,1);
+          }
+        // 将验证码图片输出到前端
+        ImageIO.write(image, "JPEG", out);
 	}
+	
 	
 }
 

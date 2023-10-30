@@ -6,10 +6,10 @@
 <html>
 <head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/memberlogin.css" />
+
 </head>
 <body>
-	<section
-		class="hero-section d-flex justify-content-center align-items-center">
+	<section class="hero-section d-flex justify-content-center align-items-center">
 		<div class="container">
 			<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
 				<h3><b>會員登入</b></h3>
@@ -21,7 +21,10 @@
 					<font color=red>${errorMsgs.memberemail}</font><br>
 					
 					<label for="password" class="form-label"><b>密碼</b></label> 
-					<input type="text" id="password" class="form-control" name="memberpassword" value="${param.memberpassword}">
+					<input type="password" id="password" class="form-control" name="memberpassword" value="${param.memberpassword}">
+					<span class="eye1">
+						<img class="password-toggle" id="toggleImage" src="<%=request.getContextPath()%>/img/eyeclose.png" alt="Show Password" onclick="togglePasswordVisibility()">
+					</span>
 					<font color=red>${errorMsgs.memberpassword}</font>
 				</div>
 
@@ -33,8 +36,8 @@
 				</div>
 
 				<div id="rmbr">
-					<input type="checkbox" name="remberme" id="remember" checked> 
-					<label for="remberme"><b>記住帳號</b></label>
+					<input type="checkbox" name="rememberme" id="rememberme"> 
+					<label for="rememberme"><b>記住帳號</b></label>
 				</div>
 			
 
@@ -46,7 +49,7 @@
 					<a href="#" class="btn btn-primary"> <b>忘記密碼</b></a>
 				</div>
 
-				<div class="br-style-1 my-4"></div>
+<!-- 				<div class="br-style-1 my-4"></div> -->
 
 <!-- 				<div class="form-group has-feedback row"> -->
 <!-- 					<div class="col-md-12"> -->
@@ -63,39 +66,54 @@
 			</form>
 		</div>
 	</section>
-	<script>
-		let username = document.getElementById("username");
-		let remember = document.getElementById("remember");
-		let account = JSON.parse(localStorage.getItem("account"));
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	/************記住帳號************/
+	$(document).ready(function() {
+	    $("#loginButton").click(function(e) {
 	
-		// 載入頁面時檢查 localStorage 中的帳號
-		if (account) {
-		  username.value = account.username;
-		  remember.checked = true;
-		}
+	        var username = $("#username").val(); // 獲取使用者輸入的帳號
+	        var rememberMe = $("#rememberme").is(":checked"); // 檢查"記住帳號"是否勾選
 	
-		// 監聽欄位的input事件
-		username.addEventListener("input", function () {
-		  if (username.value.trim() === "") {
-		    remember.checked = false;
-		  }
-		});
+	        // 根據記住帳號的勾選狀態，保存帳號到localStorage
+	        if (rememberMe) {
+	            localStorage.setItem("savedUsername", username);
+	        } else {
+	            localStorage.removeItem("savedUsername");
+	        }
 	
-		remember.onchange = function () {
-		  if (this.checked) {
-		    if (username.value.trim() !== "") { // 檢查帳號是否不為空
-		      let data = { username: username.value };
-		      localStorage.setItem("account", JSON.stringify(data));
-		    } else {
-		      // 如果帳號是空的，不要選中記住帳號
-		      this.checked = false;
-		    }
-		  } else {
-		    localStorage.removeItem("account"); // 清空 localStorage 中的帳號資料
-		    username.value = ''; // 清空帳號欄位
-		  }
-		}
+	});
+	
+	    // 在頁面載入時，檢查localStorage並填充帳號輸入框
+	    var savedUsername = localStorage.getItem("savedUsername");
+	    if (savedUsername) {
+	        $("#username").val(savedUsername);
+	        $("#rememberme").prop("checked", true);
+	    }
+	});
+	
+	/************隱藏密碼************/
+	var passwordVisible = false;
+	
+	function togglePasswordVisibility() {
+	  var passwordField = document.getElementById("password");
+	  var toggleImage = document.getElementById("toggleImage");
+	
+	  if (passwordVisible) {
+		 password.type = "password";
+	    toggleImage.src ="<%=request.getContextPath()%>/img/eyeclose.png";
+	    toggleImage.alt = "Show Password";
+	  } else {
+		password.type = "text";
+	    toggleImage.src ="<%=request.getContextPath()%>/img/eyeopen.png";
+	    toggleImage.alt = "Hide Password";
+	  }
+	
+	  passwordVisible = !passwordVisible;
+	}
 
-	</script>
+   
+</script>
+
 </body>
 </html>
