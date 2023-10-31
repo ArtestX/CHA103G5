@@ -62,10 +62,19 @@
 						</a>
 					</li>
 
-					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#section_5">
+					<li class="nav-item dropdown hover" id="customerCenter">
+						<a class="nav-link click-scroll" href="#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="true">
 							<b>聯絡我們</b>
 						</a>
+						<ul class="dropdown-menu dropdown-menu-light border border-top-0" aria-labelledby="navbarLightDropdownMenuLink">
+							<li>
+								<a class="dropdown-item" href="">即時客服</a>
+							</li>
+
+							<li>
+								<a class="dropdown-item" href="">客服信箱</a>
+							</li>
+						</ul>
 					</li>
 
 					<li class="nav-item" id="memberlogin">

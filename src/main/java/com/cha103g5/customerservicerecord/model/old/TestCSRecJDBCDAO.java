@@ -1,7 +1,8 @@
-package com.cha103g5.customerservicerecord.model;
+package com.cha103g5.customerservicerecord.model.old;
 
 
 import java.util.List;
+import lombok.Data;
 
 public class TestCSRecJDBCDAO {
     public static void main(String[] args) {

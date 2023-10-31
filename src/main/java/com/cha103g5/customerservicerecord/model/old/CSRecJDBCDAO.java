@@ -1,4 +1,4 @@
-package com.cha103g5.customerservicerecord.model;
+package com.cha103g5.customerservicerecord.model.old;
 
 import com.cha103g5.util.Util;
 import java.sql.*;
@@ -28,7 +28,7 @@ public class CSRecJDBCDAO implements CSRecDAOInterface {
             pstmt.setInt(1, CSRecVO.getRecordNo());
             pstmt.setInt(2, CSRecVO.getMemberNo());
             pstmt.setInt(3, CSRecVO.getAdminNo());
-            pstmt.setDate(4, CSRecVO.getRecordTime());
+            pstmt.setDate(4, (Date) CSRecVO.getRecordTime());
             pstmt.setString(5, CSRecVO.getInteractionContent());
             pstmt.setInt(6, CSRecVO.getTalkDirection());
 

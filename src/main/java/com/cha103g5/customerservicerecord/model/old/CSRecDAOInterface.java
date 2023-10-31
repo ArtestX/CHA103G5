@@ -1,4 +1,4 @@
-package com.cha103g5.customerservicerecord.model;
+package com.cha103g5.customerservicerecord.model.old;
 
 import java.util.List;
 
