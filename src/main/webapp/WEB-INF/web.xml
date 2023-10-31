@@ -68,15 +68,15 @@
 	</servlet-mapping>
 
 
-	<servlet>
-		<servlet-name>AnimalTypeServlet</servlet-name>
-		<servlet-class>com.cha103g5.animaltype.controller.AnimalTypeServlet</servlet-class>
-	</servlet>
+<!--	<servlet>-->
+<!--		<servlet-name>AnimalTypeServlet</servlet-name>-->
+<!--		<servlet-class>com.cha103g5.animaltype.controller.AnimalTypeServlet</servlet-class>-->
+<!--	</servlet>-->
 
-	<servlet-mapping>
-		<servlet-name>AnimalTypeServlet</servlet-name>
-		<url-pattern>/animalTypeServlet</url-pattern>
-	</servlet-mapping>
+<!--	<servlet-mapping>-->
+<!--		<servlet-name>AnimalTypeServlet</servlet-name>-->
+<!--		<url-pattern>/animalTypeServlet</url-pattern>-->
+<!--	</servlet-mapping>-->
 
 	<servlet>
 		<servlet-name>imageReaderServlet</servlet-name>
