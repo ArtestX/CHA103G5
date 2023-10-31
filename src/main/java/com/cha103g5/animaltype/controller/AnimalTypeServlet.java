@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cha103g5.animaltype.model.AnimalType;
 import com.cha103g5.animaltype.model.AnimalTypeService;
 
-
+@WebServlet("/animalTypeServlet")
 public class AnimalTypeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
