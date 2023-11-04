@@ -62,13 +62,22 @@
 						</a>
 					</li>
 
-					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#section_5">
+					<li class="nav-item dropdown hover" id="customerCenter">
+						<a class="nav-link click-scroll" href="#section_5" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="true">
 							<b>聯絡我們</b>
 						</a>
+						<ul class="dropdown-menu dropdown-menu-light border border-top-0" aria-labelledby="navbarLightDropdownMenuLink">
+							<li>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/customer/chat.do">即時客服</a>
+							</li>
+
+							<li>
+								<a class="dropdown-item" href="">客服信箱</a>
+							</li>
+						</ul>
 					</li>
 
-					<li class="nav-item" id="memberlogin">
+					<li class="nav-item" id="memberlogin1">
 						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/member/memberLogin.jsp" id="memberlogin">
 						    <b>會員登入</b>
 						</a>

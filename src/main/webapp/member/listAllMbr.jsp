@@ -1,9 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cha103g5.member.model.*"%>
 <jsp:include page="/banner.jsp" flush="true"/>
-<%-- ¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È --%>
+<%-- æ­¤é ç·´ç¿’æŽ¡ç”¨ EL çš„å¯«æ³•å–å€¼ --%>
 
 <%
 	MemberService mbrSvc = new MemberService();
@@ -14,7 +14,7 @@
 
 <html>
 <head>
-<title>©Ò¦³·|­û¸ê®Æ - listAllMbrEmp.jsp</title>
+<title>æ‰€æœ‰æœƒå“¡è³‡æ–™ - listAllMbrEmp.jsp</title>
 
 <style>
   table#table-1 {
@@ -57,10 +57,10 @@
 </head>
 <body bgcolor='white'>
 
-<h4>¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È:</h4>
+<h4>æ­¤é ç·´ç¿’æŽ¡ç”¨ EL çš„å¯«æ³•å–å€¼:</h4>
 <table id="table-1">
 	<tr><td>
-		 <h3>©Ò¦³·|­û¸ê®Æ - listAllMbrEmp.jsp</h3>
+		 <h3>æ‰€æœ‰æœƒå“¡è³‡æ–™ - listAllMbrEmp.jsp</h3>
 		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/login.png" width="70" height="70" border="0"><br>Home</a>
 		 </h4>
 	</td></tr>
@@ -68,23 +68,23 @@
 
 <table>
 	<tr>
-		<th>·|­û½s¸¹</th>
-		<th>·|­û±b¸¹(Email)</th>
-		<th>·|­û©m¦W</th>
-		<th>©Ê§O</th>
-		<th>·|­û±K½X</th>
-		<th>¤â¾÷</th>
-		<th>¦a§}</th>
-		<th>µù¥U®É¶¡</th>
-		<th>¥Í¤é</th>
-		<th>°êÄy</th>
-		<th>¤jÀY·Ó</th>
-		<th>«H¥Î¥d</th>
-		<th>·|­ûÂI¼Æ</th>
-		<th>·|­ûª¬ºA</th>
-		<th>¨­¤ÀÃÒ</th>
-		<th>Â¾·~</th>
-		<th>¦¬¤J</th>
+		<th>æœƒå“¡ç·¨è™Ÿ</th>
+		<th>æœƒå“¡å¸³è™Ÿ(Email)</th>
+		<th>æœƒå“¡å§“å</th>
+		<th>æ€§åˆ¥</th>
+		<th>æœƒå“¡å¯†ç¢¼</th>
+		<th>æ‰‹æ©Ÿ</th>
+		<th>åœ°å€</th>
+		<th>è¨»å†Šæ™‚é–“</th>
+		<th>ç”Ÿæ—¥</th>
+		<th>åœ‹ç±</th>
+		<th>å¤§é ­ç…§</th>
+		<th>ä¿¡ç”¨å¡</th>
+		<th>æœƒå“¡é»žæ•¸</th>
+		<th>æœƒå“¡ç‹€æ…‹</th>
+		<th>èº«åˆ†è­‰</th>
+		<th>è·æ¥­</th>
+		<th>æ”¶å…¥</th>
 	</tr>
 	<%@ include file="page1.file" %> 
 	<c:forEach var="MemberVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
@@ -112,13 +112,13 @@
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="­×§ï">
+			     <input type="submit" value="ä¿®æ”¹">
 			     <input type="hidden" name="memberno"  value="${MemberVO.memberno}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="§R°£">
+			     <input type="submit" value="åˆªé™¤">
 			     <input type="hidden" name="memberno"  value="${MemberVO.memberno}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>

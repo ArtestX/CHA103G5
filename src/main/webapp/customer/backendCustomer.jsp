@@ -41,7 +41,7 @@ body {
       後臺管理系統
     </a>
     <div class="ms-auto">
-      <form method="POST" action="./admin.do">
+      <form method="POST" action="<%=request.getContextPath()%>/admin/admin.do">
       	<button class="btn btn-danger">登出</button>
       	<input type="hidden" name="action" value="backendlogout">
       </form>
@@ -61,7 +61,7 @@ body {
 				    </h2>
 				    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
+				      	<strong><a href="<%=request.getContextPath()%>/admin/adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
 				      </div>
 				      <div class="accordion-body">
 				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>
@@ -269,7 +269,6 @@ body {
 
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/bootstrap-v431.bundle.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery-3.3.1.slim.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap-v431.bundle.min.js"></script>
 </body>

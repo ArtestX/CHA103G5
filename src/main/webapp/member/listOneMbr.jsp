@@ -1,14 +1,14 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.cha103g5.member.model.*"%>
-<%-- ¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È --%>
+<%-- æ­¤é æš«ç·´ç¿’æ¡ç”¨ Script çš„å¯«æ³•å–å€¼ --%>
 
 <%
-MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet.java(Concroller), ¦s¤JreqªºMemberVOª«¥ó
+MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet.java(Concroller), å­˜å…¥reqçš„MemberVOç‰©ä»¶
 %>
 
 <html>
 <head>
-<title>·|­û¸ê®Æ - listOneMbr.jsp</title>
+<title>æœƒå“¡è³‡æ–™ - listOneMbr.jsp</title>
 
 <style>
   table#table-1 {
@@ -49,33 +49,33 @@ MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet
 </head>
 <body bgcolor='white'>
 
-<h4>¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È:</h4>
+<h4>æ­¤é æš«ç·´ç¿’æ¡ç”¨ Script çš„å¯«æ³•å–å€¼:</h4>
 <table id="table-1">
 	<tr><td>
-		 <h3>·|­û¸ê®Æ - listOneMbr.jsp</h3>
-		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0"><br>¦^­º­¶</a></h4>
+		 <h3>æœƒå“¡è³‡æ–™ - listOneMbr.jsp</h3>
+		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0"><br>å›é¦–é </a></h4>
 	</td></tr>
 </table>
 
 <table>
 	<tr>
-		<th>·|­û½s¸¹</th>
-		<th>·|­û±b¸¹(Email)</th>
-		<th>·|­û©m¦W</th>
-		<th>©Ê§O</th>
-		<th>·|­û±K½X</th>
-		<th>¤â¾÷</th>
-		<th>¦a§}</th>
-		<th>µù¥U®É¶¡</th>
-		<th>¥Í¤é</th>
-		<th>°êÄy</th>
-		<th>¤jÀY·Ó</th>
-		<th>«H¥Î¥d</th>
-		<th>·|­ûÂI¼Æ</th>
-		<th>·|­ûª¬ºA</th>
-		<th>¨­¤ÀÃÒ</th>
-		<th>Â¾·~</th>
-		<th>¦¬¤J</th>
+		<th>æœƒå“¡ç·¨è™Ÿ</th>
+		<th>æœƒå“¡å¸³è™Ÿ(Email)</th>
+		<th>æœƒå“¡å§“å</th>
+		<th>æ€§åˆ¥</th>
+		<th>æœƒå“¡å¯†ç¢¼</th>
+		<th>æ‰‹æ©Ÿ</th>
+		<th>åœ°å€</th>
+		<th>è¨»å†Šæ™‚é–“</th>
+		<th>ç”Ÿæ—¥</th>
+		<th>åœ‹ç±</th>
+		<th>å¤§é ­ç…§</th>
+		<th>ä¿¡ç”¨å¡</th>
+		<th>æœƒå“¡é»æ•¸</th>
+		<th>æœƒå“¡ç‹€æ…‹</th>
+		<th>èº«åˆ†è­‰</th>
+		<th>è·æ¥­</th>
+		<th>æ”¶å…¥</th>
 	</tr>
 	<tr>
 		    <td>${MemberVO.memberno}</td>

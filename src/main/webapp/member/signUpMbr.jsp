@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.member.model.*"%>
 <jsp:include page="/banner.jsp" flush="true"/>
@@ -50,100 +50,100 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h3>µù¥U·|­û - SignUp Mbr.jsp</h3></td><td>
-		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0">¦^­º­¶</a></h4>
+		 <h3>è¨»å†Šæœƒå“¡ - SignUp Mbr.jsp</h3></td><td>
+		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0">å›é¦–é </a></h4>
 	</td></tr>
 </table>
 
-<h5>¸ê®Æ·s¼W:</h5>
+<h5>è³‡æ–™æ–°å¢:</h5>
 
 <FORM METHOD="post" ENCTYPE="multipart/form-data" ACTION="mem.do"  name="form1">
 <table>
 	<tr>
-	  	<!-- <td>·|­û½s¸¹:<font color=red><b>*</b></font></td>-->
+	  	<!-- <td>æœƒå“¡ç·¨è™Ÿ:<font color=red><b>*</b></font></td>-->
 	  	<td><input type="hidden" value="${param.memberno}"></td>
      </tr>
 	
 	<tr>
-		<td>·|­û±b¸¹(Email):</td>
+		<td>æœƒå“¡å¸³è™Ÿ(Email):</td>
 		<td><input type="TEXT" name="memberemail" value="${param.memberemail}" size="10"/></td> <td>${errorMsgs.memberemail}</td>
 	</tr>
 	
 	<tr>
-		<td>¦W¦r:</td>
+		<td>åå­—:</td>
 		<td><input type="TEXT" name="membername" value="${param.membername}" size="20"/></td> <td>${errorMsgs.membername}</td>
 	</tr>
 	
 	<tr>
-		<td>©Ê§O:</td>
+		<td>æ€§åˆ¥:</td>
 	    <td>
-	        <input type="radio" name="membergender" value=1 checked/> ¨k
-	        <input type="radio" name="membergender" value=2> ¤k
+	        <input type="radio" name="membergender" value=1 checked/> ç”·
+	        <input type="radio" name="membergender" value=2> å¥³
 	    </td>
     </tr>
     
     <tr>
-		<td>±K½X:</td>
+		<td>å¯†ç¢¼:</td>
 		<td><input type="TEXT" name="memberpassword" value="${param.memberpassword}" size="20"/></td> <td>${errorMsgs.memberpassword}</td>
 	</tr>
     
     <tr>
-		<td>¤â¾÷¸¹½X:</td>
+		<td>æ‰‹æ©Ÿè™Ÿç¢¼:</td>
 		<td><input type="TEXT" name="memberphone" value="${param.memberphone}" size="10"/></td> <td>${errorMsgs.memberphone}</td>
 	</tr>
     
 	 <tr>
-		<td>¦a§}:</td>
+		<td>åœ°å€:</td>
 		<td><input type="TEXT" name="memberaddress" value="${param.memberaddress}" size="45"/></td> 
 	</tr>
     
     <tr>
-		<td>µù¥U®É¶¡:</td>
+		<td>è¨»å†Šæ™‚é–“:</td>
 		<td><input name="memberjointime" id="f_date1" type="text" ></td> <td>${errorMsgs.memberjointime}</td>
 	</tr>
 	
 	<tr>
-		<td>¥Í¤é:</td>
+		<td>ç”Ÿæ—¥:</td>
 		<td><input name="memberbirthday" id="f_date2" type="text" ></td> <td>${errorMsgs.memberbirthday}</td>
 	</tr>
     
 	<tr>
-		<td>°êÄy:</td>
+		<td>åœ‹ç±:</td>
 		<td><input type="TEXT" name="membernation" value="${param.membernation}" size="45"/></td> 
 	</tr>
 	
 	<tr>
-		<td>¤jÀY·Ó:</td>
+		<td>å¤§é ­ç…§:</td>
 		<td><input type="file" name="image" value="${param.memberpic}"/></td> <td>${errorMsgs.memberpic}</td>
 	</tr>
 	
 	<tr>
-		<td>«H¥Î¥d:</td>
+		<td>ä¿¡ç”¨å¡:</td>
 		<td><input type="text" name="membercard" value="${param.membercard}" placeholder="xxxx-xxxx-xxxx-xxxx"/></td> <td>${errorMsgs.membercard}</td>
 	</tr>
 	
 	<tr>
-		<!-- ·|­ûÂI¼Æ: -->
+		<!-- æœƒå“¡é»æ•¸: -->
 		<td><input type="hidden" name="memberpoints" value=0></td> 
 	</tr>
 	
 	<tr>
-		<!-- ·|­ûª¬ºA: -->
+		<!-- æœƒå“¡ç‹€æ…‹: -->
 		<td><input type="hidden" name="memberstat" value=0></td> 
 	</tr>
 	
 	<tr>
-		<td>¨­¥÷ÃÒ:</td>
+		<td>èº«ä»½è­‰:</td>
 		<td><input type="TEXT" name="memberid" value="${param.memberid}" size="10"/></td> <td>${errorMsgs.memberid}</td>
 	</tr>
 	
 	<tr>
-		<td>Â¾·~:</td>
+		<td>è·æ¥­:</td>
 		<td><input type="TEXT" name="memberjob" value="${param.memberjob}" size="10"/></td> <td>${errorMsgs.memberjob}</td>
 	</tr>
 	
 	<tr>
-		<td>¦¬¤J:</td>
+		<td>æ”¶å…¥:</td>
 		<td>
 			<select name="membersal">
 			    <option value= 0>30W ~ 50W</option>
@@ -155,7 +155,7 @@
 </table>
 <br>
 <input type="hidden" name="action" value="insert">
-<input type="submit" value="°e¥X·s¼W"></FORM>
+<input type="submit" value="é€å‡ºæ–°å¢"></FORM>
 
 <% 
   java.sql.Timestamp memberjointime = null;
@@ -181,26 +181,26 @@
 		$('#f_date1').datetimepicker({
 		    theme: '',              //theme: 'dark',
 		   timepicker:false,       //timepicker:true,
-		   step: 1,                //step: 60 (³o¬Otimepickerªº¹w³]¶¡¹j60¤ÀÄÁ)
+		   step: 1,                //step: 60 (é€™æ˜¯timepickerçš„é è¨­é–“éš”60åˆ†é˜)
 		   format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
 		   value: '<%=memberjointime%>', // value:   new Date(),
-		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // ¥h°£¯S©w¤£§t
-		   //startDate:	            '2017/07/10',  // °_©l¤é
-		   //minDate:               '-1970-01-01', // ¥h°£¤µ¤é(¤£§t)¤§«e
-		   //maxDate:               '+1970-01-01'  // ¥h°£¤µ¤é(¤£§t)¤§«á
+		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // å»é™¤ç‰¹å®šä¸å«
+		   //startDate:	            '2017/07/10',  // èµ·å§‹æ—¥
+		   //minDate:               '-1970-01-01', // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å‰
+		   //maxDate:               '+1970-01-01'  // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å¾Œ
 		});
         
         $.datetimepicker.setLocale('zh');
 		$('#f_date2').datetimepicker({
 		   theme: 'dark',              //theme: 'dark',
 		    timepicker:false,       //timepicker:true,
-		    step: 60,                //step: 60 (³o¬Otimepickerªº¹w³]¶¡¹j60¤ÀÄÁ)
+		    step: 60,                //step: 60 (é€™æ˜¯timepickerçš„é è¨­é–“éš”60åˆ†é˜)
 		    format:'Y-m-d',         //format:'Y-m-d H:i:s',
 			value: '${param.memberbirthday}', // value:   new Date(),
-		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // ¥h°£¯S©w¤£§t
-		   //startDate:	            '2017/07/10',  // °_©l¤é
-		   //minDate:               '-1970-01-01', // ¥h°£¤µ¤é(¤£§t)¤§«e
-		   //maxDate:               '+1970-01-01'  // ¥h°£¤µ¤é(¤£§t)¤§«á
+		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // å»é™¤ç‰¹å®šä¸å«
+		   //startDate:	            '2017/07/10',  // èµ·å§‹æ—¥
+		   //minDate:               '-1970-01-01', // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å‰
+		   //maxDate:               '+1970-01-01'  // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å¾Œ
 		});
 </script>        
 
