@@ -127,19 +127,17 @@
                 }
             })
                 .then(response => {
-                    if (response.status === 200) {
-                        Swal.fire({
-                            title: '寄信成功',
-                            text: '感謝您的回饋',
-                            icon: 'success'
-                        }).then(function () {
-                            location.reload();
-                        });
-                    } else {
+                    if (response.status !== 200) {
                         Swal.fire({
                             title: '寄信失敗',
                             icon: 'error'
                         });
+                    } else {
+                        Swal.fire({
+                            title: '寄信成功',
+                            text: '感谢您的回馈',
+                            icon: 'success'
+                        }).then(() => location.reload());
                     }
                 })
                 .catch(error => {
