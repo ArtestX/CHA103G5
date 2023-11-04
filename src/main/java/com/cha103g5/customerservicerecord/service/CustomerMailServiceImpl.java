@@ -24,7 +24,7 @@ public class CustomerMailServiceImpl implements CustomerMailService{
                 "寄件人信箱：" + customerEmail.getUsermail()+"\n\n"+
                 "---------------寄件人留言------------------\n\n"+
                 customerEmail.getContent()+"\n\n"+
-                "---------------------------------------------");
+                "-----------------------------------------------");
 
         mailSender.send(message);
     }
