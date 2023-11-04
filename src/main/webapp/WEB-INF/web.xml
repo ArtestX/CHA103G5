@@ -29,19 +29,20 @@
 <!-- 		<dispatcher>ASYNC</dispatcher> -->
 <!-- 	</filter-mapping> -->
 
-<!-- 	<filter> -->
-<!-- 		<filter-name>LoginFilter</filter-name> -->
-<!-- 		<filter-class>com.cha103g5.member.filter.LoginFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>LoginFilter</filter-name> -->
-<!-- 		<url-pattern>/protected/*</url-pattern> -->
-<!-- 		<dispatcher>REQUEST</dispatcher> -->
-<!-- 		<dispatcher>FORWARD</dispatcher> -->
-<!-- 		<dispatcher>INCLUDE</dispatcher> -->
-<!-- 		<dispatcher>ERROR</dispatcher> -->
-<!-- 		<dispatcher>ASYNC</dispatcher> -->
-<!-- 	</filter-mapping> -->
+ 	<filter>
+ 		<filter-name>LoginFilter</filter-name>
+ 		<filter-class>com.cha103g5.member.filter.LoginFilter</filter-class>
+ 	</filter>
+ 	<filter-mapping>
+ 		<filter-name>LoginFilter</filter-name>
+ 		<url-pattern>/customer/chat.jsp</url-pattern>
+ 		<url-pattern>/customer/chat.do</url-pattern>
+ 		<dispatcher>REQUEST</dispatcher>
+ 		<dispatcher>FORWARD</dispatcher>
+ 		<dispatcher>INCLUDE</dispatcher>
+ 		<dispatcher>ERROR</dispatcher>
+ 		<dispatcher>ASYNC</dispatcher>
+ 	</filter-mapping>
 
 	<resource-ref>
 		<description>DB Connection</description>
@@ -66,17 +67,6 @@
 	<servlet-name>MemberServlet</servlet-name>
 	<url-pattern>/member/mem.do</url-pattern>
 	</servlet-mapping>
-
-
-<!--	<servlet>-->
-<!--		<servlet-name>AnimalTypeServlet</servlet-name>-->
-<!--		<servlet-class>com.cha103g5.animaltype.controller.AnimalTypeServlet</servlet-class>-->
-<!--	</servlet>-->
-
-<!--	<servlet-mapping>-->
-<!--		<servlet-name>AnimalTypeServlet</servlet-name>-->
-<!--		<url-pattern>/animalTypeServlet</url-pattern>-->
-<!--	</servlet-mapping>-->
 
 	<servlet>
 		<servlet-name>imageReaderServlet</servlet-name>

@@ -50,8 +50,8 @@
 	}
 	
 	.chat-box {
-/* 	  max-width: 600px; /* 调整您希望的最大宽度值 */ */
-/*    margin: 0 auto; /* 让聊天框水平居中 */ */
+/* 	  max-width: 600px; /* 调整您希望的最大宽度值 */
+/*    margin: 0 auto; /* 让聊天框水平居中 */
 	  height: 568px;
 	  overflow-y: scroll;
 	}
@@ -183,7 +183,7 @@
               <div class="input-group">
                 <input type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                 <div class="input-group-append">
-                  <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                  <button id="submitButton" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
                 </div>
               </div>
             </form>
@@ -191,7 +191,41 @@
         </div>
       </div>
      </div>
-    <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.slim.min.js"></script>
+
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById("submitButton").addEventListener("click", function() {
+          console.log("button 成功");
+
+          var userName = "yourUsername"; // 替换为实际的用户名
+          fetch('http://localhost:8080/getMemberName', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userName: userName })
+          })
+                  .then(response => {
+                    if (response.ok) { // 检查响应是否成功 (状态码 200 到 299)
+                      return response.json();
+                    } else {
+                      throw new Error('新增失败');
+                    }
+                  })
+                  .then(data => {
+                    // 处理响应数据
+                    console.log(data);
+                  })
+                  .catch(error => {
+                    console.log("Error: " + error);
+                  });
+        });
+      });
+
+    </script>
+    <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap-v431.bundle.min.js"></script>
 </body>
 </html>

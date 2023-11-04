@@ -16,9 +16,9 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import com.cha103g5.customerservicerecord.util.JedisHandleMessage;
 import com.google.gson.Gson;
 
-import com.cha103g5.customerservicerecord.service.JedisHandleMessage;
 import com.cha103g5.customerservicerecord.model.ChatMessage;
 import com.cha103g5.customerservicerecord.model.State;
 

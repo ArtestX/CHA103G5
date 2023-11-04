@@ -1,43 +1,20 @@
 package com.cha103g5.customerservicerecord.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class State {
-	private String type;
-	// the user changing the state
-	private String user;
-	// total users
-	private Set<String> users;
 
-	public State(String type, String user, Set<String> users) {
-		super();
-		this.type = type;
-		this.user = user;
-		this.users = users;
-	}
+    private String type;
 
-	public String getType() {
-		return type;
-	}
+    private String user;
 
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public Set<String> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<String> users) {
-		this.users = users;
-	}
-
+    private Set<String> users;
 }

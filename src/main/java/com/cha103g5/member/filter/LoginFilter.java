@@ -42,10 +42,5 @@ public class LoginFilter implements Filter {
 			System.out.println("Already login !");
 			chain.doFilter(request, response);
 		}
-		
-		
-		
-		
-		
 	}
 }
