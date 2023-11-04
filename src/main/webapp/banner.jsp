@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/img/backend.png">
+<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/img/backend2.png">
 <title>浪愛有家</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-icons.css">

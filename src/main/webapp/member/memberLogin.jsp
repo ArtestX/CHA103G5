@@ -7,6 +7,7 @@
 <head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/memberlogin.css" />
 
+
 </head>
 <body>
 	<section class="hero-section d-flex justify-content-center align-items-center">
@@ -16,16 +17,15 @@
 				<font color=red>${errorMsgs.memberlogin}</font><br>
 				
 				<div class="loginGroup">
-					<label for="login" class="form-label"><b>帳號</b></label> 
+					<label for="login" class="form-label"><b>帳號</b></label> 	 <font class="error-message">${errorMsgs.memberemail}</font>
 					<input type="text" id="username" class="form-control" name="memberemail" value="${param.memberemail}" placeholder="name@example.com">
-					<font color=red>${errorMsgs.memberemail}</font><br>
+					<br>
 					
-					<label for="password" class="form-label"><b>密碼</b></label> 
-					<input type="password" id="password" class="form-control" name="memberpassword" value="${param.memberpassword}">
+					<label for="password" class="form-label"><b>密碼</b></label> <font class="error-message">${errorMsgs.memberpassword}</font>
+					<input type="password" id="password" class="form-control" name="memberpassword" value="${param.memberpassword}" autocomplete="off">
 					<span class="eye1">
 						<img class="password-toggle" id="toggleImage" src="<%=request.getContextPath()%>/img/eyeclose.png" alt="Show Password" onclick="togglePasswordVisibility()">
 					</span>
-					<font color=red>${errorMsgs.memberpassword}</font>
 				</div>
 
 				<div class="login_btn">
@@ -43,7 +43,7 @@
 
 				<div class="btn-group" id="btn-group-login" role="group"
 					aria-label="Basic example">
-					<a href="${pageContext.request.contextPath}/member/signUpMbr.jsp" class="btn btn-primary"> 
+					<a href="${pageContext.request.contextPath}/member/memberSignUp.jsp" class="btn btn-primary"> 
 						<b>註冊會員</b>
 					</a> 
 					<a href="#" class="btn btn-primary"> <b>忘記密碼</b></a>

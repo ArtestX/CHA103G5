@@ -1,10 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.member.model.*"%>
+<jsp:include page="/banner.jsp" flush="true"/>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>註冊會員 - SignUp Mbr.jsp</title>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 
 <style>
   table#table-1 {
@@ -164,7 +165,7 @@
 	   memberjointime = new java.sql.Timestamp(System.currentTimeMillis());
    }
 %>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 <style>
@@ -176,18 +177,18 @@
   }
 </style>
 <script>
-        $.datetimepicker.setLocale('zh');
-        $('#f_date1').datetimepicker({
- 	       theme: '',              //theme: 'dark',
-	       timepicker:false,       //timepicker:true,
-	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
-	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
+		$.datetimepicker.setLocale('zh');
+		$('#f_date1').datetimepicker({
+		    theme: '',              //theme: 'dark',
+		   timepicker:false,       //timepicker:true,
+		   step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+		   format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
 		   value: '<%=memberjointime%>', // value:   new Date(),
-           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-           //startDate:	            '2017/07/10',  // 起始日
-           //minDate:               '-1970-01-01', // 去除今日(不含)之前
-           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
-        });
+		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+		   //startDate:	            '2017/07/10',  // 起始日
+		   //minDate:               '-1970-01-01', // 去除今日(不含)之前
+		   //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+		});
         
         $.datetimepicker.setLocale('zh');
 		$('#f_date2').datetimepicker({

@@ -1,7 +1,9 @@
-package com.cha103g5.member.model;
+package com.cha103g5.member.model.old;
 
 import java.util.List;
 import java.util.Map;
+
+import com.cha103g5.member.model.MemberVO;
 
 
 public interface MemberDAOinterface {
@@ -16,7 +18,8 @@ public interface MemberDAOinterface {
 	MemberVO findByMemberEmail(String memberemail);
 	
 	List<MemberVO> getAll();
-
-	boolean isUsernameExists(String memberemail);
-
+	
+	
+		  
+	
 }

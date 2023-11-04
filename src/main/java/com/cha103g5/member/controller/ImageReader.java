@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.SessionFactory;
 
-import com.cha103g5.member.model.MemberHibernateDAO;
 import com.cha103g5.member.model.MemberVO;
+import com.cha103g5.member.model.old.MemberHibernateDAO;
 import com.cha103g5.util.HibernateUtil;
 
 @WebServlet("/ReadMbrIMG")

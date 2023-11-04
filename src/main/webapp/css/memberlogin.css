@@ -110,3 +110,10 @@ label.form-label {
     height: auto; 
     border-radius: 5px;
 }
+
+.error-message {
+    color: red;
+    float: right;
+    font-size: 15px;
+     margin-top: 13px;
+}
