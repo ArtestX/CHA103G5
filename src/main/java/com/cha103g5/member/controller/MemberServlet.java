@@ -91,35 +91,46 @@ public class MemberServlet extends HttpServlet {
 				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
 				
 				// 从数据库中检索用户的哈希密码，根据用户名或邮箱等信息
-                String hashedPassword = memberVO.getMemberpassword();
-                boolean passwordMatch = BCrypt.checkpw(memberpassword,  hashedPassword);
+				if (memberVO != null) {
+				    	String hashedPassword = memberVO.getMemberpassword();
+				    	boolean passwordMatch = BCrypt.checkpw(memberpassword, hashedPassword);
                 
-                if (memberVO != null && passwordMatch) {
-				            // 登入成功，將訊息儲存在session中
-							HttpSession session = req.getSession();
-				            session.setAttribute("user",memberVO);
-				       
-				            System.out.println(session.getId());//印出session確認
-				           
-				            // 重導頁面
-		//		            String location = (String) session.getAttribute("location");// 看看有無來源網頁。有可設定重導回去原本網頁
-					        String url = req.getContextPath() + "/index.jsp";
-							res.sendRedirect(url);
-                    
-		        } else {
-		        	errorMsgs.put("memberlogin","帳號 或 密碼 不正確");
-		        	
-		        	// Send the use back to the form, if there were errors
-					if (!errorMsgs.isEmpty()) {
-						RequestDispatcher failureView = req
-								.getRequestDispatcher("/member/memberLogin.jsp");
-						failureView.forward(req, res);
-						return;//程式中斷
-					}	
-					 
-		        }
+		                if (memberVO != null && passwordMatch) {
+						            // 登入成功，將訊息儲存在session中
+									HttpSession session = req.getSession();
+						            session.setAttribute("user",memberVO);
+						       
+						            System.out.println(session.getId());//印出session確認
+						           
+						            // 重導頁面
+				//		            String location = (String) session.getAttribute("location");// 看看有無來源網頁。有可設定重導回去原本網頁
+							        String url = req.getContextPath() + "/index.jsp";
+									res.sendRedirect(url);
+		                    
+				        } else {
+				        	errorMsgs.put("memberlogin","帳號 或 密碼 不正確");
+				        	
+				        	// Send the use back to the form, if there were errors
+							if (!errorMsgs.isEmpty()) {
+								RequestDispatcher failureView = req
+										.getRequestDispatcher("/member/memberLogin.jsp");
+								failureView.forward(req, res);
+								return;//程式中斷
+							}	
+							 
+				        }
 
-		}
+			 } else {
+			    errorMsgs.put("memberlogin", "帳號或密碼不正確");
+			    
+			    // Send the user back to the form, if there were errors
+			    if (!errorMsgs.isEmpty()) {
+			        RequestDispatcher failureView = req.getRequestDispatcher("/member/memberLogin.jsp");
+			        failureView.forward(req, res);
+			        return; // 程式中斷
+			    }
+			}
+		}				
 		
 /**********************查詢**********************/
 /**********************查詢**********************/
@@ -411,8 +422,6 @@ public class MemberServlet extends HttpServlet {
 					
 			   /***************************2.開始新增資料***************************************/
 					System.out.println("開始新增");
-//					// Hash the password
-//					String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
 				
 					// Hash the password
 					String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
@@ -421,10 +430,20 @@ public class MemberServlet extends HttpServlet {
 					memberService.signUpMember(memberemail, membername, membergender, 
 					hashedPassword, memberphone, memberjointime,memberbirthday, memberpoints, memberstat);
 					System.out.println("新增完成");
+								
 			    /***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = req.getContextPath() + "/member/memberLogin.jsp";
-				res.sendRedirect(url);
-			 			
+
+					String verificationEmail = "verificationEmail";
+					req.setAttribute("VerificationEmail", verificationEmail);
+
+					// 设置其他请求属性，例如成员姓名和成员电子邮件
+					req.setAttribute("membername", membername);
+					req.setAttribute("memberemail", memberemail);
+
+					String url = "/member/sendemail?action=verificationEmail"; 
+					RequestDispatcher successView = req.getRequestDispatcher(url);
+					successView.forward(req, res);
+			 		System.out.println("傳送成功");	
 		 }
 		
 /**********************刪除**********************/

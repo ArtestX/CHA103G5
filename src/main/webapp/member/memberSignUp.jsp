@@ -214,9 +214,9 @@ font{
                  <img name="imgValidate" id="imgValidate" src="<%=request.getContextPath()%>/member/mem.do"  alt="驗證碼" onclick="refresh()" >
                 <!--  圖片驗證 ===================-->
                 <input type="hidden" name="action" value="insert">
-                <button class="btn btnAccess" id="loginButton">
-                    <b>註冊</b>
-                </button>
+	            <button class="btn btnAccess" id="loginButton">
+	                  <b>註冊</b>
+	             </button>
             </div>
         </form>
     </section>

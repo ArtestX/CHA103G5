@@ -12,8 +12,8 @@
 }
 
 .hero-section > :first-child {
-    width: 380px;
-    height: 450px;
+    width: 400px;
+    height: 480px;
     padding: 50px;
     background-color: rgba(#000, 0.6);
     border-radius: 60px;
@@ -29,7 +29,7 @@ h3 {
     /*會員登入*/
     color: #422E2F;
     margin-top: 10px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -55,14 +55,14 @@ label.form-label {
 }
 
 .login_btn {
-    /*登入按鈕*/
+    /*登入*/
     padding: 13px 5px 0px;
     color: #422E2F;
     text-align: center;
 }
 
 .btnAccess {
-    /*登入按鈕*/
+    /*登入*/
     color: #422E2F;
     background-color: #FAE899;
     border: 1px solid  rgba(#eeeaea, 0.5);
@@ -70,7 +70,7 @@ label.form-label {
 }
 
 .btnAccess:hover {
-	 /*登入按鈕*/
+	 /*登入*/
     background-color: #bae5f3fb;
 }
 
@@ -83,25 +83,10 @@ label.form-label {
 }
 
 #btn-group-login a:hover,
-#btn-group-login a:active {
+#btn-group-login aactive {
 	 /* 會員註冊&忘記密碼 */
     background-color: #656767fb !important;
     border: 1px solid #6b6a6a !important;
-}
-
-.form-label {
-	/*隱藏密碼*/
-      position: relative;
-}
-
-.password-toggle {
-	/*隱藏密碼*/
-         position: absolute;
-         top: 61%;
-         right: 73px; 
-         transform: translateY(-50%); 
-		 cursor: pointer; 
-		 width: 24px;
 }
 
 .facebook-icon {
@@ -116,4 +101,17 @@ label.form-label {
     float: right;
     font-size: 15px;
      margin-top: 13px;
+}
+	/*隱藏密碼 */
+.form-label {
+      position: relative;
+}
+	/*隱藏密碼 */
+.password-toggle{
+         position: absolute;
+         top: 61%;
+         right: 73px; 
+         transform: translateY(-50%); 
+		 cursor: pointer; 
+		 width: 24px;
 }

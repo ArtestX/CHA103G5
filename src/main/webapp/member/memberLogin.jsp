@@ -7,7 +7,6 @@
 <head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/memberlogin.css" />
 
-
 </head>
 <body>
 	<section class="hero-section d-flex justify-content-center align-items-center">
