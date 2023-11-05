@@ -148,13 +148,17 @@ span {
 				<!-- 				</div> -->
 				<div class="row g-1 ms-5 align-items-center">
 					<div class="col-auto offset-1">
-						<label for="text8" class="col-form-label">員工狀態 :</label>
+						<label for="text8" class="col-form-label">員工權限 :</label>
 					</div>
 					<div class="col-auto">
-						<label> <input type="radio" id="text8" name="adminStat"
-							value="1" checked> 在職
-						</label> <label> <input type="radio" id="text9" name="adminStat"
-							value="2"> 離職
+						<label>
+							<input type="radio" id="text8" name="adminStat" value="1" checked> 一般
+						</label>
+						<label>
+							<input type="radio" id="text9" name="adminStat" value="2"> 管理員
+						</label>
+						<label>
+							<input type="radio" id="text10" name="adminStat" value="3"> 停權
 						</label>
 					</div>
 				</div>

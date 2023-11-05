@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/sweetalert2.css">
     <style>
         body {
             min-height: 100vh;
@@ -56,7 +57,7 @@
         </div>
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="email" placeholder="email">
-            <label for "email">請輸入電子郵件</label>
+            <label for= "email">請輸入電子郵件</label>
             <div class="error-message" id="email-error"></div>
         </div>
         <div class="form-floating mb-3">
@@ -109,15 +110,18 @@
 
         // 創建 customerEmail 對象
         if (!hasError) {
+            // 提示的加载中弹窗
+            Swal.fire({
+                title: '傳送中請稍後...',
+                icon: 'info',
+                showConfirmButton: false,
+            });
             let customerEmail = {
                 name: name,
                 usermail: email,
                 content: content,
                 category: category // 將選擇的問題類別包含在對象中
-
             };
-
-
             // 使用 fetch 將數據提交给後端
             fetch("http://localhost:8080/CHA103G5/customer/mail.do", {
                 method: "POST",
@@ -127,16 +131,19 @@
                 }
             })
                 .then(response => {
+
                     if (response.status !== 200) {
                         Swal.fire({
-                            title: '寄信失敗',
+                            title: '寄送失敗',
                             icon: 'error'
                         });
                     } else {
                         Swal.fire({
-                            title: '寄信成功',
-                            text: '感谢您的回馈',
-                            icon: 'success'
+                            title: '寄送成功',
+                            text: '感謝您的回饋,請耐心等候回應..',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2700
                         }).then(() => location.reload());
                     }
                 })
@@ -147,6 +154,6 @@
     });
 </script>
 <script src="<%= request.getContextPath() %>/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<%=request.getContextPath()%>/js/sweetalert2.all.min.js"></script>
 </body>
 </html>

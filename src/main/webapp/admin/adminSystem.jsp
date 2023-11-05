@@ -84,9 +84,9 @@ th {
 				      <div class="accordion-body">
 				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
 				      </div>
-				      <div class="accordion-body">
-				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>
-				      </div>
+<%--				      <div class="accordion-body">--%>
+<%--				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
+<%--				      </div>--%>
 				    </div>
 				  </div>
 				  <div class="accordion-item">
@@ -251,7 +251,7 @@ th {
 										<th>信箱</th>
 										<th>電話</th>
 										<th>到職日</th>
-										<th>狀態</th>
+										<th>權限</th>
 										<th >照片</th>
 									</tr>
 								</thead>
@@ -268,8 +268,10 @@ th {
 											<th>${adminVO.createDate}</th>
 											<th>
 									            <c:choose>
-									                <c:when test="${adminVO.adminStat == 1}">在職</c:when>
-									                <c:otherwise>離職</c:otherwise>
+									                <c:when test="${adminVO.adminStat == 1}">一般</c:when>
+									                <c:when test="${adminVO.adminStat == 2}">管理員</c:when>
+									                <c:when test="${adminVO.adminStat == 3}">停權</c:when>
+<%--									                <c:otherwise>離職</c:otherwise>--%>
 									            </c:choose>
 									        </th>
 											<th>
