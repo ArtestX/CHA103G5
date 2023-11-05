@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.member.model.*"%>
 
@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>·|­û¸ê®Æ­×§ï - update_Mbr_input.jsp</title>
+<title>æœƒå“¡è³‡æ–™ä¿®æ”¹ - update_Mbr_input.jsp</title>
 
 <style>
   table#table-1 {
@@ -52,16 +52,16 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h3>·|­û¸ê®Æ­×§ï - update_Mbr_input.jsp</h3>
-		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0"><br>¦^­º­¶</a></h4>
+		 <h3>æœƒå“¡è³‡æ–™ä¿®æ”¹ - update_Mbr_input.jsp</h3>
+		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0"><br>å›é¦–é </a></h4>
 	</td></tr>
 </table>
 
-<h3>¸ê®Æ­×§ï:</h3>
+<h3>è³‡æ–™ä¿®æ”¹:</h3>
 
-<%-- ¿ù»~ªí¦C --%>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 <%-- <c:if test="${not empty errorMsgs}"> --%>
-<!-- 	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font> -->
+<!-- 	<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font> -->
 <!-- 	<ul> -->
 <%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
 <%-- 			<li style="color:red">${message.value}</li> --%>
@@ -72,90 +72,90 @@
 <FORM method="post" enctype="multipart/form-data" action="mem.do"  name="form1">
 <table>
 	 <tr>
-	  	<td>·|­û½s¸¹:<font color=red><b>*</b></font></td>
+	  	<td>æœƒå“¡ç·¨è™Ÿ:<font color=red><b>*</b></font></td>
 	  	<td>${param.memberno}</td>
      </tr>
      
      <tr>
- 	 	<!-- ·|­û«H½c(±b¸¹): -->
+ 	 	<!-- æœƒå“¡ä¿¡ç®±(å¸³è™Ÿ): -->
  		<td><input type="hidden" name="memberemail" value="${param.memberemail}"></td>
  	</tr>
  	
  	<tr>
-		<td>¦W¦r:</td>
+		<td>åå­—:</td>
 		<td><input type="TEXT" name="membername" value="${param.membername}" size="20"/></td> <td>${errorMsgs.membername}</td>
 	</tr>
 	
 	<tr>
-		<td>©Ê§O:</td>
+		<td>æ€§åˆ¥:</td>
 	    <td>
-	      <input type="radio" name="membergender" value="1" ${param.membergender == '1' ? 'checked' : ''}/> ¨k
-          <input type="radio" name="membergender" value="2" ${param.membergender == '2' ? 'checked' : ''}/> ¤k
+	      <input type="radio" name="membergender" value="1" ${param.membergender == '1' ? 'checked' : ''}/> ç”·
+          <input type="radio" name="membergender" value="2" ${param.membergender == '2' ? 'checked' : ''}/> å¥³
 	    </td>
     </tr>
     
     <tr>
-		<td>±K½X:</td>
+		<td>å¯†ç¢¼:</td>
 		<td><input type="TEXT" name="memberpassword" value="${param.memberpassword}" size="20"/></td> <td>${errorMsgs.memberpassword}</td>
 	</tr>
     
     <tr>
-		<td>¤â¾÷¸¹½X:</td>
+		<td>æ‰‹æ©Ÿè™Ÿç¢¼:</td>
 		<td><input type="TEXT" name="memberphone" value="${param.memberphone}" size="10"/></td> <td>${errorMsgs.memberphone}</td>
 	</tr>
 	
 	 <tr>
-		<td>¦a§}:</td>
+		<td>åœ°å€:</td>
 		<td><input type="TEXT" name="memberaddress" value="${param.memberaddress}" size="45"/></td> 
 	</tr>
     
     <tr>
-		<!-- µù¥U®É¶¡: -->
+		<!-- è¨»å†Šæ™‚é–“: -->
 		<td><input type="hidden" name="memberjointime" value="${param.memberjointime}"/></td>
 	</tr>
 	
 	<tr>
-		<td>¥Í¤é:</td>
+		<td>ç”Ÿæ—¥:</td>
 		<td><input name="memberbirthday" id="f_date1" type="text" ></td> <td>${errorMsgs.memberbirthday}</td>
 	</tr>
     
 	<tr>
-		<td>°êÄy:</td>
+		<td>åœ‹ç±:</td>
 		<td><input type="TEXT" name="membernation" value="${param.membernation}" size="45"/></td> 
 	</tr>
 	
 	<tr>
-		<td>¤jÀY·Ó:</td>
+		<td>å¤§é ­ç…§:</td>
 		<td><input type="file" name="memberpic" value="${param.memberpic}"/></td> <td>${errorMsgs.memberpic}</td>
 	</tr>
 	
 	<tr>
-		<td>«H¥Î¥d:</td>
+		<td>ä¿¡ç”¨å¡:</td>
 		<td><input type="text" name="membercard" value="${param.membercard}" placeholder="xxxx-xxxx-xxxx-xxxx"/></td> <td>${errorMsgs.membercard}</td>
 	</tr>
 	
 	<tr>
-		<!-- ·|­ûÂI¼Æ: -->
+		<!-- æœƒå“¡é»æ•¸: -->
 		<td><input type="hidden" name="memberpoints" value="${param.memberpoints}"/></td> 
 	</tr>
 	
 	<tr>
-		<!-- ·|­ûª¬ºA: -->
+		<!-- æœƒå“¡ç‹€æ…‹: -->
 		<td><input type="hidden" name="memberstat" value="${param.memberstat}"/></td> 
 	</tr>
 	
 	<tr>
-		<td>¨­¥÷ÃÒ:</td>
+		<td>èº«ä»½è­‰:</td>
 		<td><input type="TEXT" name="memberid" value="${param.memberid}" size="10"/></td> <td>${errorMsgs.memberid}</td>
 	</tr>
 	
 	<tr>
-		<td>Â¾·~:</td>
+		<td>è·æ¥­:</td>
 		<td><input type="TEXT" name="memberjob" value="${param.memberjob}" size="10"/></td>
 	</tr>
 	
 	<tr>
-		<td>¦¬¤J:</td>
+		<td>æ”¶å…¥:</td>
 		<td>
 			<select name="membersal">
 			    <option value="0" ${param.membersal == '0' ? 'checked' : ''}>30W ~ 50W</option>
@@ -168,12 +168,12 @@
 <br>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memberno" value="${param.memberno}">
-<input type="submit" value="°e¥X­×§ï"></FORM>
+<input type="submit" value="é€å‡ºä¿®æ”¹"></FORM>
 </body>
 
 
 
-<!-- =========================================¥H¤U¬° datetimepicker ¤§¬ÛÃö³]©w========================================== -->
+<!-- =========================================ä»¥ä¸‹ç‚º datetimepicker ä¹‹ç›¸é—œè¨­å®š========================================== -->
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
@@ -193,19 +193,19 @@
 		$('#f_date1').datetimepicker({
 		   theme: 'dark',              //theme: 'dark',
 		    timepicker:false,       //timepicker:true,
-		    step: 60,                //step: 60 (³o¬Otimepickerªº¹w³]¶¡¹j60¤ÀÄÁ)
+		    step: 60,                //step: 60 (é€™æ˜¯timepickerçš„é è¨­é–“éš”60åˆ†é˜)
 		    format:'Y-m-d',         //format:'Y-m-d H:i:s',
 			value: '${param.memberbirthday}', // value:   new Date(),
-		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // ¥h°£¯S©w¤£§t
-		   //startDate:	            '2017/07/10',  // °_©l¤é
-		   //minDate:               '-1970-01-01', // ¥h°£¤µ¤é(¤£§t)¤§«e
-		   //maxDate:               '+1970-01-01'  // ¥h°£¤µ¤é(¤£§t)¤§«á
+		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // å»é™¤ç‰¹å®šä¸å«
+		   //startDate:	            '2017/07/10',  // èµ·å§‹æ—¥
+		   //minDate:               '-1970-01-01', // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å‰
+		   //maxDate:               '+1970-01-01'  // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å¾Œ
 		});
    
    
-        // ----------------------------------------------------------¥H¤U¥Î¨Ó±Æ©wµLªk¿ï¾Üªº¤é´Á-----------------------------------------------------------
+        // ----------------------------------------------------------ä»¥ä¸‹ç”¨ä¾†æ’å®šç„¡æ³•é¸æ“‡çš„æ—¥æœŸ-----------------------------------------------------------
 
-        //      1.¥H¤U¬°¬Y¤@¤Ñ¤§«eªº¤é´ÁµLªk¿ï¾Ü
+        //      1.ä»¥ä¸‹ç‚ºæŸä¸€å¤©ä¹‹å‰çš„æ—¥æœŸç„¡æ³•é¸æ“‡
         //      var somedate1 = new Date('2017-06-15');
         //      $('#f_date1').datetimepicker({
         //          beforeShowDay: function(date) {
@@ -219,7 +219,7 @@
         //      }});
 
         
-        //      2.¥H¤U¬°¬Y¤@¤Ñ¤§«áªº¤é´ÁµLªk¿ï¾Ü
+        //      2.ä»¥ä¸‹ç‚ºæŸä¸€å¤©ä¹‹å¾Œçš„æ—¥æœŸç„¡æ³•é¸æ“‡
         //      var somedate2 = new Date('2017-06-15');
         //      $('#f_date1').datetimepicker({
         //          beforeShowDay: function(date) {
@@ -233,7 +233,7 @@
         //      }});
 
 
-        //      3.¥H¤U¬°¨â­Ó¤é´Á¤§¥~ªº¤é´ÁµLªk¿ï¾Ü (¤]¥i«ö»İ­n´«¦¨¨ä¥L¤é´Á)
+        //      3.ä»¥ä¸‹ç‚ºå…©å€‹æ—¥æœŸä¹‹å¤–çš„æ—¥æœŸç„¡æ³•é¸æ“‡ (ä¹Ÿå¯æŒ‰éœ€è¦æ›æˆå…¶ä»–æ—¥æœŸ)
         //      var somedate1 = new Date('2017-06-15');
         //      var somedate2 = new Date('2017-06-25');
         //      $('#f_date1').datetimepicker({

@@ -7,11 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.cha103g5.member.model.MemberVO;
 
 @Entity
 @Table(name="membernotice")
 public class MemberNoticeVO implements java.io.Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="membernoticeno", updatable=false)
@@ -28,6 +34,8 @@ public class MemberNoticeVO implements java.io.Serializable{
 	
 	@Column(name="readstat")
     private Integer readstat = 0;
+	
+//	private MemberVO memberVO;
 
 	public MemberNoticeVO() {
 		super();
@@ -89,7 +97,15 @@ public class MemberNoticeVO implements java.io.Serializable{
 				+ noticecontent + ", noticetime=" + noticetime + ", readstat=" + readstat + "]";
 	}
 
-	
+//	@ManyToOne
+//	@JoinColumn(name = "memberno")   // 指定用來join table的column
+//	public MemberVO getMemberVO() {
+//		return memberVO;
+//	}
+//
+//	public void setMemberVO(MemberVO memberVO) {
+//		this.memberVO = memberVO;
+//	}
 }
 
 

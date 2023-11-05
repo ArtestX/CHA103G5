@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
@@ -35,11 +35,11 @@
 
 <p>This is the Home page for Cha103G5 Member: Home</p>
 
-<h3>¸ê®Æ¬d¸ß:</h3>
+<h3>è³‡æ–™æŸ¥è©¢:</h3>
 
-<%-- ¿ù»~ªí¦C --%>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 <%-- <c:if test="${not empty errorMsgs}"> --%>
-<!-- 	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font> -->
+<!-- 	<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font> -->
 <!-- 	<ul> -->
 <%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
 <%-- 			<li style="color:red">${message.value}</li> --%>
@@ -53,10 +53,10 @@
   
   <li>
     <FORM METHOD="post" ACTION="mem.do" >
-        <b>¿é¤J·|­û½s¸¹:</b>
+        <b>è¼¸å…¥æœƒå“¡ç·¨è™Ÿ:</b>
         <input type="text" name="memberno" value="${param.memberno}"><font color=red>${errorMsgs.memberno}</font>
         <input type="hidden" name="action" value="getOne_For_Display">
-        <input type="submit" value="°e¥X">
+        <input type="submit" value="é€å‡º">
     </FORM>
   </li>
 
@@ -64,33 +64,33 @@
    
   <li>
      <FORM METHOD="post" ACTION="mem.do" >
-       <b>¿ï¾Ü·|­û½s¸¹:</b>
+       <b>é¸æ“‡æœƒå“¡ç·¨è™Ÿ:</b>
 <!--        <select size="1" name="memberno"> -->
 <%--          <c:forEach var="membernoVO" items="${empSvc.all}" >  --%>
 <%--           <option value="${membernoVO.memberno}">${membernoVO.memberno} --%>
 <%--          </c:forEach>    --%>
 <!--        </select> -->
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="°e¥X">
+       <input type="submit" value="é€å‡º">
     </FORM>
   </li>
   
   <li>
      <FORM METHOD="post" ACTION="mem.do" >
-       <b>¿ï¾Ü·|­û©m¦W:</b>
+       <b>é¸æ“‡æœƒå“¡å§“å:</b>
 <!--        <select size="1" name="memberno"> -->
 <%--          <c:forEach var="membernoVO" items="${empSvc.all}" >  --%>
 <%--           <option value="${membernoVO.memberno}">${membernoVO.membername} --%>
 <%--          </c:forEach>    --%>
 <!--        </select> -->
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="°e¥X">
+       <input type="submit" value="é€å‡º">
      </FORM>
   </li>
 </ul>
 
 
-<h3>·|­ûµù¥U</h3>
+<h3>æœƒå“¡è¨»å†Š</h3>
 
 <ul>
   <li><a href='signUpMbr.jsp'>Sign Up</a> a new Member</li>

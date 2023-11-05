@@ -1,19 +1,24 @@
 package com.cha103g5.member.controller;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,19 +26,22 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
+import org.mindrot.jbcrypt.BCrypt;
 
 import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
-import com.google.gson.JsonObject;
 
+@WebServlet("/member/mem.do")
 @MultipartConfig
 public class MemberServlet extends HttpServlet {
-	
+	private static final long serialVersionUID = 1L;
+
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
 /**********************登出**********************/
 /**********************登出**********************/
 /**********************登出**********************/				
@@ -62,13 +70,13 @@ public class MemberServlet extends HttpServlet {
 			   	String memberemail = req.getParameter("memberemail");
 				
 				if (memberemail == null || (memberemail.trim()).length() == 0) {
-					errorMsgs.put("memberemail","會員帳號:請勿空白");
+					errorMsgs.put("memberemail","帳號請勿空白");
 				}
 				
 				String memberpassword = req.getParameter("memberpassword");
 				
 				if (memberpassword == null || (memberpassword.trim()).length() == 0) {
-					errorMsgs.put("memberpassword","會員密碼:請勿空白");
+					errorMsgs.put("memberpassword","密碼請勿空白");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -82,42 +90,47 @@ public class MemberServlet extends HttpServlet {
 				MemberService mbrSvc = new MemberService();
 				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
 				
-				
-				if (memberVO != null && memberpassword.equals(memberVO.getMemberpassword())) {
-		            // 登入成功，將訊息儲存在session中
-					HttpSession session = req.getSession();
-		            session.setAttribute("user",memberemail);
-		           
-		  
-		            System.out.println(session.getId());//印出session確認
-		            	            
-//		            if (memberemail != null && memberpassword != null) {
-//		              	JsonObject jsonResponse = new JsonObject();
-//		                jsonResponse.addProperty("success", true);
-//		                res.setContentType("application/json");
-//		                PrintWriter out = res.getWriter();
-//		                out.print(jsonResponse.toString());
-//		                out.flush();
-//		            }
-		            // 重導頁面
-//		            String location = (String) session.getAttribute("location");// 看看有無來源網頁。有可設定重導回去原本網頁
-			        String url = req.getContextPath() + "/index.jsp";
-					res.sendRedirect(url);
-		            
-		        } else {
-		        	errorMsgs.put("memberlogin","帳號 或 密碼 不正確");
-		        	
-		        	// Send the use back to the form, if there were errors
-					if (!errorMsgs.isEmpty()) {
-						RequestDispatcher failureView = req
-								.getRequestDispatcher("/member/memberLogin.jsp");
-						failureView.forward(req, res);
-						return;//程式中斷
-					}	
-					 
-		        }
+				// 从数据库中检索用户的哈希密码，根据用户名或邮箱等信息
+				if (memberVO != null) {
+				    	String hashedPassword = memberVO.getMemberpassword();
+				    	boolean passwordMatch = BCrypt.checkpw(memberpassword, hashedPassword);
+                
+		                if (memberVO != null && passwordMatch) {
+						            // 登入成功，將訊息儲存在session中
+									HttpSession session = req.getSession();
+						            session.setAttribute("user",memberVO);
+						       
+						            System.out.println(session.getId());//印出session確認
+						           
+						            // 重導頁面
+				//		            String location = (String) session.getAttribute("location");// 看看有無來源網頁。有可設定重導回去原本網頁
+							        String url = req.getContextPath() + "/index.jsp";
+									res.sendRedirect(url);
+		                    
+				        } else {
+				        	errorMsgs.put("memberlogin","帳號 或 密碼 不正確");
+				        	
+				        	// Send the use back to the form, if there were errors
+							if (!errorMsgs.isEmpty()) {
+								RequestDispatcher failureView = req
+										.getRequestDispatcher("/member/memberLogin.jsp");
+								failureView.forward(req, res);
+								return;//程式中斷
+							}	
+							 
+				        }
 
-		}
+			 } else {
+			    errorMsgs.put("memberlogin", "帳號或密碼不正確");
+			    
+			    // Send the user back to the form, if there were errors
+			    if (!errorMsgs.isEmpty()) {
+			        RequestDispatcher failureView = req.getRequestDispatcher("/member/memberLogin.jsp");
+			        failureView.forward(req, res);
+			        return; // 程式中斷
+			    }
+			}
+		}				
 		
 /**********************查詢**********************/
 /**********************查詢**********************/
@@ -184,15 +197,6 @@ public class MemberServlet extends HttpServlet {
 			
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
-				
-				//【從 session 判斷此user是否登入過】//
-				HttpSession session = req.getSession();
-				Object account = session.getAttribute("account");
-				if (account == null) {
-					session.setAttribute("location", req.getRequestURI());
-					res.sendRedirect(req.getContextPath() + "/index.jsp");
-					return;
-				}
 			
 				/***************************1.接收請求參數****************************************/
 				Integer memberno = Integer.valueOf(req.getParameter("memberno"));
@@ -323,48 +327,61 @@ public class MemberServlet extends HttpServlet {
 				successView.forward(req, res);
 		 }
 		 
-/**********************新增**********************/
-/**********************新增**********************/
-/**********************新增**********************/				
+/**********************註冊**********************/
+/**********************註冊'**********************/
+/**********************註冊**********************/				
 
-		 if ("insert".equals(action)) { // 來自signUpMbr.jsp的請求  
+		 if ("insert".equals(action)) { // 來自memberSignUp.jsp的請求  
 			    Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 
 			  /***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
-			 
+				System.out.println("進入新增狀態");
 			 	String memberemail = req.getParameter("memberemail");
 				String memailReg = "^[A-Za-z0-9+_.-]+@(.+)$";
-				if(!memberemail.trim().matches(memailReg)) { 
+				if (memberemail == null || memberemail.trim().length() == 0) {
+					errorMsgs.put("memberemail","帳號請勿空白");
+				}else if(!memberemail.trim().matches(memailReg)) { 
 					errorMsgs.put("memberemail","不符合信箱格式");
 		        }
 					
 				String membername = req.getParameter("membername").trim();
 				String mnameReg = "^[\u4e00-\u9fa5a-zA-Z0-9_\\s]{2,20}$"; // \s是包含空格的意思
 				if (membername == null || membername.trim().length() == 0) {
-					errorMsgs.put("membername","會員姓名: 請勿空白");
+					errorMsgs.put("membername","姓名請勿空白");
 				} else if(!membername.trim().matches(mnameReg)) { 
 					errorMsgs.put("membername","會員姓名: 只能是中、英文字母和_(可含空格) , 且長度必需在2到20之間");
 		        }
-					
-
-				Integer membergender = Integer.valueOf(req.getParameter("membergender"));
-					
+	
+				Integer membergender = null ;
+				try {
+			        membergender = Integer.valueOf(req.getParameter("membergender"));
+				}catch (Exception e) {
+					errorMsgs.put("membergender","請勾選性別");
+				}
+				
 				String memberpassword = req.getParameter("memberpassword");
-				String mpasswordReg = "^(?![\\s])(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$";
+				String mpasswordReg = "^(?![\\s])(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@#$%^&+=!]{8,30}$";
 				if (memberpassword == null || memberpassword.trim().length() == 0) {
-					errorMsgs.put("memberpassword","會員密碼: 請勿空白");
+					errorMsgs.put("memberpassword","密碼請勿空白");
 				} else if(!memberpassword.trim().matches(mpasswordReg)) { 
-					errorMsgs.put("memberpassword","會員密碼: 只能是英文字母(沒區分大小寫)、數字和不能有空格 , 且長度必需在8到20之間");
+					errorMsgs.put("memberpassword","設定至少8碼以上(含字母跟數字)");
 		        }
-					
+			
+				String confirmPass = req.getParameter("confirmPassword");
+				if (confirmPass == null || confirmPass.trim().length() == 0) {
+				    errorMsgs.put("confirmPassword", "確認密碼請勿空白");
+				} else if (!confirmPass.equals(memberpassword)) {
+				    errorMsgs.put("confirmPassword", "密碼不一致請確認");
+				}
+			
 				String memberphone = req.getParameter("memberphone");
 				String mphoneReg = "^09[0-9]{8}$";
-				if(!memberphone.trim().matches(mphoneReg)) { 
-					errorMsgs.put("memberphone","不符合手機號碼格式");
-		        }
-						
-				String memberaddress = req.getParameter("memberaddress").trim();
+				if (memberphone != null && !memberphone.trim().isEmpty()) {
+				    if (!memberphone.trim().matches(mphoneReg)) {
+				        errorMsgs.put("memberphone", "不符合手機號碼格式");
+				    }
+				}
 					
 				Timestamp memberjointime = null;
 				try {
@@ -374,80 +391,59 @@ public class MemberServlet extends HttpServlet {
 				} catch (ParseException e) {
 					errorMsgs.put("memberjointime","日期格式無效");
 				}
-					
+				
 				java.sql.Date memberbirthday = null;
 				try {
 					memberbirthday = java.sql.Date.valueOf(req.getParameter("memberbirthday").trim());
 				} catch (IllegalArgumentException e) {
-					errorMsgs.put("memberbirthday","日期格式無效");
+					e.getStackTrace();
+//					errorMsgs.put("memberbirthday","請填寫出生日期");
 				}
-					
-				String membernation = req.getParameter("membernation").trim();
-					
-				Part image = null;
-	            try {
-	                Collection<Part> parts = req.getParts();
-	                for (Part part : parts) {
-	                    if ("image".equals(part.getName())) {
-	                    	image = part;
-	                    }
-	                }
-	            } catch (IllegalArgumentException e){
-	                e.printStackTrace();
-	            }
-	            
-	            byte[] memberpic = null;
-	            if(image != null){
-	                try (InputStream inputStream = image.getInputStream()){
-	                	memberpic = inputStream.readAllBytes();
-	                    inputStream.close();
-	                } catch (IOException e){
-	              	    e.printStackTrace();
-	                }
-	            }
-			    	
-				String membercard = req.getParameter("membercard").trim();
-				String mcardReg = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
-				if(!membercard.trim().matches(mcardReg)) { 
-					errorMsgs.put("membercard","不符合信用卡格式");
-		        }
-					
+				
 				Integer memberpoints = Integer.valueOf(req.getParameter("memberpoints"));
 					
 				Integer memberstat = Integer.valueOf( req.getParameter("memberstat"));
-					
-				String memberid = req.getParameter("memberid").trim();
-				String midReg= "^[A-Za-z][1-2]\\d{8}$";
-				if(!memberid.trim().matches(midReg)) { 
-					errorMsgs.put("memberid","不符合身分證格式");
-				}
-					
-				String memberjob = req.getParameter("memberjob").trim();
-				if (memberjob == null || memberjob.trim().length() == 0) {
-					errorMsgs.put("memberjob","職位請勿空白");
-				}
-					
-				Integer membersal = Integer.valueOf(req.getParameter("membersal").trim());
 				
+				String verificationCode = req.getParameter("verificationCode");
+				String sessionVerificationCode = (String) req.getSession().getAttribute("randStr");
+
+				if (verificationCode == null || verificationCode.trim().length() == 0) {
+				    errorMsgs.put("verificationCode", "驗證碼請勿空白");
+				} else if (!verificationCode.trim().equals(sessionVerificationCode)) {
+				    errorMsgs.put("verificationCode", "驗證碼不正確");
+				}
+			
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/member/signUpMbr.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/member/memberSignUp.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 					
 			   /***************************2.開始新增資料***************************************/
+					System.out.println("開始新增");
 				
-				MemberService memberService = new MemberService();
-				memberService.signUpMember(memberemail, membername, membergender, 
-				memberpassword, memberphone, memberaddress, memberjointime,
-				memberbirthday, membernation, memberpic, membercard, memberpoints,
-				memberstat, memberid, memberjob, membersal);
-			
+					// Hash the password
+					String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
+					
+				    MemberService memberService = new MemberService();
+					memberService.signUpMember(memberemail, membername, membergender, 
+					hashedPassword, memberphone, memberjointime,memberbirthday, memberpoints, memberstat);
+					System.out.println("新增完成");
+								
 			    /***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = req.getContextPath() + "/member/memberLogin.jsp";
-				res.sendRedirect(url);
-			 			
+
+					String verificationEmail = "verificationEmail";
+					req.setAttribute("VerificationEmail", verificationEmail);
+
+					// 设置其他请求属性，例如成员姓名和成员电子邮件
+					req.setAttribute("membername", membername);
+					req.setAttribute("memberemail", memberemail);
+
+					String url = "/member/sendemail?action=verificationEmail"; 
+					RequestDispatcher successView = req.getRequestDispatcher(url);
+					successView.forward(req, res);
+			 		System.out.println("傳送成功");	
 		 }
 		
 /**********************刪除**********************/
@@ -455,7 +451,7 @@ public class MemberServlet extends HttpServlet {
 /**********************刪除**********************/					
 		 if ("delete".equals(action)) { // 來自listAllEmp.jsp
 		 
-				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+			 	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 	
 				/***************************1.接收請求參數***************************************/
@@ -469,8 +465,14 @@ public class MemberServlet extends HttpServlet {
 				String url = "/member/listAllMbr.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
-		 
+	
 		 }
+/**********************檢查帳號**********************/
+ /**********************檢查帳號**********************/
+ /**********************檢查帳號**********************/		 
+		 if ("checkAccount".equals(action)) {
+		        checkAccount(req, res);
+		    }  
     
 		
 	}
@@ -478,7 +480,72 @@ public class MemberServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		doPost(req, res);
+		
+	    int width = 130;
+	    int height = 50;
+	    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	    OutputStream out = res.getOutputStream();
+
+	  //獲取畫筆
+        Graphics g=image.getGraphics();
+        //設定背景色
+        g.setColor(new Color(245, 245, 220));
+        g.fillRect(0,0,width,height);
+        //取隨機產生的驗證碼(4位數字)
+        Random rnd=new Random();
+     // 生成随机的颜色
+     	int red = rnd.nextInt(256); // 0-255
+     	int green = rnd.nextInt(256); // 0-255
+     	int blue = rnd.nextInt(256); // 0-255
+     		
+     	Color randomColor = new Color(red, green, blue);
+        int randNum=rnd.nextInt(8999)+1000;
+        String randStr=String.valueOf(randNum);
+        //將驗證碼存入session
+        HttpSession session = req.getSession();
+        session.setAttribute("randStr",randStr);
+        //將驗證碼顯示到影象中
+        g.setColor(randomColor);
+        g.setFont(new Font("", Font.PLAIN,40));
+        g.drawString(randStr,23,40);
+        //隨機產生100個干擾點，使影象中的驗證碼不易被其他程式探測到
+          for (int i = 0; i < 100; i++) {
+         
+         
+              int x=rnd.nextInt(width);
+              int y=rnd.nextInt(height);
+              g.drawOval(x,y,1,1);
+          }
+        // 将验证码图片输出到前端
+        ImageIO.write(image, "JPEG", out);// ... 生成验证码的逻辑
+        
 	}
-	
+	/**********************檢查帳號**********************/
+	/**********************檢查帳號**********************/
+	/**********************檢查帳號**********************/	
+	private void checkAccount(HttpServletRequest req, HttpServletResponse res)
+		    throws IOException {
+		    String memberemail = req.getParameter("memberemail");
+		    System.out.println("進來比對了");
+		    boolean isAccountExists = checkAccountInDatabase(memberemail);
+
+		    res.setContentType("application/json");
+		    res.setCharacterEncoding("UTF-8");
+		    res.getWriter().write("{\"exists\":" + isAccountExists + "}");
+		}
+
+	private boolean checkAccountInDatabase(String memberemail) {
+		MemberService mbrSvc = new MemberService();
+		MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+	    System.out.println("Checking account in database: " + memberemail);
+
+	    if (memberVO != null) {
+	        System.out.println("Retrieved member email from database: " + memberVO.getMemberemail());
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+
 }
 

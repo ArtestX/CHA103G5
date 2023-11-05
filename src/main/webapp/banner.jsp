@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/img/backend.png">
+<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/img/backend2.png">
 <title>浪愛有家</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-icons.css">
@@ -90,7 +90,7 @@
 
 						<ul class="dropdown-menu dropdown-menu-light border border-top-0" aria-labelledby="navbarLightDropdownMenuLink">
 							<li>
-								<a class="dropdown-item" href="">會員資料</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/member/listAllMbr.jsp">會員資料</a>
 							</li>
 
 							<li>
@@ -112,15 +112,15 @@
   				</a>
 			<!-- 	********小鈴鐺按鈕********* -->
 				<button type="button" class="btn btn-primary position-relative" id="bellIcon">
-  		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-   						99+
-   						<span class="visually-hidden">unread messages</span>
-  		 			</span>
+<!--   		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> -->
+<!-- <!--    						99+ -->
+<!--    						<span class="visually-hidden">unread messages</span> -->
+<!--   		 			</span> -->
         		</button>
 
 				<div class="d-none d-lg-block narrow-div">
-<%-- 					<input type="text" name="action" value="${sessionScope.user}"> --%>
-					${sessionScope.user}
+					
+
 			<!-- 	********登入按鈕********* -->
 					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
@@ -135,9 +135,7 @@
 				</div>	
 			</div>
 		</div>
-			
-		
-
+		<input type="hidden" value="${user.membername}">
 		<!-- 	********搜尋列********* -->
 		<nav id="search" class="navbar navbar-expand-lg">
 			<div class="container-fluid">

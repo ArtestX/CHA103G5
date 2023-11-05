@@ -95,3 +95,23 @@ label.form-label {
     height: auto; 
     border-radius: 5px;
 }
+
+.error-message {
+    color: red;
+    float: right;
+    font-size: 15px;
+     margin-top: 13px;
+}
+	/*隱藏密碼 */
+.form-label {
+      position: relative;
+}
+	/*隱藏密碼 */
+.password-toggle{
+         position: absolute;
+         top: 61%;
+         right: 73px; 
+         transform: translateY(-50%); 
+		 cursor: pointer; 
+		 width: 24px;
+}
