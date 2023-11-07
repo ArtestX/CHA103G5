@@ -17,8 +17,8 @@ public class PetVO {
 	@Column(name = "petid", updatable=false, nullable=false)
 	private Integer petid;
 
-	@Column(name = "pettype")
-	private Integer pettype;
+	@Column(name = "animaltypeno")
+	private Integer animaltypeno;
 
 	@Column(name = "memberno")
 	private Integer memberno;
@@ -50,12 +50,12 @@ public class PetVO {
 		this.petid = petid;
 	}
 
-	public Integer getPettype() {
-		return pettype;
+	public Integer getAnimaltypeno() {
+		return animaltypeno;
 	}
 
-	public void setPettype(Integer pettype) {
-		this.pettype = pettype;
+	public void setAnimaltypeno(Integer animaltypeno) {
+		this.animaltypeno = animaltypeno;
 	}
 
 	public Integer getMemberno() {

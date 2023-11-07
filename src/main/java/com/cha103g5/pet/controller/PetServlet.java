@@ -92,7 +92,7 @@ public class PetServlet extends HttpServlet {
 			PetVO petVO = petSvc.getOnePet(petid);
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-			String param = "?petid=" + petVO.getPetid() + "&pettype=" + petVO.getPettype() + "&memberno="
+			String param = "?petid=" + petVO.getPetid() + "&animaltypeno=" + petVO.getAnimaltypeno() + "&memberno="
 					+ petVO.getMemberno() + "&petname=" + petVO.getPetname() + "&petsex=" + petVO.getPetsex()
 					+ "&petage=" + petVO.getPetage() + "&petnote=" + petVO.getPetnote() + "&stat=" + petVO.getStat()
 					+ "&applicationdeadline" + petVO.getApplicationdeadline();
@@ -110,7 +110,7 @@ public class PetServlet extends HttpServlet {
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			Integer petid = Integer.valueOf(req.getParameter("petid").trim());
 
-			Integer pettype = Integer.valueOf(req.getParameter("pettype").trim());
+			Integer animaltypeno = Integer.valueOf(req.getParameter("animaltypeno").trim());
 
 			Integer memberno = null;
 			try {
@@ -156,7 +156,7 @@ public class PetServlet extends HttpServlet {
 
 			/*************************** 2.開始修改資料 *****************************************/
 			PetService petSvc = new PetService();
-			PetVO petVO = petSvc.updatePet(petid, pettype, memberno, petname, petsex, petage, petnote, stat,
+			PetVO petVO = petSvc.updatePet(petid, animaltypeno, memberno, petname, petsex, petage, petnote, stat,
 					applicationdeadline);
 
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
@@ -174,7 +174,7 @@ public class PetServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-			Integer pettype = Integer.valueOf(req.getParameter("pettype").trim());
+			Integer animaltypeno = Integer.valueOf(req.getParameter("animaltypeno").trim());
 
 			Integer memberno = null;
 			try {
@@ -215,7 +215,7 @@ public class PetServlet extends HttpServlet {
 			}
 
 			PetVO petVO = new PetVO();
-			petVO.setPettype(pettype);
+			petVO.setAnimaltypeno(animaltypeno);
 			petVO.setMemberno(memberno);
 			petVO.setPetname(petname);
 			petVO.setPetsex(petsex);
@@ -234,7 +234,7 @@ public class PetServlet extends HttpServlet {
 
 			/*************************** 2.開始新增資料 ***************************************/
 			PetService petSvc = new PetService();
-			petVO = petSvc.addPet(pettype, memberno, petname, petsex, petage, petnote, stat, applicationdeadline);
+			petVO = petSvc.addPet(animaltypeno, memberno, petname, petsex, petage, petnote, stat, applicationdeadline);
 
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 			String url = "/pet/listAllPet.jsp";
