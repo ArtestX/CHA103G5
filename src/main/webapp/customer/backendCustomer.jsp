@@ -20,7 +20,8 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-v431.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/font-awesome.min.css"> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/customer.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/sweetalert2.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <style>
 body {
@@ -36,7 +37,7 @@ body {
 <body>
 	<nav class="navbar custom-bg-color">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/admin/backendMain.jsp">
+    <a class="navbar-brand" href="<%=request.getContextPath()%>/admin/backendMain.jsp">
       <img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       後臺管理系統
     </a>
@@ -61,11 +62,11 @@ body {
 				    </h2>
 				    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-				      	<strong><a href="<%=request.getContextPath()%>/admin/adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
+				      	<strong><a href="<%=request.getContextPath()%>/admin/adminSystem.jsp" class="list-group-item list-group-item-action" onclick="return checkAdminStat();">員工列表</a></strong>
 				      </div>
-				      <div class="accordion-body">
-				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>
-				      </div>
+<%--				      <div class="accordion-body">--%>
+<%--				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
+<%--				      </div>--%>
 				    </div>
 				  </div>
 				  <div class="accordion-item">
@@ -100,7 +101,7 @@ body {
 				    </h2>
 				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="backendCustomer.jsp" class="list-group-item list-group-item-action">即時客服</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -263,13 +264,28 @@ body {
 			</div>
 		</div>
 	</div>
-			
-
-
 
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery-3.3.1.slim.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap-v431.bundle.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/sweetalert2.all.min.js"></script>
+
+	<script>
+		function checkAdminStat() {
+			let adminStat = <%= session.getAttribute("adminStat") %>;
+			if (adminStat === 1) {
+				Swal.fire({
+					icon: 'error',
+					title: '權限不足!!',
+					text: '請聯繫系統管理員',
+					showConfirmButton: false,
+					timer: 2500
+				})
+				return false;
+			}
+			return true;
+		}
+	</script>
 </body>
 </html>

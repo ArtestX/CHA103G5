@@ -11,11 +11,11 @@
 %>
 
 <%
-    Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
+    Object adminAccount = session.getAttribute("adminAccount");                    // 從 session內取出 (key) adminVO的值
     if (adminAccount == null) {
-    	System.out.println("再次確認清除");                                        // 如為 null, 代表此user未登入過 , 才做以下工作
-    	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
-        response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+    	System.out.println("再次確認清除");                                          // 如為 null, 代表此user未登入過 , 才做以下工作
+    	session.setAttribute("location", request.getRequestURI());       		  //*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+        response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");  //*工作2 : 請該user去登入網頁(login.html) , 進行登入
      	return;
     }else{
     	System.out.println("再次確認沒有清除");
@@ -32,10 +32,11 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>員工管理系統</title>
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/sweetalert2.css">
 <style>
 body {
-            background-image: url('../img/desktop.jpg');
+            background-image: url('<%=request.getContextPath()%>/img/desktop.jpg');
             background-size: cover;
             background-attachment: fixed; /* 可选，固定背景图片 */
             background-repeat: no-repeat;
@@ -48,7 +49,7 @@ body {
 	<nav class="navbar custom-bg-color">
   <div class="container-fluid">
     <a class="navbar-brand" href="./backendMain.jsp">
-      <img src="../img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+      <img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       後臺管理系統
     </a>
     <div class="ms-auto">
@@ -72,11 +73,11 @@ body {
 				    </h2>
 				    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
+				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action" onclick="return checkAdminStat();">員工列表</a></strong>
 				      </div>
-				      <div class="accordion-body">
-				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>
-				      </div>
+<%--				      <div class="accordion-body">--%>
+<%--				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
+<%--				      </div>--%>
 				    </div>
 				  </div>
 				  <div class="accordion-item">
@@ -111,7 +112,7 @@ body {
 				    </h2>
 				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="<%=request.getContextPath()%>/customer/backendCustomer.jsp" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/customer/backendCustomer.jsp" class="list-group-item list-group-item-action">即時客服</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -165,11 +166,27 @@ body {
 			</div>
 		</div>
 	</div>
-			
 
+	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/sweetalert2.all.min.js"></script>
 
+	<script>
+		function checkAdminStat() {
+			let adminStat = <%= session.getAttribute("adminStat") %>;
+			if (adminStat === 1) {
+				Swal.fire({
+					icon: 'error',
+					title: '權限不足!!',
+					text: '請聯繫系統管理員',
+					showConfirmButton: false,
+					timer: 2500
+				})
+				return false;
+			}
+			return true;
+		}
+	</script>
 
-	<script src="../js/popper.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
 </body>
 </html>

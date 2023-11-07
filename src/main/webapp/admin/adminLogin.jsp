@@ -65,11 +65,15 @@
                         <div class="input-group mb-3">
                             <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">登入</button>
                         </div>
+                        <div class="error-message">${requestScope.errorMsgs.adminStat}</div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+
+
     <script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </body>
