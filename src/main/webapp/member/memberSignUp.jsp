@@ -66,6 +66,7 @@ div.col-md-6{
 .btnAccess:hover {
 	 /*註冊按鈕*/
     background-color: #bae5f3fb;
+    box-shadow: 0 1px 4px rgba(64, 64, 64, 1);
 }
 
 /* 性别按鈕 */
@@ -157,24 +158,24 @@ font{
             <input type="hidden" name="memberno" value="${param.memberno}">
 
             <div class="col-md-6">
-                <label for="memberemail" class="form-label"><b>會員帳號(Email)</b></label><span id="accountExistsMessage" ></span><font color=red>${errorMsgs.memberemail}</font>
+                <label for="memberemail" class="form-label"><b>會員帳號(Email)*</b></label><span id="accountExistsMessage" ></span><font color=red>${errorMsgs.memberemail}</font>
                 <input type="text"  name="memberemail" value="${param.memberemail}" class="form-control" id="memberemail" placeholder="請輸入E-mail">
             </div>
 
             <div class="col-md-6">
-                <label for="inputname4" class="form-label"><b>會員姓名</b></label><font color=red>${errorMsgs.membername}</font>
+                <label for="inputname4" class="form-label"><b>會員姓名*</b></label><font color=red>${errorMsgs.membername}</font>
                 <input type="text" name="membername" value="${param.membername}" class="form-control" id="inputname4" placeholder="請輸入真實姓名">
             </div>
 
             <div class="col-md-6">
-                <label for="inputPassword4" class="form-label"><b>密碼</b></label><font color=red>${errorMsgs.memberpassword}</font>
+                <label for="inputPassword4" class="form-label"><b>密碼*</b></label><font color=red>${errorMsgs.memberpassword}</font>
                 <input type="password"  name="memberpassword" value="${param.memberpassword}" class="form-control" id="inputPassword4" placeholder="請輸入密碼" autocomplete="off">
                <span class="eye1">
 						<img class="password-toggle" id="toggleImage" src="<%=request.getContextPath()%>/img/eyeclose.png" alt="Show Password" onclick="togglePasswordVisibility()">
 			   </span>
             </div>
             <div class="col-md-6">
-                <label for="inputCheckPassword" class="form-label"><b>確認密碼</b></label> <span id="passwordErrorMessage"></span><font id="confirmPasswordError" color=red>${errorMsgs.confirmPassword}</font>
+                <label for="inputCheckPassword" class="form-label"><b>確認密碼*</b></label> <span id="passwordErrorMessage"></span><font id="confirmPasswordError" color=red>${errorMsgs.confirmPassword}</font>
                 <input type="password" name="confirmPassword" class="form-control" id="inputCheckPassword" placeholder="請再次輸入密碼"  autocomplete="off" >
             </div>
             

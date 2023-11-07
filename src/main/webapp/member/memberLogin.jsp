@@ -45,7 +45,7 @@
 					<a href="${pageContext.request.contextPath}/member/memberSignUp.jsp" class="btn btn-primary"> 
 						<b>註冊會員</b>
 					</a> 
-					<a href="#" class="btn btn-primary"> <b>忘記密碼</b></a>
+					<a href="${pageContext.request.contextPath}/member/membeFotgotPassword.jsp" class="btn btn-primary"> <b>忘記密碼</b></a>
 				</div>
 
 <!-- 				<div class="br-style-1 my-4"></div> -->

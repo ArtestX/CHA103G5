@@ -72,6 +72,7 @@ label.form-label {
 .btnAccess:hover {
 	 /*登入*/
     background-color: #bae5f3fb;
+    box-shadow: 0 1px 4px rgba(64, 64, 64, 1);
 }
 
 #btn-group-login a{
