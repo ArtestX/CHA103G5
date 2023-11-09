@@ -6,6 +6,7 @@ public class AdoptedApplicationQueryParams {
 
     private Integer petId;
     private Date lotteryDate;
+    private Integer memberNo;
     private String orderBy;
     private String sort;
     private Integer limit;
@@ -57,5 +58,13 @@ public class AdoptedApplicationQueryParams {
 
     public void setOffset(Integer offset) {
         this.offset = offset;
+    }
+
+    public Integer getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(Integer memberNo) {
+        this.memberNo = memberNo;
     }
 }

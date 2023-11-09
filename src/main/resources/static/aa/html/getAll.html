@@ -6,13 +6,14 @@
     <title>領養申請列表</title>
 </head>
 <body>
-    
+
 <button onclick="window.location.href='home.html'">返回主頁</button>
 
 <h1>領養申請列表</h1>
 <div id="paginationupdown">
     <button onclick="prevPage()">上一頁</button>
     <button onclick="nextPage()">下一頁</button>
+    <span id="totalRecordsDisplay">總比數：0</span>
 </div>
 <div id="paginationall"></div>
 <table border="1">
@@ -38,6 +39,6 @@
     </tbody>
 </table>
 
-<script src="getByCondition.js"></script>
+<script src="../js/getAll.js"></script>
 </body>
 </html>
