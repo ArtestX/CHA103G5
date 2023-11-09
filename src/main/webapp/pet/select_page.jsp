@@ -69,7 +69,7 @@ h4 {
 		</li>
 
 		<jsp:useBean id="petSvc" scope="page"
-			class="com.cha103g5.pet.model.PetService" />
+			class="com.cha103g5.pet.service.PetService" />
 
 		<li>
 			<FORM METHOD="post" ACTION="pet.do">
