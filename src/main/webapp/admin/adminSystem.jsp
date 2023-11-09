@@ -7,12 +7,12 @@
 <%@ page import="com.cha103g5.admin.service.*"%>
 
 <%
-//     Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
-//     if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
-//     	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
-//         response.sendRedirect(request.getContextPath()+"/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
-//      	return;
-//     }
+    Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
+    if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
+    	session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+        response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+     	return;
+    }
 %>
 
 <%
@@ -27,7 +27,7 @@ pageContext.setAttribute("list", list);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>員工管理系統</title>
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <style>
 body {
             background-image: url('../img/desktop.jpg');
@@ -58,7 +58,7 @@ th {
 	<nav class="navbar custom-bg-color">
   <div class="container-fluid">
     <a class="navbar-brand" href="backendMain.jsp">
-      <img src="../img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+      <img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       後臺管理系統
     </a>
     <div class="ms-auto">
@@ -84,9 +84,9 @@ th {
 				      <div class="accordion-body">
 				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
 				      </div>
-				      <div class="accordion-body">
-				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>
-				      </div>
+<%--				      <div class="accordion-body">--%>
+<%--				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
+<%--				      </div>--%>
 				    </div>
 				  </div>
 				  <div class="accordion-item">
@@ -121,7 +121,7 @@ th {
 				    </h2>
 				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/customer/backendCustomer.jsp" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -251,7 +251,7 @@ th {
 										<th>信箱</th>
 										<th>電話</th>
 										<th>到職日</th>
-										<th>狀態</th>
+										<th>權限</th>
 										<th >照片</th>
 									</tr>
 								</thead>
@@ -268,8 +268,10 @@ th {
 											<th>${adminVO.createDate}</th>
 											<th>
 									            <c:choose>
-									                <c:when test="${adminVO.adminStat == 1}">在職</c:when>
-									                <c:otherwise>離職</c:otherwise>
+									                <c:when test="${adminVO.adminStat == 1}">一般</c:when>
+									                <c:when test="${adminVO.adminStat == 2}">管理員</c:when>
+									                <c:when test="${adminVO.adminStat == 3}">停權</c:when>
+<%--									                <c:otherwise>離職</c:otherwise>--%>
 									            </c:choose>
 									        </th>
 											<th>
@@ -327,13 +329,13 @@ th {
 	</div>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			// 监听导航按钮的点击事件
+			// 監聽導航按鈕的點擊事件
 			let navigateButton = document.getElementById('navigateButton');
 			navigateButton.addEventListener('click', function() {
 				window.location.href = 'addadminNew.jsp';
 			});
 
-			// 监听员工姓名下拉菜单的点击事件
+			//監聽員工編號下拉菜单的點擊事件
 			let adminNameDropdown = document.getElementById("adminName");
 			let adminNameInput = document
 					.querySelector('input[name="adminNo"]');
@@ -348,7 +350,7 @@ th {
 				}
 			});
 
-			// 监听员工编号下拉菜单的点击事件
+			//監聽員工編號下拉菜单的點擊事件
 			let adminNoDropdown = document.getElementById("adminNoSel");
 			let adminNoInput = document.querySelector('input[name="adminNo"]');
 			let formNo = document.getElementById("adminNoMenu");
@@ -365,7 +367,7 @@ th {
 	</script>
 
 
-	<script src="../js/popper.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </body>
 </html>

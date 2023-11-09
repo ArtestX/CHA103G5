@@ -16,8 +16,7 @@ public interface MemberDAOinterface {
 	MemberVO findByMemberEmail(String memberemail);
 	
 	List<MemberVO> getAll();
-	
-	
-		  
-	
+
+	boolean isUsernameExists(String memberemail);
+
 }

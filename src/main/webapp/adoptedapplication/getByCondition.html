@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>領養申請列表</title>
+</head>
+<body>
+    
+<button onclick="window.location.href='home.html'">返回主頁</button>
+
+<h1>領養申請列表</h1>
+<div id="paginationupdown">
+    <button onclick="prevPage()">上一頁</button>
+    <button onclick="nextPage()">下一頁</button>
+</div>
+<div id="paginationall"></div>
+<table border="1">
+    <thead>
+        <tr>
+            <th>申請編號</th>
+            <th>管理員編號</th>
+            <th>會員編號</th>
+            <th>寵物ID</th>
+            <th>抽籤日期</th>
+            <th>抽籤結果</th>
+            <th>互動日期</th>
+            <th>申請狀態</th>
+            <th>申請備註</th>
+            <th>協議</th>
+            <th>申請日期</th>
+            <th>修改</th>
+            <th>刪除</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        <!-- 動態生成 -->
+    </tbody>
+</table>
+
+<script src="getByCondition.js"></script>
+</body>
+</html>

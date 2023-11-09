@@ -93,6 +93,19 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- 添加 springboot websocket -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<!-- 添加 springboot JavaMailSender -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>2.5.2</version>
+		</dependency>
+
 		<!--
 		========================================================================================== -->
 		<!-- ●前面的jpa已經包含有hibernate，以下為純 hibernate 使用● -->
@@ -324,7 +337,18 @@
 			<artifactId>commons-pool2</artifactId>
 			<version>2.12.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>5.3.20</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version>
+		</dependency>
 
 	</dependencies>
 
@@ -385,4 +409,3 @@
 	</build>
 
 </project>
-

@@ -104,14 +104,14 @@ public class AdminHibernateDAO implements AdminHibernateDAOInterface {
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	    try {
 	        session.beginTransaction();
-	        
+
 	        String hql = "from AdminVO where adminAccount = :account and adminPassword = :password";
 	        Query<AdminVO> query = session.createQuery(hql, AdminVO.class);
 	        query.setParameter("account", adminAccount);
 	        query.setParameter("password", adminPassword);
-	        
+
 	        AdminVO adminVO = query.uniqueResult(); // Assuming there should be only one matching user.
-	        
+
 	        session.getTransaction().commit();
 	        return adminVO;
 	    } catch (Exception e) {

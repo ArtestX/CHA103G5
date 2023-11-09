@@ -40,6 +40,8 @@ public class PetVO {
 
 	@Column(name = "applicationdeadline")
 	private Date applicationdeadline;
+	
+
 
 
 	public Integer getPetid() {

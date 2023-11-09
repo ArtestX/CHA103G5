@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cha103g5.pet.model.PetService;
 import com.cha103g5.pet.model.*;
+import com.cha103g5.pet.service.PetService;
 
 @WebServlet("/pet/pet.do")
 public class PetServlet extends HttpServlet {

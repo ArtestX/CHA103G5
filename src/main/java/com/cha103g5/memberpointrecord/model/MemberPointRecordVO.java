@@ -7,11 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.cha103g5.member.model.MemberVO;
 
 @Entity
 @Table(name="memberpointrecord")
 public class MemberPointRecordVO implements java.io.Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="memberpointno", updatable=false)
@@ -28,7 +34,9 @@ public class MemberPointRecordVO implements java.io.Serializable{
 	
 	@Column(name="getpointreason")
     private String getpointreason;
-    
+	
+//	private MemberVO memberVO;
+
 	public MemberPointRecordVO() {
 		}
 
@@ -88,5 +96,13 @@ public class MemberPointRecordVO implements java.io.Serializable{
 				+ getpointtime + ", getpoint=" + getpoint + ", getpointreason=" + getpointreason + "]";
 	}
 
-	
+//	@ManyToOne
+//	@JoinColumn(name = "memberno")   // 指定用來join table的column
+//	public MemberVO getMemberVO() {
+//		return memberVO;
+//	}
+//
+//	public void setMemberVO(MemberVO memberVO) {
+//		this.memberVO = memberVO;
+//	}
 }

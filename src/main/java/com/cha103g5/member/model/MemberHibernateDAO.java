@@ -144,6 +144,27 @@ public class MemberHibernateDAO implements MemberDAOinterface {
 		return null;
 	}
 
+	@Override
+	public boolean isUsernameExists(String memberemail) {
+	    Session session = getSession();
+	    try {
+	        session.beginTransaction();
+	        MemberVO memberVO = (MemberVO) session.createQuery("FROM MemberVO WHERE memberemail = :memberemail")
+	             .setParameter("memberemail", memberemail)
+	             .uniqueResult();
+	        session.getTransaction().commit();
+	        return memberVO != null; // 如果找到會員，返回true，表示用户名已存在
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        session.getTransaction().rollback();
+	    } finally {
+	        if (session != null && session.isOpen()) {
+	            session.close();
+	        }
+	    }
+	    return false; // 如果發生異常或没有找到會員，也返回false
+	}
+
 	
 
 }

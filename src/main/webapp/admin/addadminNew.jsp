@@ -1,4 +1,4 @@
-<%@page import="java.sql.Timestamp"%>
+<%@ page import="java.sql.Timestamp"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <title>新增員工</title>
 <style>
 body {
@@ -38,7 +38,7 @@ span {
 </head>
 
 <body>
-	<FORM METHOD="post" ACTION="admin.do" name="form1" enctype="multipart/form-data">
+	<FORM METHOD="POST" ACTION="admin.do" name="form1" enctype="multipart/form-data">
 		<div
 			class="container d-flex justify-content-center align-items-center min-vh-100">
 			<div class="row border rounded-5 p-3 bg-white shadow box-area">
@@ -146,15 +146,18 @@ span {
 <!-- 				</div> -->
 				<div class="row g-1 ms-5 align-items-center">
 					<div class="col-auto offset-1">
-						<label for="text8" class="col-form-label">員工狀態 :</label>
+						<label for="text8" class="col-form-label">員工權限 :</label>
 					</div>
 					<div class="col-auto">
 						 <label>
-				            <input type="radio" id="text8" name="adminStat" value="1" checked> 在職
+				            <input type="radio" id="text8" name="adminStat" value="1" checked> 一般
 				        </label>
 				        <label>
-				            <input type="radio" id="text9" name="adminStat" value="2"> 離職
+				            <input type="radio" id="text9" name="adminStat" value="2"> 管理員
 				        </label>
+						<label>
+							<input type="radio" id="text10" name="adminStat" value="3"> 停權
+						</label>
 					</div>
 				</div>
 				<div class="row g-1 align-items-center ms-5">

@@ -29,19 +29,20 @@
 <!-- 		<dispatcher>ASYNC</dispatcher> -->
 <!-- 	</filter-mapping> -->
 
-<!-- 	<filter> -->
-<!-- 		<filter-name>LoginFilter</filter-name> -->
-<!-- 		<filter-class>com.cha103g5.member.filter.LoginFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>LoginFilter</filter-name> -->
-<!-- 		<url-pattern>/protected/*</url-pattern> -->
-<!-- 		<dispatcher>REQUEST</dispatcher> -->
-<!-- 		<dispatcher>FORWARD</dispatcher> -->
-<!-- 		<dispatcher>INCLUDE</dispatcher> -->
-<!-- 		<dispatcher>ERROR</dispatcher> -->
-<!-- 		<dispatcher>ASYNC</dispatcher> -->
-<!-- 	</filter-mapping> -->
+ 	<filter>
+ 		<filter-name>LoginFilter</filter-name>
+ 		<filter-class>com.cha103g5.member.filter.LoginFilter</filter-class>
+ 	</filter>
+ 	<filter-mapping>
+ 		<filter-name>LoginFilter</filter-name>
+ 		<url-pattern>/customer/chat.jsp</url-pattern>
+ 		<url-pattern>/customer/chat.do</url-pattern>
+ 		<dispatcher>REQUEST</dispatcher>
+ 		<dispatcher>FORWARD</dispatcher>
+ 		<dispatcher>INCLUDE</dispatcher>
+ 		<dispatcher>ERROR</dispatcher>
+ 		<dispatcher>ASYNC</dispatcher>
+ 	</filter-mapping>
 
 	<resource-ref>
 		<description>DB Connection</description>
@@ -50,50 +51,21 @@
 		<res-auth>Container</res-auth>
 	</resource-ref>
 
-	<!-- <servlet> -->
-	<!-- <servlet-name>MemberServlet</servlet-name> -->
-	<!-- <servlet-class>com.cha103g5.member.controller.MemberServlet</servlet-class> -->
-
-	<!-- <multipart-config> -->
-	<!-- <location>/tmp</location> -->
-	<!-- <max-file-size>20848820</max-file-size> -->
-	<!-- <max-request-size>418018841</max-request-size> -->
-	<!-- <file-size-threshold>1048576</file-size-threshold> -->
-	<!-- </multipart-config> -->
-	<!-- </servlet> -->
-
-	<!-- <servlet-mapping> -->
-	<!-- <servlet-name>MemberServlet</servlet-name> -->
-	<!-- <url-pattern>/member/mem.do</url-pattern> -->
-	<!-- </servlet-mapping> -->
-
-
-	<servlet>
-		<servlet-name>AnimalTypeServlet</servlet-name>
-		<servlet-class>com.cha103g5.animaltype.controller.AnimalTypeServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>AnimalTypeServlet</servlet-name>
-		<url-pattern>/animalTypeServlet</url-pattern>
-	</servlet-mapping>
-
-
-
 <!-- 	<servlet> -->
-<!-- 		<servlet-name>AdminServlet</servlet-name> -->
-<!-- 		<servlet-class>com.cha103g5.admin.controller.AdminServlet</servlet-class> -->
+<!-- 	<servlet-name>MemberServlet</servlet-name> -->
+<!-- 	<servlet-class>com.cha103g5.member.controller.MemberServlet</servlet-class> -->
 
-<!-- 		<multipart-config> -->
-<!-- 			<location>/tmp</location> -->
-<!-- 			<max-file-size>20848820</max-file-size> -->
-<!-- 			<max-request-size>418018841</max-request-size> -->
-<!-- 			<file-size-threshold>1048576</file-size-threshold> -->
-<!-- 		</multipart-config> -->
+<!-- 	<multipart-config> -->
+<!-- 	<location>/tmp</location> -->
+<!-- 	<max-file-size>20848820</max-file-size> -->
+<!-- 	<max-request-size>418018841</max-request-size> -->
+<!-- 	<file-size-threshold>1048576</file-size-threshold> -->
+<!-- 	</multipart-config> -->
 <!-- 	</servlet> -->
+
 <!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>AdminServlet</servlet-name> -->
-<!-- 		<url-pattern>/admin.do</url-pattern> -->
+<!-- 	<servlet-name>MemberServlet</servlet-name> -->
+<!-- 	<url-pattern>/member/mem.do</url-pattern> -->
 <!-- 	</servlet-mapping> -->
 
 	<servlet>

@@ -65,7 +65,7 @@ img {
 								<th>員工信箱</th>
 								<th>員工電話</th>
 								<th>到職日</th>
-								<th>員工狀態</th>
+								<th>員工權限</th>
 								<th>照片</th>
 							</tr>
 						</thead>
@@ -79,10 +79,12 @@ img {
 								<th>${AdminVO.adminPhone}</th>
 								<th>${AdminVO.createDate}</th>
 								<th>
-						            <c:choose>
-						                <c:when test="${adminVO.adminStat == 1}">在職</c:when>
-						                <c:otherwise>離職</c:otherwise>
-						            </c:choose>
+									<c:choose>
+										<c:when test="${AdminVO.adminStat == 1}">一般</c:when>
+										<c:when test="${AdminVO.adminStat == 2}">管理員</c:when>
+										<c:when test="${AdminVO.adminStat == 3}">停權</c:when>
+										<%--<c:otherwise>離職</c:otherwise>--%>
+									</c:choose>
 						        </th>
 								<th>
 									<img src="${pageContext.request.contextPath}/ReadIMG?id=${AdminVO.adminNo}">
@@ -114,9 +116,9 @@ img {
 	</div>
 	<script>
 		let mainPage = document.getElementById('mainPage');
-		// 添加点击事件处理程序
+		// 添加典籍事件處理程序
 		mainPage.addEventListener('click', function() {
-			// 执行页面导航，跳转到 addAdmin.jsp
+			// 執行頁面導航，跳轉到 addAdmin.jsp
 			window.location.href = 'adminSystem.jsp';
 		});
 	</script>

@@ -5,6 +5,7 @@ import com.cha103g5.admin.service.AdminService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import java.sql.Date;
 import java.util.*;
 
 @WebServlet("/admin/admin.do")
+@MultipartConfig
 public class AdminServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
@@ -30,8 +32,6 @@ public class AdminServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
 
-        System.out.println("admin.do有成功");
-        System.out.println(action);
         if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
         	System.out.println("成功getOne_For_Display");
             Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
@@ -210,19 +210,6 @@ public class AdminServlet extends HttpServlet {
             }else {
             	adminPic=adminSvc.getOneAdmin(adminNo).getAdminPic();
             }
-            
-
-//            byte[] adminPic = null;
-//	    	try {
-//		    		Part part = req.getPart("adminPic");
-//		    		if (part != null) {
-//			    		var inputstream = part.getInputStream();
-//		    			adminPic = IOUtils.toByteArray(inputstream);
-//		    		}
-//			} catch (IOException e) {
-//			    e.printStackTrace();
-//			}
-
 
             // Send the use back to the form, if there were errors
             if (!errorMsgs.isEmpty()) {
@@ -333,19 +320,6 @@ public class AdminServlet extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-
-
-//            byte[] adminPic = null;
-//	    	try {
-//		    		Part part = req.getPart("adminPic");
-//		    		if (part != null) {
-//			    		var inputstream = part.getInputStream();
-//		    			adminPic = IOUtils.toByteArray(inputstream);
-//		    		}
-//			} catch (IOException e) {
-//			    e.printStackTrace();
-//			}
-
 
             // Send the use back to the form, if there were errors
             if (!errorMsgs.isEmpty()) {

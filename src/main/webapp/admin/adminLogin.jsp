@@ -24,8 +24,8 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Expires" content="0">
     
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/backendlogin.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/backendlogin.css">
     <title>員工登入</title>
     <style>
     
@@ -43,7 +43,7 @@
             <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
                 style="background: #ffffff;">
                 <div class="featured-image mb-3">
-                    <img src="../img/backend.png" class="img-fluid" style="width: 250px;">
+                    <img src="<%=request.getContextPath()%>/img/backend.png" class="img-fluid" style="width: 250px;">
                 </div>
             </div>
             <div class="col-md-6 right-box">
@@ -53,25 +53,28 @@
                             style="font-family: 'Courier New', Courier, monospace; font-weight: 550;">後台管理系統</p>
                     </div>
                     <form method="post" action="adminLoginHandler">
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入帳號" name="adminAccount" value="${param.adminAccount}">
-                    </div>
-                    	<div class="error-message">${requestScope.errorMsgs.adminAccount}</div>
-                    <div class="input-group mb-2">
-                        <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入密碼" name="adminPassword" value="${param.adminPassword}">
-                    </div>
-                        <div class="error-message">${requestScope.errorMsgs.adminPassword}</div>
-					<br>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">登入</button>
-                    </div>
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入帳號" name="adminAccount" value="${param.adminAccount}">
+                        </div>
+                            <div class="error-message">${requestScope.errorMsgs.adminAccount}</div>
+                        <div class="input-group mb-2">
+                            <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="請輸入密碼" name="adminPassword" value="${param.adminPassword}">
+                        </div>
+                            <div class="error-message">${requestScope.errorMsgs.adminPassword}</div>
+                        <br>
+                        <div class="input-group mb-3">
+                            <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">登入</button>
+                        </div>
+                        <div class="error-message">${requestScope.errorMsgs.adminStat}</div>
+                    </form>
                 </div>
-<!--                 <input type="hidden" name="action" value="userAuth"> -->
-                </form>
             </div>
         </div>
     </div>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+
+
+
+    <script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </body>
 </html>

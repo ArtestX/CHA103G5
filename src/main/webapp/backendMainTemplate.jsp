@@ -16,10 +16,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>員工管理系統</title>
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <style>
 body {
-            background-image: url('../img/desktop.jpg');
+            background-image: url('<%=request.getContextPath()%>/img/desktop.jpg');
             background-size: cover;
             background-attachment: fixed; /* 可选，固定背景图片 */
             background-repeat: no-repeat;
@@ -153,7 +153,7 @@ body {
 
 
 
-	<script src="../js/popper.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </body>
 </html>
