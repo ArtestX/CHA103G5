@@ -34,12 +34,12 @@ public class SendMailServlet extends HttpServlet {
 			req.setCharacterEncoding("UTF-8");
 			String action = req.getParameter("action");
 			
-/**********************寄信**********************/
-/**********************寄信**********************/
-/**********************寄信**********************/
+/**********************寄信(註冊)**********************/
+/**********************寄信(註冊)**********************/
+/**********************寄信(註冊)**********************/
 			
 			if("verificationEmail".equals(action)) {
-			    		System.out.println("開始寄信");
+			    		System.out.println("寄信(註冊)");
 			    		String to = req.getParameter("memberemail");
 			    		String subject = " 浪愛有家_註冊成功通知信";
 			    		
@@ -66,10 +66,43 @@ public class SendMailServlet extends HttpServlet {
 						    
 						jedis.expire(email, 30);//設定生命週期(以秒為單位)
 
-						// 存储数据
 						jedis.set(email, verificationValue);
 						jedis.close();
 			}	
+			
+/**********************寄信(忘記密碼)**********************/
+/**********************寄信(忘記密碼)**********************/
+/**********************寄信(忘記密碼)**********************/
+			if("forgot".equals(action)) {
+		    		System.out.println("寄信(忘記密碼)");
+		    		String to = req.getParameter("memberemail");
+		    		String subject = " 浪愛有家_密碼重置驗證信";
+		    		
+		    		String activeCode = generateRandomString(6);
+
+		    		String messageText = "你好, 你的驗證碼為:" + activeCode +"/n請於十分鐘內完成驗證，請勿轉發或告知他人訊息，以維護你的帳號使用安全，謝謝" ;
+		    		SendMailService SendMailService = new SendMailService();
+		    		SendMailService.sendMail(to, subject, messageText);
+		    		 
+				    res.setContentType("text/plain");
+				    res.sendRedirect(req.getContextPath() + "/member/membeFotgotPassword.jsp");
+				    
+				    //將驗證碼存進redis
+				    Map<String,String> verification =  new HashMap<>();
+		    		verification.put("activeCode", activeCode);
+		    		
+		    		Jedis jedis = new Jedis("localhost", 6379);
+					jedis.select(2);
+					Gson gson = new Gson();
+					String verificationValue = gson.toJson(verification);
+					String email =  String.valueOf(to);
+					    
+					jedis.expire(email, 600);//設定生命週期(以秒為單位)
+	
+					jedis.set(email, verificationValue);
+					jedis.close();
+			}						
+							
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

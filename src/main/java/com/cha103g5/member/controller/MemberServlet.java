@@ -436,9 +436,9 @@ public class MemberServlet extends HttpServlet {
 					String verificationEmail = "verificationEmail";
 					req.setAttribute("VerificationEmail", verificationEmail);
 
-					// 设置其他请求属性，例如成员姓名和成员电子邮件
-					req.setAttribute("membername", membername);
-					req.setAttribute("memberemail", memberemail);
+					// 設置其他請求屬性(姓名 跟  Email)
+//					req.setAttribute("membername", membername);
+//					req.setAttribute("memberemail", memberemail);
 
 					String url = "/member/sendemail?action=verificationEmail"; 
 					RequestDispatcher successView = req.getRequestDispatcher(url);

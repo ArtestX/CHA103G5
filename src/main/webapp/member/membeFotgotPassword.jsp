@@ -3,62 +3,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/memberForgotPassword.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/memberForgotPassword.css" />
 </head>
 <body>
- <section class="hero-section d-flex justify-content-center align-items-center" id="forgot"> 
-	<form id="msform">
-		<!-- progressbar -->
-		<div class="page-title top-lightgrey">
-			<h4 class="title main-title-h1">
-				<b>忘記密碼?</b>
-			</h4>
-		</div>
-
-		<ul id="progressbar">
-			<li id="step1" class="active">輸入信箱</li>
-			<li id="step2">輸入驗證碼</li>
-			<li id="step3" class="completed">更改密碼</li>
-		</ul>
-
-		<!-- fieldsets -->
-		<fieldset>
-			<h2 class="fs-title">輸入信箱</h2>
-			<br> <input type="text" name="email" placeholder="請輸入Email" />
-			<input type="button" name="next" class="next-action-button"
-				value="送出" />
-		</fieldset>
-
-		<fieldset>
-			<h2 class="fs-title">輸入驗證碼</h2>
-			<br> <input type="text" name="verificationforgot"
-				placeholder="請輸入驗證碼" /> <input type="button" name="next"
-				class="next-action-button" value="送出" />
-		</fieldset>
-
-		<fieldset>
-			<h2 class="fs-title">更改密碼</h2>
-			<br> <input type="password" name="pass" placeholder="請輸入新密碼"  autocomplete="off"/>
-			<div class="form__field">
-				<input type="password" name="cpass" class="form__input"
-					pattern=".{8,}" required placeholder="請再次輸入新密碼"  autocomplete="off"/> <span
-					class="icon"></span>
+	<section class="hero-section d-flex justify-content-center align-items-center" id="forgot">
+		<div id="msform">
+			<!-- progressbar -->
+			<div class="page-title top-lightgrey">
+				<h4 class="title main-title-h1">
+					<b>忘記密碼?</b>
+				</h4>
 			</div>
-			<input type="button" name="next" class="next-action-button"
-				value="送出" />
-		</fieldset>
-	</form>
- </section>
-<%-- 	<script src="<%=request.getContextPath()%>/js/bootstrap.bundle.min.js"></script> --%>
+
+			<ul id="progressbar">
+				<li id="step1" class="active">輸入信箱</li>
+				<li id="step2" class="active">輸入驗證碼</li>
+				<li id="step3" class="active">更改密碼</li>
+			</ul>
+
+			<!-- fieldsets -->
+			<form id="forgot" method="post" action="<%=request.getContextPath()%>/member/sendemail">
+				<fieldset>
+					<h2 class="fs-title">輸入信箱</h2><br>
+					<input type="text" name="memberemail" value="${param.memberemail}" placeholder="請輸入Email" />
+					<input type="hidden" name="action" value="forgot">
+					<input type="submit" name="next" class="next-action-button" value="送出" />
+				</fieldset>
+			</form>
+			<fieldset>
+				<h2 class="fs-title">輸入驗證碼</h2><br> 
+				<input type="text" name="verificationforgot" placeholder="請輸入驗證碼" />
+				<input type="button" name="next" class="next-action-button" value="送出" />
+			</fieldset>
+
+			<fieldset>
+				<h2 class="fs-title">更改密碼</h2><br> 
+				<input type="password" name="pass" placeholder="請輸入新密碼" autocomplete="off" />
+				<div class="form__field">
+					<input type="password" name="cpass" class="form__input" pattern=".{8,}" required placeholder="請再次輸入新密碼" autocomplete="off" />
+					<span class="icon"></span>
+				</div>
+				<input type="button" name="next" class="next-action-button" value="送出" />
+			</fieldset>
+		</div>
+	</section>
+	<%-- 	<script src="<%=request.getContextPath()%>/js/bootstrap.bundle.min.js"></script> --%>
 	<script>
-        // JavaScript 用于处理表单导航
         const form = document.getElementById("msform");
         const fieldsets = form.querySelectorAll("fieldset");
         const progressBarItems = form.querySelectorAll("#progressbar li");
 
         let currentStep = 0;
 
-        // 用于显示当前步骤并隐藏其他步骤的函数
+        // 顯示當前步驟 跟 隱藏其他步驟
         function showStep(step) {
             for (let i = 0; i < fieldsets.length; i++) {
                 if (i === step) {
@@ -70,7 +68,7 @@
 
         }
 
-        // 用于更新步骤指示条颜色的函数
+        // 更新步驟指示條的顏色
         function updateProgressBarColor(step) {
             progressBarItems.forEach((item, index) => {
                 if (index <= step) {
@@ -83,12 +81,11 @@
             });
         }
        
-        // 初始化表单以显示第一个步骤
+        // 初始化表單顯示第一步驟
         showStep(currentStep);
-        // 初始化表单以显示第一个步骤的颜色
+        // 初始化表單顯示第一步驟的颜色
         updateProgressBarColor(currentStep);
 
-        // 为"送出"按钮添加点击事件监听器
         form.addEventListener("click", function (event) {
             if (event.target.classList.contains("next-action-button") && currentStep < fieldsets.length - 1) {
                 currentStep++;
