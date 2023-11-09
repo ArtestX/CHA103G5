@@ -19,7 +19,7 @@ public class MemberNameServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        // 在初始化方法中创建 MemberService 实例
+        // 在初始化方法中創建 MemberService
         memberService = new MemberService();
     }
 

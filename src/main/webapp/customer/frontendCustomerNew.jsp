@@ -13,11 +13,9 @@
 	body {
 	  min-height: 100vh;
 	  background-image: url('<%=request.getContextPath()%>/img/cus4.jpg');
-	  background-size: cover; /* 可以根据需要调整背景图像的尺寸 */
-	  background-repeat: no-repeat; /* 防止背景图像重复 */
-	  background-attachment: fixed; /* 可以使背景图像固定不滚动 */
-	  /* 其他样式属性 */
-	  
+	  background-size: cover;
+	  background-repeat: no-repeat;
+	  background-attachment: fixed;
 	}
 	
 	::-webkit-scrollbar {
@@ -41,12 +39,12 @@
 	}
 	
 	.typing-area {
-	  margin-top: 20px; /* 根据需要调整间距 */
+	  margin-top: 20px; /* 调整間距 */
 	}
 	
 	.chat-box {
- 	  max-width: 800px; /* 调整您希望的最大宽度值 */ 
-      margin: 0 auto; /* 让聊天框水平居中 */ 
+ 	  max-width: 800px; /* 調整最大宽度值 */
+      margin: 0 auto; /* 聊天框水平居中 */
 	  height: 568px;
 	  overflow-y: scroll;
 	  border-radius: 1rem
@@ -62,13 +60,13 @@
 	}
 	
 	.text-center h1 {
-	  color: black; /* 设置标题文本颜色为黑色 */
-	  font-weight: bold; /* 加粗标题文本 */
+	  color: black; /* 標题黑色 */
+	  font-weight: bold; /* 加粗標题 */
 	}
 	
 	.text-center p {
-	  color: black; /* 设置段落文本颜色为黑色 */
-	  font-weight: bold; /* 加粗段落文本 */
+	  color: black; /* 段落黑色 */
+	  font-weight: bold; /* 加粗段落 */
 	}
 	    
 	</style>

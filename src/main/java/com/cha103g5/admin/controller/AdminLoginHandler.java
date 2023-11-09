@@ -23,9 +23,9 @@ public class AdminLoginHandler extends HttpServlet {
 		AdminVO adminVO = adminService.userAuth(adminAccount, adminPassword);
 
 		if (adminVO != null) {
-			return true; // 找到匹配的管理员记录
+			return true; // 找到匹配的管理员紀錄
 		} else {
-			return false; // 未找到匹配的管理员记录
+			return false; // 未找到匹配的管理员紀錄
 		}
 	}
 

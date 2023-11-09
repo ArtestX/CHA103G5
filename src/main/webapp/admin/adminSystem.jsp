@@ -32,15 +32,9 @@ pageContext.setAttribute("list", list);
 body {
             background-image: url('../img/desktop.jpg');
             background-size: cover;
-            background-attachment: fixed; /* 可选，固定背景图片 */
+            background-attachment: fixed; /* 固定背景圖片 */
             background-repeat: no-repeat;
         }
-        
- .custom-bg-color { 
-/* 	background-color: #EDEEF0; /* 自定义颜色代码 */ */
-	} 
-
-
 
 th {
     text-align: center;
