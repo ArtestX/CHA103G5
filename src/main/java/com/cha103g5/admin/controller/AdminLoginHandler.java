@@ -9,6 +9,8 @@ import javax.servlet.http.*;
 
 import com.cha103g5.admin.model.AdminVO;
 import com.cha103g5.admin.service.AdminService;
+import com.cha103g5.member.model.MemberService;
+import com.cha103g5.member.model.MemberVO;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -89,6 +91,7 @@ public class AdminLoginHandler extends HttpServlet {
 				// 從資料庫獲取 adminStat 的值
 				AdminService adminService = new AdminService();
 				AdminVO adminVO = adminService.userAuth(adminAccount, adminPassword);
+				MemberService memberService =new MemberService();
 				if (adminVO != null) {
 					Integer adminStat = adminVO.getAdminStat();
 					// 設置adminStat 属性的值到 HttpSession

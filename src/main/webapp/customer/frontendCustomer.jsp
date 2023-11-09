@@ -194,34 +194,34 @@
 
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById("submitButton").addEventListener("click", function() {
-          console.log("button 成功");
-
-          var userName = "yourUsername"; // 替換為實際使用者名稱
-          fetch('http://localhost:8080/getMemberName', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userName: userName })
-          })
-                  .then(response => {
-                    if (response.ok) {
-                      return response.json();
-                    } else {
-                      throw new Error('新增失败');
-                    }
-                  })
-                  .then(data => {
-                    // 處裡回應數據
-                    console.log(data);
-                  })
-                  .catch(error => {
-                    console.log("Error: " + error);
-                  });
-        });
-      });
+      // document.addEventListener('DOMContentLoaded', function() {
+      //   document.getElementById("submitButton").addEventListener("click", function() {
+      //     console.log("button 成功");
+      //
+      //     var userName = "yourUsername"; // 替換為實際使用者名稱
+      //     fetch('http://localhost:8080/getMemberName', {
+      //       method: 'POST',
+      //       headers: {
+      //         'Content-Type': 'application/json'
+      //       },
+      //       body: JSON.stringify({ userName: userName })
+      //     })
+      //             .then(response => {
+      //               if (response.ok) {
+      //                 return response.json();
+      //               } else {
+      //                 throw new Error('新增失败');
+      //               }
+      //             })
+      //             .then(data => {
+      //               // 處裡回應數據
+      //               console.log(data);
+      //             })
+      //             .catch(error => {
+      //               console.log("Error: " + error);
+      //             });
+      //   });
+      // });
 
     </script>
     <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>

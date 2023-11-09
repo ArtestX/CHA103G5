@@ -14,7 +14,7 @@
 <title>最大私人聊天室</title>
 </head>
 <body onload="connect();" onunload="disconnect();">
-	<h3 id="statusOutput" class="statusOutput">${userName}</h3>
+	<h3 id="statusOutput" class="statusOutput">${user.membername}</h3>
 	<div id="row"></div>
 	<div id="messagesArea" class="panel message-area" ></div>
 	<div class="panel input-area">
@@ -25,15 +25,16 @@
 	</div>
 </body>
 <script>
-	var MyPoint = "/FriendWS/${userName}";
+	var MyPoint = "/FriendWS/${user.membername}";
 	var host = window.location.host;
 	var path = window.location.pathname;
 	var webCtx = path.substring(0, path.indexOf('/', 1));
-	var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+	var endPointURL = "ws://" + host + webCtx + MyPoint;
+
 
 	var statusOutput = document.getElementById("statusOutput");
 	var messagesArea = document.getElementById("messagesArea");
-	var self = '${userName}';
+	var self = '${user.membername}';
 	var webSocket;
 
 	function connect() {
