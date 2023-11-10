@@ -43,9 +43,9 @@
 	}
 	
 	.chat-box {
- 	  max-width: 800px; /* 調整最大宽度值 */
+ 	  max-width: 500px; /* 調整最大宽度值 */
       margin: 0 auto; /* 聊天框水平居中 */
-	  height: 568px;
+	  height: 550px;
 	  overflow-y: scroll;
 	  border-radius: 1rem
 	}
