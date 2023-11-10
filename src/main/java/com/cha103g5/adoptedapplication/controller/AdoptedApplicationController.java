@@ -24,6 +24,7 @@ public class AdoptedApplicationController {
     @Autowired
     private AdoptedApplicationService adoptedApplicationService;
 
+
     @GetMapping("/adoptedapplications")
     public ResponseEntity<Page<AdoptedApplication>> getAll(
             // 查詢條件 Filtering
