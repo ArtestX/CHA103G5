@@ -82,5 +82,14 @@ public class MemberService {
 		return dao.findByMemberEmail(memberemail);
 	}
 
-	
+	 public MemberVO updateMembers(MemberVO memberVO) {
+	     int updateResult = dao.update(memberVO);
+	     
+	     if (updateResult == 1) {
+	         // 更新成功
+	         return memberVO;
+	     } else {
+	         return null;
+	     }
+	 }
 }

@@ -129,7 +129,7 @@ div.col-md-6 b{
 
 font{
 	 float: right;
-    font-size: 14px;
+    font-size: 13px;
      margin-top: 5px;
 }
 
