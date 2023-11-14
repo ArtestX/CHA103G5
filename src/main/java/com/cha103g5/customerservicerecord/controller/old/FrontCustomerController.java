@@ -1,4 +1,4 @@
-package com.cha103g5.customerservicerecord.controller;
+package com.cha103g5.customerservicerecord.controller.old;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
