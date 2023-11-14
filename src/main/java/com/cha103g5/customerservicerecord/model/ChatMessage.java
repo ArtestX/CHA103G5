@@ -17,5 +17,9 @@ public class ChatMessage {
     private String receiver;
 
     private String message;
-    
+
+    private String time;
+
+    private String status;
+
 }
