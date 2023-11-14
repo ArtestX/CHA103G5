@@ -72,7 +72,7 @@
 	</tr>
 	<tr>
 		    <td>${PetVO.petid}</td>
-			<td>${PetVO.pettype}</td>
+			<td>${PetVO.animaltyperno}</td>
 			<td>${PetVO.memberno}</td>
 			<td>${PetVO.petname}</td>
 			<td>${PetVO.petsex}</td>

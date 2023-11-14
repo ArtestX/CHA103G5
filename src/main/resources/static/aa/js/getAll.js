@@ -1,5 +1,6 @@
 let offset = 0; // 初始的偏移量
 const limit = 5; // 每頁顯示多少條記錄
+let totalRecords = 0; // 新增一個全域變量來追踪總記錄數
 
 // 使用 fetch API 來從後端撈取資料
 function fetchData() {
@@ -9,11 +10,12 @@ function fetchData() {
         .then(data => {
         let tableBody = document.getElementById('tableBody');
         tableBody.innerHTML = ""; // 清空表格
+        totalRecords = data.total; // 更新總記錄數
+        // 更新顯示總比數的元素
+        document.getElementById('totalRecordsDisplay').textContent = `總筆數：${totalRecords}`;
+
         // 使用 forEach 來遍歷每個領養申請
-
         // 顯示查詢到的總比數
-        tableBody.innerHTML += `<tr><td colspan="11">總比數：${data.total}</td></tr>`;
-
         data.results.forEach(adoptedApplication => {
             let row = `<tr>
                             <td>${adoptedApplication.applicationNo}</td>
@@ -86,8 +88,10 @@ function prevPage() {
 }
 
 function nextPage() {
-    offset += limit;
-    fetchData();
+    if (offset + limit < totalRecords) { // 檢查是否有更多頁
+        offset += limit;
+        fetchData();
+    }
 }
 
 // 初始化時先載入第一頁的資料

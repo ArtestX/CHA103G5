@@ -1,7 +1,10 @@
-package com.cha103g5.pet.model;
+package com.cha103g5.pet.service;
 
 import java.util.List;
 
+import com.cha103g5.pet.model.PetHibernateDAO;
+import com.cha103g5.pet.model.PetHibernateDAOinterface;
+import com.cha103g5.pet.model.PetVO;
 import com.cha103g5.util.HibernateUtil;
 
 public class PetService {
@@ -12,11 +15,11 @@ public class PetService {
 		dao = new PetHibernateDAO(HibernateUtil.getSessionFactory());
 	}
 
-	public PetVO addPet(Integer pettype, Integer memberno, String petname, String petsex, String petage,
+	public PetVO addPet(Integer animaltypeno, Integer memberno, String petname, String petsex, String petage,
 			String petnote, byte stat, java.sql.Date applicationdeadline) {
 
 		PetVO petVO = new PetVO();
-		petVO.setPettype(pettype);
+		petVO.setAnimaltypeno(animaltypeno);
 		petVO.setMemberno(memberno);
 		petVO.setPetname(petname);
 		petVO.setPetsex(petsex);
@@ -33,13 +36,13 @@ public class PetService {
 //	        dao.insert(petVO);
 //	    }
 
-	public PetVO updatePet(Integer petid, Integer pettype, Integer memberno, String petname, String petsex,
+	public PetVO updatePet(Integer petid, Integer animaltypeno, Integer memberno, String petname, String petsex,
 			String petage, String petnote, byte stat, java.sql.Date applicationdeadline) {
 
 		PetVO petVO = new PetVO();
 		
 		petVO.setPetid(petid);
-		petVO.setPettype(pettype);
+		petVO.setAnimaltypeno(animaltypeno);
 		petVO.setMemberno(memberno);
 		petVO.setPetname(petname);
 		petVO.setPetsex(petsex);

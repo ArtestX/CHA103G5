@@ -79,7 +79,7 @@ PetService petSvc = new PetService();
 
         <tr>
             <td>${petVO.petid}</td>
-            <td>${petVO.pettype}</td>
+            <td>${petVO.animaltypeno}</td>
             <td>${petVO.memberno}</td>
             <td>${petVO.petname}</td>
             <td>${petVO.petsex}</td>

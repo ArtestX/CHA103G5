@@ -24,11 +24,13 @@ public class AdoptedApplicationController {
     @Autowired
     private AdoptedApplicationService adoptedApplicationService;
 
+
     @GetMapping("/adoptedapplications")
     public ResponseEntity<Page<AdoptedApplication>> getAll(
             // 查詢條件 Filtering
             @RequestParam(required = false) Integer petId,
             @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date lotteryDate,
+            @RequestParam(required = false) Integer memberNo,
 
             //排序 Sorting
             @RequestParam(defaultValue = "applicationNo") String orderBy,
@@ -46,13 +48,8 @@ public class AdoptedApplicationController {
         adoptedApplicationQueryParams.setSort(sort);
         adoptedApplicationQueryParams.setLimit(limit);
         adoptedApplicationQueryParams.setOffset(offset);
+        adoptedApplicationQueryParams.setMemberNo(memberNo);
 
-//        java.sql.Date sqlLotteryDate = null;
-//        if (lotteryDate != null) {
-//            // 手動將 java.util.Date 轉換為 java.sql.Date
-//            sqlLotteryDate = new java.sql.Date(lotteryDate.getTime());
-//            adoptedApplicationQueryParams.setLotteryDate(sqlLotteryDate);
-//        }
 
         // 取得 領養 List
         List<AdoptedApplication> adoptedApplicationList = adoptedApplicationService.getAll(adoptedApplicationQueryParams);
@@ -70,23 +67,6 @@ public class AdoptedApplicationController {
         return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
-
-//    @GetMapping("/adoptedapplications")
-//    public ResponseEntity<List<AdoptedApplication>> getByPetIdAndLotteryDate(
-//            @RequestParam Integer petId,
-//            @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date lotteryDate) {
-//
-//        // 手動將 java.util.Date 轉換為 java.sql.Date
-//        java.sql.Date sqlLotteryDate = new java.sql.Date(lotteryDate.getTime());
-//
-//        List<AdoptedApplication> adoptedApplicationList = adoptedApplicationService.getByPetIdAndLotteryDate(petId, sqlLotteryDate);
-//
-//        if (adoptedApplicationList != null && !adoptedApplicationList.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.OK).body(adoptedApplicationList);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//    }
 
     @GetMapping("/adoptedapplications/{applicationNo}")
     public ResponseEntity<AdoptedApplication> getById(@PathVariable Integer applicationNo) {
