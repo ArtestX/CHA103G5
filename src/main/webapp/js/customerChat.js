@@ -181,7 +181,7 @@ function buildHisMessage(data) {
         '<div class="col-md-10 col-xs-10 d-flex justify-content-end">' +
         '<div class="messages_self msg_receive_self">' +
         '<p>' + showMsg + '</p>' +
-        '<time>' + `${userName} - ` + time +
+        '<time>' + time +
         '</time></div></div>' + 
         user;
     } else {
@@ -190,7 +190,7 @@ function buildHisMessage(data) {
         '<div class="col-md-10 col-xs-10">' +
         '<div class="messages_user msg_receive_user">' +
         '<p>' + showMsg + '</p>' +
-        '<time>客服 - ' + time +
+        '<time>' + time +
         '</time></div></div>';
     }
     div.innerHTML = content;
@@ -212,16 +212,16 @@ function buildMessage(data) {
       '<div class="col-md-10 col-xs-10">' +
       '<div class="messages_self msg_receive_self">' +
       '<p>' + showMsg + '</p>' +
-      '<time>' + `${userName} - ` + time +
-      '</time></div></div>';
-//      + user;
+      '<time>' + time +
+      '</time></div></div>'
+     + user;
   } else {
     content =
       hoster +
       '<div class="col-md-10 col-xs-10">' +
       '<div class="messages_user msg_receive_user">' +
       '<p>' + showMsg + '</p>' +
-      '<time>客服 - ' + time +
+      '<time>' + time +
       '</time></div></div>';
   }
   div.innerHTML = content;
@@ -243,7 +243,7 @@ function buildOfflineMessage() {
     `<div class="col-md-10 col-xs-10">
     <div class="messages_user msg_receive_user">
     <p>您好，目前客服未在線～ 請留下想詢問的問題，將於營業時間回覆您，謝謝</p>
-    <time>客服 - ${time}</time>
+    <time>${time}</time>
     </div>
     </div>`;
   div.innerHTML = content;

@@ -10,13 +10,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
         integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Custom styles for this template -->
+    
+    <!-- 後台客服css -->
     <link href="../css/backchat.css" rel="stylesheet">
 </head>
 
-<body>
-<button id="connectButton" type="button" onclick="connect();">连接聊天室</button>
+<body onload="connect();" onunload="disconnect();">
     <!-- chat-area -->
     <section class="chatroom-area">
         <div class="container">
@@ -87,7 +86,7 @@
 
                                     <div class="send-box">
                                         <form autocomplete="off">
-                                            <input type="text" class="form-control" id="btn-input" />
+                                            <input type="text" class="form-control" id="btn-input" placeholder="Enter a message"/>
 
                                             <button id="btn-chat" type="button" onclick="sendMessage();"><i
                                                     class="bi bi-send-fill text-white"></i>SEND</button>

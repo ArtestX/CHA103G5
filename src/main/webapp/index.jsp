@@ -75,7 +75,7 @@
 	                <!-- chat-input -->
 	                <div class="panel-footer">
 	                    <div class="input-group" style="padding: 6px;">
-	                        <input id="btn-input" type="text" class="input-sm chat_input" placeholder="Message..."
+	                        <input id="btn-input" type="text" class="input-sm chat_input" placeholder="Enter a message"
 	                            autocomplete="off" />
 	                        <span class="input-group-btn">
 	                            <button class="btn" id="btn-chat" style="background-color: #1f9d9d"
