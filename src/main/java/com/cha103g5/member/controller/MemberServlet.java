@@ -90,7 +90,7 @@ public class MemberServlet extends HttpServlet {
 				MemberService mbrSvc = new MemberService();
 				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
 				
-				// 从数据库中检索用户的哈希密码，根据用户名或邮箱等信息
+				//檢查是否符合資料庫資料
 				if (memberVO != null) {
 				    	String hashedPassword = memberVO.getMemberpassword();
 				    	boolean passwordMatch = BCrypt.checkpw(memberpassword, hashedPassword);
@@ -232,10 +232,10 @@ public class MemberServlet extends HttpServlet {
 /**********************修改**********************/
 /**********************修改**********************/	
 		 if ("update".equals(action)) {// 來自update_Mbr_input.jsp的請求
-			
+			  	System.out.println("開始修改");
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
-		
+				
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				Integer memberno = Integer.valueOf(req.getParameter("memberno").trim());		
 				
@@ -250,12 +250,19 @@ public class MemberServlet extends HttpServlet {
 				Integer membergender = Integer.valueOf(req.getParameter("membergender"));
 				
 				String memberpassword = req.getParameter("memberpassword");
-				String mpasswordReg = "^(?![\\s])(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$";
+				String mpasswordReg = "^(?![\\s])(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@#$%^&+=!]{8,30}$";
 				if (memberpassword == null || memberpassword.trim().length() == 0) {
 					errorMsgs.put("memberpassword","會員密碼: 請勿空白");
 				} else if(!memberpassword.trim().matches(mpasswordReg)) { 
-					errorMsgs.put("memberpassword","會員密碼: 只能是英文字母(沒區分大小寫)、數字和不能有空格 , 且長度必需在8到20之間");
+					errorMsgs.put("memberpassword","設定至少8碼以上(含字母跟數字)");
 	            }
+				
+				String confirmPass = req.getParameter("confirmPassword");
+				if (confirmPass == null || confirmPass.trim().length() == 0) {
+				    errorMsgs.put("confirmPassword", "確認密碼請勿空白");
+				} else if (!confirmPass.equals(memberpassword)) {
+				    errorMsgs.put("confirmPassword", "密碼不一致請確認");
+				}
 				
 				String memberphone = req.getParameter("memberphone");
 				String mphoneReg = "^09[0-9]{8}$";
@@ -315,14 +322,16 @@ public class MemberServlet extends HttpServlet {
 				}
 				
 				/***************************2.開始修改資料*****************************************/
+				// Hash the password
+				String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
 				
 				MemberVO memberVO = mbrSvc.updateMember(memberno, membername, membergender, 
-						memberpassword, memberphone, memberaddress, memberbirthday, membernation,
+						hashedPassword, memberphone, memberaddress, memberbirthday, membernation,
 						memberpic, membercard, memberid, memberjob, membersal);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的memberVO物件,存入req
-				String url = "/member/listAllMbr.jsp";
+				String url = "/member/memberLogin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMbr.jsp
 				successView.forward(req, res);
 		 }
@@ -435,10 +444,6 @@ public class MemberServlet extends HttpServlet {
 
 					String verificationEmail = "verificationEmail";
 					req.setAttribute("VerificationEmail", verificationEmail);
-
-					// 设置其他请求属性，例如成员姓名和成员电子邮件
-					req.setAttribute("membername", membername);
-					req.setAttribute("memberemail", memberemail);
 
 					String url = "/member/sendemail?action=verificationEmail"; 
 					RequestDispatcher successView = req.getRequestDispatcher(url);

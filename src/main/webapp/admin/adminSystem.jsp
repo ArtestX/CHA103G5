@@ -32,15 +32,9 @@ pageContext.setAttribute("list", list);
 body {
             background-image: url('../img/desktop.jpg');
             background-size: cover;
-            background-attachment: fixed; /* 可选，固定背景图片 */
+            background-attachment: fixed; /* 固定背景圖片 */
             background-repeat: no-repeat;
         }
-        
- .custom-bg-color { 
-/* 	background-color: #EDEEF0; /* 自定义颜色代码 */ */
-	} 
-
-
 
 th {
     text-align: center;
@@ -121,7 +115,7 @@ th {
 				    </h2>
 				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="<%=request.getContextPath()%>/customer/backendCustomer.jsp" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/customer/old/backendCustomer.jsp" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
 				      </div>
 				    </div>
 				  </div>

@@ -361,7 +361,7 @@ public class AdminServlet extends HttpServlet {
         if ("backendlogout".equals(action)) {
             HttpSession session = req.getSession(false);
             if (session != null) {
-                session.invalidate(); // 登出，终止会话
+                session.invalidate(); // 登出，终止session
                 System.out.println("成功登出");
             }
             res.sendRedirect("./adminLogin.jsp");

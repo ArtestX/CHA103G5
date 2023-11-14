@@ -13,11 +13,10 @@
 	body {
 	  min-height: 100vh;
 	  background-image: url('<%=request.getContextPath()%>/img/cus4.jpg');
-	  background-size: cover; /* 可以根据需要调整背景图像的尺寸 */
-	  background-repeat: no-repeat; /* 防止背景图像重复 */
-	  background-attachment: fixed; /* 可以使背景图像固定不滚动 */
-	  /* 其他样式属性 */
-	  
+	  background-size: cover; /* 調整背景圖像的尺寸 */
+	  background-repeat: no-repeat; /* 防止背景圖像重複 */
+	  background-attachment: fixed; /* 可以使背景圖像固定不滾動 */
+
 	}
 	
 	::-webkit-scrollbar {
@@ -46,12 +45,12 @@
 	}
 	
 	.typing-area {
-	  margin-top: 20px; /* 根据需要调整间距 */
+	  margin-top: 20px; /* 调整間距 */
 	}
 	
 	.chat-box {
-/* 	  max-width: 600px; /* 调整您希望的最大宽度值 */
-/*    margin: 0 auto; /* 让聊天框水平居中 */
+/* 	  max-width: 600px; /* 調整最大宽度 */
+/*    margin: 0 auto; /* 聊天框水平置中 */
 	  height: 568px;
 	  overflow-y: scroll;
 	}
@@ -66,13 +65,13 @@
 	}
 	
 	.text-center h1 {
-	  color: black; /* 设置标题文本颜色为黑色 */
-	  font-weight: bold; /* 加粗标题文本 */
+	  color: black; /* 標题颜色黑色 */
+	  font-weight: bold; /* 加粗標題*/
 	}
 	
 	.text-center p {
-	  color: black; /* 设置段落文本颜色为黑色 */
-	  font-weight: bold; /* 加粗段落文本 */
+	  color: black; /* 段落颜色黑色 */
+	  font-weight: bold; /* 加粗段落 */
 	}
 	    
 	</style>
@@ -195,34 +194,34 @@
 
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById("submitButton").addEventListener("click", function() {
-          console.log("button 成功");
-
-          var userName = "yourUsername"; // 替换为实际的用户名
-          fetch('http://localhost:8080/getMemberName', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userName: userName })
-          })
-                  .then(response => {
-                    if (response.ok) { // 检查响应是否成功 (状态码 200 到 299)
-                      return response.json();
-                    } else {
-                      throw new Error('新增失败');
-                    }
-                  })
-                  .then(data => {
-                    // 处理响应数据
-                    console.log(data);
-                  })
-                  .catch(error => {
-                    console.log("Error: " + error);
-                  });
-        });
-      });
+      // document.addEventListener('DOMContentLoaded', function() {
+      //   document.getElementById("submitButton").addEventListener("click", function() {
+      //     console.log("button 成功");
+      //
+      //     var userName = "yourUsername"; // 替換為實際使用者名稱
+      //     fetch('http://localhost:8080/getMemberName', {
+      //       method: 'POST',
+      //       headers: {
+      //         'Content-Type': 'application/json'
+      //       },
+      //       body: JSON.stringify({ userName: userName })
+      //     })
+      //             .then(response => {
+      //               if (response.ok) {
+      //                 return response.json();
+      //               } else {
+      //                 throw new Error('新增失败');
+      //               }
+      //             })
+      //             .then(data => {
+      //               // 處裡回應數據
+      //               console.log(data);
+      //             })
+      //             .catch(error => {
+      //               console.log("Error: " + error);
+      //             });
+      //   });
+      // });
 
     </script>
     <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>

@@ -15,8 +15,8 @@
 		<div class="container">
 			<a class="navbar-brand"
 				href="<%=request.getContextPath()%>/index.jsp"> <img
-				src="<%=request.getContextPath()%>/img/logo3.png" class="logo img"
-				alt="You can Adopt" style="width: 125px; height: 70px">
+					src="<%=request.getContextPath()%>/img/logo3.png" class="logo img"
+					alt="You can Adopt" style="width: 125px; height: 70px">
 			</a>
 
 			<div class="d-lg-none ms-auto me-4">
