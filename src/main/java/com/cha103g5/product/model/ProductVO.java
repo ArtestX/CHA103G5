@@ -1,5 +1,7 @@
 package com.cha103g5.product.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "product")
-public class Product {
+public class ProductVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "product_no", updatable = false)
@@ -18,14 +20,11 @@ public class Product {
 	@Column(name = "product_cat_no")
 	private Integer productCatNo;
 
-	@Column(name = "product_cat_det_no")
-	private Integer productCatDetNo;
-
 	@Column(name = "product_name")
 	private String productName;
 
 	@Column(name = "product_price")
-	private Double productPrice;
+	private BigDecimal productPrice;
 
 	@Column(name = "product_info")
 	private String productInfo;
@@ -58,14 +57,6 @@ public class Product {
 		this.productCatNo = productCatNo;
 	}
 
-	public Integer getProductCatDetNo() {
-		return productCatDetNo;
-	}
-
-	public void setProductCatDetNo(Integer productCatDetNo) {
-		this.productCatDetNo = productCatDetNo;
-	}
-
 	public String getProductName() {
 		return productName;
 	}
@@ -74,11 +65,11 @@ public class Product {
 		this.productName = productName;
 	}
 
-	public Double getProductPrice() {
+	public BigDecimal getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(Double productPrice) {
+	public void setProductPrice(BigDecimal productPrice) {
 		this.productPrice = productPrice;
 	}
 
@@ -122,12 +113,12 @@ public class Product {
 		this.productSaleNum = productSaleNum;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [productNo=" + productNo + ", productCatNo=" + productCatNo + ", productCatDetNo="
-				+ productCatDetNo + ", productName=" + productName + ", productPrice=" + productPrice + ", productInfo="
-				+ productInfo + ", productStat=" + productStat + ", productEval=" + productEval + ", productEvalTotal="
-				+ productEvalTotal + ", productSaleNum=" + productSaleNum + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Product [productNo=" + productNo + ", productCatNo=" + productCatNo + ", productName=" + productName
+//				+ ", productPrice=" + productPrice + ", productInfo=" + productInfo + ", productStat=" + productStat
+//				+ ", productEval=" + productEval + ", productEvalTotal=" + productEvalTotal + ", productSaleNum="
+//				+ productSaleNum + "]";
+//	}
 
 }
