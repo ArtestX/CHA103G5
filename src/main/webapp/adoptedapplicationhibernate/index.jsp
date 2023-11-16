@@ -28,7 +28,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/adoptedapplicationhibernate/main/main.css">
-	<title>主頁</title>
+	<title>申請表單 首頁</title>
 </head>
 <body>
 	<h1>申請表單 管理系統</h1>

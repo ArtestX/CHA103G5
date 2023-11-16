@@ -74,9 +74,9 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			int currentPage = (page == null) ? 1 : Integer.parseInt(page);
 
 			List<AdoptedApplicationHibernate> allApplications = aahService.getAllApplications(currentPage);
-			if (request.getSession().getAttribute("applicationsPageQty") == null) {
+			if (request.getAttribute("applicationsPageQty") == null) {
 				int applicationsPageQty = aahService.getPageTotal();
-				request.getSession().setAttribute("applicationsPageQty", applicationsPageQty);
+				request.setAttribute("applicationsPageQty", applicationsPageQty);
 			}
 			request.setAttribute("allApplications", allApplications);
 			request.setAttribute("currentPage", currentPage);
