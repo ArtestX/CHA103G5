@@ -1,7 +1,7 @@
 package com.cha103g5.petpic.service;
 
 import com.cha103g5.petpic.dao.PetInFoRepository;
-import com.cha103g5.petpic.model.PetInFo;
+import com.cha103g5.petpic.model.PetInFoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class PetInfoServiceImpl implements PetInfoService{
 
     @Override
     public Boolean insertPetInfo(Integer petId, Integer memberNo, String petName, String petSex, String petAge, String petNote, Byte stat, Date applicationDeadLine) {
-        PetInFo petInfo = new PetInFo();
+        PetInFoVO petInfo = new PetInFoVO();
         // 設定相應的屬性值
         petInfo.setPetId(petId);
         petInfo.setMemberNo(memberNo);
@@ -35,7 +35,7 @@ public class PetInfoServiceImpl implements PetInfoService{
     @Override
     public Boolean updatePetInfo(Integer petId, Integer memberNo, String petName, String petSex, String petAge, String petNote, Byte stat, Date applicationDeadLine) {
         // 先確認資料庫中是否存在該 petId 對應的 PetInFo
-        PetInFo existingPet = petInFoRepository.findById(petId).orElse(null);
+        PetInFoVO existingPet = petInFoRepository.findById(petId).orElse(null);
 
         if (existingPet != null) {
             // 更新相應的屬性值
@@ -56,10 +56,10 @@ public class PetInfoServiceImpl implements PetInfoService{
 
     @Override
     public Boolean deletePetInfo(Integer petId) {
-        Optional<PetInFo> petInfoOptional = petInFoRepository.findById(petId);
+        Optional<PetInFoVO> petInfoOptional = petInFoRepository.findById(petId);
 
         if (petInfoOptional.isPresent()) {
-            PetInFo petInfo = petInfoOptional.get();
+            PetInFoVO petInfo = petInfoOptional.get();
             petInFoRepository.delete(petInfo);
             return true;
         }
@@ -68,12 +68,12 @@ public class PetInfoServiceImpl implements PetInfoService{
     }
 
     @Override
-    public List<PetInFo> getAllPets(Integer petId) {
+    public List<PetInFoVO> getAllPets(Integer petId) {
         return petInFoRepository.findAll();
     }
 
     @Override
-    public PetInFo getPetById(Integer petId) {
+    public PetInFoVO getPetById(Integer petId) {
         return petInFoRepository.findById(petId).orElse(null);
     }
 

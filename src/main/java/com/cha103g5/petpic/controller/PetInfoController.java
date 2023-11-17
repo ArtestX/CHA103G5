@@ -1,7 +1,7 @@
 package com.cha103g5.petpic.controller;
 
 import com.cha103g5.petpic.bo.PetPicInfoBO;
-import com.cha103g5.petpic.model.PetPic;
+import com.cha103g5.petpic.model.PetPicVO;
 import com.cha103g5.petpic.service.PetInfoService;
 import com.cha103g5.petpic.service.PetPicService;
 import com.cha103g5.petpic.vin.InserPetInfoVIn;
@@ -156,7 +156,7 @@ public class PetInfoController {
     }
 
     @GetMapping("/petpic/{petId}")
-    public List<PetPic> getById(@PathVariable Integer petId) {
+    public List<PetPicVO> getById(@PathVariable Integer petId) {
 
         return petPicService.getById(petId);
     }

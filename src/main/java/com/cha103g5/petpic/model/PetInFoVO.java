@@ -7,39 +7,39 @@ import java.util.List;
 
 @Entity
 @Table(name = "pet")
-public class PetInFo implements Serializable {
+public class PetInFoVO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "petId", updatable=false, nullable=false)
+    @Column(name = "petid", updatable=false, nullable=false)
     private Integer petId;
 
-    @Column(name = "animalTypeNo")
+    @Column(name = "animaltypeno")
     private Integer animalTypeNo;
 
-    @Column(name = "memberNo")
+    @Column(name = "memberno")
     private Integer memberNo;
 
-    @Column(name = "petName")
+    @Column(name = "petname")
     private String petName;
 
-    @Column(name = "petSex")
+    @Column(name = "petsex")
     private String petSex;
 
-    @Column(name = "petAge")
+    @Column(name = "petage")
     private String petAge;
 
-    @Column(name = "petNote")
+    @Column(name = "petnote")
     private String petNote;
 
     @Column(name = "stat", columnDefinition = "tinyint")
     private byte stat;
 
-    @Column(name = "applicationDeadLine")
+    @Column(name = "applicationdeadline")
     private Date applicationDeadLine;
 
     @OneToMany(mappedBy = "petInFo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PetPic> petPics;
+    private List<PetPicVO> petPics;
 
     public Integer getPetId() {
         return petId;
@@ -113,11 +113,11 @@ public class PetInFo implements Serializable {
         this.applicationDeadLine = applicationDeadLine;
     }
 
-    public List<PetPic> getPetPics() {
+    public List<PetPicVO> getPetPics() {
         return petPics;
     }
 
-    public void setPetPics(List<PetPic> petPics) {
+    public void setPetPics(List<PetPicVO> petPics) {
         this.petPics = petPics;
     }
 }

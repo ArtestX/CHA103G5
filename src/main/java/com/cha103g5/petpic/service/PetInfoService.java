@@ -1,6 +1,6 @@
 package com.cha103g5.petpic.service;
 
-import com.cha103g5.petpic.model.PetInFo;
+import com.cha103g5.petpic.model.PetInFoVO;
 
 import java.util.Date;
 import java.util.List;
@@ -19,9 +19,9 @@ public interface PetInfoService {
 
     public Boolean deletePetInfo (Integer petId);
 
-    public List<PetInFo> getAllPets(Integer petId);
+    public List<PetInFoVO> getAllPets(Integer petId);
 
-    public PetInFo getPetById(Integer petId);
+    public PetInFoVO getPetById(Integer petId);
 
 
 }
