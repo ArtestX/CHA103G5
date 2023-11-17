@@ -13,8 +13,6 @@ public interface AdoptedApplicationDao {
 
     List<AdoptedApplication> getAll(AdoptedApplicationQueryParams adoptedApplicationQueryParams);
 
-//    List<AdoptedApplication> getByPetIdAndLotteryDate(Integer petId, Date lotteryDate);
-
     AdoptedApplication getById(Integer applicationNo);
 
     Integer createAdoptedApplication(AdoptedApplicationRequest adoptedApplicationRequest);

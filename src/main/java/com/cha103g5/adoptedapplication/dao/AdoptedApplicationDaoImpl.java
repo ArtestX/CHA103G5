@@ -61,7 +61,7 @@ public class AdoptedApplicationDaoImpl implements AdoptedApplicationDao{
         sql = sql + orderClause.toString();
 
         // 分頁
-        sql = sql + " LIMIT :limit OFFSET :offset";
+        sql = sql + " LIMIT :limit OFFSET :offset ";
         map.put("limit", adoptedApplicationQueryParams.getLimit());
         map.put("offset", adoptedApplicationQueryParams.getOffset());
 
@@ -73,30 +73,6 @@ public class AdoptedApplicationDaoImpl implements AdoptedApplicationDao{
 
         return adoptedApplicationList;
     }
-
-//    @Override
-//    public List<AdoptedApplication> getByPetIdAndLotteryDate(Integer petId, Date lotteryDate) {
-//        String sql = "SELECT applicationno, adminno, memberno, petid, " +
-//                "interactiondate, lotteryresult, lotterydate, applicationstat, " +
-//                "applicantnotes, agreement, applicationdate " +
-//                "FROM adoptedapplication WHERE petid = :petId AND lotterydate = :lotteryDate";
-//
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("petId", petId);
-//        map.put("lotteryDate", lotteryDate);
-//
-//        List<AdoptedApplication> adoptedApplicationList = namedParameterJdbcTemplate.query(
-//                sql,
-//                map,
-//                new AdoptedApplicationRowMapper()
-//        );
-//
-//        if (adoptedApplicationList.size() > 0) {
-//            return adoptedApplicationList;
-//        } else {
-//            return null;
-//        }
-//    }
 
     @Override
     public AdoptedApplication getById(Integer applicationNo) {
@@ -193,12 +169,16 @@ public class AdoptedApplicationDaoImpl implements AdoptedApplicationDao{
 
     private String addFilteringSql(String sql, Map<String, Object> map, AdoptedApplicationQueryParams adoptedApplicationQueryParams) {
         if (adoptedApplicationQueryParams.getPetId() != null) {
-            sql = sql + "AND petid = :petId ";
+            sql = sql + " AND petid = :petId ";
             map.put("petId", adoptedApplicationQueryParams.getPetId());
         }
         if (adoptedApplicationQueryParams.getLotteryDate() != null) {
-            sql = sql + "AND lotterydate = :lotteryDate ";
+            sql = sql + " AND lotterydate = :lotteryDate ";
             map.put("lotteryDate", adoptedApplicationQueryParams.getLotteryDate());
+        }
+        if (adoptedApplicationQueryParams.getMemberNo() != null) {
+            sql = sql + " AND memberno = :memberNo ";
+            map.put("memberNo", adoptedApplicationQueryParams.getMemberNo());
         }
 
         return sql;
