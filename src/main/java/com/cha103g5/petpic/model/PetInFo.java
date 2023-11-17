@@ -1,31 +1,53 @@
-package com.cha103g5.petpic.vin;
+package com.cha103g5.petpic.model;
 
-import com.cha103g5.petpic.bo.PetPicInfoBO;
-
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class InserPetInfoVIn {
+@Entity
+@Table(name = "pet")
+public class PetInFo implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "petId", updatable=false, nullable=false)
+    private Integer petId;
 
+    @Column(name = "animalTypeNo")
     private Integer animalTypeNo;
 
+    @Column(name = "memberNo")
     private Integer memberNo;
 
+    @Column(name = "petName")
     private String petName;
 
+    @Column(name = "petSex")
     private String petSex;
 
+    @Column(name = "petAge")
     private String petAge;
 
+    @Column(name = "petNote")
     private String petNote;
 
-    private Byte stat;
+    @Column(name = "stat", columnDefinition = "tinyint")
+    private byte stat;
 
+    @Column(name = "applicationDeadLine")
     private Date applicationDeadLine;
 
-    private List<PetPicInfoBO> petPicInfo;
+    @OneToMany(mappedBy = "petInFo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PetPic> petPics;
 
+    public Integer getPetId() {
+        return petId;
+    }
+
+    public void setPetId(Integer petId) {
+        this.petId = petId;
+    }
 
     public Integer getAnimalTypeNo() {
         return animalTypeNo;
@@ -75,11 +97,11 @@ public class InserPetInfoVIn {
         this.petNote = petNote;
     }
 
-    public Byte getStat() {
+    public byte getStat() {
         return stat;
     }
 
-    public void setStat(Byte stat) {
+    public void setStat(byte stat) {
         this.stat = stat;
     }
 
@@ -91,11 +113,11 @@ public class InserPetInfoVIn {
         this.applicationDeadLine = applicationDeadLine;
     }
 
-    public List<PetPicInfoBO> getPetPicInfo() {
-        return petPicInfo;
+    public List<PetPic> getPetPics() {
+        return petPics;
     }
 
-    public void setPetPicInfo(List<PetPicInfoBO> petPicInfo) {
-        this.petPicInfo = petPicInfo;
+    public void setPetPics(List<PetPic> petPics) {
+        this.petPics = petPics;
     }
 }
