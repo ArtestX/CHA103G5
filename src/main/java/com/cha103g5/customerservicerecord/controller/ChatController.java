@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.cha103g5.customerservicerecord.util.JedisHandleMessage.getHistoryMsg;
+
 @Component
 @ServerEndpoint("/chat/{userName}")
 public class ChatController {
@@ -24,6 +26,7 @@ public class ChatController {
         sessionsMap.put(userName, userSession);
 
         if ("host".equals(userName)) {
+            System.out.println("sendToAllForHostOnline()");
             sendToAllForHostOnline();
         }else {
             if(!isHostOnline()) {
@@ -202,6 +205,28 @@ public class ChatController {
             }
         }
     }
+
+//    private void sendToAllForHostOnline() {
+//        Set<String> userNames = sessionsMap.keySet();
+//        ChatMessage onlineMessage = new ChatMessage();
+//        onlineMessage.setSender("host");
+//        onlineMessage.setMessage("online");
+//
+//        for (String targetUserName : userNames) {
+//            if (!"host".equals(targetUserName)) {
+//                Session targetUserSession = sessionsMap.get(targetUserName);
+//
+//                // 發送 "host online" 的消息
+//                sendMsg(targetUserSession, onlineMessage, 3);
+//
+//                // 發送歷史訊息
+//                List<String> historyMessages = getHistoryMsg("host", targetUserName); // 使用正確的方法名
+//                sendMsg(targetUserSession, historyMessages, 2); // 直接使用 sendMsg 發送歷史訊息
+//            }
+//        }
+//    }
+
+
 
     private void sendToAllForHostOffline() {
         Set<String> userNames = sessionsMap.keySet();

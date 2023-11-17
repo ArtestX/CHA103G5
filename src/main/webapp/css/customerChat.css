@@ -220,6 +220,6 @@
   #alert {
     position: absolute;
     top: -4px;
-    right: 50px;
+    right: 40px;
     z-index: 1090;
   }

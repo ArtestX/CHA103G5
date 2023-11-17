@@ -8,10 +8,8 @@ function memberLogin() {
     method: "GET",
     dataType: "JSON",
     success: function (data) {
-      userName = data.memberName
-      userEmail = data.memberEmail;
-      console.log(userName);
-      console.log(userEmail);
+    userName = data.memberName
+    userEmail = data.memberEmail;
       if (userEmail !== null) {
         connect();
       }
@@ -58,7 +56,6 @@ document.querySelector("#chat-icon").addEventListener("click", function () {
   if (userName.trim() === '') {
     memberLogin();
   } else {
-    // memberLogin();
     chatbox.classList.toggle("hide");
     msgContainer.scrollTop = msgContainer.scrollHeight;
     if (!document.querySelector("#alert").classList.contains("hide")) {
@@ -82,9 +79,10 @@ const hoster = '<div class="col-md-2 col-xs-2 avatar">' + '<img src="./img/talk.
 let isEmpOline = true;
 function connect() {
 
+  chatbox.classList.toggle("hide");
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+
   // 建立 websocket
-  console.log(userName);
-  console.log(userEmail);
   webSocket = new WebSocket(endPointURL + userName);
   webSocket.onopen = function (event) {
     // 初始化連線，只會連線一次
@@ -97,6 +95,7 @@ function connect() {
     };
     webSocket.send(JSON.stringify(jsonObj));
   }
+
 
   webSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
@@ -121,6 +120,7 @@ function connect() {
     // 客服上線
     if (data.type === 3) {
       isEmpOline = true;
+      console.log("data.type === 3")
       buildHisMessage(data.data);
     }
 
@@ -165,9 +165,11 @@ function sendMessage() {
 }
 
 function buildHisMessage(data) {
+  console.log("buildHisMessage(data)");
   msgContainer.innerHTML = "";
   // 這行的jsonObj.message是從redis撈出跟客服的歷史訊息，再parse成JSON格式處理
   let messages = data;
+  console.log(messages);
   for (let i = 0; i < messages.length; i++) {
     let div = document.createElement("div");
     div.className = "row msg_container";
