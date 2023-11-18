@@ -2,7 +2,7 @@ package com.cha103g5.petpic.service;
 
 import com.cha103g5.petpic.bo.PetPicInfoBO;
 import com.cha103g5.petpic.dao.PetInFoRepository;
-import com.cha103g5.petpic.model.PetPic;
+import com.cha103g5.petpic.model.PetPicVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ public class PetPicServiceImpl implements PetPicService {
         return true;
     }
 
-    public List<PetPic> getById(Integer petId) {
-        return (List<PetPic>) petDao.getById(petId);
+    public List<PetPicVO> getById(Integer petId) {
+        return (List<PetPicVO>) petDao.getById(petId);
     }
 }
