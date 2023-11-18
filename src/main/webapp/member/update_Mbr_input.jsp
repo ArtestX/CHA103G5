@@ -50,6 +50,7 @@
 </head>
 <body bgcolor='white'>
 
+
 <table id="table-1">
 	<tr><td>
 		 <h3>會員資料修改 - update_Mbr_input.jsp</h3>

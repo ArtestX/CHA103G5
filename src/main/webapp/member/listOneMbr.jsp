@@ -68,7 +68,6 @@ MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet
 		<th>地址</th>
 		<th>註冊時間</th>
 		<th>生日</th>
-		<th>國籍</th>
 		<th>大頭照</th>
 		<th>信用卡</th>
 		<th>會員點數</th>
@@ -87,7 +86,6 @@ MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet
 			<td>${MemberVO.memberaddress}</td>
 			<td>${MemberVO.memberjointime}</td>
 			<td>${MemberVO.memberbirthday}</td>
-			<td>${MemberVO.membernation}</td>
 			<td>
 				<img src="<%=request.getContextPath()%>/ReadMbrIMG?id=${MemberVO.memberno}" width=70px height= 70px>
 			</td>
