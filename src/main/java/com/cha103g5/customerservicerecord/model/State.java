@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -16,5 +18,5 @@ public class State {
 
     private String user;
 
-    private Set<String> users;
+    private List<Map<String,String>> userList;
 }

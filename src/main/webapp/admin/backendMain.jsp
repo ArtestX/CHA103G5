@@ -38,7 +38,7 @@
 body {
             background-image: url('<%=request.getContextPath()%>/img/desktop.jpg');
             background-size: cover;
-            background-attachment: fixed; /* 可选，固定背景图片 */
+            background-attachment: fixed;
             background-repeat: no-repeat;
         }
         
@@ -112,7 +112,7 @@ body {
 				    </h2>
 				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="<%=request.getContextPath()%>/customer/backendCustomer.jsp" class="list-group-item list-group-item-action">即時客服</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/customer/backchat.html" class="list-group-item list-group-item-action">即時客服</a></strong>
 				      </div>
 				    </div>
 				  </div>

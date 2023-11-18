@@ -1,6 +1,7 @@
 package com.cha103g5.petpic.service;
 
-import com.cha103g5.petpic.dao.PetPicDao;
+import com.cha103g5.petpic.bo.PetPicInfoBO;
+import com.cha103g5.petpic.dao.PetInFoRepository;
 import com.cha103g5.petpic.model.PetPic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,15 +12,15 @@ import java.util.List;
 public class PetPicServiceImpl implements PetPicService {
 
     @Autowired
-    private PetPicDao petPicDao;
+    private PetInFoRepository petDao;
 
 
     @Override
-    public Boolean insertPic(List<PetPic> petPicList) {
+    public Boolean insertPic(List<PetPicInfoBO> petPicList) {
         return true;
     }
 
     public List<PetPic> getById(Integer petId) {
-        return petPicDao.getById(petId);
+        return (List<PetPic>) petDao.getById(petId);
     }
 }

@@ -64,15 +64,11 @@
 					</li>
 
 					<li class="nav-item dropdown hover" id="customerCenter">
-						<a class="nav-link click-scroll" href="#section_5" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/customer/emailService.jsp"" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="true">
 							<b>聯絡我們</b>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-light border border-top-0" aria-labelledby="navbarLightDropdownMenuLink">
-							<li>
-								<a class="dropdown-item" href="<%=request.getContextPath()%>/customer/chat.do">即時客服</a>
-							</li>
-
-							<li>
+							 <li>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/customer/emailService.jsp">客服信箱</a>
 							</li>
 						</ul>
@@ -114,7 +110,7 @@
 			<!-- 	********小鈴鐺按鈕********* -->
 				<button type="button" class="btn btn-primary position-relative" id="bellIcon">
 <!--   		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> -->
-<!-- <!--    						99+ -->
+<!--     						99+ -->
 <!--    						<span class="visually-hidden">unread messages</span> -->
 <!--   		 			</span> -->
         		</button>

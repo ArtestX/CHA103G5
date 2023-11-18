@@ -21,7 +21,7 @@
 body {
             background-image: url('<%=request.getContextPath()%>/img/desktop.jpg');
             background-size: cover;
-            background-attachment: fixed; /* 可选，固定背景图片 */
+            background-attachment: fixed; /* 固定背景圖片 */
             background-repeat: no-repeat;
         }
         
