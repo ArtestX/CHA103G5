@@ -29,7 +29,7 @@ body {
 </style>
 
 </head>
-<body onload="connect();" onbeforeunload="disconnect();">
+<body onload="connect();" onunload="disconnect();">
 	<nav class="navbar custom-bg-color">
   <div class="container-fluid">
     <a class="navbar-brand" href="<%=request.getContextPath()%>/admin/backendMain.jsp">
@@ -93,7 +93,7 @@ body {
 				    </h2>
 				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="<%=request.getContextPath()%>/customer/backChat.jsp" class="list-group-item list-group-item-action" onload="connect();" onunload="disconnect();">即時客服</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/customer/backChat.jsp" class="list-group-item list-group-item-action">即時客服</a></strong>
 				      </div>
 				    </div>
 				  </div>

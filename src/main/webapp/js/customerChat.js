@@ -10,7 +10,8 @@ function memberLogin() {
     success: function (data) {
     userName = data.memberName
     userEmail = data.memberEmail;
-      if (userEmail !== null) {
+    userNo = data.memberNo;
+      if (userNo !== null) {
         connect();
       }
     },
@@ -39,6 +40,7 @@ function memberLogin() {
 
 //連接websocket
 let userEmail = '';
+let userNo = '';
 let userName = '';
 const ServerPoint = `/chat/${userName}`;
 const lohost = window.location.host;

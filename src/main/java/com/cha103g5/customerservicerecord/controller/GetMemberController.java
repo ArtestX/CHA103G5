@@ -27,12 +27,14 @@ public class GetMemberController {
             if (memberVO != null) {
                 String memberName = memberVO.getMembername();
                 String memberEmail = memberVO.getMemberemail();
+                String memberNo = String.valueOf(memberVO.getMemberno());
 
                 System.out.println(memberName);
                 System.out.println(memberEmail);
                 if (memberName != null) {
                     // 直接返回包含 memberemail 和 memberName 的 JSON 物件
                     Map<String, String> memberData = new HashMap<>();
+                    memberData.put("memberNo",memberNo);
                     memberData.put("memberEmail", memberEmail);
                     memberData.put("memberName", memberName);
                     return ResponseEntity.ok(memberData);
