@@ -12,7 +12,6 @@ public class PetPicRowmapper implements RowMapper<PetPicVO> {
     public PetPicVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PetPicVO petPic = new PetPicVO();
         petPic.setPicId(rs.getInt("picid"));
-        petPic.setPetInFo(rs.getInt("petid"));
         petPic.setPetPic(rs.getBytes("petpic"));
         return petPic;
 

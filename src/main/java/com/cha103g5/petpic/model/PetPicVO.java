@@ -13,9 +13,6 @@ public class PetPicVO implements Serializable {
 	@Column(name = "picid")
 	private Integer picId;
 
-	@ManyToOne // 多對一關聯表格
-	@JoinColumn(name = "petid", referencedColumnName = "petid")
-	private int petInFo;
 
 
 	@Column(name = "petpic")
@@ -29,13 +26,6 @@ public class PetPicVO implements Serializable {
 		this.picId = picId;
 	}
 
-	public int getPetInFo() {
-		return petInFo;
-	}
-
-	public void setPetInFo(int petInFo) {
-		this.petInFo = petInFo;
-	}
 
 	public byte[] getPetPic() {
 		return petPic;
