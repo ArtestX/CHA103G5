@@ -38,8 +38,6 @@ public class PetInFoVO implements Serializable {
     @Column(name = "applicationdeadline")
     private Date applicationDeadLine;
 
-    @OneToMany(mappedBy = "petInFo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PetPicVO> petPics;
 
     public Integer getPetId() {
         return petId;
@@ -113,11 +111,4 @@ public class PetInFoVO implements Serializable {
         this.applicationDeadLine = applicationDeadLine;
     }
 
-    public List<PetPicVO> getPetPics() {
-        return petPics;
-    }
-
-    public void setPetPics(List<PetPicVO> petPics) {
-        this.petPics = petPics;
-    }
 }
