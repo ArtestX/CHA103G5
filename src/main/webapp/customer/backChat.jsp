@@ -190,7 +190,7 @@ body {
                                                 <div class="flex-grow-1 ms-3">
                                                     <!-- 會員姓名 -->
                                                     <h3 id="userName"></h3>
-                                                    <div id="userEmail" style="display: none"></div>
+                                                    <div id="userNo" style="display: none"></div>
                                                 </div>
 
                                             </div>

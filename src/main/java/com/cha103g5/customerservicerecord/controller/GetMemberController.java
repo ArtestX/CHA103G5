@@ -32,7 +32,7 @@ public class GetMemberController {
                 System.out.println(memberName);
                 System.out.println(memberEmail);
                 if (memberName != null) {
-                    // 直接返回包含 memberemail 和 memberName 的 JSON 物件
+                    // 直接返回包含memberNo memberemail 和 memberName 的 JSON 物件
                     Map<String, String> memberData = new HashMap<>();
                     memberData.put("memberNo",memberNo);
                     memberData.put("memberEmail", memberEmail);
