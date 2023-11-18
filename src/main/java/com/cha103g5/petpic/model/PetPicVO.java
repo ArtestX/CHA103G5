@@ -4,21 +4,21 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "petPic")
-public class PetPic implements Serializable {
+@Table(name = "petpic")
+public class PetPicVO implements Serializable {
 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "picId")
+	@Column(name = "picid")
 	private Integer picId;
 
 	@ManyToOne // 多對一關聯表格
-	@JoinColumn(name = "petId", referencedColumnName = "petId")
-	private PetInFo petInFo;
+	@JoinColumn(name = "petid", referencedColumnName = "petid")
+	private int petInFo;
 
 
-	@Column(name = "petPic")
+	@Column(name = "petpic")
 	private byte[] petPic;
 
 	public Integer getPicId() {
@@ -29,14 +29,13 @@ public class PetPic implements Serializable {
 		this.picId = picId;
 	}
 
-	public PetInFo getPetInFo() {
+	public int getPetInFo() {
 		return petInFo;
 	}
 
-	public void setPetInFo(PetInFo petInFo) {
+	public void setPetInFo(int petInFo) {
 		this.petInFo = petInFo;
 	}
-
 
 	public byte[] getPetPic() {
 		return petPic;
