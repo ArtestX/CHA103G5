@@ -34,19 +34,33 @@
 body {
             background-image: url('../img/desktop.jpg');
             background-size: cover;
-            background-attachment: fixed; /* 可选，固定背景图片 */
+            background-attachment: fixed; 
             background-repeat: no-repeat;
         }
         
  .custom-bg-color { 
-/* 	background-color: #EDEEF0; /* 自定义颜色代码 */ */
+/* 	background-color: #EDEEF0; */
 	} 
 
-
-
-th {
-    text-align: center;
+table {
+  width: 100%;
+  overflow: auto; /* 添加水平滾動條 */
+  border-collapse: collapse; /* 合併表格邊框 */
 }
+
+th, td {
+  white-space: nowrap; /* 防止文字折行 */
+  overflow: visible; /* 允許文字溢出 td 元素 */
+  text-overflow: ellipsis; /* 如果文字溢出，用省略號表示 */
+  vertical-align: middle; /* 垂直居中 */
+  text-align: center; /* 文字水平居中 */
+}
+
+th, td {
+  padding: 15px; /* 調整單元格內邊距 */
+  border: 1px solid #ddd; /* 添加邊框 */
+}
+
 
 .error-message {
 	color: red; /* 設置文字顏色為紅色，你可以根據需要進行調整 */

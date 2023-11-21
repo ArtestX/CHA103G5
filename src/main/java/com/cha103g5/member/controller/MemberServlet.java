@@ -148,16 +148,102 @@ public class MemberServlet extends HttpServlet {
 				return;//程式中斷
 			 
 		 } 
-/**********************修改**********************/
-/**********************修改**********************/
-/**********************修改**********************/	
-		 if ("update".equals(action)) {// 來自update_Mbr_input.jsp的請求
-			  	System.out.println("開始修改");
+/**********************修改密碼**********************/
+/**********************修改密碼**********************/
+/**********************修改密碼**********************/	
+		 if ("updatePassword".equals(action)) {// 來自update_Mbr_input.jsp的請求
+			  	System.out.println("開始修改密碼");
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 				
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-				Integer memberno = Integer.valueOf(req.getParameter("memberno").trim());		
+				String memberpassword = req.getParameter("memberpassword");
+				String mpasswordReg = "^(?![\\s])(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@#$%^&+=!]{8,30}$";
+				if(!memberpassword.trim().matches(mpasswordReg)) { 
+					errorMsgs.put("memberpassword","請設定8碼以上(含字母跟數字)");
+	            }
+				
+				String confirmPass = req.getParameter("confirmPassword");
+				if (!confirmPass.equals(memberpassword)) {
+				    errorMsgs.put("confirmPassword", "密碼不一致");
+				}
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/member/memberCenter.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+				
+				/***************************2.開始修改資料*****************************************/
+				String memberemail = req.getParameter("memberemail");
+				MemberService mbrSvc = new MemberService();
+				System.out.println(memberemail);
+				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+				
+				String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
+				memberVO.setMemberpassword(hashedPassword);
+				mbrSvc.updateMembers(memberVO);
+				HttpSession session = req.getSession();
+				session.removeAttribute("user");
+	            session.setAttribute("user",memberVO);
+	            
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的memberVO物件,存入req
+				res.sendRedirect(req.getContextPath() + "/member/memberCenter.jsp");
+				return;//程式中斷
+		 }		 
+/**********************修改會員大頭照**********************/
+/**********************修改會員大頭照**********************/
+/**********************修改會員大頭照**********************/	
+		 if ("updatePic".equals(action)) {// 來自update_Mbr_input.jsp的請求
+			 	System.out.println("開始修改大頭照");
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/	
+			 	String memberemail = req.getParameter("memberemail");
+			 	
+			 	byte[] memberpic = null;
+				MemberService mbrSvc = new MemberService();
+		    	try {	
+			    		Part part = req.getPart("memberpic"); //part 不能直接設定成O，要設定part的長度
+			    		int lenth = part.getInputStream().available(); //part的長度值(用available)
+			    		if (lenth != 0) {
+				    		var inputstream = part.getInputStream();//長度不等於0，有圖片所以修改
+			    			memberpic = IOUtils.toByteArray(inputstream);
+			    		}else {
+			    			memberpic = mbrSvc.getMemberByMemberemail(memberemail).getMemberpic();//沒有圖片所以維持原樣
+			    		}
+				} catch (IOException e) {
+				    e.printStackTrace();
+				}
+
+				/***************************2.開始修改資料*****************************************/
+				
+				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+				memberVO.setMemberpic(memberpic);
+				mbrSvc.updateMembers(memberVO);
+				HttpSession session = req.getSession();
+				session.removeAttribute("user");
+	            session.setAttribute("user",memberVO);
+	            
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的memberVO物件,存入req
+				res.sendRedirect(req.getContextPath() + "/member/memberCenter.jsp");
+				return;//程式中斷
+		 }
+/**********************修改會員資料**********************/
+/**********************修改會員資料**********************/
+/**********************修改會員資料**********************/	
+		 if ("update".equals(action)) {// 來自update_Mbr_input.jsp的請求
+			  	System.out.println("開始修改");
+				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+				req.setAttribute("errorMsgs", errorMsgs);
+				String pass = "尚未填寫";
+				
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+//				Integer memberno = Integer.valueOf(req.getParameter("memberno"));		
 				
 				String membername = req.getParameter("membername").trim();
 				if (membername == null || membername.trim().length() == 0) {
@@ -167,20 +253,9 @@ public class MemberServlet extends HttpServlet {
 				String memberGenderString = req.getParameter("membergender");
 				Integer membergender = (memberGenderString != null && !memberGenderString.isEmpty()) ? Integer.valueOf(memberGenderString) : null;
 				
-				String memberpassword = req.getParameter("memberpassword");
-//				String mpasswordReg = "^(?![\\s])(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@#$%^&+=!]{8,30}$";
-//				if(!memberpassword.trim().matches(mpasswordReg)) { 
-//					errorMsgs.put("memberpassword","設定至少8碼以上(含字母跟數字)");
-//	            }
-				
-				String confirmPass = req.getParameter("confirmPassword");
-//				if (!confirmPass.equals(memberpassword)) {
-//				    errorMsgs.put("confirmPassword", "密碼不一致請確認");
-//				}
-				
 				String memberphone = req.getParameter("memberphone");
 				String mphoneReg = "^09[0-9]{8}$";
-				if(!memberphone.trim().matches(mphoneReg)) { 
+				if(!memberphone.trim().matches(mphoneReg) && !memberphone.trim().matches(pass)) { 
 					errorMsgs.put("memberphone","不符合手機號碼格式");
 	            }
 				
@@ -199,24 +274,7 @@ public class MemberServlet extends HttpServlet {
 				    } catch (IllegalArgumentException e) {
 				        errorMsgs.put("memberbirthday", "日期格式無效");
 				    }
-				} else {
-				    errorMsgs.put("memberbirthday", "請提供有效的日期");
-				}
-				
-				byte[] memberpic = null;
-				MemberService mbrSvc = new MemberService();
-		    	try {	
-			    		Part part = req.getPart("memberpic"); //part 不能直接設定成O，要設定part的長度
-			    		int lenth = part.getInputStream().available(); //part的長度值(用available)
-			    		if (lenth != 0) {
-				    		var inputstream = part.getInputStream();//長度不等於0，有圖片所以修改
-			    			memberpic = IOUtils.toByteArray(inputstream);
-			    		}else {
-			    			memberpic = mbrSvc.getMemberByMemberno(memberno).getMemberpic();//沒有圖片所以維持原樣
-			    		}
-				} catch (IOException e) {
-				    e.printStackTrace();
-				}
+				} 
 		    	
 //				String membercard = req.getParameter("membercard").trim();
 //				String mcardReg = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
@@ -226,7 +284,7 @@ public class MemberServlet extends HttpServlet {
 				
 				String memberid = req.getParameter("memberid").trim();
 				String midReg= "^[A-Za-z][1-2]\\d{8}$";
-				if(!memberid.trim().matches(midReg)) { 
+				if(!memberid.trim().matches(midReg) && !memberid.trim().matches(pass)) { 
 					errorMsgs.put("memberid","不符合身分證格式");
 				}
 				
@@ -245,13 +303,11 @@ public class MemberServlet extends HttpServlet {
 				
 				/***************************2.開始修改資料*****************************************/
 				String memberemail = req.getParameter("memberemail");
-				
+				MemberService mbrSvc = new MemberService();
 				System.out.println(memberemail);
 				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
 				System.out.println(membername);
 				
-				String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
-				memberVO.setMemberpassword(hashedPassword);
 				memberVO.setMembername(membername);
 				memberVO.setMembergender(membergender);
 				memberVO.setMemberid(memberid);
@@ -260,7 +316,7 @@ public class MemberServlet extends HttpServlet {
 				memberVO.setMemberjob(memberjob);
 				memberVO.setMemberaddress(memberaddress);
 				memberVO.setMembersal(membersal);
-				memberVO.setMemberpic(memberpic);
+//				memberVO.setMemberpic(memberpic);
 				mbrSvc.updateMembers(memberVO);
 				HttpSession session = req.getSession();
 				session.removeAttribute("user");
