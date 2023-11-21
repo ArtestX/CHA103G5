@@ -16,7 +16,7 @@ public class WebSocketController {
     @SendTo("/topic/messages")
     public WebSocketMessage sendToAll(WebSocketMessage message) {
         System.out.println("Received message: " + message.getMessage());
-        return new WebSocketMessage("你好，已完成註冊，請前往信箱完成信箱認證" + message.getMessage());
+        return new WebSocketMessage(message.getMessage());
     }
     
     @GetMapping("/memberNotice/backendMemberNotice")

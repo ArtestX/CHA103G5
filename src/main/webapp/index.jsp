@@ -92,7 +92,7 @@
 	    </div>
 	    <!-- 即時客服 -->
     </section>
-
+	<jsp:include page="/footer.jsp" flush="true" />
     
         <!-- JAVASCRIPT FILES -->
         <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>

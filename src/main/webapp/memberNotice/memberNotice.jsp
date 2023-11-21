@@ -16,7 +16,9 @@
 %>
 
 <%
-MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet.java(Concroller), 存入req的MemberVO物件
+	MemberService mbrSvc = new MemberService();
+    List<MemberVO> list = mbrSvc.getAllMembers();
+    pageContext.setAttribute("list",list);
 %>
 
 <!DOCTYPE html>
@@ -25,45 +27,40 @@ MemberVO memberVO = (MemberVO) request.getAttribute("MemberVO"); //MemberServlet
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>員工管理系統</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <style>
 body {
             background-image: url('../img/desktop.jpg');
             background-size: cover;
-            background-attachment: fixed;
+            background-attachment: fixed; 
             background-repeat: no-repeat;
         }
         
  .custom-bg-color { 
-/* 	background-color: #EDEEF0;  */
+/* 	background-color: #EDEEF0; */
 	} 
 
-
-
-table {
-  width: 100%;
-  overflow: auto; /* 添加水平滾動條 */
-  border-collapse: collapse; /* 合併表格邊框 */
-}
-
-th, td {
-  white-space: nowrap; /* 防止文字折行 */
-  overflow: visible; /* 允許文字溢出 td 元素 */
-  text-overflow: ellipsis; /* 如果文字溢出，用省略號表示 */
-  vertical-align: middle; /* 垂直居中 */
-  text-align: center; /* 文字水平居中 */
-}
-
-th, td {
-  padding: 15px; /* 調整單元格內邊距 */
-  border: 1px solid #ddd; /* 添加邊框 */
-}
 
 .error-message {
 	color: red; /* 設置文字顏色為紅色，你可以根據需要進行調整 */
 	margin-top: 5px; /* 設置上邊距，控制它與<input>元素之間的距離 */
 	margin-left: 12px;
 }
+/*****站內通知*******/
+    #announcement-form button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    #announcement-form button:hover {
+      background-color: #45a049;
+    }
 </style>
 
 </head>
@@ -170,7 +167,7 @@ th, td {
 				    </h2>
 				    <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="#" class="list-group-item list-group-item-action">站內通知</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -179,81 +176,47 @@ th, td {
 			<!--左邊-->
 
 			<!--右邊-->
-			<div class="col-lg-10 g-3">
-				<div class="card">
-					<div class="card-header">
-						會員資料查詢
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-fill" viewBox="0 0 16 16" style="float: right;">
-                            <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.004-.001.274-.11a.75.75 0 0 1 .558 0l.274.11.004.001 6.971 2.789Zm-1.374.527L8 5.962 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339Z" />
-                        </svg>
-                         <span style="float: right;"><a href="allMembers.jsp">回會員列表</a></span>
-					</div>
-					
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-hover table-striped">
-									<tr>
-										<th>編號</th>
-										<th>帳號(Email)</th>
-										<th>姓名</th>
-										<th>性別</th>
-<!-- 										<th>密碼</th> -->
-										<th>手機</th>
-										<th>地址</th>
-										<th>註冊時間</th>
-										<th>生日</th>
-										<th>大頭照</th>
-										<th>信用卡</th>
-										<th>點數</th>
-										<th>狀態</th>
-										<th>身分證</th>
-										<th>職業</th>
-										<th>收入</th>
-									</tr>
-									<tr>
-										<td>${MemberVO.memberno}</td>
-										<td>${MemberVO.memberemail}</td>
-										<td>${MemberVO.membername}</td>
-										<td>${MemberVO.membergender}</td>
-	<%-- 									<td>${MemberVO.memberpassword}</td> --%>
-										<td>${MemberVO.memberphone}</td> 
-										<td>${MemberVO.memberaddress}</td>
-										<td>${MemberVO.memberjointime}</td>
-										<td>${MemberVO.memberbirthday}</td>
-										<th>
-											<img src="<%=request.getContextPath()%>/ReadMbrIMG?id=${MemberVO.memberno}" width=70px height= 70px>
-										</th>
-										<td>${MemberVO.membercard}</td>
-										<td>${MemberVO.memberpoints}</td> 
-										<td>
-										<form method="post" action="<%=request.getContextPath()%>/member/mem.do" style="margin-bottom: 0px;">
-										   <div class="form-group">
-											    <select class="form-control" id="memberstat" name="memberstat" style="width: 110px;">
-											        <option value="0" ${MemberVO.memberstat eq '0' ? 'selected' : ''}>帳號未驗證</option>
-											        <option value="1" ${MemberVO.memberstat eq '1' ? 'selected' : ''}>帳號已驗證</option>
-											        <option value="2" ${MemberVO.memberstat eq '2' ? 'selected' : ''}>帳號停權</option>
-											    </select>
-											</div>
-									        <input type="hidden" name="memberno"  value="${MemberVO.memberno}">
-									        <input type="hidden" name="action" value="updateStat">
-									        <button class="btn btn-success" type="submit">修改</button>
-									    </form>
-									    </td>
-										<td>${MemberVO.memberid}</td>
-										<td>${MemberVO.memberjob}</td>
-										<td>${MemberVO.membersal}</td>	
-									</tr>
-							</table>
-						</div>	
-					</div>
-				</div>
-			</div>	
+		    <div class="col-md-6 mx-auto mt-4">
+		      <div class="card">
+		        <div class="card-body">
+		          <!-- 發送公告表單 -->
+		          <form id="announcement-form">
+		            <h3 class="mb-4">發送公告</h3>
+		            <div class="mb-3">
+		              <label for="announcement-title" class="form-label">公告標題：</label>
+		              <input type="text" class="form-control" id="announcement-title" required>
+		            </div>
+		            <div class="mb-3">
+		              <label for="announcement-content" class="form-label">公告內容：</label>
+		              <textarea class="form-control" id="messageInput" required></textarea>
+		            </div>
+		            <button type="submit" class="btn btn-primary" onclick="sendMessage()">發送公告</button>
+		          </form>
+		        </div>
+		      </div>
+		    </div>
 			<!--右邊-->
 		</div>
 	</div>
 
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	<script>
+		// 接到WebSocket
+        const socket = new SockJS("<%=request.getContextPath()%>/ws");  
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+        });
+
+        function sendMessage() {
+            const message = $('#messageInput').val();
+            stompClient.send("/app/sendToAll", {}, JSON.stringify({ 'message': message }));
+        }
+    </script>
 	
 </body>
 </html>

@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-icons.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/banner.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 </head>
 <body>
@@ -46,7 +49,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/member/select_page.jsp">
+						<a class="nav-link click-scroll" href="#">
 							<b>最新消息</b>
 						</a>
 					</li>
@@ -108,16 +111,32 @@
    					<img src="<%=request.getContextPath()%>/img/cart.png" alt="Shopping Cart" id="CartIcon">
   				</a>
 			<!-- 	********小鈴鐺按鈕********* -->
-				<button type="button" class="btn btn-primary position-relative" id="bellIcon">
+			<div class="navbar-nav me-lg-2">
+			        <div class="nav-item text-nowrap d-flex align-items-center">
+			            <div class="dropdown ps-3">
+			                <button type="button" class="btn btn-primary position-relative" id="bellIcon">
 <!--   		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> -->
 <!--     						99+ -->
 <!--    						<span class="visually-hidden">unread messages</span> -->
 <!--   		 			</span> -->
-        		</button>
-
+        					</button>
+			
+			                <ul class="dropdown-menu notifications-block-wrap bg-white shadow">
+			                    <small>Notifications</small>
+			
+			                    <li class="notifications-block border-bottom pb-2 mb-2">
+			                        <a class="dropdown-item d-flex align-items-center" href="#">
+			                            <div class="notifications-icon-wrap">
+			                                <i class="notifications-icon bi-check-circle-fill"></i>
+			                            </div>
+			                        </a>
+			                    </li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>  
+				
 				<div class="d-none d-lg-block narrow-div">
-					
-
 			<!-- 	********登入按鈕********* -->
 					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
@@ -181,6 +200,18 @@
 			observer.observe(document.documentElement, {subtree : true,attributes : true
 		});
 				
+			 const socket = new SockJS('/CHA103G5/ws'); // 连接到WebSocket端点
+			    const stompClient = Stomp.over(socket);
+
+			    stompClient.connect({}, function (frame) {
+			        console.log('Connected: ' + frame);
+
+			        stompClient.subscribe('/topic/messages', function (response) {
+			        	console.log("rr");
+			            const message = JSON.parse(response.body);
+			            $('#messageList').append(('<li class="notifications-block border-bottom pb-2 mb-2">' + message.message + '</li>'));
+			        });
+			    });	
 	</script>
 
 </body>
