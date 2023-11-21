@@ -1,4 +1,4 @@
-package com.cha103g5.petpic.model;
+package com.cha103g5.petinfo.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pet")
-public class PetInFoVO implements Serializable {
+public class PetInfoVO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +38,8 @@ public class PetInFoVO implements Serializable {
     @Column(name = "applicationdeadline")
     private Date applicationDeadLine;
 
+    @OneToMany(mappedBy = "petInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PetPicVO> petPics;
 
     public Integer getPetId() {
         return petId;
@@ -110,5 +112,6 @@ public class PetInFoVO implements Serializable {
     public void setApplicationDeadLine(Date applicationDeadLine) {
         this.applicationDeadLine = applicationDeadLine;
     }
+
 
 }

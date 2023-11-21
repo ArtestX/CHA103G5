@@ -1,27 +1,32 @@
 package com.cha103g5.informationannouncement.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "informationannouncement")
-public class informationAnnouncementVO implements Serializable {
+public class InformationAnnouncementVO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="infono", updatable=false)
     private Integer infoNo;
 
+    @NotNull
     @Column(name="adminno")
     private Integer adminNo;
 
+    @NotNull
     @Column(name="infocontent")
     private String infoContent;
 
+    @NotNull
     @Column(name="infotitle")
     private String infoTitle;
 
+    @NotNull
     @Column(name="infotime")
     private Timestamp infoTime;
 

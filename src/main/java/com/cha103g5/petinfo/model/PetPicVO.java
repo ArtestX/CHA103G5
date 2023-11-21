@@ -1,4 +1,4 @@
-package com.cha103g5.petpic.model;
+package com.cha103g5.petinfo.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +13,9 @@ public class PetPicVO implements Serializable {
 	@Column(name = "picid")
 	private Integer picId;
 
+	@ManyToOne // 多對一關聯表格
+	@JoinColumn(name = "petid", referencedColumnName = "petid")
+	private PetInfoVO petInfo;
 
 
 	@Column(name = "petpic")
@@ -26,6 +29,13 @@ public class PetPicVO implements Serializable {
 		this.picId = picId;
 	}
 
+	public PetInfoVO getPetInfo() {
+		return petInfo;
+	}
+
+	public void setPetInfo(PetInfoVO petInfo) {
+		this.petInfo = petInfo;
+	}
 
 	public byte[] getPetPic() {
 		return petPic;
