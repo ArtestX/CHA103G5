@@ -74,6 +74,7 @@ function buildChatRoomList(data) {
                         <p>${user.lastMessage.message}</p>
                     </div>
                 </a>`;
+
         chatRoomList.innerHTML += userRow;
 
          if (user.lastMessage && user.lastMessage.status === "read") {
@@ -104,6 +105,7 @@ function buildHisMessage(data) {
 
 let currentMember = "";
 function showUserChatBox(e) {
+
     // 被觸擊的元素
     let triggerEl = $(e.target);
     // 找出共同父層且轉為jQuery Object
@@ -115,6 +117,19 @@ function showUserChatBox(e) {
 
     // 找出userName
     let userName = $(targetParent.find("h3")).text();
+
+    // // 更新currentMember
+    // currentMember = userName;
+    //
+    //
+    // // 在確保 currentMember 被正確更新後再發送請求
+    // let jsonObj = {
+    //     type: "openChatRoom",
+    //     sender: "host",
+    //     receiver: currentMember,
+    // };
+    // webSocket.send(JSON.stringify(jsonObj));
+
 
     let jsonObj = {
         type: "openChatRoom",
@@ -168,6 +183,12 @@ function buildMessage(data) {
         ul.append(showMsg);
         document.querySelector("#chatbox").style.display = "flex";
         msgBody.scrollTop = msgBody.scrollHeight;
+
+        // 檢查消息的接收者是不是當前聊天的對象
+        if (historyData.receiver === currentMember) {
+            ul.append(showMsg);
+            msgBody.scrollTop = msgBody.scrollHeight;
+        }
     }
 }
 
