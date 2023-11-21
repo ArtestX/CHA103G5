@@ -235,8 +235,6 @@ font{
 
 <script>
 $(document).ready(function() {
-
-	
 			var timeout;
 			$('#memberemail').on('input', function() {
 			    clearTimeout(timeout);
@@ -313,7 +311,7 @@ $(document).ready(function() {
 			   //minDate:               '-1970-01-01', // 去除今日(不含)之前
 			   //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
 			});
-
+			
 });
 /**************顯示密碼****************/	
 	var passwordVisible = false;
@@ -366,7 +364,7 @@ $(document).ready(function() {
 	    imgValidate.src = newSrc;
 
 	} 
-	
+
 </script>        
 
 </body>

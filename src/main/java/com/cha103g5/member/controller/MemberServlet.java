@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
@@ -131,157 +132,78 @@ public class MemberServlet extends HttpServlet {
 			    }
 			}
 		}				
-		
-/**********************查詢**********************/
-/**********************查詢**********************/
-/**********************查詢**********************/	
-		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求	
-			
-			   	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
-			   	req.setAttribute("errorMsgs", errorMsgs);
-
-				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-				String str = req.getParameter("memberno");
+/**********************修改會員狀態**********************/
+/**********************修改會員狀態**********************/
+/**********************修改會員狀態**********************/	
+		 if ("updateStat".equals(action)) {
+				 Integer memberstat = Integer.valueOf( req.getParameter("memberstat"));
+				 Integer memberno = Integer.valueOf(req.getParameter("memberno").trim());	
+				 MemberService mbrSvc = new MemberService();
+				 MemberVO memberVO = mbrSvc.getMemberByMemberno(memberno);
 				
-				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.put("memberno","請輸入員工編號");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/select_page.jsp");
-					failureView.forward(req, res);
-					return;//程式中斷
-				}
-				
-				Integer memberno = null;
-				try {
-					memberno = Integer.valueOf(str);
-				} catch (Exception e) {
-					errorMsgs.put("memberno","員工編號格式不正確");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/select_page.jsp");
-					failureView.forward(req, res);
-					return;//程式中斷
-				}
-						
-				/***************************2.開始查詢資料*****************************************/
-				MemberService mbrSvc = new MemberService();
-				MemberVO memberVO = mbrSvc.getMemberByMemberno(memberno);
-				if (memberVO == null) {
-					errorMsgs.put("memberno","查無資料");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/select_page.jsp");
-					failureView.forward(req, res);
-					return;//程式中斷
-				}
-				
-				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("MemberVO", memberVO); // 資料庫取出的MemberVO物件,存入req
-				String url = "/member/listOneMbr.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneMbr.jsp
-				successView.forward(req, res);
-		 }
-		
-/**********************查詢單筆**********************/
-/**********************查詢單筆**********************/
-/**********************查詢單筆**********************/	
-		 	
-		 if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp的請求	
-			
-				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
-				req.setAttribute("errorMsgs", errorMsgs);
-			
-				/***************************1.接收請求參數****************************************/
-				Integer memberno = Integer.valueOf(req.getParameter("memberno"));
-				
-				/***************************2.開始查詢資料****************************************/
-				MemberService mbrSvc = new MemberService();
-				MemberVO MemberVO = mbrSvc.getMemberByMemberno(memberno);
-								
-				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				String param = "?memberno="       +MemberVO.getMemberno()+
-						       "&memberemail="    +MemberVO.getMemberemail()+
-						       "&membername="     +MemberVO.getMembername()+
-						       "&membergender="   +MemberVO.getMembergender()+
-						       "&memberpassword=" +MemberVO.getMemberpassword()+
-						       "&memberphone="    +MemberVO.getMemberphone()+
-						       "&memberaddress="  +MemberVO.getMemberaddress()+
-							   "&memberjointime=" +MemberVO.getMemberjointime()+
-						       "&memberbirthday=" +MemberVO.getMemberbirthday()+
-						       "&membernation="   +MemberVO.getMembernation()+
-						       "&memberpic="      +MemberVO.getMemberpic()+
-						       "&membercard="     +MemberVO.getMembercard()+
-						       "&memberpoints="   +MemberVO.getMemberpoints()+
-							   "&memberstat="     +MemberVO.getMemberstat()+
-						       "&memberid="       +MemberVO.getMemberid()+
-						       "&memberjob="      +MemberVO.getMemberjob()+
-						       "&membersal="      +MemberVO.getMembersal();
-				String url = "/member/update_Mbr_input.jsp"+param;
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_Mbr_input.jsp
-				successView.forward(req, res);
-		 }
-		
-/**********************修改**********************/
-/**********************修改**********************/
-/**********************修改**********************/	
-		 if ("update".equals(action)) {// 來自update_Mbr_input.jsp的請求
-			  	System.out.println("開始修改");
+				memberVO.setMemberstat(memberstat);
+				mbrSvc.updateMembers(memberVO);
+				req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的memberVO物件,存入req
+				res.sendRedirect(req.getContextPath() + "/member/allMembers.jsp");
+				return;//程式中斷
+			 
+		 } 
+/**********************修改密碼**********************/
+/**********************修改密碼**********************/
+/**********************修改密碼**********************/	
+		 if ("updatePassword".equals(action)) {// 來自update_Mbr_input.jsp的請求
+			  	System.out.println("開始修改密碼");
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 				
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-				Integer memberno = Integer.valueOf(req.getParameter("memberno").trim());		
-				
-				String membername = req.getParameter("membername").trim();
-				String mnameReg = "^[\u4e00-\u9fa5a-zA-Z0-9_\\s]{2,20}$"; // \s是包含空格的意思
-				if (membername == null || membername.trim().length() == 0) {
-					errorMsgs.put("membername","會員姓名: 請勿空白");
-				} else if(!membername.trim().matches(mnameReg)) { 
-					errorMsgs.put("membername","會員姓名: 只能是中、英文字母和_(可含空格) , 且長度必需在2到20之間");
-	            }
-
-				Integer membergender = Integer.valueOf(req.getParameter("membergender"));
-				
 				String memberpassword = req.getParameter("memberpassword");
 				String mpasswordReg = "^(?![\\s])(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@#$%^&+=!]{8,30}$";
-				if (memberpassword == null || memberpassword.trim().length() == 0) {
-					errorMsgs.put("memberpassword","會員密碼: 請勿空白");
-				} else if(!memberpassword.trim().matches(mpasswordReg)) { 
-					errorMsgs.put("memberpassword","設定至少8碼以上(含字母跟數字)");
+				if(!memberpassword.trim().matches(mpasswordReg)) { 
+					errorMsgs.put("memberpassword","請設定8碼以上(含字母跟數字)");
 	            }
 				
 				String confirmPass = req.getParameter("confirmPassword");
-				if (confirmPass == null || confirmPass.trim().length() == 0) {
-				    errorMsgs.put("confirmPassword", "確認密碼請勿空白");
-				} else if (!confirmPass.equals(memberpassword)) {
-				    errorMsgs.put("confirmPassword", "密碼不一致請確認");
+				if (!confirmPass.equals(memberpassword)) {
+				    errorMsgs.put("confirmPassword", "密碼不一致");
 				}
 				
-				String memberphone = req.getParameter("memberphone");
-				String mphoneReg = "^09[0-9]{8}$";
-				if(!memberphone.trim().matches(mphoneReg)) { 
-					errorMsgs.put("memberphone","不符合手機號碼格式");
-	            }
-				
-				String memberaddress = req.getParameter("memberaddress").trim();
-				
-				Date memberbirthday = null;
-				try {
-					memberbirthday = java.sql.Date.valueOf(req.getParameter("memberbirthday").trim());
-				} catch (IllegalArgumentException e) {
-					errorMsgs.put("memberbirthday","日期格式無效");
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/member/memberCenter.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
 				}
 				
-				String membernation = req.getParameter("membernation").trim();
+				/***************************2.開始修改資料*****************************************/
+				String memberemail = req.getParameter("memberemail");
+				MemberService mbrSvc = new MemberService();
+				System.out.println(memberemail);
+				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
 				
-				byte[] memberpic = null;
+				String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
+				memberVO.setMemberpassword(hashedPassword);
+				mbrSvc.updateMembers(memberVO);
+				HttpSession session = req.getSession();
+				session.removeAttribute("user");
+	            session.setAttribute("user",memberVO);
+	            
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的memberVO物件,存入req
+				res.sendRedirect(req.getContextPath() + "/member/memberCenter.jsp");
+				return;//程式中斷
+		 }		 
+/**********************修改會員大頭照**********************/
+/**********************修改會員大頭照**********************/
+/**********************修改會員大頭照**********************/	
+		 if ("updatePic".equals(action)) {// 來自update_Mbr_input.jsp的請求
+			 	System.out.println("開始修改大頭照");
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/	
+			 	String memberemail = req.getParameter("memberemail");
+			 	
+			 	byte[] memberpic = null;
 				MemberService mbrSvc = new MemberService();
 		    	try {	
 			    		Part part = req.getPart("memberpic"); //part 不能直接設定成O，要設定part的長度
@@ -290,22 +212,80 @@ public class MemberServlet extends HttpServlet {
 				    		var inputstream = part.getInputStream();//長度不等於0，有圖片所以修改
 			    			memberpic = IOUtils.toByteArray(inputstream);
 			    		}else {
-			    			memberpic = mbrSvc.getMemberByMemberno(memberno).getMemberpic();//沒有圖片所以維持原樣
+			    			memberpic = mbrSvc.getMemberByMemberemail(memberemail).getMemberpic();//沒有圖片所以維持原樣
 			    		}
 				} catch (IOException e) {
 				    e.printStackTrace();
 				}
-		    	
-				String membercard = req.getParameter("membercard").trim();
-				String mcardReg = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
-				if(!membercard.trim().matches(mcardReg)) { 
-					errorMsgs.put("membercard","不符合信用卡格式");
+
+				/***************************2.開始修改資料*****************************************/
+				
+				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+				memberVO.setMemberpic(memberpic);
+				mbrSvc.updateMembers(memberVO);
+				HttpSession session = req.getSession();
+				session.removeAttribute("user");
+	            session.setAttribute("user",memberVO);
+	            
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的memberVO物件,存入req
+				res.sendRedirect(req.getContextPath() + "/member/memberCenter.jsp");
+				return;//程式中斷
+		 }
+/**********************修改會員資料**********************/
+/**********************修改會員資料**********************/
+/**********************修改會員資料**********************/	
+		 if ("update".equals(action)) {// 來自update_Mbr_input.jsp的請求
+			  	System.out.println("開始修改");
+				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+				req.setAttribute("errorMsgs", errorMsgs);
+				String pass = "尚未填寫";
+				
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+//				Integer memberno = Integer.valueOf(req.getParameter("memberno"));		
+				
+				String membername = req.getParameter("membername").trim();
+				if (membername == null || membername.trim().length() == 0) {
+					errorMsgs.put("membername","會員姓名: 請勿空白");
+				}
+
+				String memberGenderString = req.getParameter("membergender");
+				Integer membergender = (memberGenderString != null && !memberGenderString.isEmpty()) ? Integer.valueOf(memberGenderString) : null;
+				
+				String memberphone = req.getParameter("memberphone");
+				String mphoneReg = "^09[0-9]{8}$";
+				if(!memberphone.trim().matches(mphoneReg) && !memberphone.trim().matches(pass)) { 
+					errorMsgs.put("memberphone","不符合手機號碼格式");
 	            }
+				
+				String memberaddress = req.getParameter("memberaddress").trim();
+//				 String county = req.getParameter("county");
+//			     String district = req.getParameter("district");
+//			     String zipcode = req.getParameter("zipcode");
+//			     String address = req.getParameter("address");
+//			     String  memberaddress =  county.concat(district).concat(zipcode).concat(address);
+				
+				Date memberbirthday = null;
+				String memberBirthdayParameter = req.getParameter("memberbirthday");
+				if (memberBirthdayParameter != null && !memberBirthdayParameter.trim().isEmpty()) {
+				    try {
+				        memberbirthday = java.sql.Date.valueOf(memberBirthdayParameter.trim());
+				    } catch (IllegalArgumentException e) {
+				        errorMsgs.put("memberbirthday", "日期格式無效");
+				    }
+				} 
+		    	
+//				String membercard = req.getParameter("membercard").trim();
+//				String mcardReg = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
+//				if(!membercard.trim().matches(mcardReg)) { 
+//					errorMsgs.put("membercard","不符合信用卡格式");
+//	            }
 				
 				String memberid = req.getParameter("memberid").trim();
 				String midReg= "^[A-Za-z][1-2]\\d{8}$";
-				if(!memberid.trim().matches(midReg)) { 
-					errorMsgs.put("membercard","不符合身分證格式");
+				if(!memberid.trim().matches(midReg) && !memberid.trim().matches(pass)) { 
+					errorMsgs.put("memberid","不符合身分證格式");
 				}
 				
 				String memberjob = req.getParameter("memberjob").trim();
@@ -316,24 +296,37 @@ public class MemberServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/update_Mbr_input.jsp");
+							.getRequestDispatcher("/member/memberCenter.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************2.開始修改資料*****************************************/
-				// Hash the password
-				String hashedPassword = BCrypt.hashpw(memberpassword, BCrypt.gensalt());
+				String memberemail = req.getParameter("memberemail");
+				MemberService mbrSvc = new MemberService();
+				System.out.println(memberemail);
+				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+				System.out.println(membername);
 				
-				MemberVO memberVO = mbrSvc.updateMember(memberno, membername, membergender, 
-						hashedPassword, memberphone, memberaddress, memberbirthday, membernation,
-						memberpic, membercard, memberid, memberjob, membersal);
+				memberVO.setMembername(membername);
+				memberVO.setMembergender(membergender);
+				memberVO.setMemberid(memberid);
+				memberVO.setMemberbirthday(memberbirthday);
+				memberVO.setMemberphone(memberphone);
+				memberVO.setMemberjob(memberjob);
+				memberVO.setMemberaddress(memberaddress);
+				memberVO.setMembersal(membersal);
+//				memberVO.setMemberpic(memberpic);
+				mbrSvc.updateMembers(memberVO);
+				HttpSession session = req.getSession();
+				session.removeAttribute("user");
+	            session.setAttribute("user",memberVO);
+	            
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的memberVO物件,存入req
-				String url = "/member/memberLogin.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMbr.jsp
-				successView.forward(req, res);
+				res.sendRedirect(req.getContextPath() + "/member/memberCenter.jsp");
+				return;//程式中斷
 		 }
 		 
 /**********************註冊**********************/
@@ -450,6 +443,102 @@ public class MemberServlet extends HttpServlet {
 					successView.forward(req, res);
 			 		System.out.println("傳送成功");	
 		 }
+
+/**********************查詢**********************/
+/**********************查詢**********************/
+/**********************查詢**********************/	
+		 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求	
+		 			
+		 			   	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+		 			   	req.setAttribute("errorMsgs", errorMsgs);
+
+		 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+		 				String str = req.getParameter("memberno");
+		 				
+		 				if (str == null || (str.trim()).length() == 0) {
+		 					errorMsgs.put("memberno","請輸入員工編號");
+		 				}
+		 				// Send the use back to the form, if there were errors
+		 				if (!errorMsgs.isEmpty()) {
+		 					RequestDispatcher failureView = req
+		 							.getRequestDispatcher("/member/allMembers.jsp");
+		 					failureView.forward(req, res);
+		 					return;//程式中斷
+		 				}
+		 				
+		 				Integer memberno = null;
+		 				try {
+		 					memberno = Integer.valueOf(str);
+		 				} catch (Exception e) {
+		 					errorMsgs.put("memberno","員工編號格式不正確");
+		 				}
+		 				// Send the use back to the form, if there were errors
+		 				if (!errorMsgs.isEmpty()) {
+		 					RequestDispatcher failureView = req
+		 							.getRequestDispatcher("/member/allMembers.jsp");
+		 					failureView.forward(req, res);
+		 					return;//程式中斷
+		 				}
+		 						
+		 				/***************************2.開始查詢資料*****************************************/
+		 				MemberService mbrSvc = new MemberService();
+		 				MemberVO memberVO = mbrSvc.getMemberByMemberno(memberno);
+		 				if (memberVO == null) {
+		 					errorMsgs.put("memberno","查無資料");
+		 				}
+		 				// Send the use back to the form, if there were errors
+		 				if (!errorMsgs.isEmpty()) {
+		 					RequestDispatcher failureView = req
+		 							.getRequestDispatcher("/member/allMembers.jsp");
+		 					failureView.forward(req, res);
+		 					return;//程式中斷
+		 				}
+		 				
+		 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+		 				req.setAttribute("MemberVO", memberVO); // 資料庫取出的MemberVO物件,存入req
+		 				String url = "/member/oneMember.jsp";
+		 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneMbr.jsp
+		 				successView.forward(req, res);
+		 		 }
+		 		
+/**********************查詢單筆**********************/
+/**********************查詢單筆**********************/
+/**********************查詢單筆**********************/	
+		 		 	
+		 		 if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp的請求	
+		 			
+		 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+		 				req.setAttribute("errorMsgs", errorMsgs);
+		 			
+		 				/***************************1.接收請求參數****************************************/
+		 				Integer memberno = Integer.valueOf(req.getParameter("memberno"));
+		 				
+		 				/***************************2.開始查詢資料****************************************/
+		 				MemberService mbrSvc = new MemberService();
+		 				MemberVO MemberVO = mbrSvc.getMemberByMemberno(memberno);
+		 								
+		 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+		 				String param = "?memberno="       +MemberVO.getMemberno()+
+		 						       "&memberemail="    +MemberVO.getMemberemail()+
+		 						       "&membername="     +MemberVO.getMembername()+
+		 						       "&membergender="   +MemberVO.getMembergender()+
+//		 						       "&memberpassword=" +MemberVO.getMemberpassword()+
+		 						       "&memberphone="    +MemberVO.getMemberphone()+
+		 						       "&memberaddress="  +MemberVO.getMemberaddress()+
+		 							   "&memberjointime=" +MemberVO.getMemberjointime()+
+		 						       "&memberbirthday=" +MemberVO.getMemberbirthday()+
+		 						       "&memberpic="      +MemberVO.getMemberpic()+
+		 						       "&membercard="     +MemberVO.getMembercard()+
+		 						       "&memberpoints="   +MemberVO.getMemberpoints()+
+		 							   "&memberstat="     +MemberVO.getMemberstat()+
+		 						       "&memberid="       +MemberVO.getMemberid()+
+		 						       "&memberjob="      +MemberVO.getMemberjob()+
+		 						       "&membersal="      +MemberVO.getMembersal();
+		 				String url = "/member/update_Mbr_input.jsp"+param;
+		 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_Mbr_input.jsp
+		 				successView.forward(req, res);
+		 		 }
+		 				 
 		
 /**********************刪除**********************/
 /**********************刪除**********************/

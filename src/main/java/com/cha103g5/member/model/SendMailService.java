@@ -36,7 +36,7 @@ public class SendMailService {
 		        //     ●5-2) 下拉式選單【選取裝置】--> 選取【Windows 電腦】
 		        //     ●5-3) 最後按【產生】密碼
 				final String myGmail = "z0975305153@gmail.com";
-				final String myGmail_password = "yeuc bgmr xbrp qeze";
+				final String myGmail_password = "fzvz ehdk kues rkvw";
 				
 				Session session = Session.getInstance(props, new Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {

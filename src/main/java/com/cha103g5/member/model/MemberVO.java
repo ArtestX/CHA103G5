@@ -44,9 +44,6 @@ public class MemberVO implements java.io.Serializable{
     @Column(name="memberbirthday")
     private Date memberbirthday;
     
-    @Column(name="membernation")
-    private String membernation;
-    
     @Column(name="memberpic", columnDefinition = "mediumblob")
     private byte[] memberpic;
     
@@ -73,7 +70,7 @@ public class MemberVO implements java.io.Serializable{
 
 	public MemberVO(Integer memberno, String memberemail, String membername, Integer membergender,
 			String memberpassword, String memberphone, String memberaddress, Timestamp memberjointime,
-			Date memberbirthday, String membernation, byte[] memberpic, String membercard, Integer memberpoints,
+			Date memberbirthday, byte[] memberpic, String membercard, Integer memberpoints,
 			Integer memberstat, String memberid, String memberjob, Integer membersal) {
 		super();
 		this.memberno = memberno;
@@ -85,7 +82,6 @@ public class MemberVO implements java.io.Serializable{
 		this.memberaddress = memberaddress;
 		this.memberjointime = memberjointime;
 		this.memberbirthday = memberbirthday;
-		this.membernation = membernation;
 		this.memberpic = memberpic;
 		this.membercard = membercard;
 		this.memberpoints = memberpoints;
@@ -167,14 +163,6 @@ public class MemberVO implements java.io.Serializable{
 		this.memberbirthday = memberbirthday;
 	}
 
-	public String getMembernation() {
-		return membernation;
-	}
-
-	public void setMembernation(String membernation) {
-		this.membernation = membernation;
-	}
-
 	public byte[] getMemberpic() {
 		return memberpic;
 	}
@@ -236,7 +224,7 @@ public class MemberVO implements java.io.Serializable{
 		return "MemberVO [memberno=" + memberno + ", memberemail=" + memberemail + ", membername=" + membername
 				+ ", membergender=" + membergender + ", memberpassword=" + memberpassword + ", memberphone="
 				+ memberphone + ", memberaddress=" + memberaddress + ", memberjointime=" + memberjointime
-				+ ", memberbirthday=" + memberbirthday + ", membernation=" + membernation + ", memberpic="
+				+ ", memberbirthday=" + memberbirthday + ", memberpic="
 				+ Arrays.toString(memberpic) + ", membercard=" + membercard + ", memberpoints=" + memberpoints
 				+ ", memberstat=" + memberstat + ", memberid=" + memberid + ", memberjob=" + memberjob + ", membersal="
 				+ membersal + "]";

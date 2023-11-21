@@ -4,33 +4,21 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.cha103g5.admin.model.*"%>
 
-<%
-    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-    response.setHeader("Cache-Control", "post-check=0, pre-check=0");
-    response.setHeader("Pragma", "no-cache");
-%>
-
-<%
-    Object adminAccount = session.getAttribute("adminAccount");                    // 從 session內取出 (key) adminVO的值
-    if (adminAccount == null) { 		// 如為 null, 代表此user未登入過 , 才做以下工作
-    	session.setAttribute("location", request.getRequestURI());       		  //*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
-        response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");  //*工作2 : 請該user去登入網頁(login.html) , 進行登入
-     	return;
-    }
-%>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <title>員工管理系統</title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/sweetalert2.css">
+
+	<!-- 傳送icon圖片 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous" />
+    
+    <!-- 後台客服css -->
+    <link href="<%=request.getContextPath()%>/css/backchat.css" rel="stylesheet">
+    
 <style>
 body {
             background-image: url('<%=request.getContextPath()%>/img/desktop.jpg');
@@ -38,19 +26,18 @@ body {
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
-        
 </style>
 
 </head>
-<body>
+<body onload="connect();" onunload="disconnect();">
 	<nav class="navbar custom-bg-color">
   <div class="container-fluid">
-    <a class="navbar-brand" href="./backendMain.jsp">
+    <a class="navbar-brand" href="<%=request.getContextPath()%>/admin/backendMain.jsp">
       <img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       後臺管理系統
     </a>
     <div class="ms-auto">
-      <form method="POST" action="./admin.do">
+      <form method="POST" action="<%=request.getContextPath()%>/admin/admin.do">
       	<button class="btn btn-danger">登出</button>
       	<input type="hidden" name="action" value="backendlogout">
       </form>
@@ -70,7 +57,7 @@ body {
 				    </h2>
 				    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action" onclick="return checkAdminStat();">員工列表</a></strong>
+				      	<strong><a href="<%=request.getContextPath()%>/admin/adminSystem.jsp" class="list-group-item list-group-item-action" onclick="return checkAdminStat();">員工列表</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -152,15 +139,100 @@ body {
 			
 			<div class="col-lg-10 g-3">
 			<!--右邊-->
-			
-				
-				
-				
+			<!-- chat-area -->
+    <section class="chatroom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="chat-area">
+                        <!-- chatlist -->
+                        <div class="chatlist">
+                            <div class="modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="chat-header">
+                                        <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                            <li class="nav-item " role="presentation">
+                                                <span style="margin: 0px 95px;">聊天室清單</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <!-- users -->
+                                        <div class="chat-lists">
+                                            <div class="tab-content" id="myTabContent">
+                                                <!-- online-users -->
+                                                <div class="tab-pane fade show active" id="Open" role="tabpanel"
+                                                    aria-labelledby="Open-tab">
+
+                                                    <div class="chat-list" id="online-list">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- users -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- chatlist -->
+
+                        <!-- chatbox -->
+                        <div class="chatbox">
+                            <div class="modal-dialog-scrollable">
+                                <div class="modal-content" id="chatbox">
+                                    <!--  style="display: none;"-->
+                                    <div class="msg-head">
+                                        <div class="row">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0" id="userImg"></div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <!-- 會員姓名 -->
+                                                    <h3 id="userName"></h3>
+                                                    <div id="userNo" style="display: none"></div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-body" id="modal-body">
+                                        <div class="msg-body">
+                                            <ul id="message-list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="send-box">
+                                        <form autocomplete="off">
+                                            <input type="text" class="form-control" id="btn-input" placeholder="Enter a message"/>
+
+                                            <button id="btn-chat" type="button" onclick="sendMessage();"><i
+                                                    class="bi bi-send-fill text-white"></i></button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- chatbox -->
+                </div>
+            </div>
+        </div>
+    </section>
+					
 			<!--右邊-->
 			</div>
 		</div>
 	</div>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/backchat.js"></script>
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/sweetalert2.all.min.js"></script>
