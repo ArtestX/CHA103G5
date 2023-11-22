@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>購物車</title>
+</head>
+<body>
+<div class="cart-container">
+    <h1>購物車</h1>
+    <div class="cart-items">
+        <!-- Thymeleaf 循環用於動態生成購物車項目 -->
+        <div th:each="item : ${cartItems}" class="cart-item">
+            <p th:text="${product.productName}">產品名稱</p>
+            <p>數量: <span th:text="${item.quantity}">1</span></p>
+            <p>單價: <span th:text="${item.price}">100</span> 元</p>
+            <p>小計: <span th:text="${item.quantity * item.price}">100</span> 元</p>
+            <!-- 添加移除按鈕（需要相應後端支持） -->
+            <button th:onclick="'removeFromCart(' + ${item.id} + ')'">移除</button>
+        </div>
+    </div>
+    <div class="cart-summary">
+        <p>總計: <span th:text="${totalPrice}">0</span> 元</p>
+        <button id="checkoutButton" th:onclick="checkout()">結賬</button>
+    </div>
+</div>
+
+</body>
+</html>
