@@ -1,22 +1,24 @@
 package com.cha103g5.petinfo.service;
 
-import com.cha103g5.petinfo.model.PetInfoVO;
+import com.cha103g5.petinfo.model.PetVO;
 import com.cha103g5.petinfo.model.PetPicVO;
+import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface PetinfoService {
 
-    PetInfoVO getPetById(Integer petId);
+    PetVO getPetById(Integer petId);
 
-    List<PetInfoVO> getAllPetsWithPictures(); // 更新的方法
+    List<PetVO> getAllPetsWithPictures(); // 更新的方法
 
 
-    void addPet(PetInfoVO petInfo);
+    Boolean addPet(InsertPetInfoVIn insertPetInfoVIn) throws IOException;
 
-    void updatePet(PetInfoVO petInFo);
+    Boolean updatePet(InsertPetInfoVIn insertPetInfoVIn);
 
-    void deletePet(Integer petId);
+    Boolean deletePet(Integer petId);
 
     PetPicVO getPetPicById(Integer picId);
 

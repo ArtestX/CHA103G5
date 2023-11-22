@@ -1,14 +1,16 @@
 package com.cha103g5.petinfo.controller;
 
-import com.cha103g5.petinfo.model.PetInfoVO;
+import com.cha103g5.petinfo.model.PetVO;
 import com.cha103g5.petinfo.service.PetinfoService;
+import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
-@Validated
 @RestController
 public class PetInfoController {
 
@@ -16,27 +18,30 @@ public class PetInfoController {
     private PetinfoService petInfoService;
 
 
-    @GetMapping("/CHA103G5/petinfo/{petId}")
-    public PetInfoVO getPetById(@PathVariable Integer petId) {
+    @GetMapping("/GetPetInfo/{petId}")
+    public PetVO getPetById(@PathVariable Integer petId) {
         return petInfoService.getPetById(petId);
     }
 
-    @GetMapping("/CHA103G5/petinfo")
-    public List<PetInfoVO> getAllPetsWithPictures() {
+    @GetMapping("/GetAllPetInfo")
+    public List<PetVO> getAllPetsWithPictures() {
         return petInfoService.getAllPetsWithPictures();
     }
 
-    @PostMapping("/CHA103G5/petinfo")
-    public void addPet(@RequestBody PetInfoVO petInFo) {
-        petInfoService.addPet(petInFo);
+    @PostMapping("/addPetInfo")
+    public Boolean addPet(@RequestBody @Valid InsertPetInfoVIn insertPetInfoVIn) throws IOException {
+
+        Boolean isAddSuccess = petInfoService.addPet(insertPetInfoVIn);
+
+        return isAddSuccess;
     }
 
-    @PutMapping("/CHA103G5/petinfo/{petId}")
-    public void updatePet(@RequestBody PetInfoVO petInFo) {
-        petInfoService.updatePet(petInFo);
+    @PutMapping("/updatePetInfo/{petId}")
+    public void updatePet(@RequestBody InsertPetInfoVIn insertPetInfoVIn) {
+        petInfoService.updatePet(insertPetInfoVIn);
     }
 
-    @DeleteMapping("/CHA103G5/petinfo/{petId}")
+    @DeleteMapping("/petinfo/{petId}")
     public void deletePet(@PathVariable Integer petId) {
         petInfoService.deletePet(petId);
     }

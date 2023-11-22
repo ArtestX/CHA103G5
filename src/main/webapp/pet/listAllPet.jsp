@@ -5,7 +5,7 @@
 
 <%
 PetService petSvc = new PetService();
-    List<PetVO> list = petSvc.getAll();
+    List<PetServletVO> list = petSvc.getAll();
     pageContext.setAttribute("list",list);
 %>
 

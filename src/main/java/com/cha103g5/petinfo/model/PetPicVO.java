@@ -1,8 +1,11 @@
 package com.cha103g5.petinfo.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
 @Entity
 @Table(name = "petpic")
 public class PetPicVO implements Serializable {
@@ -13,35 +16,14 @@ public class PetPicVO implements Serializable {
 	@Column(name = "picid")
 	private Integer picId;
 
-	@ManyToOne // 多對一關聯表格
-	@JoinColumn(name = "petid", referencedColumnName = "petid")
-	private PetInfoVO petInfo;
-
+	@Column(name = "petid")
+	private Integer petId;
 
 	@Column(name = "petpic")
 	private byte[] petPic;
 
-	public Integer getPicId() {
-		return picId;
-	}
+	@ManyToOne // 多對一關聯表格
+	@JoinColumn(name = "petid", insertable = false, updatable = false, referencedColumnName = "petid")
+	private PetVO petVo;
 
-	public void setPicId(Integer picId) {
-		this.picId = picId;
-	}
-
-	public PetInfoVO getPetInfo() {
-		return petInfo;
-	}
-
-	public void setPetInfo(PetInfoVO petInfo) {
-		this.petInfo = petInfo;
-	}
-
-	public byte[] getPetPic() {
-		return petPic;
-	}
-
-	public void setPetPic(byte[] petPic) {
-		this.petPic = petPic;
-	}
 }

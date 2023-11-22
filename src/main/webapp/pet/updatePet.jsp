@@ -3,7 +3,7 @@
 <%@ page import="com.cha103g5.pet.model.*"%>
 
 <%
-PetVO petVO = (PetVO) request.getAttribute("petVO");
+PetServletVO petVO = (PetServletVO) request.getAttribute("petVO");
 %>
 
 <html>
