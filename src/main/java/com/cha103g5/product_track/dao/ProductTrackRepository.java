@@ -1,8 +1,9 @@
 package com.cha103g5.product_track.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public interface ProductTrackRepository extends JpaRepository<ProductTrackVO, Integer> {
