@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-icons.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/banner.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 </head>
 <body>
 
@@ -45,7 +49,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/member/select_page.jsp">
+						<a class="nav-link click-scroll" href="#">
 							<b>最新消息</b>
 						</a>
 					</li>
@@ -79,14 +83,14 @@
 						</a>
 					</li>
 
-					<li class="nav-item dropdown hover" id="membercenter">
+					<li class="nav-item dropdown hover" id="membercenter" >
 						<a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="true"> 
 							<b>會員中心</b>
 						</a>
 
 						<ul class="dropdown-menu dropdown-menu-light border border-top-0" aria-labelledby="navbarLightDropdownMenuLink">
 							<li>
-								<a class="dropdown-item" href="<%=request.getContextPath()%>/member/listAllMbr.jsp">會員資料</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/member/memberCenter.jsp">會員資料</a>
 							</li>
 
 							<li>
@@ -107,16 +111,32 @@
    					<img src="<%=request.getContextPath()%>/img/cart.png" alt="Shopping Cart" id="CartIcon">
   				</a>
 			<!-- 	********小鈴鐺按鈕********* -->
-				<button type="button" class="btn btn-primary position-relative" id="bellIcon">
+			<div class="navbar-nav me-lg-2">
+			        <div class="nav-item text-nowrap d-flex align-items-center">
+			            <div class="dropdown ps-3">
+			                <button type="button" class="btn btn-primary position-relative" id="bellIcon">
 <!--   		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> -->
 <!--     						99+ -->
 <!--    						<span class="visually-hidden">unread messages</span> -->
 <!--   		 			</span> -->
-        		</button>
-
+        					</button>
+			
+			                <ul class="dropdown-menu notifications-block-wrap bg-white shadow">
+			                    <small>Notifications</small>
+			
+			                    <li class="notifications-block border-bottom pb-2 mb-2">
+			                        <a class="dropdown-item d-flex align-items-center" href="#">
+			                            <div class="notifications-icon-wrap">
+			                                <i class="notifications-icon bi-check-circle-fill"></i>
+			                            </div>
+			                        </a>
+			                    </li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>  
+				
 				<div class="d-none d-lg-block narrow-div">
-					
-
 			<!-- 	********登入按鈕********* -->
 					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
@@ -133,15 +153,15 @@
 		</div>
 		<input type="hidden" value="${user.membername}">
 		<!-- 	********搜尋列********* -->
-		<nav id="search" class="navbar navbar-expand-lg">
-			<div class="container-fluid">
-				<form class="d-flex" role="search">
-					<input class="form-control me-0" type="search" placeholder="Search"
-						aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Search</button>
-				</form>
-			</div>
-		</nav>
+<!-- 		<nav id="search" class="navbar navbar-expand-lg"> -->
+<!-- 			<div class="container-fluid"> -->
+<!-- 				<form class="d-flex" role="search"> -->
+<!-- 					<input class="form-control me-0" type="search" placeholder="Search" -->
+<!-- 						aria-label="Search"> -->
+<!-- 					<button class="btn btn-outline-success" type="submit">Search</button> -->
+<!-- 				</form> -->
+<!-- 			</div> -->
+<!-- 		</nav> -->
 	</nav>
 
 
@@ -180,6 +200,18 @@
 			observer.observe(document.documentElement, {subtree : true,attributes : true
 		});
 				
+			 const socket = new SockJS('/CHA103G5/ws'); // 连接到WebSocket端点
+			    const stompClient = Stomp.over(socket);
+
+			    stompClient.connect({}, function (frame) {
+			        console.log('Connected: ' + frame);
+
+			        stompClient.subscribe('/topic/messages', function (response) {
+			        	console.log("rr");
+			            const message = JSON.parse(response.body);
+			            $('#messageList').append(('<li class="notifications-block border-bottom pb-2 mb-2">' + message.message + '</li>'));
+			        });
+			    });	
 	</script>
 
 </body>

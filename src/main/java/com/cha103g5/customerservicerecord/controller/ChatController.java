@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.cha103g5.customerservicerecord.util.JedisHandleMessage.getHistoryMsg;
+
 @Component
 @ServerEndpoint("/chat/{userName}")
 public class ChatController {
@@ -24,6 +26,7 @@ public class ChatController {
         sessionsMap.put(userName, userSession);
 
         if ("host".equals(userName)) {
+            System.out.println("sendToAllForHostOnline()");
             sendToAllForHostOnline();
         }else {
             if(!isHostOnline()) {
@@ -163,45 +166,56 @@ public class ChatController {
 
     }
 
-    /**
-     * 傳送一般訊息
-     *
-     * @param userSession
-     * @param message
-     */
-    private void sendMessage(Session userSession, Object message) {
+
+    // 傳送一般訊息
+   void sendMessage(Session userSession, Object message) {
         sendMsg(userSession, message, 0);
     }
 
-    /**
-     * 傳送聊天室清單
-     *
-     * @param userSession
-     * @param message
-     */
+    //傳送聊天室清單
     private void sendUserListMsg(Session userSession, Object message) {
         sendMsg(userSession, message, 1);
     }
 
-    /*
-     * 傳送歷史訊息
-     */
+    //傳送歷史訊息
     private void sendHistoryMsg(Session userSession, Object message) {
         sendMsg(userSession, message, 2);
     }
 
+//    private void sendToAllForHostOnline() {
+//        Set<String> userNames = sessionsMap.keySet();
+//        ChatMessage message = new ChatMessage();
+//        message.setSender("host");
+//        message.setMessage("online");
+//        for (String userName : userNames) {
+//            if (!"host".equals(userName)) {
+//                Session userS = sessionsMap.get(userName);
+//                sendMsg(userS, message, 3);
+//            }
+//        }
+//    }
+
     private void sendToAllForHostOnline() {
         Set<String> userNames = sessionsMap.keySet();
-        ChatMessage message = new ChatMessage();
-        message.setSender("host");
-        message.setMessage("online");
-        for (String userName : userNames) {
-            if (!"host".equals(userName)) {
-                Session userS = sessionsMap.get(userName);
-                sendMsg(userS, message, 3);
+        ChatMessage onlineMessage = new ChatMessage();
+        onlineMessage.setSender("host");
+        onlineMessage.setMessage("online");
+
+        for (String targetUserName : userNames) {
+            if (!"host".equals(targetUserName)) {
+                Session targetUserSession = sessionsMap.get(targetUserName);
+
+                // 發送 "host online" 的消息
+                sendMsg(targetUserSession, onlineMessage, 3);
+
+                // 發送歷史訊息
+                List<String> historyMessages = getHistoryMsg("host", targetUserName);
+                sendMsg(targetUserSession, historyMessages, 2);// 直接使用 sendMsg 發送歷史訊息
             }
         }
     }
+
+
 
     private void sendToAllForHostOffline() {
         Set<String> userNames = sessionsMap.keySet();
@@ -217,13 +231,7 @@ public class ChatController {
 
     }
 
-    /**
-     * 傳送訊息
-     *
-     * @param userSession
-     * @param message
-     * @param type
-     */
+    //傳送訊息
     private void sendMsg(Session userSession, Object message, int type) {
         if (userSession != null && userSession.isOpen()) {
             System.out.println(message);

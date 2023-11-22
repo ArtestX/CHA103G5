@@ -9,7 +9,7 @@
     <title>單一 申請表單</title>
 </head>
 <body>
-    <a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp">回首頁</a>
+    <a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp">申請表單首頁</a>
     <h1>單一 申請表單</h1>
     <br>
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
@@ -76,6 +76,6 @@
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
     <br><br>
-    <a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp">回首頁</a>
+    <a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp">申請表單首頁</a>
 </body>
 </html>
