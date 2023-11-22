@@ -8,6 +8,7 @@
 	// 把MemberVO的資料從session取出
 	com.cha103g5.member.model.MemberVO user = (com.cha103g5.member.model.MemberVO) session.getAttribute("user");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>

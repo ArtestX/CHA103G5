@@ -8,10 +8,14 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-icons.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/banner.css">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
+<style>
+#messageList {
+        position: absolute;
+        top: 50px; /* 距離頂部的距離，根據實際需要調整 */
+        right: 10px; /* 距離右側的距離，根據實際需要調整 */
+       
+    }
+</style>
 </head>
 <body>
 
@@ -67,7 +71,7 @@
 					</li>
 
 					<li class="nav-item dropdown hover" id="customerCenter">
-						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/customer/emailService.jsp"" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/customer/emailService.jsp" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="true">
 							<b>聯絡我們</b>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-light border border-top-0" aria-labelledby="navbarLightDropdownMenuLink">
@@ -113,26 +117,17 @@
 			<!-- 	********小鈴鐺按鈕********* -->
 			<div class="navbar-nav me-lg-2">
 			        <div class="nav-item text-nowrap d-flex align-items-center">
-			            <div class="dropdown ps-3">
-			                <button type="button" class="btn btn-primary position-relative" id="bellIcon">
-<!--   		 			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> -->
-<!--     						99+ -->
-<!--    						<span class="visually-hidden">unread messages</span> -->
-<!--   		 			</span> -->
-        					</button>
-			
-			                <ul class="dropdown-menu notifications-block-wrap bg-white shadow">
-			                    <small>Notifications</small>
-			
-			                    <li class="notifications-block border-bottom pb-2 mb-2">
-			                        <a class="dropdown-item d-flex align-items-center" href="#">
-			                            <div class="notifications-icon-wrap">
-			                                <i class="notifications-icon bi-check-circle-fill"></i>
-			                            </div>
-			                        </a>
-			                    </li>
-			                </ul>
-			            </div>
+			           <div class="dropdown ps-3">
+						    <button type="button" class="btn btn-primary position-relative" id="bellIcon">
+						        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="badge">
+						           <!-- 這裡放置未讀消息數字，動態生成 --> 
+						        </span>
+						    </button>
+						
+						    <ul class="dropdown-menu notifications-block-wrap bg-white shadow" id="messageList" style="padding:10px;">
+						                <!-- 這裡放置消息內容 -->
+						    </ul>
+						</div>
 			        </div>
 			    </div>  
 				
@@ -151,7 +146,7 @@
 				</div>	
 			</div>
 		</div>
-		<input type="hidden" value="${user.membername}">
+		<input type="hidden"  id="userMemberName" value="${user.membername}">
 		<!-- 	********搜尋列********* -->
 <!-- 		<nav id="search" class="navbar navbar-expand-lg"> -->
 <!-- 			<div class="container-fluid"> -->
@@ -167,6 +162,9 @@
 
 	<!-- JAVASCRIPT FILES -->
 	<script src="<%=request.getContextPath()%>/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	<script>
 	
 		function watchUser() {
@@ -176,7 +174,7 @@
 			let logoutIcon = document.getElementById("logoutIcon");
 			let membercenter = document.getElementById("membercenter");
 			let memberlogin = document.getElementById("memberlogin");
-			let user = "${sessionScope.user}";
+			let user = document.getElementById("userMemberName").value;
 
 			if (user === "") {
 				loginIcon.style.display = "block";
@@ -200,18 +198,75 @@
 			observer.observe(document.documentElement, {subtree : true,attributes : true
 		});
 				
-			 const socket = new SockJS('/CHA103G5/ws'); // 连接到WebSocket端点
-			    const stompClient = Stomp.over(socket);
+			// 連接 WebSocket
+			const socket = new SockJS("<%=request.getContextPath()%>/ws");
+			const stompClient = Stomp.over(socket);
 
-			    stompClient.connect({}, function (frame) {
-			        console.log('Connected: ' + frame);
+			// 連接成功後的處理
+			stompClient.connect({}, function (frame) {
+			    console.log('Connected: ' + frame);
 
-			        stompClient.subscribe('/topic/messages', function (response) {
-			        	console.log("rr");
-			            const message = JSON.parse(response.body);
-			            $('#messageList').append(('<li class="notifications-block border-bottom pb-2 mb-2">' + message.message + '</li>'));
+			    // 訂閱主題，監聽新消息
+			    stompClient.subscribe('/topic/messages', function (response) {
+			        console.log("New message received");
+			        const newMessage = JSON.parse(response.body);
+			        onNewMessageReceived(newMessage);
+			    });
+			});
+
+			// 存儲消息的陣列
+			const messages = [];
+
+			// 動態更新通知區域
+			function updateNotificationArea() {
+			    const badge = document.getElementById("badge");
+			    const bellIcon = document.getElementById("bellIcon");
+
+			    if (messages.length > 0) {
+			        // 有消息時，顯示未讀消息數字和使按鈕可點擊
+			        badge.innerText = messages.length > 99 ? '99+' : messages.length;
+			        badge.style.display = "block";
+			        bellIcon.disabled = false;
+
+			        // 顯示消息內容
+			        const messageList = document.getElementById("messageList");
+			        messageList.innerHTML = ''; // 清空原有內容
+
+			        messages.forEach(message => {
+			            const messageItem = document.createElement("li");
+			            messageItem.classList.add("notifications-block", "border-bottom", "pb-2", "mb-2");
+			            messageItem.innerHTML = '<b style="font-size:20px;">' + message.title + '</b><br>'  + message.content;
+			            messageList.appendChild(messageItem);
 			        });
-			    });	
+			    } else {
+			        // 沒有消息時，隱藏未讀消息數字並使按鈕不可點擊
+			        badge.style.display = "none";
+			        bellIcon.disabled = true;
+			        messageList.style.display = "none"; // 隱藏消息列表
+			    }
+			}
+
+			// 動態偵測消息的函數，當有新消息時調用
+			function onNewMessageReceived(newMessage) {
+			    messages.push(newMessage);
+			    console.log(newMessage);
+			    updateNotificationArea();
+			}
+
+			// 初始化通知區域
+			updateNotificationArea();
+			
+			// 添加事件監聽器，在滑鼠移動到小鈴鐺時顯示消息列表
+			bellIcon.addEventListener("mouseover", function() {
+			    if (messages.length > 0) {
+			        messageList.style.display = "block";
+			    }
+			});
+
+			// 添加事件監聽器，在滑鼠離開小鈴鐺時隱藏消息列表
+			bellIcon.addEventListener("mouseout", function() {
+			    messageList.style.display = "none";
+			});
 	</script>
 
 </body>

@@ -29,6 +29,7 @@
 <title>員工管理系統</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <style>
 body {
@@ -176,31 +177,32 @@ body {
 			<!--左邊-->
 
 			<!--右邊-->
-		    <div class="col-md-6 mx-auto mt-4">
-		      <div class="card">
-		        <div class="card-body">
-		          <!-- 發送公告表單 -->
-		          <form id="announcement-form">
-		            <h3 class="mb-4">發送公告</h3>
-		            <div class="mb-3">
-		              <label for="announcement-title" class="form-label">公告標題：</label>
-		              <input type="text" class="form-control" id="announcement-title" required>
-		            </div>
-		            <div class="mb-3">
-		              <label for="announcement-content" class="form-label">公告內容：</label>
-		              <textarea class="form-control" id="messageInput" required></textarea>
-		            </div>
-		            <button type="submit" class="btn btn-primary" onclick="sendMessage()">發送公告</button>
-		          </form>
-		        </div>
-		      </div>
-		    </div>
+		   <div class="col-md-6 mx-auto mt-4">
+			  <div class="card">
+			    <div class="card-body">
+			      <!-- 發送公告表單 -->
+			      <div id="announcement-form">
+			        <h3 class="mb-4">發送公告</h3>
+			        <div class="mb-3">
+			          <label for="announcement-title" class="form-label">公告標題：</label>
+			          <input type="text" class="form-control" id="announcement-title" required>
+			        </div>
+			        <div class="mb-3">
+			          <label for="announcement-content" class="form-label">公告內容：</label>
+			          <textarea class="form-control" id="messageInput" required></textarea>
+			        </div>
+			        <button type="button" class="btn btn-primary" onclick="sendMessage()">發送公告</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
 			<!--右邊-->
 		</div>
 	</div>
 
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	<script>
@@ -213,8 +215,32 @@ body {
         });
 
         function sendMessage() {
-            const message = $('#messageInput').val();
-            stompClient.send("/app/sendToAll", {}, JSON.stringify({ 'message': message }));
+            const title = $('#announcement-title').val();
+            const content = $('#messageInput').val();
+
+            // Check if title and content are not empty
+            if (title.trim() === '' || content.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '請輸入標題和內容!',
+                });
+                return;
+            }
+
+            stompClient.send("/app/sendToAll", {}, JSON.stringify({ 'title': title, 'content': content }));
+
+            // Show success notification
+            Swal.fire({
+                icon: 'success',
+                title: '站內通知已發送!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            // Clear input fields
+            $('#announcement-title').val('');
+            $('#messageInput').val('');
         }
     </script>
 	
