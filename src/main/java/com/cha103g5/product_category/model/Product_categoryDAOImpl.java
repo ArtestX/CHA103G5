@@ -22,7 +22,7 @@ public class Product_categoryDAOImpl implements Product_categoryDAO {
 	}
 
 	@Override
-	public int insert(Product_category entity) {
+	public int insert(Product_categoryVO entity) {
 		Session session = getSession();
 		try {
 			session.beginTransaction();
@@ -37,7 +37,7 @@ public class Product_categoryDAOImpl implements Product_categoryDAO {
 	}
 
 	@Override
-	public int update(Product_category entity) {
+	public int update(Product_categoryVO entity) {
 		Session session = getSession();
 		try {
 			session.beginTransaction();
@@ -54,7 +54,7 @@ public class Product_categoryDAOImpl implements Product_categoryDAO {
 	@Override
 	 public int delete(Integer id) {
         Session session = getSession();
-        Product_category productCategory = session.get(Product_category.class, id);
+        Product_categoryVO productCategory = session.get(Product_categoryVO.class, id);
         try {
             session.beginTransaction();
             if (productCategory != null) {
@@ -73,11 +73,11 @@ public class Product_categoryDAOImpl implements Product_categoryDAO {
     }
 
 	@Override
-	public Product_category getById(Integer id) {
+	public Product_categoryVO getById(Integer id) {
 		Session session = getSession();
 		try {
 			session.beginTransaction();
-			Product_category productcategory = session.get(Product_category.class,id);
+			Product_categoryVO productcategory = session.get(Product_categoryVO.class,id);
 			session.getTransaction().commit();
 			return productcategory;
 		}catch(Exception e) {
@@ -88,11 +88,11 @@ public class Product_categoryDAOImpl implements Product_categoryDAO {
 	}
 
 	@Override
-	public List<Product_category> getAll() {
+	public List<Product_categoryVO> getAll() {
 		Session session = getSession();
 		try {
 			session.beginTransaction();
-			List<Product_category> list = session.createQuery("from Product_category", Product_category.class).list();
+			List<Product_categoryVO> list = session.createQuery("from Product_category", Product_categoryVO.class).list();
 			session.getTransaction().commit();
 			return list;
 		}catch(Exception e) {
@@ -103,12 +103,12 @@ public class Product_categoryDAOImpl implements Product_categoryDAO {
 	}
 
 	@Override
-	public List<Product_category> getByCompositeQuery(Map<String, String> map) {
+	public List<Product_categoryVO> getByCompositeQuery(Map<String, String> map) {
 		return null;
 	}
 
 	@Override
-	public List<Product_category> getAll(int currentPage) {
+	public List<Product_categoryVO> getAll(int currentPage) {
 		return null;
 	}
 

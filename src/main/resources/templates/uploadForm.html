@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>File Upload</title>
+</head>
+<body>
+
+<h1>Product Image Upload</h1>
+
+<ul>
+    <li><a href='http://localhost:8081/allProduct'>查詢產品</a></li>
+</ul>
+
+<div th:if="${message}" class="alert alert-success" role="alert">
+    <p th:text="${message}"></p>
+</div>
+<div th:if="${error}" class="alert alert-danger" role="alert">
+    <p th:text="${error}"></p>
+</div>
+
+<form method="post" th:action="@{/product-pictures/uploadForm/{productNo}(productNo=${productNo})}" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" value="Upload" />
+</form>
+
+
+
+
+</body>
+</html>

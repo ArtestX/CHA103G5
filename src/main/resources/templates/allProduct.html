@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>所有商品</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background-image: url('/bg1.png');
+            background-position: center -200px; /* 使用像素值調整位置 */
+            background-size: cover; /* 背景圖片覆蓋整個視窗 */
+            background-repeat: no-repeat; /* 防止圖片重複 */
+        }
+
+        table#table-1 {
+            background-color: rgba(255, 255, 255, 0.8); /* 背景半透明 */
+            text-align: center;
+        }
+
+        table#table-1 th, table#table-1 td {
+            border: 1px solid #ccc; /* 改善格線 */
+            padding: 8px;
+        }
+
+        table#table-1 th {
+            background-color: rgba(30, 105, 89, 0.85);
+            color: white;
+        }
+
+        h4 {
+            color: rgba(95, 95, 197, 0.84);
+        }
+
+        .centered-table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        ul.navbar {
+            background-color: rgba(25, 25, 85, 0.36);
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul.navbar li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        ul.navbar a {
+            text-decoration: none;
+            color: white;
+        }
+
+        h3 {
+            text-align: center;
+            margin-top: 20px;
+            color: #191955;
+        }
+
+        input[type="submit"], a.button-link {
+            background-color: #358c79; /* 綠色背景 */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover, a.button-link:hover {
+            background-color: #1b8f8f; /* 深綠色 */
+        }
+
+        a.button-link {
+            display: inline-block;
+            text-decoration: none;
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body>
+
+<ul class="navbar">
+    <li><a href='addProduct'>新增商品</a></li>
+    <li><a href='mall'>商城</a></li>
+</ul>
+
+<h3>商品</h3>
+<table class="centered-table" id="table-1">
+    <thead>
+    <tr>
+        <th>照片</th>
+        <th>商品編號</th>
+        <th>類別編號</th>
+        <th>名稱</th>
+        <th>價格</th>
+        <th>資訊</th>
+        <th>狀態</th>
+        <th>評價</th>
+        <th>總評價</th>
+        <th>銷售數量</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td>
+            <img th:if="${product.productPictures.size() > 0}"
+                 th:src="@{'/uploads/' + ${product.productPictures.get(0).productPic}}"
+                 alt="商品照片" width="100" height="100"/>
+        </td>
+        <td th:text="${product.productNo}"></td>
+        <td th:text="${product.productCatNo}"></td>
+        <td th:text="${product.productName}"></td>
+        <td th:text="${product.productPrice}"></td>
+        <td th:text="${product.productInfo}"></td>
+        <td>
+            <!-- 商品狀態單選按鈕 -->
+            <form th:action="@{/updateProductStatus}" method="post">
+                <input type="hidden" th:name="productNo" th:value="${product.productNo}" />
+                <input type="radio" name="status" th:value="1" th:checked="${product.productStat == 1}"> 上架
+                <input type="radio" name="status" th:value="0" th:checked="${product.productStat == 0}"> 下架
+                <input type="submit" value="送出">
+            </form>
+        </td>
+        <td th:text="${product.productEval}"></td>
+        <td th:text="${product.productEvalTotal}"></td>
+        <td th:text="${product.productSaleNum}"></td>
+        <td>
+            <!-- 編輯按鈕 -->
+            <a class="button-link" th:href="@{/editProduct/{productNo}(productNo=${product.productNo})}">編輯</a>
+            <!-- 新增上傳圖片按鈕 -->
+            <a class="button-link" th:href="@{/product-pictures/uploadForm/{productNo}(productNo=${product.productNo})}">上傳圖片</a>
+            <!-- 刪除按鈕 -->
+            <form th:action="@{/deleteProduct/{productNo}(productNo=${product.productNo})}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="刪除" onclick="return confirm('確定刪除這個商品嗎？')"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

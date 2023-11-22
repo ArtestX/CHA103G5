@@ -25,7 +25,7 @@ public class TsetProduct_categoryDAO {
 
 		// 查詢單筆
 	        int product_categoryIdToQuery = 3; // Replace 3 with the ID of the product you want to retrieve
-	        Product_category retrievedProduct_category = product_categoryDAO.getById(product_categoryIdToQuery);
+	        Product_categoryVO retrievedProduct_category = product_categoryDAO.getById(product_categoryIdToQuery);
 	        if (retrievedProduct_category != null) {
 	            System.out.println(retrievedProduct_category);
 	        } else {
@@ -33,8 +33,8 @@ public class TsetProduct_categoryDAO {
 	        }
 
 		// 查詢多筆
-		List<Product_category> product_categorys = product_categoryDAO.getAll();
-		for (Product_category product_category : product_categorys) {
+		List<Product_categoryVO> product_categorys = product_categoryDAO.getAll();
+		for (Product_categoryVO product_category : product_categorys) {
 			System.out.println(product_category);
 		}
 	}
