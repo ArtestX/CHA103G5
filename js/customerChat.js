@@ -8,11 +8,10 @@ function memberLogin() {
     method: "GET",
     dataType: "JSON",
     success: function (data) {
-      userName = data.memberName
-      userEmail = data.memberEmail;
-      console.log(userName);
-      console.log(userEmail);
-      if (userEmail !== null) {
+    userName = data.memberName
+    userEmail = data.memberEmail;
+    userNo = data.memberNo;
+      if (userNo !== null) {
         connect();
       }
     },
@@ -41,6 +40,7 @@ function memberLogin() {
 
 //連接websocket
 let userEmail = '';
+let userNo = '';
 let userName = '';
 const ServerPoint = `/chat/${userName}`;
 const lohost = window.location.host;
@@ -58,7 +58,6 @@ document.querySelector("#chat-icon").addEventListener("click", function () {
   if (userName.trim() === '') {
     memberLogin();
   } else {
-    // memberLogin();
     chatbox.classList.toggle("hide");
     msgContainer.scrollTop = msgContainer.scrollHeight;
     if (!document.querySelector("#alert").classList.contains("hide")) {
@@ -82,9 +81,10 @@ const hoster = '<div class="col-md-2 col-xs-2 avatar">' + '<img src="./img/talk.
 let isEmpOline = true;
 function connect() {
 
+  chatbox.classList.toggle("hide");
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+
   // 建立 websocket
-  console.log(userName);
-  console.log(userEmail);
   webSocket = new WebSocket(endPointURL + userName);
   webSocket.onopen = function (event) {
     // 初始化連線，只會連線一次
@@ -97,6 +97,7 @@ function connect() {
     };
     webSocket.send(JSON.stringify(jsonObj));
   }
+
 
   webSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
@@ -121,6 +122,7 @@ function connect() {
     // 客服上線
     if (data.type === 3) {
       isEmpOline = true;
+      console.log("data.type === 3")
       buildHisMessage(data.data);
     }
 
@@ -165,9 +167,11 @@ function sendMessage() {
 }
 
 function buildHisMessage(data) {
+  console.log("buildHisMessage(data)");
   msgContainer.innerHTML = "";
   // 這行的jsonObj.message是從redis撈出跟客服的歷史訊息，再parse成JSON格式處理
   let messages = data;
+  console.log(messages);
   for (let i = 0; i < messages.length; i++) {
     let div = document.createElement("div");
     div.className = "row msg_container";
@@ -181,7 +185,7 @@ function buildHisMessage(data) {
         '<div class="col-md-10 col-xs-10 d-flex justify-content-end">' +
         '<div class="messages_self msg_receive_self">' +
         '<p>' + showMsg + '</p>' +
-        '<time>' + `${userName} - ` + time +
+        '<time>' + time +
         '</time></div></div>' + 
         user;
     } else {
@@ -190,7 +194,7 @@ function buildHisMessage(data) {
         '<div class="col-md-10 col-xs-10">' +
         '<div class="messages_user msg_receive_user">' +
         '<p>' + showMsg + '</p>' +
-        '<time>客服 - ' + time +
+        '<time>' + time +
         '</time></div></div>';
     }
     div.innerHTML = content;
@@ -212,16 +216,16 @@ function buildMessage(data) {
       '<div class="col-md-10 col-xs-10">' +
       '<div class="messages_self msg_receive_self">' +
       '<p>' + showMsg + '</p>' +
-      '<time>' + `${userName} - ` + time +
-      '</time></div></div>';
-//      + user;
+      '<time>' + time +
+      '</time></div></div>'
+     + user;
   } else {
     content =
       hoster +
       '<div class="col-md-10 col-xs-10">' +
       '<div class="messages_user msg_receive_user">' +
       '<p>' + showMsg + '</p>' +
-      '<time>客服 - ' + time +
+      '<time>' + time +
       '</time></div></div>';
   }
   div.innerHTML = content;
@@ -243,7 +247,7 @@ function buildOfflineMessage() {
     `<div class="col-md-10 col-xs-10">
     <div class="messages_user msg_receive_user">
     <p>您好，目前客服未在線～ 請留下想詢問的問題，將於營業時間回覆您，謝謝</p>
-    <time>客服 - ${time}</time>
+    <time>${time}</time>
     </div>
     </div>`;
   div.innerHTML = content;
