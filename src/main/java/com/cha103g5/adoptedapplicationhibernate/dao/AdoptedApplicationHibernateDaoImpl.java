@@ -13,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import java.sql.Date;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -133,6 +134,35 @@ public class AdoptedApplicationHibernateDaoImpl implements AdoptedApplicationHib
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<AdoptedApplicationHibernate> getByDatedAndTime(Date interactionDate, LocalTime startTime, LocalTime endTime) {
+        Transaction transaction = null;
+        List<AdoptedApplicationHibernate> adoptedApplications = null;
+
+        try {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+
+            String hql = "FROM AdoptedApplicationHibernate WHERE interactionDate = :interactionDate AND interactionTime BETWEEN :startTime AND :endTime";
+
+            Query<AdoptedApplicationHibernate> query = session.createQuery(hql, AdoptedApplicationHibernate.class);
+            query.setParameter("interactionDate", interactionDate);
+            query.setParameter("startTime", startTime);
+            query.setParameter("endTime", endTime);
+
+            adoptedApplications = query.getResultList();
+
+            transaction.commit();
+            return adoptedApplications;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId, Date lotteryDate) {

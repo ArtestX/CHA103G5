@@ -65,7 +65,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#section_4">
+						<a class="nav-link click-scroll" href="http://localhost:8080/mall">
 							<b>精選商城</b>
 						</a>
 					</li>
@@ -268,6 +268,7 @@
 			    messageList.style.display = "none";
 			});
 	</script>
+
 
 </body>
 </html>

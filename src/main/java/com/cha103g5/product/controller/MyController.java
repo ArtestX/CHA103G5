@@ -1,23 +1,17 @@
 package com.cha103g5.product.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.cha103g5.product.dao.ProductVO;
 import com.cha103g5.product.service.ProductService;
 import com.cha103g5.product_category.dao.Product_categoryVO;
 import com.cha103g5.product_category.service.ProductCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class MyController {
@@ -151,5 +145,17 @@ public class MyController {
             return "error";
         }
     }
+
+    @GetMapping("/searchProducts")
+    public String searchProducts(@RequestParam("keyword") String keyword, Model model) {
+        List<ProductVO> searchResults = productService.searchByKeyword(keyword);
+        if (searchResults.isEmpty()) {
+            model.addAttribute("noProductsFound", true); // 沒有找到產品時設置標誌
+        } else {
+            model.addAttribute("products", searchResults);
+        }
+        return "mall";  // 返回商品列表頁面
+    }
+
 
 }
