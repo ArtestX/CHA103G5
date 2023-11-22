@@ -27,51 +27,59 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/adoptedapplicationhibernate/main/main.css">
-	<title>主頁</title>
+	<title>申請表單 首頁</title>
+
+	<style>
+		.table-button {
+			transform: scale(1);
+			height: 30px; /* 設定按鈕的高度 */
+		}
+	</style>
+
 </head>
 <body>
 	<h1>申請表單 管理系統</h1>
 
-	<h2>基本查詢</h2>
-	<a href="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=getAll">所有 申請表單</a>
+	<button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=showCalendar'">行事曆管理</button>
 	<br><br>
 
-	<form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="get">
-		<input type="hidden" name="action" value="getOne">
-		<label for="applicationNo">申請編號:</label>
-		<select name="applicationNo" id="applicationNo">
-			<option value="">請選擇</option>
-			<c:forEach var="application" items="${allApplications}" >
-				<option value="${application.applicationNo}">${application.applicationNo}</option>
-			</c:forEach>
-		</select>
-		<input type="submit" value="搜尋">
+	<button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=getAll'">所有申請</button>
+	<br><br>
+<%--	<form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="get">--%>
+	<form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="get" class="search-form">
+		<div class="form-group">
+			<input type="hidden" name="action" value="getOne">
+			<label for="applicationNo">申請編號:</label>
+			<select name="applicationNo" id="applicationNo">
+				<option value="">請選擇</option>
+				<c:forEach var="application" items="${allApplications}" >
+					<option value="${application.applicationNo}">${application.applicationNo}</option>
+				</c:forEach>
+			</select>
+			&nbsp;<input class="table-button" type="submit" value="查詢">
+		</div>
+<%--	</form>--%>
+<%--	<form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="get">--%>
+		<div class="form-group">
+			<input type="hidden" name="action" value="getByMemberNo">
+			<label for="memberNo">會員編號:</label>
+			<select name="memberNo" id="memberNo">
+				<option value="">請選擇</option>
+				<c:forEach var="memberNo" items="${distinctMemberNos}" >
+					<option value="${memberNo}">${memberNo}</option>
+				</c:forEach>
+			</select>
+			&nbsp;<input class="table-button" type="submit" value="查詢">
+		</div>
 	</form>
-	<br><br>
 
-	<form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="get">
-		<input type="hidden" name="action" value="getByMemberNo">
-		<label for="memberNo">會員編號:</label>
-		<select name="memberNo" id="memberNo">
-			<option value="">請選擇</option>
-			<c:forEach var="memberNo" items="${distinctMemberNos}" >
-				<option value="${memberNo}">${memberNo}</option>
-			</c:forEach>
-		</select>
-		<input type="submit" value="搜尋">
-	</form>
-	<br><br>
-
-	<h2>新增申請</h2>
-	<a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/add.jsp">新增 申請表單</a>
-	<br><br>
-
-	<h2>複合查詢</h2>
+	<h2>抽籤排序查詢</h2>
 	<form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="get">
 		<input type="hidden" name="action" value="compositeQuery">
 
-		<label>寵物ID:</label>
+		<label>寵物編號:</label>
 		<select name="petId" id="petIdCriteriaQuery">
 			<option value="">請選擇</option>
 			<c:forEach var="petId" items="${distinctPetIds}" >
@@ -81,9 +89,11 @@
 		&nbsp;<b>+</b>&nbsp;
 		<label>抽籤日期:</label>
 		<input type="date" name="lotteryDate">
-
-		<p><input type="submit" value="複合查詢"></p>
+		&nbsp;<input class="table-button" type="submit" value="查詢">
 	</form>
+
+	<h2>新增申請(需整合到寵物頁面)</h2>
+	<button onclick="location.href='${pageContext.request.contextPath}/adoptedapplicationhibernate/add.jsp'">新增申請</button>
 
 </body>
 </html>

@@ -53,16 +53,21 @@ function connect() {
 
 // 建立聊天室清單
 function buildChatRoomList(data) {
+    console.log("Received data:", data);
     let userList = data;
     let chatRoomList = document.getElementById("online-list");
+
     chatRoomList.innerHTML = "";
+
+    // 過濾出已上線的會員
+    // let onlineUsers = userList.filter(user => user.isOnline === "true");
     for (let user of userList) {
         let userRow = "";
         userRow =
-            `<a href="#" class="d-flex align-items-center a target-member" id="user${user.userName}" onclick="showUserChatBox(event);">
+            `<a href="#" class="d-flex align-items-center a target-member" id="user${user.userName}" data-user-id="${user.userNo}" onclick="showUserChatBox(event);">
                     <div class="flex-shrink-0">
                         <img class="img-fluid ps-1" src="../img/backend.png" style="width: 40px;">
-                        <img class="d-flex align-items-center" id="alert${user.userName}" src="../img/alert1.png" style="position: absolute; bottom: 8px; left: 50px; width: 15px;">
+                        <img class="d-flex align-items-center" id="alert${user.userName}" src="../img/alert1.png" style="position: absolute; bottom: 8px; left: 38px; width: 15px;">
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h3>${user.userName}</h3>
@@ -71,10 +76,10 @@ function buildChatRoomList(data) {
                 </a>`;
         chatRoomList.innerHTML += userRow;
 
-        if (user.lastMessage.status === "read") {
-            console.log(user.lastMessage.status);
-            document.querySelector(`#alert${user.userName}`).classList.toggle("hide");
-        }
+         if (user.lastMessage && user.lastMessage.status === "read") {
+             console.log(user.lastMessage.status);
+             document.querySelector(`#alert${user.userName}`).classList.toggle("hide");
+         }
 
     }
 }
@@ -83,8 +88,7 @@ function buildHisMessage(data) {
     // 歷史訊息時
     document.querySelector("#userName").innerText = currentMember; // jsonObj.receiver
     document.querySelector("#userImg").innerHTML = '<img style="width: 50px;" src="../img/backend.png">';
-    document.querySelector("#userEmail").innerText = "u" + JSON.parse(data[0]).receiver;
-    // 這行的jsonObj.message是從redis撈出跟客服的歷史訊息，再parse成JSON格式處理
+    document.querySelector("#userNo").innerText = "u" + JSON.parse(data[0]).receiver;
     let ul = $("#message-list");
     ul.html("");
     for (let i = 0; i < data.length; i++) {
