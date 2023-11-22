@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>商品列表</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">商城首頁</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">首頁 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">特色商品</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">最新商品</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    <h1 class="text-center mb-4" style="font-family: Arial, sans-serif; color: #1b8f8f;">商品列表</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row" id="productList">
+                <div class="col-md-4 mb-3" th:each="product : ${products}" th:if="${product.productStat == 1}" th:attr="data-category=${product.productCatNo}, data-product-id=${product.productNo}">
+                    <div class="card h-100" th:attr="data-product-id=${product.productNo}">
+                        <div th:if="${product.productPictures.size() > 0}">
+                            <div th:each="pic, iterStat : ${product.productPictures}">
+                                <img th:src="@{'/uploads/' + ${pic.productPic}}" alt="商品圖片" class="card-img-top" th:if="${iterStat.index == 0}"/>
+                            </div>
+                        </div>
+                        <img th:unless="${product.productPictures.size() > 0}" th:src="@{/default.jpg}" alt="商品圖片" class="card-img-top" />
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${product.productName}">商品名稱</h5>
+                            <p class="card-text" th:text="${product.productInfo}">商品資訊</p>
+                            <p class="card-text"><small class="text-muted" th:text="${product.productPrice}">價格</small></p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">評價: <span th:text="${product.productEval}">5</span> 星</small>
+                            <form th:action="@{/productTrack/toggleTrack}" method="post">
+                                <input type="hidden" name="productNo" th:value="${product.productNo}" />
+                                <input type="hidden" name="memberNo" value="103" />
+                                <!-- 在每個收藏按鈕上添加一個額外的 class 用於識別，例如 'toggle-track' -->
+                                <button type="button" class="btn btn-primary btn-sm toggle-track" th:attr="data-product-id=${product.productNo}">
+                                    <i class="fa fa-paw" style="color: #f3f2f2;"></i>
+                                    <span class="track-text" th:text="${trackedProducts != null and #lists.contains(trackedProducts, product.productNo) ? '已收藏' : '收藏'}">收藏</span>
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center mt-3" id="noProductsMessage" style="display: none;">
+                <h5>無商品</h5>
+            </div>
+        </div>
+        <div class="col-md-4" text-right>
+            <select id="categoryFilter" class="form-control" onchange="filterByCategory()">
+                <option value="">所有類別</option>
+                <option th:each="productCategory : ${categories}"
+                        th:value="${productCategory.getProductCatNo()}"
+                        th:text="${productCategory.getProductCatName()}">類別名稱</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var productCards = document.querySelectorAll('.col-md-4.mb-3');
+        productCards.forEach(function(card) {
+            card.addEventListener('click', function(event) {
+                // 確保點擊的不是收藏按鈕
+                if (!event.target.classList.contains('toggle-track') && !event.target.closest('.toggle-track')) {
+                    var productId = this.getAttribute('data-product-id');
+                    redirectToProductDetails(productId);
+                }
+            });
+        });
+    });
+
+    function filterByCategory() {
+        var selectedCategory = document.getElementById('categoryFilter').value;
+        var productCards = document.querySelectorAll('.col-md-4.mb-3');
+        var noProductsMessage = document.getElementById('noProductsMessage');
+        var displayCount = 0;
+
+        productCards.forEach(function(card) {
+            var productCategory = card.getAttribute('data-category');
+            if (selectedCategory === "" || productCategory === selectedCategory) {
+                card.style.display = '';
+                displayCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        noProductsMessage.style.display = displayCount === 0 ? '' : 'none';
+    }
+
+    function redirectToProductDetails(productId) {
+        window.location.href = '/product/details/' + productId;
+    }
+
+    // 收藏按鈕事件處理
+    document.addEventListener('DOMContentLoaded', function() {
+        var trackButtons = document.querySelectorAll('.toggle-track');
+        trackButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                var productId = this.getAttribute('data-product-id');
+                toggleTrack(productId, this);
+            });
+        });
+    });
+
+    function toggleTrack(productId, buttonElement) {
+        if (isNaN(parseInt(productId))) {
+            console.error("Invalid productId: ", productId);
+            return; // 如果不是有效的數字，則不執行後續代碼
+        }
+
+        $.ajax({
+            url: '/productTrack/toggleTrackAjax',
+            type: 'GET',
+            data: {
+                productNo: parseInt(productId),
+                memberNo: 103
+            },
+            success: function(response) {
+                if (response.tracked) {
+                    buttonElement.querySelector('.track-text').textContent = '已收藏';
+                } else {
+                    buttonElement.querySelector('.track-text').textContent = '收藏';
+                }
+            },
+            error: function() {
+                alert('操作失敗');
+            }
+        });
+    }
+</script>
+<footer class="text-center text-lg-start bg-light text-muted">
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <div class="me-5 d-none d-lg-block">
+            <span>與我們聯繫：</span>
+        </div>
+        <div>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </section>
+</footer>
+</body>
+</html>

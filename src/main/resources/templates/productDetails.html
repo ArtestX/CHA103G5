@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${product.productName} + ' - 商品詳情'">商品詳情</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* 自定義樣式 */
+        body {
+            background-color: #f8f9fa;
+            background-image: url('/bg1.png');
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* 背景半透明 */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <a href='http://localhost:8081/mall' class="btn btn-secondary mb-3">回上一頁</a>
+
+    <div class="row">
+        <div class="col-md-6">
+            <img th:if="${product.productPictures.size() > 0}" th:src="@{|/uploads/${product.productPictures.get(0).productPic}|}" class="img-fluid" alt="商品圖片" />
+            <img th:unless="${product.productPictures.size() > 0}" src="@{/default.jpg}" class="img-fluid" alt="商品圖片" />
+        </div>
+        <div class="col-md-6">
+            <h2 th:text="${product.productName}">商品名稱</h2>
+            <p th:text="'商品資訊: ' + ${product.productInfo}">商品資訊</p>
+            <p th:text="'總評價數: ' + ${product.productEval}">商品總評價數</p>
+            <p th:text="'已售出數量: ' + ${product.productSaleNum}">商品已售出數量</p>
+            <p th:text="'價格: ' + ${product.productPrice}">價格</p>
+            <button type="button" class="btn btn-primary" th:onclick="'addToCart(' + ${product.productNo} + ')'">加入購物車</button>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function addToCart(productId) {
+        console.log("加入商品到購物車: " + productId);
+        // 這裡可以是AJAX請求或其他邏輯來加入商品到購物車
+        /*
+        $.ajax({
+            url: '/cart/add',
+            type: 'POST',
+            data: { productId: productId },
+            success: function(response) {
+                // 處理成功的回應
+            },
+            error: function(error) {
+                // 處理錯誤的回應
+            }
+        });
+        */
+    }
+</script>
+
+</body>
+</html>
