@@ -1,0 +1,61 @@
+body {
+    background-color: #f0f0f0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('bg1.png');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.btn-primary {
+    background-color: #125050;
+    border-color: #1a6262;
+    color: #c2ead1;
+}
+
+.navbar, .card, .btn {
+    border-radius: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.card-text {
+    color: #666;
+}
+
+.btn-primary {
+    background-color: #191955;
+    border-color: #1df3f3;
+}
+
+.btn-primary:hover {
+    background-color: #1a6262;
+    border-color: #a8e3ee;
+}
+
+.navbar-light {
+    background-color: #f8f9fa;
+    color: #5a5a5a;
+}
+
+#categoryFilter {
+    max-width: 200px; /* 設定最大寬度 */
+    display: inline-block; /* 使下拉選單與其他元素並排 */
+}

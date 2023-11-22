@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增產品</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-image: url('/bg1.png');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #45c290;
+        }
+
+        .navbar a {
+            color: white;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="submit"] {
+            background-color: #45c290;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3e8e75;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">商城首頁</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">首頁 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">特色商品</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">最新商品</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h3>新增產品:</h3>
+    <form th:action="@{/addProduct}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="productCatNo">類別:</label>
+            <select id="productCatNo" name="productCatNo" class="form-control" required>
+                <option value="">請選擇類別</option>
+                <option th:each="productCategory : ${categories}"
+                        th:value="${productCategory.productCatNo}"
+                        th:text="${productCategory.productCatName}">類別名稱</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="productName">產品名稱:</label>
+            <input id="productName" type="text" name="productName" class="form-control" required maxlength="100" />
+        </div>
+        <div class="form-group">
+            <label for="productPrice">產品價格:</label>
+            <input id="productPrice" type="number" name="productPrice" class="form-control" min="0" max="1000000" step="0.01" required />
+        </div>
+        <div class="form-group">
+            <label for="productInfo">產品資訊:</label>
+            <textarea id="productInfo" name="productInfo" class="form-control" required maxlength="1000"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="productStat">產品狀態:</label>
+            <select id="productStat" name="productStat" class="form-control" required>
+                <option value="0">下架</option>
+                <option value="1">上架</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="productEval">產品評價:</label>
+            <input id="productEval" type="number" name="productEval" class="form-control" min="0" max="5" step="0.1" required />
+        </div>
+        <div class="form-group">
+            <label for="productEvalTotal">產品總評價:</label>
+            <input id="productEvalTotal" type="number" name="productEvalTotal" class="form-control" min="0" required />
+        </div>
+        <div class="form-group">
+            <label for="productSaleNum">銷售數量:</label>
+            <input id="productSaleNum" type="number" name="productSaleNum" class="form-control" min="0" required />
+        </div>
+        <div class="form-group">
+            <label for="images">產品圖片:</label>
+            <input id="images" type="file" name="images" class="form-control-file" multiple />
+        </div>
+        <div>
+            <input type="submit" value="新增產品" class="btn btn-primary" />
+        </div>
+    </form>
+    <a href="/allProduct" class="btn btn-secondary mt-3">回到所有商品</a>
+</div>
+
+</body>
+</html>

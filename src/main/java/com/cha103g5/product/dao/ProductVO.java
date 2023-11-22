@@ -1,19 +1,12 @@
 package com.cha103g5.product.dao;
 
+import com.cha103g5.product_comment.dao.ProductCommentVO;
+import com.cha103g5.product_picture.dao.ProductPictureVO;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.cha103g5.product_picture.dao.ProductPictureVO;
 
 @Entity
 @Table(name = "product")
@@ -50,6 +43,11 @@ public class ProductVO {
     // 使用 @OneToMany 註解來定義與 ProductPictureVO 的一對多關聯
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductPictureVO> productPictures = new ArrayList<>();
+
+
+    // 使用 @OneToMany 註解來定義與 ProductCommentVO 的一對多關聯
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductCommentVO> productComments = new ArrayList<>();
 
     // Getters and Setters
     public Integer getProductNo() {
@@ -132,6 +130,14 @@ public class ProductVO {
         this.productPictures = productPictures;
     }
 
+    public List<ProductCommentVO> getProductComments() {
+        return productComments;
+    }
+
+    public void setProductComments(List<ProductCommentVO> productComments) {
+        this.productComments = productComments;
+    }
+
     // 可以添加一個方法來獲取所有圖片的路徑
     public List<String> getProductImagePaths() {
         List<String> imagePaths = new ArrayList<>();
@@ -147,6 +153,11 @@ public class ProductVO {
             return productPictures.get(0).getProductPic();
         }
         return null; // 或者返回一個預設的圖片路徑
+    }
+
+    public long getCommentsCount() {
+        // 確保 productComments 不是 null
+        return this.productComments == null ? 0 : this.productComments.size();
     }
 }
 

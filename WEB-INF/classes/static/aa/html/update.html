@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新領養申請</title>
+</head>
+<body>
+
+<button onclick="window.location.href='home.html'">返回主頁</button>
+
+<h1>更新領養申請</h1>
+
+<form id="updateForm">
+    <label for="adminNo">管理員編號:</label>
+    <input type="number" id="adminNo" name="adminNo"><br>
+    
+    <label for="memberNo">會員編號:</label>
+    <input type="number" id="memberNo" name="memberNo"><br>
+    
+    <label for="petId">寵物ID:</label>
+    <input type="number" id="petId" name="petId"><br>
+    
+    <label for="interactionDate">互動日期:</label>
+    <input type="date" id="interactionDate" name="interactionDate"><br>
+    
+    <label for="lotteryResult">抽籤結果:</label>
+    <input type="number" id="lotteryResult" name="lotteryResult"><br>
+    
+    <label for="lotteryDate">抽籤日期:</label>
+    <input type="date" id="lotteryDate" name="lotteryDate"><br>
+    
+    <label for="applicationStat">申請狀態:</label>
+    <input type="number" id="applicationStat" name="applicationStat"><br>
+    
+    <label for="applicantNotes">申請備註:</label>
+    <input type="text" id="applicantNotes" name="applicantNotes"><br>
+    
+    <label for="agreement">協議:</label>
+    <input type="text" id="agreement" name="agreement"><br>
+    
+    <label for="applicationDate">申請日期:</label>
+    <input type="date" id="applicationDate" name="applicationDate"><br>
+    
+    <button type="submit">提交</button>
+</form>
+
+<script src="../js/update.js"></script>
+</body>
+</html>

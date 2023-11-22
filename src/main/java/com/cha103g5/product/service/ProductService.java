@@ -1,22 +1,19 @@
 package com.cha103g5.product.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.cha103g5.product.dao.ProductRepository;
 import com.cha103g5.product.dao.ProductVO;
 import com.cha103g5.product_picture.dao.ProductPictureVO;
 import com.cha103g5.product_picture.service.FileStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
     private final FileStorageService fileStorageService;
-
     @Autowired
     public ProductService(ProductRepository productRepository, FileStorageService fileStorageService) {
         this.productRepository = productRepository;
@@ -122,6 +119,21 @@ public class ProductService {
 
         product.getProductPictures().addAll(productPictures); // 添加到產品圖片集合中
         return productRepository.save(product); // 儲存產品和圖片資訊
+    }
+    // 新增方法以根據商品編號獲取商品信息
+    public ProductVO getProductById(Integer productNo) {
+        return productRepository.findByProductNo(productNo).orElse(null);
+    }
+
+
+    public List<ProductVO> searchByKeyword(String keyword) {
+        // 使用商品名稱中包含關鍵字來搜尋商品
+        return productRepository.findByProductNameContaining(keyword);
+    }
+
+    public List<ProductVO> searchByKeywordAndCategory(String keyword, Integer productCatNo) {
+        // 使用商品名稱中包含關鍵字並且特定分類編號來搜尋商品
+        return productRepository.findByProductNameContainingAndProductCatNo(keyword, productCatNo);
     }
 
 
