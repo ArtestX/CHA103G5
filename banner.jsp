@@ -61,7 +61,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="http://localhost:8080/mall">
+						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/src/main/resources/templates/mall.html">
 							<b>精選商城</b>
 						</a>
 					</li>

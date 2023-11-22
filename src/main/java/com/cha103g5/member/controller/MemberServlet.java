@@ -151,7 +151,7 @@ public class MemberServlet extends HttpServlet {
 /**********************修改密碼**********************/
 /**********************修改密碼**********************/
 /**********************修改密碼**********************/	
-		 if ("updatePassword".equals(action)) {// 來自update_Mbr_input.jsp的請求
+		 if ("updatePassword".equals(action)) {// 來自memberCenter.jsp的請求
 			  	System.out.println("開始修改密碼");
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
@@ -198,7 +198,7 @@ public class MemberServlet extends HttpServlet {
 /**********************修改會員大頭照**********************/
 /**********************修改會員大頭照**********************/
 /**********************修改會員大頭照**********************/	
-		 if ("updatePic".equals(action)) {// 來自update_Mbr_input.jsp的請求
+		 if ("updatePic".equals(action)) {// 來自memberCenter.jsp的請求
 			 	System.out.println("開始修改大頭照");
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/	
 			 	String memberemail = req.getParameter("memberemail");
@@ -236,7 +236,7 @@ public class MemberServlet extends HttpServlet {
 /**********************修改會員資料**********************/
 /**********************修改會員資料**********************/
 /**********************修改會員資料**********************/	
-		 if ("update".equals(action)) {// 來自update_Mbr_input.jsp的請求
+		 if ("update".equals(action)) {// 來自memberCenter.jsp的請求
 			  	System.out.println("開始修改");
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.setAttribute("errorMsgs", errorMsgs);
@@ -316,7 +316,6 @@ public class MemberServlet extends HttpServlet {
 				memberVO.setMemberjob(memberjob);
 				memberVO.setMemberaddress(memberaddress);
 				memberVO.setMembersal(membersal);
-//				memberVO.setMemberpic(memberpic);
 				mbrSvc.updateMembers(memberVO);
 				HttpSession session = req.getSession();
 				session.removeAttribute("user");
@@ -447,7 +446,7 @@ public class MemberServlet extends HttpServlet {
 /**********************查詢**********************/
 /**********************查詢**********************/
 /**********************查詢**********************/	
-		 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求	
+		 		if ("getOne_For_Display".equals(action)) { // 來自allMembers.jsp的請求	
 		 			
 		 			   	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 		 			   	req.setAttribute("errorMsgs", errorMsgs);
@@ -561,13 +560,6 @@ public class MemberServlet extends HttpServlet {
 				successView.forward(req, res);
 	
 		 }
-/**********************檢查帳號**********************/
- /**********************檢查帳號**********************/
- /**********************檢查帳號**********************/		 
-		 if ("checkAccount".equals(action)) {
-		        checkAccount(req, res);
-		    }  
-    
 		
 	}
 	 
@@ -587,7 +579,7 @@ public class MemberServlet extends HttpServlet {
         g.fillRect(0,0,width,height);
         //取隨機產生的驗證碼(4位數字)
         Random rnd=new Random();
-     // 生成随机的颜色
+     // 生成隨機的颜色
      	int red = rnd.nextInt(256); // 0-255
      	int green = rnd.nextInt(256); // 0-255
      	int blue = rnd.nextInt(256); // 0-255
@@ -610,8 +602,8 @@ public class MemberServlet extends HttpServlet {
               int y=rnd.nextInt(height);
               g.drawOval(x,y,1,1);
           }
-        // 将验证码图片输出到前端
-        ImageIO.write(image, "JPEG", out);// ... 生成验证码的逻辑
+        // 輸出到前端
+        ImageIO.write(image, "JPEG", out);// .生成驗證碼
         
 	}
 	/**********************檢查帳號**********************/

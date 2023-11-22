@@ -53,14 +53,15 @@ public class SendMailServlet extends HttpServlet {
 			    		String subject = " 浪愛有家_註冊成功通知信";
 			    		
 			    		String activeCode = generateRandomString(6);
-			    		String membername = (String) req.getAttribute("membername");
-			
-			    		String messageText =  membername +" 你好, 你在浪愛有家的會員帳號已經創建! \n請輸入驗證碼完成信箱驗證，謝謝~ \n" + activeCode ;
+			    		
+			    		String link = "http://localhost:8081//CHA103G5/member/sendemail?action=action&activeCode=" + activeCode + "&email=" + to;
+			    		String html = "<a href='" + link + "'></a>";
+			    		String messageText =" 你好, 你在浪愛有家的會員帳號已經創建! \n請點擊<br>"+ html;
+			    				
 			    		SendMailService SendMailService = new SendMailService();
 			    		SendMailService.sendMail(to, subject, messageText);
 			    		 
 					    res.setContentType("text/plain");
-					    res.getWriter().write("123");
 					    res.sendRedirect(req.getContextPath() + "/member/memberLogin.jsp");
 					    
 					    //將驗證碼存進redis
@@ -150,8 +151,54 @@ public class SendMailServlet extends HttpServlet {
 				     jedis.set(email, verificationValue);
 				     jedis.close();
 			}		
-			
-			
+/**********************驗證(註冊)**********************/
+/**********************驗證(註冊)**********************/
+/**********************驗證(註冊)**********************/				
+//			if("action".equals(action)) {
+//			      String getActiveCode = req.getParameter("activeCode");
+//			      String memberemail = req.getParameter("memberemail");
+//
+//			    MemberService mbrSvc = new MemberService();
+//				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+//			/////////////////////////////////////redis測試//////////////////// 
+//			      Jedis jedis = new Jedis("localhost", 6379);
+//			      jedis.select(0); 
+//
+//			      String emailRdis = memberemail; 
+//
+//			      String verificationValue = jedis.get(emailRdis); 
+//			      if (verificationValue != null) {
+//			         
+//			          Gson gson = new Gson();
+//			          Map<String, String> verification = gson.fromJson(verificationValue, new TypeToken<Map<String, String>>() {}.getType());
+//
+//			          
+//			          activeCode = verification.get("activeCode");
+//
+//			          // 在这里使用activeCode
+//
+//			          System.out.println(emailRdis);
+//			          System.out.println(activeCode);
+//			          jedis.close();
+//			      } else {
+//			         
+//			          System.out.println("未找到對應的值");
+//			      }
+//			      
+//			      
+//			/////////////////////////////////////redis測試//////////////////// 
+//
+//			      if(activeCode.equals(getActiveCode)) {
+//			       System.out.println("激活成功");
+//			       System.out.println(activeCode);
+//			       System.out.println(getActiveCode);
+//			       members.setMbrStatus(1);
+//			       res.sendRedirect(req.getContextPath() + "/welcome.html");
+//			      }else {
+//			       System.out.println(activeCode);
+//			       System.out.println(getActiveCode);
+//			       
+//			     }
 /**********************驗證(忘記密碼)**********************/
 /**********************驗證(忘記密碼)**********************/
 /**********************驗證(忘記密碼)**********************/			
