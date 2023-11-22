@@ -5,6 +5,7 @@ import com.cha103g5.adoptedapplicationhibernate.dao.AdoptedApplicationHibernateD
 import com.cha103g5.adoptedapplicationhibernate.model.AdoptedApplicationHibernate;
 
 import java.sql.Date;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,13 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
     }
 
     @Override
+    public List<AdoptedApplicationHibernate> getApplicationsByDatedAndTime(Date interactionDate, LocalTime startTime, LocalTime endTime) {
+        List<AdoptedApplicationHibernate> applications = dao.getByDatedAndTime(interactionDate, startTime, endTime);
+        applications.forEach(this::convertSignaturePhotoToBase64);
+        return applications;
+    }
+
+    @Override
     public List<AdoptedApplicationHibernate> getApplicationsByMemberNo(Integer memberNo) {
         List<AdoptedApplicationHibernate> applications = dao.getByMemberNo(memberNo);
         applications.forEach(this::convertSignaturePhotoToBase64);
@@ -98,6 +106,11 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
         long total = dao.getTotal();
         int pageQty = (int)(total % PAGE_MAX_RESULT == 0 ? (total / PAGE_MAX_RESULT) : (total / PAGE_MAX_RESULT + 1));
         return pageQty;
+    }
+
+    @Override
+    public int getDataTotal() {
+        return (int)(dao.getTotal());
     }
 
     private void convertSignaturePhotoToBase64(AdoptedApplicationHibernate application) {

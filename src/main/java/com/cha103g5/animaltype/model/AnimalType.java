@@ -1,43 +1,28 @@
 package com.cha103g5.animaltype.model;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "animaltype")
 public class AnimalType {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "animaltypeno")
     private Integer animalTypeNo;
 
-    @Column(name = "animaltypename")
+    @Column(name = "animaltypename", nullable = false, length = 20)
+    @NotEmpty(message="動物種類: 請勿空白")
+    @Size(min=1,max=20,message="動物種類: 長度必需在{min}到{max}之間")
     private String animalTypeName;
-
-	public AnimalType() {
-		super();
-	}
-
-	public AnimalType(Integer animalTypeNo, String animalTypeName) {
-		super();
-		this.animalTypeNo = animalTypeNo;
-		this.animalTypeName = animalTypeName;
-	}
-
-	public Integer getAnimalTypeNo() {
-		return animalTypeNo;
-	}
-
-	public void setAnimalTypeNo(Integer animalTypeNo) {
-		this.animalTypeNo = animalTypeNo;
-	}
-
-	public String getAnimalTypeName() {
-		return animalTypeName;
-	}
-
-	public void setAnimalTypeName(String animalTypeName) {
-		this.animalTypeName = animalTypeName;
-	}
 
 }

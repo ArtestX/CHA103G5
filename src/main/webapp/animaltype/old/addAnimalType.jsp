@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.cha103g5.animaltype.model.*"%>
+<%@ page import="com.cha103g5.animaltype.old.model.*"%>
 
 <%
 	AnimalType animalType = (AnimalType) request.getAttribute("animalType");
@@ -49,7 +49,7 @@
 <table id="table-1">
 	<tr><td>
 		 <h3>動物種類新增</h3></td><td>
-		 <h4><a href="select_page.jsp"><img src="images/tomcat.png" width="100" height="100" border="0">回首頁</a></h4>
+		 <h4><a href="select_page.jsp"><img src="../images/tomcat.png" width="100" height="100" border="0">回首頁</a></h4>
 	</td></tr>
 </table>
 
@@ -75,7 +75,7 @@
 <%-- 		value="<%= (animalType==null)? "填寫種類名稱" : animalType.getAnimalTypeName() %>" --%>
 	</tr>
 
-	<jsp:useBean id="animalSvc" scope="page" class="com.cha103g5.animaltype.model.AnimalTypeService" />
+	<jsp:useBean id="animalSvc" scope="page" class="com.cha103g5.animaltype.old.model.AnimalTypeService" />
 
 </table>
 <br>
