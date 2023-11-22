@@ -15,6 +15,12 @@
 		distinctOrderTableNos.add(oneOrderDetail.getOrderTableNo());
 	}
 	pageContext.setAttribute("distinctOrderTableNos", distinctOrderTableNos);
+
+	Set<Integer> distinctProductNos = new TreeSet<>();
+	for (OrderDetailVO oneOrderDetail : allOrderDetails) {
+		distinctProductNos.add(oneOrderDetail.getProductNo());
+	}
+	pageContext.setAttribute("distinctProductNos", distinctProductNos);
 %>
 
 <!DOCTYPE html>
