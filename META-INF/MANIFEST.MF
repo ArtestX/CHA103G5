@@ -5,5 +5,5 @@ Build-Jdk: Oracle OpenJDK version 17.0.6
 Implementation-Title: CHA103G5
 Implementation-Version: 0.0.1-SNAPSHOT
 Implementation-Vendor-Id: com.cha103g5
-Main-Class: ${start-class}
+Main-Class:
 
