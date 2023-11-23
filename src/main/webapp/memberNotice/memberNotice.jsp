@@ -29,6 +29,7 @@
 <title>員工管理系統</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <style>
 body {
@@ -201,7 +202,7 @@ body {
 
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	<script>
 		// 接到WebSocket
@@ -214,7 +215,33 @@ body {
 
         function sendMessage() {
             const message = $('#messageInput').val();
-            stompClient.send("/app/sendToAll", {}, JSON.stringify({ 'message': message }));
+           const content = $('#messageInput').val();
+                 
+             // Check if title and content are not empty
+            if (title.trim() === '' || content.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '請輸入標題和內容!',
+                });
+                return;
+            }
+
+            stompClient.send("/app/sendToAll", {}, JSON.stringify({ 'title': title, 'content': content }));
+
+            // Show success notification
+            Swal.fire({
+                icon: 'success',
+                title: '站內通知已發送!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            // Clear input fields
+            $('#announcement-title').val('');
+            $('#messageInput').val('');
+        
+        
         }
     </script>
 	
