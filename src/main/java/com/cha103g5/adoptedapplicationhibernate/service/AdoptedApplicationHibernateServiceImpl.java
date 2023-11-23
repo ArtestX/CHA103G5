@@ -7,10 +7,10 @@ import com.cha103g5.adoptedapplicationhibernate.dao.AdoptedApplicationHibernateD
 import com.cha103g5.adoptedapplicationhibernate.model.AdoptedApplicationHibernate;
 import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
-import com.cha103g5.pet.service.PetService;
+import com.cha103g5.petinfo.dto.PetInfoDto;
 import com.cha103g5.petinfo.model.PetPicVO;
 import com.cha103g5.petinfo.model.PetVO;
-import com.cha103g5.petinfo.service.PetinfoService;
+import com.cha103g5.petinfo.service.PetInfoService;
 import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 
 import java.io.IOException;
@@ -128,9 +128,9 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
 
     AdminService adminService = new AdminService();
     MemberService memberService = new MemberService();
-    PetinfoService petService = new PetinfoService() {
+    PetInfoService petService = new PetInfoService() {
         @Override
-        public PetVO getPetById(Integer petId) {
+        public PetInfoDto getPetById(Integer petId) {
             return null;
         }
 
