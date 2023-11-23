@@ -1,5 +1,6 @@
 package com.cha103g5.petinfo.service;
 
+import com.cha103g5.petinfo.dto.PetInfoDto;
 import com.cha103g5.petinfo.model.PetVO;
 import com.cha103g5.petinfo.model.PetPicVO;
 import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
@@ -7,9 +8,9 @@ import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 import java.io.IOException;
 import java.util.List;
 
-public interface PetinfoService {
+public interface PetInfoService {
 
-    PetVO getPetById(Integer petId);
+    PetInfoDto getPetById(Integer petId);
 
     List<PetVO> getAllPetsWithPictures(); // 更新的方法
 

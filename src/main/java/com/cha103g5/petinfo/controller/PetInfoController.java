@@ -1,10 +1,12 @@
 package com.cha103g5.petinfo.controller;
 
+import com.cha103g5.petinfo.dto.PetInfoDto;
 import com.cha103g5.petinfo.model.PetVO;
-import com.cha103g5.petinfo.service.PetinfoService;
+import com.cha103g5.petinfo.service.PetInfoService;
 import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,11 +17,12 @@ import java.util.List;
 public class PetInfoController {
 
     @Autowired
-    private PetinfoService petInfoService;
+    private PetInfoService petInfoService;
 
 
     @GetMapping("/GetPetInfo/{petId}")
-    public PetVO getPetById(@PathVariable Integer petId) {
+    public PetInfoDto getPetById(@PathVariable Integer petId) {
+
         return petInfoService.getPetById(petId);
     }
 
@@ -31,18 +34,28 @@ public class PetInfoController {
     @PostMapping("/addPetInfo")
     public Boolean addPet(@RequestBody @Valid InsertPetInfoVIn insertPetInfoVIn) throws IOException {
 
-        Boolean isAddSuccess = petInfoService.addPet(insertPetInfoVIn);
-
-        return isAddSuccess;
+        return petInfoService.addPet(insertPetInfoVIn);
     }
 
     @PutMapping("/updatePetInfo/{petId}")
-    public void updatePet(@RequestBody InsertPetInfoVIn insertPetInfoVIn) {
-        petInfoService.updatePet(insertPetInfoVIn);
+    public ResponseEntity<String> updatePet(@RequestBody InsertPetInfoVIn insertPetInfoVIn) {
+        boolean isSuccess = petInfoService.updatePet(insertPetInfoVIn);
+
+        if (isSuccess) {
+            return ResponseEntity.ok("寵物資訊更新成功");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("寵物資訊更新失敗");
+        }
     }
 
-    @DeleteMapping("/petinfo/{petId}")
-    public void deletePet(@PathVariable Integer petId) {
-        petInfoService.deletePet(petId);
+    @DeleteMapping("/deletePetInfo/{petId}")
+    public ResponseEntity<String> deletePet(@PathVariable Integer petId) {
+        boolean isSuccess = petInfoService.deletePet(petId);
+
+        if (isSuccess) {
+            return ResponseEntity.ok("寵物資訊刪除成功");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("寵物資訊刪除失敗");
+        }
     }
 }

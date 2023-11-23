@@ -1,5 +1,6 @@
 package com.cha103g5.petinfo.service;
 
+import com.cha103g5.petinfo.dto.PetInfoDto;
 import com.cha103g5.petinfo.model.PetVO;
 import com.cha103g5.petinfo.model.PetPicVO;
 import com.cha103g5.petinfo.repository.PetPicRepository;
@@ -8,13 +9,12 @@ import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
-public class PetInfoServiceImpl implements PetinfoService{
+public class PetInfoServiceImpl implements PetInfoService {
 
     @Autowired
     private PetRepository petRepository;
@@ -23,15 +23,50 @@ public class PetInfoServiceImpl implements PetinfoService{
     private PetPicRepository petPicRepository;
 
     @Override
-    public PetVO getPetById(Integer petId) {
-//        return petRepository.getPetWithPicsById(petId).orElse(null);
-        return null;
+    public PetInfoDto getPetById(Integer petId) {
+        PetInfoDto petInfoDto = new PetInfoDto();
+        PetVO petVO = petRepository.getPetWithPicsById(petId).orElse(null);
+        List<PetPicVO> petPicVO = petPicRepository.findByPetId(petId);
+        petInfoDto.setPetId(petVO.getPetId());
+        petInfoDto.setAnimalTypeNo(petVO.getAnimalTypeNo());
+        petInfoDto.setMemberNo(petVO.getMemberNo());
+        petInfoDto.setPetName(petVO.getPetName());
+        petInfoDto.setPetSex(petVO.getPetSex());
+        petInfoDto.setPetAge(petVO.getPetAge());
+        petInfoDto.setPetNote(petVO.getPetNote());
+        petInfoDto.setStat(petVO.getStat());
+        petInfoDto.setApplicationDeadLine(petVO.getApplicationDeadLine());
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        // 將List中的每個元素拼接到StringBuilder中
+        for (PetPicVO petPicVO1 : petPicVO) {
+            stringBuilder.append(petPicVO1);
+        }
+
+        // 將StringBuilder轉換為byte陣列
+        byte[] petPic =stringBuilder.toString().getBytes(StandardCharsets.UTF_8);
+        petInfoDto.setPetPic(petPic);
+        return  petInfoDto;
     }
 
     @Override
     public List<PetVO> getAllPetsWithPictures() {
-        return null;
+        try {
+            // 使用 Java 8 Stream API 來簡化邏輯
+            return petRepository.findAll().stream()
+                    .peek(this::attachPetPictures)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.out.println("獲取所有寵物信息錯誤: " + e.getMessage());
+            return Collections.emptyList();
+        }
     }
+            private void attachPetPictures(PetVO pet) {
+                // 為每個 PetVO 對象附加圖片信息
+                List<PetPicVO> petPics = petPicRepository.findByPetId(pet.getPetId());
+                pet.setPetPics(petPics);
+            }
 
     @Override
     public Boolean addPet(InsertPetInfoVIn insertPetInfoVIn) {
@@ -87,14 +122,88 @@ public class PetInfoServiceImpl implements PetinfoService{
 
     }
 
-    @Override
     public Boolean updatePet(InsertPetInfoVIn insertPetInfoVIn) {
-        return null;
-    }
+        // 儲存寵物資訊
+        try {
+            Optional<PetVO> optionalPetVO = petRepository.findById(insertPetInfoVIn.getPetId());
 
+            if (optionalPetVO.isPresent()) {
+                PetVO petVO = optionalPetVO.get();
+
+                petVO.setAnimalTypeNo(insertPetInfoVIn.getAnimalTypeNo());
+                petVO.setMemberNo(insertPetInfoVIn.getMemberNo());
+                petVO.setPetName(insertPetInfoVIn.getPetName());
+                petVO.setPetSex(insertPetInfoVIn.getPetSex());
+                petVO.setPetAge(insertPetInfoVIn.getPetAge());
+                petVO.setPetNote(insertPetInfoVIn.getPetNote());
+                petVO.setStat(insertPetInfoVIn.getStat());
+                petVO.setApplicationDeadLine(insertPetInfoVIn.getApplicationDeadLine());
+
+                petRepository.save(petVO);
+
+                if (insertPetInfoVIn.getPetPic() != null && insertPetInfoVIn.getPetPic().length != 0) {
+                    // 儲存寵物圖片
+                    try {
+                        List<PetPicVO> petPics = new ArrayList<>();
+
+                        for (String base64String : insertPetInfoVIn.getPetPic()) {
+                            // 移除 data URL 開頭部分，只保留 base64 部分
+                            String base64Data = base64String.replaceFirst("data:image/.*;base64,", "");
+
+                            // 解碼 base64 字串為 byte[]
+                            byte[] imageData = Base64.getDecoder().decode(base64Data);
+
+                            // 創建 PetPicVO 對象，設定相應的屬性
+                            PetPicVO petPicVO = new PetPicVO();
+                            petPicVO.setPetId(petVO.getPetId());
+                            petPicVO.setPetPic(imageData);
+
+                            // 將 PetPicVO 添加到列表中
+                            petPics.add(petPicVO);
+                        }
+                        // 一次性的新增
+                        petPicRepository.saveAll(petPics);
+
+                    } catch (Exception e) {
+                        System.out.println("新增寵物圖片錯誤");
+                        return false;
+                    }
+                }
+
+                return true;
+            } else {
+                System.out.println("找不到寵物資訊，無法更新");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("更新寵物資訊錯誤");
+            return false;
+        }
+    }
     @Override
     public Boolean deletePet(Integer petId) {
-        return null;
+        try {
+            Optional<PetVO> optionalPetVO = petRepository.findById(petId);
+
+            if (optionalPetVO.isPresent()) {
+                PetVO petVO = optionalPetVO.get();
+
+                // 先刪除 petpic 表中相應的行
+                List<PetPicVO> petPics = petPicRepository.findByPetId(petId);
+                petPicRepository.deleteAll(petPics);
+
+                // 再刪除 pet 表中的行
+                petRepository.delete(petVO);
+
+                return true;
+            } else {
+                System.out.println("找不到寵物資訊，無法刪除");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("刪除寵物資訊錯誤");
+            return false;
+        }
     }
 
 

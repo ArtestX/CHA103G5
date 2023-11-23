@@ -1,15 +1,17 @@
 package com.cha103g5.petinfo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "pet")
+@Entity(name = "pet")
+@Table
 public class PetVO implements Serializable {
 
     @Id
@@ -36,13 +38,17 @@ public class PetVO implements Serializable {
     private String petNote;
 
     @Column(name = "stat", columnDefinition = "tinyint")
-    private byte stat;
+    private Byte stat;
 
     @Column(name = "applicationdeadline")
     private Date applicationDeadLine;
 
-    @OneToMany(mappedBy = "petVo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PetPicVO> petPics;
+    @Transient // 這個註解表示該屬性不會映射到數據庫表中
+    private List<PetPicVO> petPics = new ArrayList<>();
+
+//    @JsonBackReference
+//    @OneToMany(mappedBy = "petVo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<PetPicVO> petPics;
 
 
 

@@ -1,5 +1,25 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.cha103g5.admin.service.AdminService"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.cha103g5.admin.model.*"%>
+<%@ page import="com.cha103g5.admin.service.*"%>
+
+<%
+	Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
+	if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
+		session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+		response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+		return;
+	}
+%>
+
+<%
+	AdminService adminSvc = new AdminService();
+	List<AdminVO> list = adminSvc.getAll();
+	pageContext.setAttribute("list", list);
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -167,7 +187,8 @@
 	</div>
 
 <script>
-
+	let pathName = window.document.location.pathname;
+	let projectName = pathName.substring(0, pathName.substring(1).indexOf("/") + 1);
 
 
 		document.getElementById('executeFunctionButton').addEventListener('click', function() {
@@ -180,10 +201,61 @@
 			const petNote = document.getElementById('petNote').value;
 			const applicationDeadLine = document.getElementById('applicationDeadLine').value;
 			const stat = document.getElementById('stat').value;
-
 			const fileInput = document.getElementById('petPic');
 			const files = fileInput.files;
 			const petPic = [];
+
+			// 錯誤訊息容器
+			let errorMessage = "";
+
+			// 驗證寵物類型
+			if (petType === "") {
+				errorMessage += "請選擇寵物類型。\n";
+			}
+
+
+			// 驗證寵物名稱
+			if (petName === "") {
+				errorMessage += "請輸入寵物名稱。\n";
+			}else if (petName.length > 10 ) {
+				errorMessage += "寵物名稱太長，請輸入不超過" + 10 + "個字元。\n";
+			}
+
+			// 驗證寵物性別
+			if (!petSex) {
+				errorMessage += "請選擇寵物性別。\n";
+			}
+
+			// 驗證寵物年齡
+			if (petAge === "") {
+				errorMessage += "請輸入寵物年齡。\n";
+			} else if (isNaN(petAge) || parseInt(petAge) <= 0) {
+				errorMessage += "請輸入有效的寵物年齡(數字)。\n";
+			}
+
+			// 驗證截止日期
+			if (applicationDeadLine === "") {
+				errorMessage += "請選擇截止日期。\n";
+			}
+
+			// 驗證寵物狀態
+			if (stat === "") {
+				errorMessage += "請選擇寵物狀態。\n";
+			}
+
+			// 驗證寵物照片
+			if (files.length === 0) {
+				errorMessage += "請上傳寵物照片。\n";
+			}
+
+			// 如果有錯誤，顯示錯誤訊息
+			if (errorMessage !== "") {
+				alert(errorMessage);
+				return;
+			}
+
+			// 如果通過前端驗證，則繼續發送POST請求
+			const promises = [];
 
 			if (files.length > 0) {
 				const promises = [];
@@ -216,7 +288,7 @@
 					};
 
 					// API端點
-					const apiUrl = 'http://localhost:8080/CHA103G5/addPetInfo';
+					const apiUrl = projectName + '/addPetInfo';
 
 					// 發送POST請求
 					fetch(apiUrl, {
@@ -231,6 +303,9 @@
 							.then(data => {
 								// 處理成功響應
 								console.log('成功：', data);
+
+								// 在這裡跳轉到 select_page.jsp
+								window.location.href = 'select_page.jsp';
 							})
 							.catch(error => {
 								// 處理錯誤
@@ -244,7 +319,7 @@
 <script>
 	let mainPage = document.getElementById('mainPage');
 	mainPage.addEventListener('click', function() {
-		window.location.href = 'adminSystem.jsp';
+		window.location.href = projectName + '/pet/select_page.jsp';
 	});
 </script>
 
