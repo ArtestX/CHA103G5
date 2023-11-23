@@ -1,19 +1,25 @@
 package com.cha103g5.product_track.dao;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name = "product_track")
+@Table(name = "producttrack")
 public class ProductTrackVO {
-    @Column(name = "product_no")
+    @Column(name = "productno")
     private int productNo;
 
-    @Column(name = "member_no")
+    @Column(name = "memberno")
     private int memberNo;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "track_no")
+    @Column(name = "trackno")
     private int trackNo;
 
     // 新增商品名稱字段
