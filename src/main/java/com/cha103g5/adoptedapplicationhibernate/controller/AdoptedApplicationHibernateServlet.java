@@ -109,6 +109,56 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			request.getRequestDispatcher("adoptedapplicationhibernate/showCalendar.jsp").forward(request, response);
 		}
 
+		if ("frontendCalendar".equals(action)) {
+			List<AdoptedApplicationHibernate> allReservations = aahService.getAllApplications();
+			Map<Date, boolean[]> reservationMap = new HashMap<>();
+			for (AdoptedApplicationHibernate reservation : allReservations) {
+				Date date = reservation.getInteractionDate();
+				LocalTime time = reservation.getInteractionTime();
+				boolean[] reservedSlots = reservationMap.getOrDefault(date, new boolean[3]);
+				if (time != null) {
+					int hour = time.getHour();
+					if (hour >= 9 && hour <= 12) reservedSlots[0] = true;
+					else if (hour >= 14 && hour <= 17) reservedSlots[1] = true;
+					else if (hour >= 18 && hour <= 21) reservedSlots[2] = true;
+				}
+
+				reservationMap.put(date, reservedSlots);
+			}
+
+			request.setAttribute("reservationMap", reservationMap);
+			request.getRequestDispatcher("adoptedapplicationhibernate/frontendCalendar.jsp").forward(request, response);
+		}
+
+
+		if ("addOption".equals(action)) {
+			List<AdoptedApplicationHibernate> allReservations = aahService.getAllApplications();
+			Map<Date, boolean[]> reservationMap = new HashMap<>();
+			for (AdoptedApplicationHibernate reservation : allReservations) {
+				Date date = reservation.getInteractionDate();
+				LocalTime time = reservation.getInteractionTime();
+				boolean[] reservedSlots = reservationMap.getOrDefault(date, new boolean[3]);
+				if (time != null) {
+					int hour = time.getHour();
+					if (hour >= 9 && hour <= 12) reservedSlots[0] = true;
+					else if (hour >= 14 && hour <= 17) reservedSlots[1] = true;
+					else if (hour >= 18 && hour <= 21) reservedSlots[2] = true;
+				}
+
+				reservationMap.put(date, reservedSlots);
+			}
+
+			request.setAttribute("reservationMap", reservationMap);
+
+//			PetVO randomPet = aahService.getRandomPet();
+//			Byte petStatByte = randomPet.getStat();
+//			boolean isPetAvailableForReservation = (petStatByte != null && petStatByte == 1);
+//			request.setAttribute("isPetAvailableForReservation", isPetAvailableForReservation);
+
+			request.getRequestDispatcher("adoptedapplicationhibernate/add.jsp").forward(request, response);
+
+		}
+
 	}
 
 	@Override
@@ -179,7 +229,7 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			Integer adminNo = Integer.parseInt(request.getParameter("adminNo"));
 			Integer memberNo = Integer.parseInt(request.getParameter("memberNo"));
 			Integer petId = Integer.parseInt(request.getParameter("petId"));
-			Date lotteryDate = Date.valueOf(request.getParameter("lotteryDate"));
+//			Date lotteryDate = Date.valueOf(request.getParameter("lotteryDate"));
 			Integer lotteryResult = Integer.parseInt(request.getParameter("lotteryResult"));
 			Date applicationDate = Date.valueOf(request.getParameter("applicationDate"));
 			Date interactionDate = Date.valueOf(request.getParameter("interactionDate"));
@@ -199,7 +249,7 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			application.setAdminNo(adminNo);
 			application.setMemberNo(memberNo);
 			application.setPetId(petId);
-			application.setLotteryDate(lotteryDate);
+//			application.setLotteryDate(lotteryDate);
 			application.setLotteryResult(lotteryResult);
 			application.setApplicationDate(applicationDate);
 			application.setInteractionDate(interactionDate);
@@ -218,6 +268,29 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			AdoptedApplicationHibernate application = aahService.getApplicationById(applicationNo);
 			request.setAttribute("application", application);
 
+			List<AdoptedApplicationHibernate> allReservations = aahService.getAllApplications();
+			Map<Date, boolean[]> reservationMap = new HashMap<>();
+			for (AdoptedApplicationHibernate reservation : allReservations) {
+				Date date = reservation.getInteractionDate();
+				LocalTime time = reservation.getInteractionTime();
+				boolean[] reservedSlots = reservationMap.getOrDefault(date, new boolean[3]);
+				if (time != null) {
+					int hour = time.getHour();
+					if (hour >= 9 && hour <= 12) reservedSlots[0] = true;
+					else if (hour >= 14 && hour <= 17) reservedSlots[1] = true;
+					else if (hour >= 18 && hour <= 21) reservedSlots[2] = true;
+				}
+
+				reservationMap.put(date, reservedSlots);
+			}
+
+			request.setAttribute("reservationMap", reservationMap);
+
+//			PetVO randomPet = aahService.getRandomPet();
+//			Byte petStatByte = randomPet.getStat();
+//			boolean isPetAvailableForReservation = (petStatByte != null && petStatByte == 1);
+//			request.setAttribute("isPetAvailableForReservation", isPetAvailableForReservation);
+
 			request.getRequestDispatcher("adoptedapplicationhibernate/update.jsp")
 					.forward(request, response);
 		}
@@ -226,7 +299,7 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			Integer adminNo = Integer.parseInt(request.getParameter("adminNo"));
 			Integer memberNo = Integer.parseInt(request.getParameter("memberNo"));
 			Integer petId = Integer.parseInt(request.getParameter("petId"));
-			Date lotteryDate = Date.valueOf(request.getParameter("lotteryDate"));
+//			Date lotteryDate = Date.valueOf(request.getParameter("lotteryDate"));
 			Integer lotteryResult = Integer.parseInt(request.getParameter("lotteryResult"));
 			Date applicationDate = Date.valueOf(request.getParameter("applicationDate"));
 			Date interactionDate = Date.valueOf(request.getParameter("interactionDate"));
@@ -245,7 +318,7 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			application.setAdminNo(adminNo);
 			application.setMemberNo(memberNo);
 			application.setPetId(petId);
-			application.setLotteryDate(lotteryDate);
+//			application.setLotteryDate(lotteryDate);
 			application.setLotteryResult(lotteryResult);
 			application.setApplicationDate(applicationDate);
 			application.setInteractionDate(interactionDate);

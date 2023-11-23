@@ -30,6 +30,7 @@ public class SendMailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static final Random random = new SecureRandom();
+
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 			String origin = req.getHeader("Origin");
@@ -42,7 +43,7 @@ public class SendMailServlet extends HttpServlet {
 	
 			req.setCharacterEncoding("UTF-8");
 			String action = req.getParameter("action");
-			
+			System.out.println("action================"+ action);
 /**********************寄信(註冊)**********************/
 /**********************寄信(註冊)**********************/
 /**********************寄信(註冊)**********************/
@@ -53,14 +54,13 @@ public class SendMailServlet extends HttpServlet {
 			    		String subject = " 浪愛有家_註冊成功通知信";
 			    		
 			    		String activeCode = generateRandomString(6);
-			    		String membername = (String) req.getAttribute("membername");
-			
-			    		String messageText =  membername +" 你好, 你在浪愛有家的會員帳號已經創建! \n請輸入驗證碼完成信箱驗證，謝謝~ \n" + activeCode ;
+			    		
+			    		String link = "http://localhost:8081/CHA103G5/member/sendemail?action=action&activeCode=" + activeCode + "&memberemail=" + to;
+			    		String messageText =" 你好, 你在浪愛有家的會員帳號已經創建! \n請點擊以下連結完成信箱認證\n"+ link ;			    				
 			    		SendMailService SendMailService = new SendMailService();
 			    		SendMailService.sendMail(to, subject, messageText);
 			    		 
 					    res.setContentType("text/plain");
-					    res.getWriter().write("123");
 					    res.sendRedirect(req.getContextPath() + "/member/memberLogin.jsp");
 					    
 					    //將驗證碼存進redis
@@ -149,9 +149,85 @@ public class SendMailServlet extends HttpServlet {
 				 
 				     jedis.set(email, verificationValue);
 				     jedis.close();
-			}		
+			}	
+/**********************寄信(重寄驗證信)**********************/
+/**********************寄信(重寄驗證信)**********************/
+/**********************寄信(重寄驗證信)**********************/
+						
+						if("verificationResendEmail".equals(action)) {
+						    		System.out.println("寄信(重寄驗證信)");
+						    		String to = req.getParameter("memberemail");
+						    		String subject = " 浪愛有家_信箱認證信";
+						    		
+						    		String activeCode = generateRandomString(6);
+						    		
+						    		String link = "http://localhost:8081/CHA103G5/member/sendemail?action=action&activeCode=" + activeCode + "&memberemail=" + to;
+						    		String messageText =" 你好! \n請點擊以下連結完成信箱認證\n"+ link ;			    				
+						    		SendMailService SendMailService = new SendMailService();
+						    		SendMailService.sendMail(to, subject, messageText);
+						    		 
+								    res.setContentType("text/plain");
+								    res.sendRedirect(req.getContextPath() + "/member/memberLogin.jsp");
+								    
+								    //將驗證碼存進redis
+								    Map<String,String> verification =  new HashMap<>();
+						    		verification.put("activeCode", activeCode);
+						    		
+						    		Jedis jedis = new Jedis("localhost", 6379);
+									jedis.select(1);
+									Gson gson = new Gson();
+									String verificationValue = gson.toJson(verification);
+									String email =  String.valueOf(to);
+									    
+									jedis.expire(email, 30);//設定生命週期(以秒為單位)
+
+									jedis.set(email, verificationValue);
+									jedis.close();
+						}				
 			
 			
+/**********************驗證(註冊)**********************/
+/**********************驗證(註冊)**********************/
+/**********************驗證(註冊)**********************/				
+			if("action".equals(action)) {
+			      String getActiveCode = req.getParameter("activeCode");
+			      String memberemail = req.getParameter("memberemail");
+
+			      System.out.println(memberemail);
+			      System.out.println(getActiveCode);
+			    MemberService mbrSvc = new MemberService();
+				MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+//			/////////////////////////////////////redis測試//////////////////// 
+			      Jedis jedis = new Jedis("localhost", 6379);
+			      jedis.select(1); 
+
+			      String emailRdis = memberemail; 
+			      String verificationValue = jedis.get(emailRdis); 
+			      if (verificationValue != null) {
+		         
+			          Gson gson = new Gson();
+			          Map<String, String> verification = gson.fromJson(verificationValue, new TypeToken<Map<String, String>>() {}.getType());
+		          
+			          String   activeCode = verification.get("activeCode");
+			          System.out.println(activeCode);
+			          // 在这里使用activeCode
+
+			          if(activeCode.equals(getActiveCode)) {
+			              System.out.println("驗證成功");
+			              System.out.println("============="+activeCode);
+			              System.out.println("============="+getActiveCode);
+			              memberVO.setMemberstat(1);
+			              mbrSvc.updateMembers(memberVO);
+			              res.sendRedirect(req.getContextPath() + "/member/memberLogin.jsp");
+			             }else {
+			              System.out.println(activeCode);
+			              System.out.println(getActiveCode);
+			              
+			             }
+			      }
+			}     
+
+			      
 /**********************驗證(忘記密碼)**********************/
 /**********************驗證(忘記密碼)**********************/
 /**********************驗證(忘記密碼)**********************/			

@@ -3,11 +3,11 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.cha103g5.pet.model.*"%>
 
-<%-- <% --%>
-// PetService petSvc = new PetService();
-//     List<PetVO> list = petSvc.getAll();
-//     pageContext.setAttribute("list",list);
-<%-- %> --%>
+<%--<%--%>
+<%--PetService petSvc = new PetService();--%>
+<%--    List<PetServletVO> list = petSvc.getAll();--%>
+<%--    pageContext.setAttribute("list",list);--%>
+<%--%>--%>
 
 <!doctype html>
 <html lang="en">

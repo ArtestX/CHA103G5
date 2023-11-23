@@ -61,7 +61,7 @@ public class PetServlet extends HttpServlet {
 
 			/*************************** 2.開始查詢資料 *****************************************/
 			PetService petSvc = new PetService();
-			PetVO petVO = petSvc.getOnePet(petid);
+			PetServletVO petVO = petSvc.getOnePet(petid);
 			if (petVO == null) {
 				errorMsgs.put("petid", "查無資料");
 			}
@@ -89,7 +89,7 @@ public class PetServlet extends HttpServlet {
 
 			/*************************** 2.開始查詢資料 ****************************************/
 			PetService petSvc = new PetService();
-			PetVO petVO = petSvc.getOnePet(petid);
+			PetServletVO petVO = petSvc.getOnePet(petid);
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 			String param = "?petid=" + petVO.getPetid() + "&animaltypeno=" + petVO.getAnimaltypeno() + "&memberno="
@@ -156,7 +156,7 @@ public class PetServlet extends HttpServlet {
 
 			/*************************** 2.開始修改資料 *****************************************/
 			PetService petSvc = new PetService();
-			PetVO petVO = petSvc.updatePet(petid, animaltypeno, memberno, petname, petsex, petage, petnote, stat,
+			PetServletVO petVO = petSvc.updatePet(petid, animaltypeno, memberno, petname, petsex, petage, petnote, stat,
 					applicationdeadline);
 
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
@@ -214,7 +214,7 @@ public class PetServlet extends HttpServlet {
 				errorMsgs.put("applicationdeadline", "請輸入日期!");
 			}
 
-			PetVO petVO = new PetVO();
+			PetServletVO petVO = new PetServletVO();
 			petVO.setAnimaltypeno(animaltypeno);
 			petVO.setMemberno(memberno);
 			petVO.setPetname(petname);

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.cha103g5.animaltype.old.model.*"%>
+<%@ page import="com.cha103g5.animaltype.model.*"%>
 
 <%
 	AnimalType animalType = (AnimalType) request.getAttribute("animalType");
@@ -75,7 +75,7 @@
 <%-- 		value="<%= (animalType==null)? "¶ñ¼gºØÃþ¦WºÙ" : animalType.getAnimalTypeName() %>" --%>
 	</tr>
 
-	<jsp:useBean id="animalSvc" scope="page" class="com.cha103g5.animaltype.old.model.AnimalTypeService" />
+	<jsp:useBean id="animalSvc" scope="page" class="com.cha103g5.animaltype.model.AnimalTypeService" />
 
 </table>
 <br>
