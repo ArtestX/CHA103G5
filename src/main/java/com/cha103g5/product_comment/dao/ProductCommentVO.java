@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ProductCommentVO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commentid")
     private Long commentId;
 
     @NotNull

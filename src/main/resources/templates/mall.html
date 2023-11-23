@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>商品列表</title>
-    <!-- Bootstrap CSS -->
+    <title>商品</title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/mall">商城</a>
+    <a class="navbar-brand" th:href="@{/mall}">商城</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,7 +25,6 @@
                     我的收藏
                 </a>
                 <div class="dropdown-menu" aria-labelledby="favoriteDropdown" id="favoriteListDropdown">
-                    <!-- 這裡將會動態加載收藏項目 -->
                 </div>
             </li>
         </ul>
@@ -87,12 +84,12 @@
             </div>
         </div>
     </div>
-</div>
 
 <!-- 回上層按鈕 -->
 <a href="/mall" class="fas fa-angle-up" id="scroll-up"></a>
 
 <script th:inline="javascript">
+    var contextPath = /*[[@{/}]]*/'';
     var trackedProducts = [];
 
     function filterByCategory() {
@@ -141,14 +138,14 @@
 
 
         function redirectToProductDetails(productId) {
-            window.location.href = '/product/details/' + productId;
+            window.location.href = contextPath + 'product/details/' + productId;
         }
     });
 
     function loadFavoritesAndUpdateButtons() {
         // 假設103是當前用戶的會員編號
         $.ajax({
-            url: '/productTrack/favorites/103',
+            url: '/CHA103G5/productTrack/favorites/103',
             type: 'GET',
             success: function(tracks) {
                 // 更新 trackedProducts 變數
@@ -182,9 +179,8 @@
     function toggleTrack(productId, buttonElement) {
         var isTracked = trackedProducts.includes(productId);
 
-        // 發送 AJAX 請求
         $.ajax({
-            url: '/productTrack/toggleTrackAjax',
+            url: '/CHA103G5/productTrack/toggleTrackAjax',
             type: 'POST',
             data: {
                 productNo: productId,
@@ -213,7 +209,7 @@
 
     function loadFavorites() {
         $.ajax({
-            url: '/productTrack/favorites/103',
+            url: '/CHA103G5/productTrack/favorites/103',
             type: 'GET',
             success: function(tracks) {
                 var favoriteDropdown = document.getElementById('favoriteListDropdown');
@@ -225,7 +221,7 @@
                     tracks.forEach(function(track) {
                         var dropdownItem = document.createElement('a');
                         dropdownItem.className = 'dropdown-item';
-                        dropdownItem.href = '/product/details/' + track.productNo;
+                        dropdownItem.href = '/CHA103G5/product/details/' + track.productNo;
                         dropdownItem.textContent = track.productName;
                         favoriteDropdown.appendChild(dropdownItem);
                     });
@@ -245,6 +241,7 @@
             document.querySelector("#scroll-up").classList.remove("active");
         }
     };
+
     // 設定滾動至頂部按鈕的點擊事件
     document.querySelector("#scroll-up").addEventListener("click", function(event) {
         event.preventDefault(); // 防止執行錨點預設的跳轉行為

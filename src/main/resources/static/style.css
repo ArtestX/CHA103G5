@@ -6,56 +6,170 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
-.btn-primary {
-    background-color: #125050;
-    border-color: #1a6262;
-    color: #c2ead1;
+.container {
+    width: 100%;
+    max-width: none;
 }
 
-.navbar, .card, .btn {
-    border-radius: 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+div.row {
+    margin-right: 0;
+    margin-left: 0;
+    width: 100%;
+}
+
+.col-md-4.mb-3 {
+    flex: 0 0 calc(33% - 20px);
+    max-width: calc(33% - 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* 添加陰影 */
+    transition: transform 0.3s; /* 添加過渡效果 */
+}
+
+.col-md-4.mb-3:hover {
+    transform: scale(1.05); /* 鼠標懸停時放大 */
 }
 
 .card-img-top {
-    height: 200px;
-    object-fit: cover;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    width: 100%; /* 確保圖片覆蓋整個寬度 */
+    height: auto; /* 保持圖片比例 */
+    object-fit: cover; /* 覆蓋區域但不拉伸圖片 */
 }
 
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    border-radius: 10px;
+
+.form-inline .form-control {
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    padding: 5px 15px;
+    width: 250px; /* 擴大搜尋框 */
 }
 
-.card-title {
-    font-size: 1.2rem;
-    color: #333;
+.form-inline .btn {
+    border-radius: 20px;
+    background-color: #125050;
+    color: white;
 }
 
-.card-text {
-    color: #666;
+a, button {
+    transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background-color: #191955;
-    border-color: #1df3f3;
+a:hover, button:hover {
+    color: rgba(17, 119, 97, 0.77); /* 或其他顏色 */
 }
 
-.btn-primary:hover {
-    background-color: #1a6262;
-    border-color: #a8e3ee;
+/* 收藏按鈕樣式 */
+.toggle-track {
+    background-color: #358c79; /* 按鈕背景色 */
+    border: none; /* 移除邊框 */
+    color: white; /* 文字顏色 */
+    padding: 10px 20px; /* 內距 */
+    text-align: center; /* 文字置中 */
+    text-decoration: none; /* 移除底線 */
+    display: inline-block; /* 使其顯示為行內塊 */
+    font-size: 16px; /* 字體大小 */
+    margin: 4px 2px; /* 邊距 */
+    transition-duration: 0.4s; /* 過渡時間 */
+    cursor: pointer; /* 鼠標懸停時顯示手形 */
+    border-radius: 25px; /* 圓角邊框 */
 }
 
-.navbar-light {
-    background-color: #f8f9fa;
-    color: #5a5a5a;
+.toggle-track.not-tracked {
+    background-color: #8be0e0; /* 紅色背景表示未收藏 */
 }
 
-#categoryFilter {
-    max-width: 200px; /* 設定最大寬度 */
-    display: inline-block; /* 使下拉選單與其他元素並排 */
+.toggle-track:hover {
+    background-color: white; /* 滑鼠懸停的背景顏色 */
+    color: #a8e3ee; /* 滑鼠懸停的文字顏色 */
+    border: 1px solid #358c79; /* 滑鼠懸停的邊框 */
+}
+
+.toggle-track.not-tracked:hover {
+    color: rgba(7, 59, 61, 0.8); /* 滑鼠懸停的文字顏色變為紅色 */
+    border: 1px solid #092549; /* 紅色邊框 */
+}
+
+
+@media (max-width: 767px) {
+    .col-md-4.mb-3 {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .col-md-4.mb-3 {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-4.mb-3 {
+        flex: 0 0 calc(33% - 20px); /* 大螢幕設為三列 */
+        max-width: calc(33% - 20px); /* 最大寬度設為三分之一減去間距 */
+    }
+}
+@media (max-width: 1366px) {
+    .col-md-4.mb-3 {
+        flex: 0 0 calc(33.333% - 20px); /* 螢幕較小時卡片佔據三分之一的空間減去間距 */
+        max-width: calc(33.333% - 20px); /* 最大寬度設定為三分之一的屏幕寬度減去間距 */
+    }
+}
+
+/* Scroll Up Button Style */
+#scroll-up {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border-radius: 50%; /* 圓形按鈕 */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* 添加陰影效果 */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* 基本樣式 */
+#scroll-up {
+    position: fixed;
+    bottom: 20px; /* 距離底部20px */
+    right: 20px; /* 距離右側20px */
+    background: rgba(194, 183, 17, 0.45);
+    color: white; /* 文字顏色 */
+    border-radius: 50%; /* 圓形按鈕 */
+    padding: 10px; /* 內邊距 */
+    font-size: 25px; /* 圖標大小 */
+    opacity: 0; /* 預設為完全透明 */
+    transition: opacity 0.3s, bottom 0.3s; /* 過渡效果 */
+    cursor: pointer; /* 鼠標懸停時顯示手形光標 */
+    z-index: 1000; /* 確保按鈕在其他元素之上 */
+}
+
+/* 滾動時激活樣式 */
+#scroll-up.active {
+    opacity: 1; /* 完全不透明 */
+    bottom: 40px; /* 距離底部更遠以避免遮擋其他元素 */
+}
+
+/* 鼠標懸停效果 */
+#scroll-up:hover {
+    background: rgba(194, 183, 17, 0.7); /* 懸停時背景色變深 */
+    opacity: 1; /* 完全不透明 */
+}
+
+/* 鼠標懸停時陰影效果 */
+#scroll-up:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5); /* 添加陰影 */
 }

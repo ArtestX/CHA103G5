@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${product.productName} + ' - 商品詳情'">商品詳情</title>
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 自定義樣式 */
         body {
             background-color: #f8f9fa;
             background-image: url('/bg1.png');
@@ -16,7 +15,7 @@
             background-attachment: fixed;
         }
         .container {
-            background-color: rgba(255, 255, 255, 0.95); /* 半透明背景 */
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 10px;
             padding: 20px;
             margin-top: 50px;
@@ -30,15 +29,13 @@
             margin-bottom: 10px;
         }
         .btn-info {
-            background-color: #17a2b8; /* Bootstrap 的 info 顏色 */
+            background-color: #17a2b8;
             border-color: #17a2b8;
         }
-
         .btn-info:hover {
             background-color: #138496;
             border-color: #117a8b;
         }
-
         .product-info .btn-group {
             width: 100%;
             display: flex;
@@ -46,45 +43,65 @@
             align-items: center;
             margin-top: 10px;
         }
-
         .product-info button {
             flex: 1;
             border-radius: 50px;
-            background-color: rgba(194, 183, 17, 0.45); /* 新設計的按鈕顏色 */
+            background-color: rgba(194, 183, 17, 0.45);
             color: white;
             font-weight: bold;
-            padding: 10px; /* 減小內邊距 */
+            padding: 10px;
             transition: background-color 0.3s ease;
         }
-
         .product-info button:hover {
-            background-color: #053a3a; /* 按鈕懸停時的顏色 */
+            background-color: #053a3a;
         }
-
         .product-info a {
             flex: 1;
-            margin-left: 10px; /* 加入間距 */
-            border-radius: 50px; /* 更漂亮的按鈕形狀 */
-            background-color: #0a8fa1; /* 新設計的按鈕顏色 */
+            margin-left: 10px;
+            border-radius: 50px;
+            background-color: #0a8fa1;
             color: white;
             font-weight: bold;
-            padding: 10px; /* 減小內邊距 */
+            padding: 10px;
             transition: background-color 0.3s ease;
         }
-
         .product-info a:hover {
-            background-color: #8be0e0; /* 按鈕懸停時的顏色 */
+            background-color: #8be0e0;
+        }
+        /* 側邊欄樣式 */
+        .sidebar-cart {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .sidebar-cart-content {
+            padding: 20px;
         }
     </style>
 </head>
 <body>
 
+<!-- 側邊欄容器 -->
+<div id="sidebarCart" class="sidebar-cart collapse">
+    <!-- 側邊欄內容 -->
+    <div class="sidebar-cart-content">
+        <!-- 購物車內容將在這裡動態加載 -->
+    </div>
+</div>
+
+<!-- 頁面其餘部分 -->
 <div class="container">
     <button type="button" class="btn btn-primary" onclick="goToCart()">
         <i class="fas fa-shopping-cart"></i> 購物車
     </button>
 
-    <a href='/mall' class="btn btn-secondary">回上一頁</a>
+    <a th:href="@{/mall}" class="btn btn-secondary">回上一頁</a>
 
     <div class="row">
         <div class="col-md-6">
@@ -117,8 +134,8 @@
             data: { productNo: productNo, memberNo: 103, quantity: quantity },
             success: function(response) {
                 alert("商品已加入購物車！");
-                // 跳轉到購物車頁面
-                window.location.href = '/cart';L
+                // 展開側邊欄來顯示購物車
+                $('#sidebarCart').collapse('show');
             },
             error: function(error) {
                 alert("加入購物車失敗！");
@@ -127,10 +144,8 @@
     }
 
     function goToCart() {
-        window.location.href = '/cart'; // 更新為您購物車頁面的URL
+        $('#sidebarCart').collapse('toggle'); // 切換側邊欄的顯示和隱藏
     }
-
-
 </script>
 
 </body>

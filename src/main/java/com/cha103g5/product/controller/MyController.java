@@ -29,14 +29,6 @@ public class MyController {
     @Autowired
     private ProductCategoryService productCategoryService;
 
-    @GetMapping("/selectPage")
-    public String myPage(Model model) {
-        List<ProductVO> products = productService.getAll();
-        model.addAttribute("productVO", new ProductVO());
-        model.addAttribute("products", products);
-        return "selectPage";
-    }
-
     @GetMapping("/mall")
     public String mallPage(Model model) {
         List<ProductVO> products = productService.getAllAvailableProducts();
@@ -69,7 +61,7 @@ public class MyController {
         List<Product_categoryVO> categories = productCategoryService.getAllProductCategories();
         model.addAttribute("product", product);
         model.addAttribute("categories", categories);
-        return "editProduct";
+        return "/editProduct";
     }
 
     @PostMapping("/updateProduct/{productNo}")
@@ -79,10 +71,8 @@ public class MyController {
         if (existingProduct != null) {
             product.setProductPictures(existingProduct.getProductPictures());
         }
-
         // 更新產品資訊
         productService.updateProduct(product);
-
         // 只有在有圖片上傳時才更新圖片
         if (images != null && !images.isEmpty() && images.stream().anyMatch(image -> !image.isEmpty())) {
             productService.updateProductImages(product.getProductNo(), images);
