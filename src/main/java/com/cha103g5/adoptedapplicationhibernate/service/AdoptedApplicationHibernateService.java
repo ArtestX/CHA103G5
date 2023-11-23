@@ -3,7 +3,8 @@ package com.cha103g5.adoptedapplicationhibernate.service;
 import com.cha103g5.admin.model.AdminVO;
 import com.cha103g5.adoptedapplicationhibernate.model.AdoptedApplicationHibernate;
 import com.cha103g5.member.model.MemberVO;
-import com.cha103g5.pet.model.PetVO;
+import com.cha103g5.pet.model.PetServletVO;
+import com.cha103g5.petinfo.model.PetVO;
 
 import java.sql.Date;
 import java.time.LocalTime;

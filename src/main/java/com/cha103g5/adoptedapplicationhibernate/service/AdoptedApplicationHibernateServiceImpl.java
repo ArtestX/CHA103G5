@@ -7,9 +7,13 @@ import com.cha103g5.adoptedapplicationhibernate.dao.AdoptedApplicationHibernateD
 import com.cha103g5.adoptedapplicationhibernate.model.AdoptedApplicationHibernate;
 import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
-import com.cha103g5.pet.model.PetVO;
 import com.cha103g5.pet.service.PetService;
+import com.cha103g5.petinfo.model.PetPicVO;
+import com.cha103g5.petinfo.model.PetVO;
+import com.cha103g5.petinfo.service.PetinfoService;
+import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalTime;
 import java.util.*;
@@ -124,7 +128,57 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
 
     AdminService adminService = new AdminService();
     MemberService memberService = new MemberService();
-    PetService petService = new PetService();
+    PetinfoService petService = new PetinfoService() {
+        @Override
+        public PetVO getPetById(Integer petId) {
+            return null;
+        }
+
+        @Override
+        public List<PetVO> getAllPetsWithPictures() {
+            return null;
+        }
+
+        @Override
+        public Boolean addPet(InsertPetInfoVIn insertPetInfoVIn) throws IOException {
+            return null;
+        }
+
+        @Override
+        public Boolean updatePet(InsertPetInfoVIn insertPetInfoVIn) {
+            return null;
+        }
+
+        @Override
+        public Boolean deletePet(Integer petId) {
+            return null;
+        }
+
+        @Override
+        public PetPicVO getPetPicById(Integer picId) {
+            return null;
+        }
+
+        @Override
+        public List<PetPicVO> getAllPetPics() {
+            return null;
+        }
+
+        @Override
+        public void addPetPic(PetPicVO petPic) {
+
+        }
+
+        @Override
+        public void updatePetPic(PetPicVO petPic) {
+
+        }
+
+        @Override
+        public void deletePetPic(Integer picId) {
+
+        }
+    };
 
     @Override
     public AdminVO getRandomAdmin() {
@@ -142,7 +196,7 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
 
     @Override
     public PetVO getRandomPet() {
-        List<PetVO> allPets = petService.getAll();
+        List<PetVO> allPets = petService.getAllPetsWithPictures();
         Random random = new Random();
         return allPets.get(random.nextInt(allPets.size()));
     }
