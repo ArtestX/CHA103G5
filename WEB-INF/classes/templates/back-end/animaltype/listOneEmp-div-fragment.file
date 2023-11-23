@@ -1,7 +1,0 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-	<div align="center">
-		<h3><span>查詢結果 :</span></h3>
-		<span>動物種類編號:</span><span>${animalType.animalTypeNo}</span><br/>
-		<span>動物種類:</span><span>${animalType.animalTypeName}</span><br/>
-	</div>
