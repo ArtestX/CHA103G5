@@ -98,7 +98,7 @@ font {
 /*****會員(頂部)資訊*****/
 #memberData{
 	width:470px; 
-	height:120px;
+	height:150px;
 	margin-top: 20px;
 	margin-left:30px;
 	background: #E6E1D7; 
@@ -217,7 +217,7 @@ span{
    margin-bottom:15px;
  }
 
-#checkmemberpassword:hover,#checkmemberpic:hover{
+#checkmemberpassword:hover,#checkmemberpic:hover,#resendButton:hover{
    background-color: #e15e5e;
 }
 
@@ -232,8 +232,48 @@ span{
    left: 180px;
    bottom: 10px;
 }
+  #resendButton{
+	background-color: #7c7979;
+   color: white;
+   width:130px;
+   border: none; 
+   border-radius:20px;
+   cursor: pointer;
+   position: relative;
+   left: 340px;
+}
 
+.unverified {
+    background-color: red;
+    width:70px;
+    border-radius:10px;
+    color: white; 
+    text-align: center;
+    margin-top:8px;
+    margin-left:0px;
+    margin-right:0px;
+  }
 
+  .verified {
+    background-color: green;
+    color: white;
+    width:70px;
+    border-radius:10px;
+     text-align: center;
+     margin-top:8px;
+    margin-left:0px;
+    margin-right:0px;
+  }
+  
+  strong {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .status {
+    margin-left: 15px; 
+  }
 </style>
 
 </head>
@@ -277,10 +317,24 @@ span{
 				
 				<div class="user-info col-md-9">
 					<div id="memberData" class="member-data">
-						<strong>
-							會員帳號(Email)
-							<span>${user.memberemail}</span>
-						</strong>
+						<form method="post" action="<%=request.getContextPath()%>/member/sendemail">
+						<input type="submit"  id="resendButton" onclick="resendVerification()" value="重新發送驗證信">
+							<strong>
+								會員帳號(Email)
+								<span>${user.memberemail}</span>
+								<c:choose>
+								    <c:when test="${user.memberstat == 0}">
+								        <div id="status" class="status unverified">未認證</div>
+								    </c:when>
+								    <c:when test="${user.memberstat != 0}">
+								        <div id="status" class="status verified">已認證</div>
+								    </c:when>
+								</c:choose>
+							</strong>
+							<input type="hidden" name="memberemail"value="${user.memberemail}"> 
+							<input type="hidden" name="action" value="verificationResendEmail">
+						
+						</form>
 						<div></div> <!-- 調整間距 -->
 						<strong>
 							會員密碼
@@ -370,15 +424,29 @@ span{
 					</div>
 				</div>
 			</div>	
-					
-			<div class="row">
-				<div class="col-md-8">
-					<div class="form-group">
-						<label class="control-label col-form-label"> 地址 </label>
-						<input type="text" class="form-control dtpicker-datetoday" id="Address" name="memberaddress" value="${empty user.memberaddress ? '尚未填寫' : user.memberaddress}">
-					</div>
-				</div>
-			</div>	
+			
+			<input type="hidden" class="form-control dtpicker-datetoday" id="Address" name="memberaddress" value="${empty user.memberaddress ? '尚未填寫' : user.memberaddress}">
+			<div class="twzipcode">
+				  <div class="row">
+					   <div class="col-md-4">
+						    <label class="control-label col-form-label"> 縣市 </label> 
+						    <select data-role="county" name="county" class="form-select"></select>
+					   </div>
+					   
+				  		<input type="hidden" name="zipcode" data-role="zipcode" />
+					   <div class="col-md-4">
+						    <label class="control-label col-form-label"> 鄉鎮市區 </label> 
+						    <select data-role="district" name="district" class="form-select"></select>
+					   </div>
+				 </div>
+				 
+				  <div class="row">
+					   <div class="col-md-8">
+						    <label class="control-label col-form-label"> 詳細地址 </label>
+						     <input  type="text" name="address" class="form-control">
+					   </div>
+				  </div>
+			 </div>
 			
 			<input type="hidden" name="membercard" />
 			
@@ -437,6 +505,7 @@ span{
 </div>
 <jsp:include page="/footer.jsp" flush="true" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<%=request.getContextPath()%>/js/twzipcode.min.js"></script>
     
 <script>
 /************顯示修改密碼************/
@@ -533,6 +602,87 @@ function validateForm() {
     return true;
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const statusElement = document.getElementById('status');
+    const resendButton = document.getElementById('resendButton');
+
+    function updateStatus() {
+        const user = ${user.memberstat};
+        console.log(user);
+
+        if (user === 0) {
+            statusElement.innerHTML = '未認證';
+            statusElement.classList.add('unverified');
+            resendButton.style.display = 'block';
+        } else {
+            statusElement.innerHTML = '已認證';
+            statusElement.classList.add('verified');
+            resendButton.style.display = 'none';
+        }
+    }
+
+    // 初始更新
+    updateStatus();
+
+ // 使用 EL 語法獲取後端的值
+    var addressString = "${user.memberaddress}";
+	    // 找到市的位置
+	 var cityIndex = addressString.indexOf("市");
+	 var countyIndex = addressString.indexOf("縣");
+	 var cityOrCountyIndex = -1;
+	 
+	 // 如果 cityIndex 和 countyIndex 都非負，取第一個出現的索引
+	 if (cityIndex >= 0 && countyIndex >= 0) {
+	     cityOrCountyIndex = Math.min(cityIndex, countyIndex);
+	 } else {
+	     // 取非負的索引，如果有一個是負的就取另一個
+	     cityOrCountyIndex = Math.max(cityIndex, countyIndex);
+	 }
+	 
+	 let twzipcode = new TWzipcode({
+		 "district" : {
+		  onChange : function(id) {
+		   console.log(this.nth(id).get());
+		  }
+		 }
+		});
+	
+	 ////////////////////////////// 使用正則表達式匹配以市或縣結尾的數字部分
+	    var match = addressString.match(/(?:市|縣)(\d+)/);
+	
+	    // 如果有匹配，取得匹配的結果
+	    var numberPart = match ? match[1] : null;
+	
+	    var numberAsInt = parseInt(numberPart, 10);
+	 ///////////////////////////////////////// 在控制台上輸出結果
+	    
+	    // 定義可能的行政區域
+	    var regions = ["區", "鄉", "鎮", "市"];
+	
+	    // 初始化變數
+	    var regionIndex = -1;
+	
+	    // 尋找可能的行政區域
+	    for (var i = 0; i < regions.length; i++) {
+	        var index = addressString.indexOf(regions[i]);
+	        if (index !== -1 && (regionIndex === -1 || index < regionIndex) && index > cityOrCountyIndex) {
+	            regionIndex = index;
+	        }
+	    }
+	
+	    // 提取行政區域名稱
+	    var districtOrTown = addressString.substring(cityOrCountyIndex + 1, regionIndex + 1);
+	
+	    // 剩下的部分視為具體地址
+	    var addressPart = addressString.substring(regionIndex + 1);
+	
+	    
+	    twzipcode.nth(1).set(numberAsInt);
+	
+	   
+	    $('input[name="address"]').val(addressPart);
+	    
+	});
 </script>
 </body>
 </html>

@@ -36,7 +36,9 @@ function connect() {
 
         // 一般訊息
         if (data.type === 0) {
+            console.log("data.type === 0");
             buildMessage(data.data);
+            initChatRoom();
         }
 
         // 建立聊天室清單
@@ -74,9 +76,10 @@ function buildChatRoomList(data) {
                         <p>${user.lastMessage.message}</p>
                     </div>
                 </a>`;
+
         chatRoomList.innerHTML += userRow;
 
-         if (user.lastMessage && user.lastMessage.status === "read") {
+         if (user.lastMessage && user.lastMessage.status === "read" || currentMember === user.userName) {
              console.log(user.lastMessage.status);
              document.querySelector(`#alert${user.userName}`).classList.toggle("hide");
          }
@@ -104,6 +107,7 @@ function buildHisMessage(data) {
 
 let currentMember = "";
 function showUserChatBox(e) {
+
     // 被觸擊的元素
     let triggerEl = $(e.target);
     // 找出共同父層且轉為jQuery Object
@@ -115,6 +119,19 @@ function showUserChatBox(e) {
 
     // 找出userName
     let userName = $(targetParent.find("h3")).text();
+
+    // // 更新currentMember
+    // currentMember = userName;
+    //
+    //
+    // // 在確保 currentMember 被正確更新後再發送請求
+    // let jsonObj = {
+    //     type: "openChatRoom",
+    //     sender: "host",
+    //     receiver: currentMember,
+    // };
+    // webSocket.send(JSON.stringify(jsonObj));
+
 
     let jsonObj = {
         type: "openChatRoom",
@@ -159,7 +176,11 @@ function sendMessage() {
 }
 
 function buildMessage(data) {
-    if (currentMember) {
+    console.log(currentMember);
+    console.log(data.receiver);
+    console.log(data.sender);
+
+    if (currentMember && (data.receiver === currentMember || data.sender === currentMember)) {
         let ul = $("#message-list");
         let historyData = data;
         let className = historyData.sender === "host" ? "repaly" : "sender";

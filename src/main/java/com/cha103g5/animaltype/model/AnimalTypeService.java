@@ -9,7 +9,7 @@ public class AnimalTypeService {
     public AnimalTypeService() {
         dao = new AnimalTypeDaoImpl();
     }
-    
+
     public AnimalType add(String animalTypeName) {
         return dao.add(animalTypeName);
     }
@@ -29,5 +29,5 @@ public class AnimalTypeService {
     public List<AnimalType> getAll() {
         return dao.getAll();
     }
-	
+
 }

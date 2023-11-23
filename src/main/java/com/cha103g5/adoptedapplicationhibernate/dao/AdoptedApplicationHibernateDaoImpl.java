@@ -13,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import java.sql.Date;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -135,7 +136,8 @@ public class AdoptedApplicationHibernateDaoImpl implements AdoptedApplicationHib
         return null;
     }
 
-    public List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId, Date lotteryDate) {
+    @Override
+    public List<AdoptedApplicationHibernate> getByDatedAndTime(Date interactionDate, LocalTime startTime, LocalTime endTime) {
         Transaction transaction = null;
         List<AdoptedApplicationHibernate> adoptedApplications = null;
 
@@ -143,10 +145,39 @@ public class AdoptedApplicationHibernateDaoImpl implements AdoptedApplicationHib
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
 
-            String hql = "FROM AdoptedApplicationHibernate WHERE petId = :petId AND lotteryDate = :lotteryDate";
+            String hql = "FROM AdoptedApplicationHibernate WHERE interactionDate = :interactionDate AND interactionTime BETWEEN :startTime AND :endTime";
+
+            Query<AdoptedApplicationHibernate> query = session.createQuery(hql, AdoptedApplicationHibernate.class);
+            query.setParameter("interactionDate", interactionDate);
+            query.setParameter("startTime", startTime);
+            query.setParameter("endTime", endTime);
+
+            adoptedApplications = query.getResultList();
+
+            transaction.commit();
+            return adoptedApplications;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId) {
+        Transaction transaction = null;
+        List<AdoptedApplicationHibernate> adoptedApplications = null;
+
+        try {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+
+//            String hql = "FROM AdoptedApplicationHibernate WHERE petId = :petId AND lotteryDate = :lotteryDate";
+            String hql = "FROM AdoptedApplicationHibernate WHERE petId = :petId";
             Query<AdoptedApplicationHibernate> query = session.createQuery(hql, AdoptedApplicationHibernate.class);
             query.setParameter("petId", petId);
-            query.setParameter("lotteryDate", lotteryDate);
+//            query.setParameter("lotteryDate", lotteryDate);
 
             adoptedApplications = query.getResultList();
 
@@ -211,13 +242,13 @@ public class AdoptedApplicationHibernateDaoImpl implements AdoptedApplicationHib
                 }
             }
 
-            if (map.containsKey("lotteryDate")) {
-                String lotteryDateStr = map.get("lotteryDate");
-                if (lotteryDateStr != null && !lotteryDateStr.isEmpty()) {
-                    Date lotteryDate = Date.valueOf(lotteryDateStr);
-                    predicates.add(criteriaBuilder.equal(root.get("lotteryDate"), lotteryDate));
-                }
-            }
+//            if (map.containsKey("lotteryDate")) {
+//                String lotteryDateStr = map.get("lotteryDate");
+//                if (lotteryDateStr != null && !lotteryDateStr.isEmpty()) {
+//                    Date lotteryDate = Date.valueOf(lotteryDateStr);
+//                    predicates.add(criteriaBuilder.equal(root.get("lotteryDate"), lotteryDate));
+//                }
+//            }
 
             criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
             applications = session.createQuery(criteriaQuery).getResultList();

@@ -1,7 +1,5 @@
 package com.cha103g5.animaltype.model;
 
-import java.util.List;
-
 public class TestCRUD {
     public static void main(String[] args) {
         AnimalTypeDao animalTypeDao = new AnimalTypeDaoImpl();
@@ -11,19 +9,19 @@ public class TestCRUD {
 //        System.out.println("==================");
 //        System.out.println("Added AnimalType: " + addedAnimalType.getAnimalTypeName());
 //        System.out.println("==================");
-//        
+//
 //        // 測試getByName方法
 //        AnimalType gottenAnimalType = animalTypeDao.getByName("豬");
 //        System.out.println("==================");
 //        System.out.println("Gotten AnimalType: " + gottenAnimalType.getAnimalTypeName());
 //        System.out.println("==================");
-//        
+//
         // 測試update方法
         AnimalType updatedAnimalType = animalTypeDao.update("猴子", "豬");
         System.out.println("==================");
         System.out.println("Updated AnimalType: " + updatedAnimalType.getAnimalTypeName());
         System.out.println("==================");
-        
+
 //        // 測試getAll方法
 //        List<AnimalType> allAnimalTypes = animalTypeDao.getAll();
 //        System.out.println("All AnimalTypes:");

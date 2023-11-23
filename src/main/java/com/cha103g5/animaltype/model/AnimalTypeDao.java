@@ -7,8 +7,8 @@ public interface AnimalTypeDao {
 	public AnimalType add(String animalTypeName);
     public AnimalType update(String newAnimalTypeName, String oldAnimalTypeName);
     public void delete(String animalTypeName);
-    
+
     public AnimalType getByName(String animalTypeName);
     public List<AnimalType> getAll();
-    
+
 }
