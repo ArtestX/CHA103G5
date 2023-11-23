@@ -2,40 +2,41 @@ package com.cha103g5.membernotice.model;
 
 public class WebSocketMessage {
 
-//    private String targetUser; 
     private String title;
     private String content;
+    private long timestamp;
 
     public WebSocketMessage() {
+        this.timestamp = System.currentTimeMillis(); // 使用當前時間戳初始化
     }
-    
-    public WebSocketMessage(String title, String content) {
+
+    public WebSocketMessage(String title, String content,long timestamp) {
         this.title = title;
         this.content = content;
+        this.timestamp = System.currentTimeMillis(); // 使用當前時間戳初始化
     }
-    
+
     public String getTitle() {
-		return title;
-	}
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-//	public String getTargetUser() {
-//		return targetUser;
-//	}
-//
-//	public void setTargetUser(String targetUser) {
-//		this.targetUser = targetUser;
-//	}
+    public long getTimestamp() {
+        return timestamp;
+    }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

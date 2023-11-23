@@ -203,8 +203,8 @@ th, td {
 										<th>註冊時間</th>
 										<th>生日</th>
 										<th>大頭照</th>
-										<th>信用卡</th>
-										<th>點數</th>
+<!-- 										<th>信用卡</th> -->
+<!-- 										<th>點數</th> -->
 										<th>狀態</th>
 										<th>身分證</th>
 										<th>職業</th>
@@ -214,7 +214,7 @@ th, td {
 										<td>${MemberVO.memberno}</td>
 										<td>${MemberVO.memberemail}</td>
 										<td>${MemberVO.membername}</td>
-										<td>${MemberVO.membergender}</td>
+										<td>${MemberVO.membergender == 1 ? '男' : (MemberVO.membergender == 2 ? '女' : '未知')}</td>
 	<%-- 									<td>${MemberVO.memberpassword}</td> --%>
 										<td>${MemberVO.memberphone}</td> 
 										<td>${MemberVO.memberaddress}</td>
@@ -223,8 +223,8 @@ th, td {
 										<th>
 											<img src="<%=request.getContextPath()%>/ReadMbrIMG?id=${MemberVO.memberno}" width=70px height= 70px>
 										</th>
-										<td>${MemberVO.membercard}</td>
-										<td>${MemberVO.memberpoints}</td> 
+<%-- 										<td>${MemberVO.membercard}</td> --%>
+<%-- 										<td>${MemberVO.memberpoints}</td>  --%>
 										<td>
 										<form method="post" action="<%=request.getContextPath()%>/member/mem.do" style="margin-bottom: 0px;">
 										   <div class="form-group">
@@ -241,7 +241,10 @@ th, td {
 									    </td>
 										<td>${MemberVO.memberid}</td>
 										<td>${MemberVO.memberjob}</td>
-										<td>${MemberVO.membersal}</td>	
+										<td>${MemberVO.membersal == 0 ? '30W~50W' : 
+     											 (MemberVO.membersal == 1 ? '50W~80W' : 
+     										     (MemberVO.membersal == 2 ? '80W以上' : '未填寫'))}
+     									</td>	
 									</tr>
 							</table>
 						</div>	

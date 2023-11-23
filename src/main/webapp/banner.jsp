@@ -115,7 +115,7 @@
    					<img src="<%=request.getContextPath()%>/img/cart.png" alt="Shopping Cart" id="CartIcon">
   				</a>
 			<!-- 	********小鈴鐺按鈕********* -->
-			<div class="navbar-nav me-lg-2">
+			<div class="navbar-nav me-lg-2" id="bellicon">
 			        <div class="nav-item text-nowrap d-flex align-items-center">
 			           <div class="dropdown ps-3">
 						    <button type="button" class="btn btn-primary position-relative" id="bellIcon">
@@ -175,7 +175,8 @@
 			let membercenter = document.getElementById("membercenter");
 			let memberlogin = document.getElementById("memberlogin");
 			let user = document.getElementById("userMemberName").value;
-
+			let bellicon = document.getElementById("bellicon");
+			
 			if (user === "") {
 				loginIcon.style.display = "block";
 				loginIcon1.style.display = "block";
@@ -183,6 +184,7 @@
 				logoutIcon.style.display = "none";
 				logoutIcon1.style.display = "none";
 				membercenter.style.display = "none";
+				bellicon.style.display = "none";
 			} else {
 				loginIcon.style.display = "none";
 				loginIcon1.style.display = "none";
@@ -190,6 +192,7 @@
 				logoutIcon.style.display = "block";
 				logoutIcon1.style.display = "block";
 				membercenter.style.display = "block";
+				bellicon.style.display = "block";
 			}
 		}
 

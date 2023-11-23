@@ -15,8 +15,8 @@ public class WebSocketController {
 	@MessageMapping("/sendToAll")
     @SendTo("/topic/messages")
 	public WebSocketMessage sendToAll(WebSocketMessage message) {
-	    System.out.println("Received message - Title: " + message.getTitle() + ", Content: " + message.getContent());
-	    return new WebSocketMessage(message.getTitle(), message.getContent());
+	    System.out.println("Received message - Title: " + message.getTitle() + ", Content: " + message.getContent() + ", Timestamp: " + message.getTimestamp());
+	    return new WebSocketMessage(message.getTitle(), message.getContent(), message.getTimestamp());
 	}
     
     @GetMapping("/memberNotice/backendMemberNotice")

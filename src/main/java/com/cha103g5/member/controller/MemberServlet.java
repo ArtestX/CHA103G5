@@ -260,11 +260,11 @@ public class MemberServlet extends HttpServlet {
 	            }
 				
 				String memberaddress = req.getParameter("memberaddress").trim();
-//				 String county = req.getParameter("county");
-//			     String district = req.getParameter("district");
-//			     String zipcode = req.getParameter("zipcode");
-//			     String address = req.getParameter("address");
-//			     String  memberaddress =  county.concat(district).concat(zipcode).concat(address);
+				 String county = req.getParameter("county");
+			     String district = req.getParameter("district");
+			     String zipcode = req.getParameter("zipcode");
+			     String address = req.getParameter("address");
+			     memberaddress =  county.concat(zipcode).concat(district).concat(address);
 				
 				Date memberbirthday = null;
 				String memberBirthdayParameter = req.getParameter("memberbirthday");
@@ -443,9 +443,9 @@ public class MemberServlet extends HttpServlet {
 			 		System.out.println("傳送成功");	
 		 }
 
-/**********************查詢**********************/
-/**********************查詢**********************/
-/**********************查詢**********************/	
+/**********************查詢(會員編號)**********************/
+/**********************查詢(會員編號)**********************/
+/**********************查詢(會員編號)**********************/	
 		 		if ("getOne_For_Display".equals(action)) { // 來自allMembers.jsp的請求	
 		 			
 		 			   	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
@@ -455,7 +455,7 @@ public class MemberServlet extends HttpServlet {
 		 				String str = req.getParameter("memberno");
 		 				
 		 				if (str == null || (str.trim()).length() == 0) {
-		 					errorMsgs.put("memberno","請輸入員工編號");
+		 					errorMsgs.put("memberno","請輸入會員編號");
 		 				}
 		 				// Send the use back to the form, if there were errors
 		 				if (!errorMsgs.isEmpty()) {
@@ -469,7 +469,7 @@ public class MemberServlet extends HttpServlet {
 		 				try {
 		 					memberno = Integer.valueOf(str);
 		 				} catch (Exception e) {
-		 					errorMsgs.put("memberno","員工編號格式不正確");
+		 					errorMsgs.put("memberno","會員編號格式不正確");
 		 				}
 		 				// Send the use back to the form, if there were errors
 		 				if (!errorMsgs.isEmpty()) {
@@ -496,9 +496,56 @@ public class MemberServlet extends HttpServlet {
 		 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 		 				req.setAttribute("MemberVO", memberVO); // 資料庫取出的MemberVO物件,存入req
 		 				String url = "/member/oneMember.jsp";
-		 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneMbr.jsp
+		 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交oneMember.jsp
 		 				successView.forward(req, res);
 		 		 }
+/**********************查詢(會員帳號)**********************/
+/**********************查詢(會員帳號)**********************/
+/**********************查詢(會員帳號)**********************/	
+		 			if ("getOne_For_Email".equals(action)) { // 來自allMembers.jsp的請求	
+		 				System.out.println("帳號查詢");	
+		 				 	Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+		 				 	req.setAttribute("errorMsgs", errorMsgs);
+
+		 				 /***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+		 				 	String memberemail = req.getParameter("memberemail");
+		 				 	System.out.println(memberemail);		
+		 					String memailReg = "^[A-Za-z0-9+_.-]+@(.+)$";
+		 					if (memberemail == null || memberemail.trim().length() == 0) {
+		 						errorMsgs.put("memberemail","帳號請勿空白");
+		 					}else if(!memberemail.trim().matches(memailReg)) { 
+		 						errorMsgs.put("memberemail","不符合信箱格式");
+		 			        }
+		 				
+		 				 	// Send the use back to the form, if there were errors
+		 				 	if (!errorMsgs.isEmpty()) {
+		 				 		  RequestDispatcher failureView = req
+		 				 					.getRequestDispatcher("/member/allMembers.jsp");
+		 				 		 failureView.forward(req, res);
+		 				 					return;//程式中斷
+		 				 	}
+		 				 				
+		 				 	/***************************2.開始查詢資料*****************************************/
+		 				 	MemberService mbrSvc = new MemberService();
+		 				 	MemberVO memberVO = mbrSvc.getMemberByMemberemail(memberemail);
+		 				    if (memberVO == null) {
+		 				 			errorMsgs.put("memberemail","查無資料");
+		 				 	}
+		 				    
+		 				 	// Send the use back to the form, if there were errors
+		 				 	if (!errorMsgs.isEmpty()) {
+		 				 			RequestDispatcher failureView = req
+		 				 					.getRequestDispatcher("/member/allMembers.jsp");
+		 				 			failureView.forward(req, res);
+		 				 			return;//程式中斷
+		 				 	}
+		 				 				
+		 				 /***************************3.查詢完成,準備轉交(Send the Success view)*************/
+		 				 		req.setAttribute("MemberVO", memberVO); // 資料庫取出的MemberVO物件,存入req
+		 				 		String url = "/member/oneMember.jsp";
+		 				 		RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交oneMember.jsp
+		 				 		successView.forward(req, res);
+		 				 }
 		 		
 /**********************查詢單筆**********************/
 /**********************查詢單筆**********************/
