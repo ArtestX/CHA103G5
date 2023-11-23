@@ -107,7 +107,7 @@
 <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
 <br>
 
-<h2><%= year %>年 <%= (month + 1) %>月 行事曆   <span style='color:red;'>(&#10004;為已選時段)</span></h2>
+<h2><%= year %>年 <%= (month + 1) %>月 行事曆</span></h2>
 <table border="1">
     <tr>
         <th>星期日</th>
@@ -129,61 +129,61 @@
                     calendar.set(year, month, dayCounter);
                     // 僅使用年、月、日信息創建 java.sql.Date
                     Date currentDate = new Date(calendar.get(Calendar.YEAR) - 1900,
-                                                calendar.get(Calendar.MONTH),
-                                                calendar.get(Calendar.DATE));
+                            calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DATE));
                     boolean[] slots = reservationMap.getOrDefault(currentDate, new boolean[3]);
         %>
 
-    <td id="deleteButton" >
-        <span style="font-size: 36px;"><%= dayCounter %></span><br>
+        <td id="deleteButton" >
+            <span style="font-size: 36px;"><%= dayCounter %></span><br>
 
-        <div class="<%= slots[0] ? "reserved-slot" : "" %> all-apply">
-            早: <%= slots[0] ? "<span style='color:red;'>&#10004;</span>" : "" %>
-            <% if (slots[0]) { %>
-            <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">
-                <input type="hidden" name="action" value="deleteCalendar">
-                <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">
-                <input type="hidden" name="timeSlot" value="morning">
-                <button type="submit" class="delete-button">&#10005;</button>
-            </form>
-            <% } %>
-        </div>
+            <div class="<%= slots[0] ? "reserved-slot" : "" %> all-apply">
+                早: <%= slots[0] ? "<span style='color:red;'>&#10005;</span>" : "" %>
+<%--                <% if (slots[0]) { %>--%>
+<%--                <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">--%>
+<%--                    <input type="hidden" name="action" value="deleteCalendar">--%>
+<%--                    <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">--%>
+<%--                    <input type="hidden" name="timeSlot" value="morning">--%>
+<%--                    <button type="submit" class="delete-button">&#10005;</button>--%>
+<%--                </form>--%>
+<%--                <% } %>--%>
+            </div>
 
-        <div class="<%= slots[1] ? "reserved-slot" : "" %> all-apply">
-            午: <%= slots[1] ? "<span style='color:red;'>&#10004;</span>" : "" %>
-            <% if (slots[1]) { %>
-            <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">
-                <input type="hidden" name="action" value="deleteCalendar">
-                <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">
-                <input type="hidden" name="timeSlot" value="afternoon">
-                <button type="submit" class="delete-button">&#10005;</button>
-            </form>
-            <% } %>
-        </div>
+            <div class="<%= slots[1] ? "reserved-slot" : "" %> all-apply">
+                午: <%= slots[1] ? "<span style='color:red;'>&#10005;</span>" : "" %>
+<%--                <% if (slots[1]) { %>--%>
+<%--                <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">--%>
+<%--                    <input type="hidden" name="action" value="deleteCalendar">--%>
+<%--                    <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">--%>
+<%--                    <input type="hidden" name="timeSlot" value="afternoon">--%>
+<%--                    <button type="submit" class="delete-button">&#10005;</button>--%>
+<%--                </form>--%>
+<%--                <% } %>--%>
+            </div>
 
-        <div class="<%= slots[2] ? "reserved-slot" : "" %> all-apply">
-            晚: <%= slots[2] ? "<span style='color:red;'>&#10004;</span>" : "" %>
-            <% if (slots[2]) { %>
-            <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">
-                <input type="hidden" name="action" value="deleteCalendar">
-                <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">
-                <input type="hidden" name="timeSlot" value="night">
-                <button type="submit" class="delete-button">&#10005;</button>
-            </form>
-            <% } %>
-        </div>
-    </td>
+            <div class="<%= slots[2] ? "reserved-slot" : "" %> all-apply">
+                晚: <%= slots[2] ? "<span style='color:red;'>&#10005;</span>" : "" %>
+<%--                <% if (slots[2]) { %>--%>
+<%--                <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">--%>
+<%--                    <input type="hidden" name="action" value="deleteCalendar">--%>
+<%--                    <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">--%>
+<%--                    <input type="hidden" name="timeSlot" value="night">--%>
+<%--                    <button type="submit" class="delete-button">&#10005;</button>--%>
+<%--                </form>--%>
+<%--                <% } %>--%>
+            </div>
+        </td>
 
-    <%
+        <%
         } else {
-    %>
-    <td></td>
-    <%
+        %>
+        <td></td>
+        <%
+                }
+                if (dayCounter <= daysInMonth) dayCounter++;
             }
-            if (dayCounter <= daysInMonth) dayCounter++;
-        }
-    %>
-</tr>
+        %>
+    </tr>
     <%
             if (dayCounter > daysInMonth) break;
         }

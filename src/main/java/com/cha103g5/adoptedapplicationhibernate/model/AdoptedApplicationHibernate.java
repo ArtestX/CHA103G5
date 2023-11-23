@@ -30,9 +30,9 @@ public class AdoptedApplicationHibernate implements Serializable {
 
     @Column(name = "petid")
     private Integer petId;
-
-    @Column(name = "lotterydate")
-    private Date lotteryDate;
+//
+//    @Column(name = "lotterydate")
+//    private Date lotteryDate;
 
     @Column(name = "lotteryresult")
     private Integer lotteryResult;
