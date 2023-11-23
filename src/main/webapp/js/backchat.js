@@ -36,7 +36,9 @@ function connect() {
 
         // 一般訊息
         if (data.type === 0) {
+            console.log("data.type === 0");
             buildMessage(data.data);
+            initChatRoom();
         }
 
         // 建立聊天室清單
@@ -77,7 +79,7 @@ function buildChatRoomList(data) {
 
         chatRoomList.innerHTML += userRow;
 
-         if (user.lastMessage && user.lastMessage.status === "read") {
+         if (user.lastMessage && user.lastMessage.status === "read" || currentMember === user.userName) {
              console.log(user.lastMessage.status);
              document.querySelector(`#alert${user.userName}`).classList.toggle("hide");
          }
@@ -174,7 +176,11 @@ function sendMessage() {
 }
 
 function buildMessage(data) {
-    if (currentMember) {
+    console.log(currentMember);
+    console.log(data.receiver);
+    console.log(data.sender);
+
+    if (currentMember && (data.receiver === currentMember || data.sender === currentMember)) {
         let ul = $("#message-list");
         let historyData = data;
         let className = historyData.sender === "host" ? "repaly" : "sender";
@@ -183,12 +189,6 @@ function buildMessage(data) {
         ul.append(showMsg);
         document.querySelector("#chatbox").style.display = "flex";
         msgBody.scrollTop = msgBody.scrollHeight;
-
-        // 檢查消息的接收者是不是當前聊天的對象
-        if (historyData.receiver === currentMember) {
-            ul.append(showMsg);
-            msgBody.scrollTop = msgBody.scrollHeight;
-        }
     }
 }
 
