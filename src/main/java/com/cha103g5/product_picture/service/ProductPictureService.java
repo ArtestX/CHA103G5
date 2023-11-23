@@ -19,7 +19,7 @@ public class ProductPictureService {
 
     private final ProductPictureRepository productPictureRepository;
     private final FileStorageService fileStorageService;
-    private final ProductRepository productRepository; // 添加 ProductRepository 的引用
+    private final ProductRepository productRepository;
 
     @Autowired
     public ProductPictureService(ProductPictureRepository productPictureRepository,

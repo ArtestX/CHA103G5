@@ -1,6 +1,7 @@
 package com.cha103g5.cart.dao;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +16,14 @@ public class Cart implements Serializable {
         this.items = new HashMap<>();
     }
 
+
     // 內部類，表示購物車中的單個項目
     public static class CartItem {
         private Integer productNo;
         private Integer quantity;
-        private Double price;
+        private BigDecimal price;
 
-        public CartItem(Integer productNo, Integer quantity, Double price) {
+        public CartItem(Integer productNo, Integer quantity,BigDecimal price) {
             this.productNo = productNo;
             this.quantity = quantity;
             this.price = price;
@@ -43,17 +45,17 @@ public class Cart implements Serializable {
             this.quantity = quantity;
         }
 
-        public Double getPrice() {
+        public BigDecimal getPrice() {
             return price;
         }
 
-        public void setPrice(Double price) {
+        public void setPrice(BigDecimal price) {
             this.price = price;
         }
     }
 
     // 添加商品到購物車
-    public void addItem(Integer productNo, Integer quantity, Double price) {
+    public void addItem(Integer productNo, Integer quantity, BigDecimal price) {
         items.put(productNo, new CartItem(productNo, quantity, price));
     }
 

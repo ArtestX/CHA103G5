@@ -129,9 +129,14 @@
 <script>
     function addToCart(productNo, quantity) {
         $.ajax({
-            url: '/Cart/add',
+            url: '/CHA103G5/cart/add',
             type: 'POST',
-            data: { productNo: productNo, memberNo: 103, quantity: quantity },
+            data: {
+                memberNo: 103,
+                productNo: productNo,
+                quantity: quantity,
+                price: 0 // 此處僅供參考，您需要根據實際情況設置價格
+            },
             success: function(response) {
                 alert("商品已加入購物車！");
                 // 展開側邊欄來顯示購物車
@@ -142,6 +147,7 @@
             }
         });
     }
+
 
     function goToCart() {
         $('#sidebarCart').collapse('toggle'); // 切換側邊欄的顯示和隱藏
