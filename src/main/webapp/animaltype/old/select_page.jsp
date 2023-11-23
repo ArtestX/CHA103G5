@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.cha103g5.animaltype.old.model.*"%>
+<%@ page import="com.cha103g5.animaltype.model.*"%>
 
 <html>
 <head>

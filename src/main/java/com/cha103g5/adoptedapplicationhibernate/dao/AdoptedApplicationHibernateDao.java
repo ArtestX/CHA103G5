@@ -14,7 +14,8 @@ public interface AdoptedApplicationHibernateDao {
     int delete(Integer applicationNo);
     AdoptedApplicationHibernate getById(Integer applicationNo);
     List<AdoptedApplicationHibernate> getAll();
-    List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId, Date lotteryDate);
+//    List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId, Date lotteryDate);
+    List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId);
     List<AdoptedApplicationHibernate> getByDatedAndTime(Date interactionDate, LocalTime startTime, LocalTime endTime);
     List<AdoptedApplicationHibernate> getByMemberNo(Integer memberNo);
     List<AdoptedApplicationHibernate> getByCompositeQuery(Map<String, String> map);
