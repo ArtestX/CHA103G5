@@ -1,152 +1,282 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.cha103g5.pet.model.*"%>
-<% 
-	PetVO petVO = (PetVO) request.getAttribute("petVO");
-%>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>Ãdª«¸ê®Æ·s¼W - addPet.jsp</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
+	<title>æ–°å¢å¯µç‰©è³‡è¨Š</title>
+	<style>
+		body {
+			font-family: 'Poppins', sans-serif;
+			background: linear-gradient(45deg, #c5deea 0%, #8abbd7 31%, #066dab 100%);
+		}
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
+		.box-area {
+			width: 530px;
+		}
 
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
+		::placeholder {
+			font-size: 14px;
+		}
 
+		span {
+			font-size: 13px;
+			color : red;
+			white-space: nowrap;
+		}
+
+
+
+	</style>
 </head>
-<body bgcolor='white'>
 
-<table id="table-1">
-	<tr><td>
-		 <h3>Ãdª«¸ê®Æ·s¼W - addPet.jsp</h3></td><td>
-		 <h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0"><br>¦^­º­¶</a></h4>
-	</td></tr>
-</table>
+<body>
+	<div
+			class="container d-flex justify-content-center align-items-center min-vh-100">
+		<div class="row border rounded-5 p-3 bg-white shadow box-area">
+			<div class="header-text text-center">
+				<div class="d-flex justify-content-end">
+					<button type="button" class="btn btn-primary" id="mainPage">è¿”å›</button>
+				</div>
+				<h3>æ–°å¢å¯µç‰©è³‡æ–™</h3>
+			</div>
 
-<h3>¸ê®Æ·s¼W:</h3>
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label  class="col-form-label">å¯µç‰©é¡å‹ :
+						<select class="col-form-label" id="petType" name="petType">
+							<option value="1">è²“</option>
+							<option value="2">ç‹—</option>
+						</select>
+					</label>
+				</div>
+			</div>
 
-<%-- ¿ù»~ªí¦C --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
+			<jsp:useBean id="memSvc" scope="page" class="com.cha103g5.member.model.MemberService" />
 
-<FORM METHOD="post" ACTION="pet.do" name="form1">
-<table>
-	
-	
-	
-	
-	<tr>
-		<td>Ãdª«Ãş«¬:</td>
-		<td><select size="1" name="pettype">
-		<option value="1" ${param.pettype == '1' ? 'selected' : ''}>¿ß</option>
-		<option value="2" ${param.pettype == '2' ? 'selected' : ''}>ª¯</option>
-		</select>
-	</tr>
-	<tr>
-		<td>·|­û½s¸¹:</td>
-		<td><input type="TEXT" name="memberno"   value="${param.memberno}" size="45"/></td>
-	</tr>
-	<tr>
-		<td>Ãdª«¦WºÙ:</td>
-		<td><input type="TEXT" name="petname" value="${param.petname}" ></td>
-	</tr>
-	<tr>
-		<td>©Ê§O:</td>
-		<td><select size="1" name="petsex" >
-		<option value="F" ${param.petsex == '1' ? 'selected' : ''}>¤½</option>
-		<option value="M" ${param.petsex == '2' ? 'selected' : ''}>¥À</option>
-		</select>
-	</tr>
-	<tr>
-		<td>Ãdª«¦~ÄÖ:</td>
-		<td><input type="TEXT" name="petage"   value="${param.petage}" size="45"/></td>
-	</tr>
-	<tr>
-		<td>³Æµù:</td>
-		<td><input type="TEXT" name="petnote"value="${param.petnote}"/></td>
-	</tr>
-	<tr>
-		<td>ª¬ºA:</td>
-		<td><select size="1" name="stat">
-		<option value="1" ${param.stat == '1' ? 'selected' : ''}>¥¼¤W¬[</option>
-		<option value="2" ${param.stat == '2' ? 'selected' : ''}>«İ»â¾i</option>
-		<option value="3" ${param.stat == '3' ? 'selected' : ''}>¤£¥i»â¾i</option>
-		</select>
-	</tr>
-	<tr>
-		<td>ºI¤î¤é´Á:</td>
-		<td><input name="applicationdeadline" id="f_date1" type="date" value="${param.applicationdeadline}"></td>
-	</tr>
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label  class="col-form-label">æœƒå“¡ç·¨è™Ÿ :</label>
+					<label>
+						<select size="1" name="memberNo" id="memberNo">
+								<option value="">ç„¡</option>
+							<c:forEach var="MemberVO" items="${memSvc.allMembers}" >
+								<option value="${MemberVO.memberno}">${MemberVO.memberno}</option>
+							</c:forEach>
+						</select>
+					</label>
+				</div>
+			</div>
 
-</table>
-<br>
-<input type="hidden" name="action" value="insert">
-<input type="submit" value="°e¥X·s¼W"></FORM>
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label class="col-form-label" >å¯µç‰©åç¨± :</label>
+				</div>
+				<div class="col-auto">
+					<label>
+						<input type="text" name="petName" placeholder="è«‹è¼¸å…¥å¯µç‰©åç¨±" id="petName">
+					</label>
+				</div>
+			</div>
 
-</body>
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label class="col-form-label" >å¯µç‰©æ€§åˆ¥ :</label>
+				</div>
+				<div class="col-auto">
+					<label class="form-check-label">
+						<input type="radio" name="petSex" value="M" > å…¬
+					</label>
+				</div>
+				<div class="col-auto">
+					<label class="form-check-label">
+						<input type="radio" name="petSex" value="F" > æ¯
+					</label>
+				</div>
+			</div>
+
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label class="col-form-label">å¯µç‰©å¹´é½¡ :</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" name="petAge" id="petAge" placeholder="è«‹è¼¸å…¥å¯µç‰©å¹´é½¡">
+				</div>
+			</div>
+
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label class="col-form-label" >å¯µç‰©å‚™è¨»:</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" name="petNote" placeholder="è«‹è¼¸å…¥å‚™è¨»" id="petNote">
+				</div>
+			</div>
+
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label class="col-form-label">æˆªæ­¢æ—¥æœŸ :</label>
+				</div>
+				<div class="col-auto">
+					<input type="date" name="ApplicationDeadLine" id="applicationDeadLine">
+				</div>
+			</div>
+
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label  class="col-form-label">å¯µç‰©ç‹€æ…‹ :</label>
+					<select class="col-form-label" id="stat" name="stat">
+						<option value="1">æœªä¸Šæ¶</option>
+						<option value="2">å¾…é ˜é¤Š</option>
+						<option value="3">é ˜é¤Šä¸­</option>
+						<option value="4">å·²é ˜é¤Š</option>
+						<option value="21">å¾…é ˜é¤Šå·²é ç´„</option>
+						<option value="31">é ˜é¤Šä¸­ç¬¬ä¸€é †ä½</option>
+						<option value="32">é ˜é¤Šä¸­ç¬¬äºŒé †ä½</option>
+						<option value="33">é ˜é¤Šä¸­ç¬¬ä¸‰é †ä½</option>
+						<option value="34">é ˜é¤Šä¸­ç¬¬å››é †ä½</option>
+						<option value="35">é ˜é¤Šä¸­ç¬¬äº”é †ä½</option>
+						<option value="41">å·²é ˜é¤Šç¬¬ä¸€é †ä½</option>
+						<option value="42">å·²é ˜é¤Šç¬¬äºŒé †ä½</option>
+						<option value="43">å·²é ˜é¤Šç¬¬ä¸‰é †ä½</option>
+						<option value="44">å·²é ˜é¤Šç¬¬å››é †ä½</option>
+						<option value="45">å·²é ˜é¤Šç¬¬äº”é †ä½</option>
+					</select>
+				</div>
+
+			</div>
+
+
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
+					<label class="col-form-label">å¯µç‰©ç…§ç‰‡:</label>
+				</div>
+				<div class="col-auto">
+					<input type="file" name="petPhotos" id="petPic" multiple>
+				</div>
+			</div>
+
+			<div class="input-group g-3 mb-2">
+				<button type="submit" class="btn btn-lg btn-primary w-100 fs-6" id="executeFunctionButton">é€å‡º</button>
+			</div>
+		</div>
+	</div>
+
+<script>
+
+
+
+		document.getElementById('executeFunctionButton').addEventListener('click', function() {
+			// è¦ç™¼é€çš„æ•¸æ“š
+			const petType = document.getElementById('petType').value;
+			const memberNo = document.getElementById('memberNo').value;
+			const petName = document.getElementById('petName').value;
+			const petSex = document.querySelector('[name="petSex"]').value;
+			const petAge = document.getElementById('petAge').value;
+			const petNote = document.getElementById('petNote').value;
+			const applicationDeadLine = document.getElementById('applicationDeadLine').value;
+			const stat = document.getElementById('stat').value;
+
+			const fileInput = document.getElementById('petPic');
+			const files = fileInput.files;
+			const petPic = [];
+
+			if (files.length > 0) {
+				const promises = [];
+
+				for (let i = 0; i < files.length; i++) {
+					const file = files[i];
+					const reader = new FileReader();
+
+					promises.push(new Promise((resolve, reject) => {
+						reader.onloadend = function () {
+							petPic.push(reader.result);
+							resolve();
+						}
+						reader.readAsDataURL(file);
+					}));
+				}
+
+				// ç­‰å¾…æ‰€æœ‰ Promise å®Œæˆå¾Œå†åŸ·è¡Œ fetch
+				Promise.all(promises).then(() => {
+					const postData = {
+						"animalTypeNo": petType,
+						"memberNo": memberNo,
+						"petName": petName,
+						"petSex": petSex,
+						"petAge": petAge,
+						"petNote": petNote,
+						"stat": stat,
+						"applicationDeadLine": applicationDeadLine,
+						"petPic": petPic
+					};
+
+					// APIç«¯é»
+					const apiUrl = 'http://localhost:8080/CHA103G5/addPetInfo';
+
+					// ç™¼é€POSTè«‹æ±‚
+					fetch(apiUrl, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							// å¦‚æœéœ€è¦èº«ä»½é©—è­‰æˆ–å…¶ä»–æ¨™é ­ï¼Œè«‹åœ¨æ­¤è™•æ·»åŠ 
+						},
+						body: JSON.stringify(postData),
+					})
+							.then(response => response.json())
+							.then(data => {
+								// è™•ç†æˆåŠŸéŸ¿æ‡‰
+								console.log('æˆåŠŸï¼š', data);
+							})
+							.catch(error => {
+								// è™•ç†éŒ¯èª¤
+								console.error('éŒ¯èª¤ï¼š', error);
+							});
+				});
+			}
+		});
+</script>
+
+<script>
+	let mainPage = document.getElementById('mainPage');
+	mainPage.addEventListener('click', function() {
+		window.location.href = 'adminSystem.jsp';
+	});
+</script>
+
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 <style>
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }
+	.xdsoft_datetimepicker .xdsoft_datepicker {
+		width:  300px;   /* width:  300px; */
+	}
+	.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+		height: 151px;   /* height:  151px; */
+	}
 </style>
-<script> 
-        $.datetimepicker.setLocale('zh');
-		$('#f_date1').datetimepicker({
-		   	theme: ' ',              //theme: 'dark',
-		    timepicker:false,       //timepicker:true,
-		    step: 60,                //step: 60 (³o¬Otimepickerªº¹w³]¶¡¹j60¤ÀÄÁ)
-		    format:'Y-m-d',         //format:'Y-m-d H:i:s',
-			value: '${param.applicationdeadline}', // value:   new Date(),
-		   //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // ¥h°£¯S©w¤£§t
-		   //startDate:	            '2017/07/10',  // °_©l¤é
-		   //minDate:               '-1970-01-01', // ¥h°£¤µ¤é(¤£§t)¤§«e
-		   //maxDate:               '+1970-01-01'  // ¥h°£¤µ¤é(¤£§t)¤§«á
-		});
-</script>        
-		
-		<script src="../js/popper.min.js"></script>
-		<script src="../js/bootstrap.min.js"></script>
+<script>
+	$.datetimepicker.setLocale('zh');
+	$('#text7').datetimepicker({
+		theme: ' ',              //theme: 'dark',
+		timepicker:false,       //timepicker:true,
+		step: 60,                //step: 60 (é€™æ˜¯timepickerçš„é è¨­é–“éš”60åˆ†é˜)
+		format:'Y-m-d',         //format:'Y-m-d H:i:s',
+		value: '${param.createDate}', // value:   new Date(),
+		//disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // å»é™¤ç‰¹å®šä¸å«
+		//startDate:	            '2017/07/10',  // èµ·å§‹æ—¥
+		//minDate:               '-1970-01-01', // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å‰
+		//maxDate:               '+1970-01-01'  // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å¾Œ
+	});
+</script>
+
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 
 
-
+</body>
 </html>

@@ -1,16 +1,22 @@
 package com.cha103g5.adoptedapplicationhibernate.service;
 
+import com.cha103g5.admin.model.AdminVO;
+import com.cha103g5.admin.service.AdminService;
 import com.cha103g5.adoptedapplicationhibernate.dao.AdoptedApplicationHibernateDao;
 import com.cha103g5.adoptedapplicationhibernate.dao.AdoptedApplicationHibernateDaoImpl;
 import com.cha103g5.adoptedapplicationhibernate.model.AdoptedApplicationHibernate;
+import com.cha103g5.member.model.MemberService;
+import com.cha103g5.member.model.MemberVO;
+import com.cha103g5.pet.service.PetService;
+import com.cha103g5.petinfo.model.PetPicVO;
+import com.cha103g5.petinfo.model.PetVO;
+import com.cha103g5.petinfo.service.PetinfoService;
+import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Base64;
-import java.util.Set;
+import java.util.*;
 
 
 import static com.cha103g5.adoptedapplicationhibernate.util.Constants.PAGE_MAX_RESULT;
@@ -49,8 +55,8 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
     }
 
     @Override
-    public List<AdoptedApplicationHibernate> getApplicationsByPetIdAndLotteryDate(Integer petId, Date lotteryDate) {
-        List<AdoptedApplicationHibernate> applications = dao.getByPetIdAndLotteryDate(petId, lotteryDate);
+    public List<AdoptedApplicationHibernate> getApplicationsByPetIdAndLotteryDate(Integer petId) {
+        List<AdoptedApplicationHibernate> applications = dao.getByPetIdAndLotteryDate(petId);
         applications.forEach(this::convertSignaturePhotoToBase64);
         return applications;
     }
@@ -118,6 +124,81 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
             String photoBase64 = Base64.getEncoder().encodeToString(application.getSignaturePhoto());
             application.setSignaturePhotoBase64(photoBase64);
         }
+    }
+
+    AdminService adminService = new AdminService();
+    MemberService memberService = new MemberService();
+    PetinfoService petService = new PetinfoService() {
+        @Override
+        public PetVO getPetById(Integer petId) {
+            return null;
+        }
+
+        @Override
+        public List<PetVO> getAllPetsWithPictures() {
+            return null;
+        }
+
+        @Override
+        public Boolean addPet(InsertPetInfoVIn insertPetInfoVIn) throws IOException {
+            return null;
+        }
+
+        @Override
+        public Boolean updatePet(InsertPetInfoVIn insertPetInfoVIn) {
+            return null;
+        }
+
+        @Override
+        public Boolean deletePet(Integer petId) {
+            return null;
+        }
+
+        @Override
+        public PetPicVO getPetPicById(Integer picId) {
+            return null;
+        }
+
+        @Override
+        public List<PetPicVO> getAllPetPics() {
+            return null;
+        }
+
+        @Override
+        public void addPetPic(PetPicVO petPic) {
+
+        }
+
+        @Override
+        public void updatePetPic(PetPicVO petPic) {
+
+        }
+
+        @Override
+        public void deletePetPic(Integer picId) {
+
+        }
+    };
+
+    @Override
+    public AdminVO getRandomAdmin() {
+        List<AdminVO> allAdmins = adminService.getAll();
+        Random random = new Random();
+        return allAdmins.get(random.nextInt(allAdmins.size()));
+    }
+
+    @Override
+    public MemberVO getRandomMember() {
+        List<MemberVO> allMembers = memberService.getAllMembers();
+        Random random = new Random();
+        return allMembers.get(random.nextInt(allMembers.size()));
+    }
+
+    @Override
+    public PetVO getRandomPet() {
+        List<PetVO> allPets = petService.getAllPetsWithPictures();
+        Random random = new Random();
+        return allPets.get(random.nextInt(allPets.size()));
     }
 
 }

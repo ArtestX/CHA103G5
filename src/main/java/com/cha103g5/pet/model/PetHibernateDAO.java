@@ -14,7 +14,7 @@ public class PetHibernateDAO implements PetHibernateDAOinterface {
 		}
 
 	@Override
-	public int insert(PetVO petVO) {
+	public int insert(PetServletVO petVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -29,7 +29,7 @@ public class PetHibernateDAO implements PetHibernateDAOinterface {
 	}
 
 	@Override
-	public int update(PetVO petVO) {
+	public int update(PetServletVO petVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -48,7 +48,7 @@ public class PetHibernateDAO implements PetHibernateDAOinterface {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			PetVO petVO = session.get(PetVO.class, petId);
+			PetServletVO petVO = session.get(PetServletVO.class, petId);
 			if (petVO != null) {
 				session.delete(petVO);
 			}
@@ -62,11 +62,11 @@ public class PetHibernateDAO implements PetHibernateDAOinterface {
 	}
 
 	@Override
-	public PetVO findByPrimaryKey(Integer petId) {
+	public PetServletVO findByPrimaryKey(Integer petId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			PetVO petVO = session.get(PetVO.class, petId);
+			PetServletVO petVO = session.get(PetServletVO.class, petId);
 			session.getTransaction().commit();
 			return petVO;
 		} catch (Exception e) {
@@ -77,11 +77,11 @@ public class PetHibernateDAO implements PetHibernateDAOinterface {
 	}
 
 	@Override
-	public List<PetVO> getAll() {
+	public List<PetServletVO> getAll() {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			List<PetVO> list = session.createQuery("from PetVO", PetVO.class).list();
+			List<PetServletVO> list = session.createQuery("from PetServletVO", PetServletVO.class).list();
 			session.getTransaction().commit();
 			return list;
 		} catch (Exception e) {

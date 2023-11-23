@@ -1,3 +1,9 @@
+<%@ page import="com.cha103g5.admin.model.AdminVO" %>
+<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>
+<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>
+<%@ page import="com.cha103g5.member.model.MemberVO" %>
+<%@ page import="com.cha103g5.pet.model.PetVO" %>
+<%@ page import="com.google.gson.Gson" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -18,7 +24,7 @@
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
     <br>
-    <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post" enctype="multipart/form-data">
+    <form id="myForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post" enctype="multipart/form-data" onsubmit="return checkReservation()">
         <input type="hidden" name="action" value="update" />
         <input type="hidden" name="applicationNo" value="${application.applicationNo}" />
         <table>
@@ -38,13 +44,19 @@
                 <td>寵物編號：</td>
                 <td><input required type="number" name="petId" value=${application.petId} /></td>
             </tr>
+<%--            <tr>--%>
+<%--                <td>抽籤日期：</td>--%>
+<%--                <td><input required type="date" name="lotteryDate" value=${application.lotteryDate} /></td>--%>
+<%--            </tr>--%>
             <tr>
-                <td>抽籤日期：</td>
-                <td><input required type="date" name="lotteryDate" value=${application.lotteryDate} /></td>
-            </tr>
-            <tr>
-                <td>抽籤排序：</td>
-                <td><input required type="number" name="lotteryResult" value=${application.lotteryResult} /></td>
+                <td>處理進度：</td>
+                <td>
+                    <select name="lotteryResult">
+                        <option value="0" ${application.lotteryResult == 0 ? "selected" : ""}>處理表單</option>
+                        <option value="1" ${application.lotteryResult == 1 ? "selected" : ""}>成功領養</option>
+                        <option value="2" ${application.lotteryResult == 2 ? "selected" : ""}>領養失敗</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td>申請日期：</td>
@@ -56,9 +68,27 @@
             <tr>
                 <td>預約時間：</td>
                 <td>
-                    <input required type="date" name="interactionDate" value=${application.interactionDate} />
-                    <input required type="time" name="interactionTime" id="interactionTimeInput" value=${application.interactionTime} onchange="checkTime()" />
-                    <div id="timeError" style="color:black;">請選擇有效時間（早上 9~12, 下午 2~5, 晚上 6~9）</div>
+                    <input required type="date" name="interactionDate" id="interactionDateInput" value=${application.interactionDate} />
+                    <select required type="time" name="interactionTime" id="interactionTimeInput" value=${application.interactionTime} >
+                        <optgroup label="早上">
+                            <option value="09:01:00">早上 9:00 ~ 10:00</option>
+                            <option value="10:01:00">早上 10:00 ~ 11:00</option>
+                            <option value="11:01:00">早上 11:00 ~ 12:00</option>
+                        </optgroup>
+                        <optgroup label="下午">
+                            <option value="14:01:00">早上 2:00 ~ 3:00</option>
+                            <option value="15:01:00">早上 3:00 ~ 4:00</option>
+                            <option value="16:01:00">早上 4:00 ~ 5:00</option>
+                        </optgroup>
+                        <optgroup label="晚上">
+                            <option value="18:01:00">早上 6:00 ~ 7:00</option>
+                            <option value="19:01:00">早上 7:00 ~ 8:00</option>
+                            <option value="20:01:00">早上 8:00 ~ 9:00</option>
+                        </optgroup>
+                    </select>
+                    <button type="button" onclick="showCalendarPopup();" class="square-button">顯示<br>行事曆</button>
+<%--                    <input required type="time" name="interactionTime" id="interactionTimeInput" value=${application.interactionTime} onchange="checkTime()" />--%>
+<%--                    <div id="timeError" style="color:black;">請選擇有效時間（早上 9~12, 下午 2~5, 晚上 6~9）</div>--%>
                 </td>
             </tr>
             <tr>
@@ -68,10 +98,10 @@
                         <option value="0" ${application.applicationStat == 0 ? "selected" : ""}>審核中</option>
                         <option value="1" ${application.applicationStat == 1 ? "selected" : ""}>未通過</option>
                         <option value="2" ${application.applicationStat == 2 ? "selected" : ""}>通過</option>
-                        <option value="3" ${application.applicationStat == 3 ? "selected" : ""}>備取中</option>
-                        <option value="4" ${application.applicationStat == 4 ? "selected" : ""}>通知後無意願</option>
-                        <option value="5" ${application.applicationStat == 5 ? "selected" : ""}>領養成功</option>
-                        <option value="6" ${application.applicationStat == 6 ? "selected" : ""}>領養失敗</option>
+<%--                        <option value="3" ${application.applicationStat == 3 ? "selected" : ""}>備取中</option>--%>
+<%--                        <option value="4" ${application.applicationStat == 4 ? "selected" : ""}>通知後無意願</option>--%>
+<%--                        <option value="5" ${application.applicationStat == 5 ? "selected" : ""}>領養成功</option>--%>
+<%--                        <option value="6" ${application.applicationStat == 6 ? "selected" : ""}>領養失敗</option>--%>
                     </select>
                 </td>
             </tr>
@@ -85,6 +115,7 @@
                     <canvas id="signaturePad" width="400" height="200" style="border:1px solid #000;"></canvas>
                     <br>
                     <button type="button" id="clearSignatureBtn">清除簽名</button>
+                    <button type="button" id="restoreSignatureBtn">還原簽名</button>
                     <input required type="hidden" name="signaturePhoto" id="signaturePhoto" />
 <%--                    </c:if>--%>
                 </td>
@@ -107,27 +138,11 @@
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
     <br><br>
-<%--    <a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp">申請表單首頁</a>--%>
-
-<%--    <script>--%>
-<%--        document.getElementById('signaturePhotoInput').addEventListener('change', function(event) {--%>
-<%--            if (event.target.files && event.target.files[0]) {--%>
-<%--                var reader = new FileReader();--%>
-
-<%--                reader.onload = function(e) {--%>
-<%--                    document.getElementById('signaturePhotoShow').src = e.target.result;--%>
-<%--                };--%>
-
-<%--                reader.readAsDataURL(event.target.files[0]);--%>
-<%--            }--%>
-<%--        });--%>
-<%--    </script>--%>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
     <script>
         var canvas = document.getElementById('signaturePad');
         var signaturePad = new SignaturePad(canvas);
-        var originalSignatureData = '${application.signaturePhotoBase64}';
         var isSigning = false;
         var shouldStopSigning = false;
 
@@ -143,6 +158,7 @@
             }
         });
 
+        var signaturePhotoShow = document.getElementById('signaturePhotoShow');
         canvas.addEventListener('mouseup', function() {
             if (isSigning) {
                 var signatureData = signaturePad.toDataURL('image/png');
@@ -160,6 +176,14 @@
             }
         });
 
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            let signatureData = document.getElementById('signaturePhoto').value;
+            if (!signatureData) {
+                alert('請完成簽名後再提交表單。');
+                event.preventDefault();
+            }
+        });
+
         document.getElementById('clearSignatureBtn').addEventListener('click', function() {
             signaturePad.clear();
             document.getElementById('signaturePhoto').value = '';
@@ -167,6 +191,11 @@
         });
 
         document.getElementById('restoreSignatureBtn').addEventListener('click', function() {
+            restoreSignature();
+        });
+
+        function restoreSignature() {
+            let originalSignatureData = '${application.signaturePhotoBase64}';
             if (originalSignatureData) {
                 signaturePad.clear();
                 setTimeout(function() {
@@ -176,7 +205,24 @@
                     signaturePhotoShow.src = restoredData;
                 }, 0);
             }
-        });
+        }
+
+        window.onload = function() {
+            restoreSignature();
+
+            let interactionDateInput = document.getElementById('interactionDateInput');
+
+            let today = new Date();
+            let tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            let maxDate = new Date(tomorrow);
+            maxDate.setDate(maxDate.getDate() + 19);
+
+            // interactionDateInput.min = tomorrow.toISOString().split('T')[0];
+            interactionDateInput.max = maxDate.toISOString().split('T')[0];
+
+        };
 
         // document.getElementById('interactionTimeInput').addEventListener('change', function() {
         //     var selectedTime = this.value;
@@ -194,19 +240,52 @@
         //     // }
         // });
 
-        function checkTime() {
-            var timeInput = document.getElementById('interactionTimeInput');
-            var selectedTime = timeInput.value;
-            var hour = parseInt(selectedTime.split(':')[0], 10);
+        // function checkTime() {
+        //     var timeInput = document.getElementById('interactionTimeInput');
+        //     var selectedTime = timeInput.value;
+        //     var hour = parseInt(selectedTime.split(':')[0], 10);
+        //
+        //     if (!((hour >= 9 && hour < 12) || (hour >= 14 && hour < 17) || (hour >= 18 && hour < 21))) {
+        //         alert('請選擇有效時間: \n早上 9:00~12:00\n下午 2:00~5:00\n晚上 6:00~9:00');
+        //         timeInput.value = '';
+        //         document.getElementById('timeError').style.color = 'red';
+        //     }
+        // }
+        //
+        // window.onload = checkTime; // 在頁面加載時進行檢查
 
-            if (!((hour >= 9 && hour < 12) || (hour >= 14 && hour < 17) || (hour >= 18 && hour < 21))) {
-                alert('請選擇有效時間: \n早上 9:00~12:00\n下午 2:00~5:00\n晚上 6:00~9:00');
-                timeInput.value = '';
-                document.getElementById('timeError').style.color = 'red';
-            }
+        function showCalendarPopup() {
+            var popupWindow = window.open(
+                '${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=frontendCalendar', // 更改為您的實際路徑
+                'CalendarPopup',
+                'width=600,height=400,left=200,top=200' // 調整為您想要的尺寸和位置
+            );
+            popupWindow.focus(); // 將焦點設置到新開啟的窗口
         }
 
-        window.onload = checkTime; // 在頁面加載時進行檢查
+        function checkReservation() {
+            let reservationMap = JSON.parse('<%= new Gson().toJson(request.getAttribute("reservationMap")) %>');
+            let selectedDate = document.getElementById('interactionDateInput').value;
+            let selectedTime = document.getElementById('interactionTimeInput').value;
+
+            let dateReservations = reservationMap[selectedDate];
+            if (dateReservations) {
+                let timeIndex = getTimeSlotIndex(selectedTime);
+                if (dateReservations[timeIndex]) {
+                    alert("該預約時段已滿，請參照行事曆重新選擇");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function getTimeSlotIndex(time) {
+            let hour = parseInt(time.split(':')[0]);
+            if (hour >= 9 && hour < 12) return 0;
+            if (hour >= 14 && hour < 17) return 1;
+            if (hour >= 18 && hour < 21) return 2;
+            return -1;
+        }
 
     </script>
 
