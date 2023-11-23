@@ -13,19 +13,19 @@ import javax.persistence.Table;
 import com.cha103g5.product.dao.ProductVO;
 
 @Entity
-@Table(name = "product_picture")
+@Table(name = "productpicture")
 public class ProductPictureVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_pic_no")
+    @Column(name = "productpicno")
     private Integer productPicNo;
 
     @ManyToOne
-    @JoinColumn(name = "product_no", referencedColumnName = "product_no")
+    @JoinColumn(name = "productno", referencedColumnName = "productno")
     private ProductVO product;
 
-    @Column(name = "product_pic")
+    @Column(name = "productpic")
     private String productPic; // 儲存圖片的檔案名稱或路徑
 
     public Integer getProductPicNo() {

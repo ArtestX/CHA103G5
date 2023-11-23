@@ -165,7 +165,7 @@ public class AdoptedApplicationHibernateDaoImpl implements AdoptedApplicationHib
         }
     }
 
-    public List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId, Date lotteryDate) {
+    public List<AdoptedApplicationHibernate> getByPetIdAndLotteryDate(Integer petId) {
         Transaction transaction = null;
         List<AdoptedApplicationHibernate> adoptedApplications = null;
 
@@ -173,10 +173,11 @@ public class AdoptedApplicationHibernateDaoImpl implements AdoptedApplicationHib
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
 
-            String hql = "FROM AdoptedApplicationHibernate WHERE petId = :petId AND lotteryDate = :lotteryDate";
+//            String hql = "FROM AdoptedApplicationHibernate WHERE petId = :petId AND lotteryDate = :lotteryDate";
+            String hql = "FROM AdoptedApplicationHibernate WHERE petId = :petId";
             Query<AdoptedApplicationHibernate> query = session.createQuery(hql, AdoptedApplicationHibernate.class);
             query.setParameter("petId", petId);
-            query.setParameter("lotteryDate", lotteryDate);
+//            query.setParameter("lotteryDate", lotteryDate);
 
             adoptedApplications = query.getResultList();
 
@@ -241,13 +242,13 @@ public class AdoptedApplicationHibernateDaoImpl implements AdoptedApplicationHib
                 }
             }
 
-            if (map.containsKey("lotteryDate")) {
-                String lotteryDateStr = map.get("lotteryDate");
-                if (lotteryDateStr != null && !lotteryDateStr.isEmpty()) {
-                    Date lotteryDate = Date.valueOf(lotteryDateStr);
-                    predicates.add(criteriaBuilder.equal(root.get("lotteryDate"), lotteryDate));
-                }
-            }
+//            if (map.containsKey("lotteryDate")) {
+//                String lotteryDateStr = map.get("lotteryDate");
+//                if (lotteryDateStr != null && !lotteryDateStr.isEmpty()) {
+//                    Date lotteryDate = Date.valueOf(lotteryDateStr);
+//                    predicates.add(criteriaBuilder.equal(root.get("lotteryDate"), lotteryDate));
+//                }
+//            }
 
             criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
             applications = session.createQuery(criteriaQuery).getResultList();

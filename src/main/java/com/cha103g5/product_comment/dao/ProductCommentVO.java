@@ -1,18 +1,30 @@
 package com.cha103g5.product_comment.dao;
 
 
-import com.cha103g5.product.dao.ProductVO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+
+import com.cha103g5.product.dao.ProductVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "product_comment")
+@Table(name = "productcomment")
 public class ProductCommentVO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +39,7 @@ public class ProductCommentVO {
     @Max(5)
     private Integer rating;
 
-    @Column(name = "created_at")
+    @Column(name = "createdat")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
@@ -40,7 +52,7 @@ public class ProductCommentVO {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_no")
+    @JoinColumn(name = "productno")
     private ProductVO product;
 
 

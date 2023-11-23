@@ -91,6 +91,8 @@
         form {
             border: none; /* 移除邊框 */
             background: transparent; /* 設定背景為透明 */
+            margin: 0;
+            padding: 0;
         }
 
     </style>
@@ -105,7 +107,7 @@
 <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
 <br>
 
-<h2><%= year %>年 <%= (month + 1) %>月 行事曆</h2>
+<h2><%= year %>年 <%= (month + 1) %>月 行事曆   <span style='color:red;'>(&#10004;為已選時段)</span></h2>
 <table border="1">
     <tr>
         <th>星期日</th>
@@ -132,7 +134,7 @@
                     boolean[] slots = reservationMap.getOrDefault(currentDate, new boolean[3]);
         %>
 
-    <td>
+    <td id="deleteButton" >
         <span style="font-size: 36px;"><%= dayCounter %></span><br>
 
         <div class="<%= slots[0] ? "reserved-slot" : "" %> all-apply">
@@ -192,7 +194,6 @@
 <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
 <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
 <br><br>
-
 
 </body>
 </html>
