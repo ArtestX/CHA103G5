@@ -1,10 +1,11 @@
 package com.cha103g5.cart.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class Cart implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -16,18 +17,44 @@ public class Cart implements Serializable {
         this.items = new HashMap<>();
     }
 
-
-    // 內部類，表示購物車中的單個項目
     public static class CartItem {
         private Integer productNo;
         private Integer quantity;
         private BigDecimal price;
+        private String productName;
+        private String imageUrl;
 
-        public CartItem(Integer productNo, Integer quantity,BigDecimal price) {
+        public CartItem() {
+        }
+
+        public String getProductName() {
+            return productName;
+        }
+
+        public void setProductName(String productName) {
+            this.productName = productName;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
+
+        public CartItem(Integer productNo, Integer quantity, BigDecimal price) {
             this.productNo = productNo;
             this.quantity = quantity;
             this.price = price;
         }
+
+        @JsonIgnore
+        public BigDecimal getTotalPrice() {
+            return price.multiply(new BigDecimal(quantity));
+        }
+
+
 
         public Integer getProductNo() {
             return productNo;
@@ -54,12 +81,11 @@ public class Cart implements Serializable {
         }
     }
 
-    // 添加商品到購物車
+
     public void addItem(Integer productNo, Integer quantity, BigDecimal price) {
         items.put(productNo, new CartItem(productNo, quantity, price));
     }
 
-    // 從購物車移除商品
     public void removeItem(Integer productNo) {
         items.remove(productNo);
     }

@@ -3,6 +3,8 @@ package com.cha103g5.cart.service;
 import com.cha103g5.cart.dao.Cart;
 import com.cha103g5.product.dao.ProductRepository;
 import com.cha103g5.product.dao.ProductVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,6 @@ import java.math.BigDecimal;
 public class CartService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ProductRepository productRepository;
-
 
     @Autowired
     public CartService(RedisTemplate<String, Object> redisTemplate, ProductRepository productRepository) {
@@ -33,24 +34,33 @@ public class CartService {
         redisTemplate.delete(getCartKey(memberNo));
     }
 
-    public void addProductToCart(Integer memberNo, Integer productNo, Integer quantity, BigDecimal productPrice) {
-        Cart cart = getCart(memberNo);
+    public void addProductToCart(Integer memberNo, Integer productNo, Integer quantity) {
+        try {
+            Cart cart = getCart(memberNo);
+            if (cart == null) {
+                cart = new Cart();
+                cart.setMemberNo(memberNo);
+            }
+            ProductVO product = productRepository.findById(productNo)
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        if (cart == null) {
-            cart = new Cart();
-            cart.setMemberNo(memberNo);
-        }
+            Cart.CartItem item = cart.getItems().get(productNo);
+            if (item != null) {
+                item.setQuantity(item.getQuantity() + quantity);
+            } else {
+                item = new Cart.CartItem(productNo, quantity, product.getProductPrice());
+                cart.getItems().put(productNo, item);
+            }
 
-        // 根據商品編號查找商品信息
-        ProductVO product = productRepository.findById(productNo).orElse(null);
+            // 更新商品名稱
+            item.setProductName(product.getProductName());
 
-        if (product != null) {
-            // 獲取商品名稱和價格
-            String productName = product.getProductName();
-            BigDecimal price = product.getProductPrice();
+            // 直接使用保存在ProductVO中的圖片路徑
+            item.setImageUrl(product.getFirstProductImagePath());
 
-            cart.addItem(productNo, quantity, price);
             saveCart(memberNo, cart);
+        } catch (Exception e) {
+            throw new RuntimeException("Error adding product to cart", e);
         }
     }
 

@@ -1,24 +1,31 @@
 package com.cha103g5.cart.controller;
 
 import com.cha103g5.cart.dao.Cart;
+import com.cha103g5.cart.dto.AddToCartRequest;
 import com.cha103g5.cart.service.CartService;
+import com.cha103g5.product.dao.ProductRepository;
+import com.cha103g5.product.dao.ProductVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 
-@Controller
+@RestController
 @RequestMapping("/cart")
 public class CombinedCartController {
     private final CartService cartService;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public CombinedCartController(CartService cartService) {
+    public CombinedCartController(CartService cartService, ProductRepository productRepository) {
         this.cartService = cartService;
+        this.productRepository = productRepository;
     }
 
     @PostMapping("/create/{memberNo}")
@@ -39,25 +46,18 @@ public class CombinedCartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addToCart(@RequestParam("memberNo") Integer memberNo,
-                                       @RequestParam("productNo") Integer productNo,
-                                       @RequestParam("quantity") Integer quantity,
-                                       @RequestBody Cart cart) {
-        // 使用 cart 執行相關處理
-        // 首先獲取特定商品的 CartItem
-        Cart.CartItem cartItem = cart.getItems().get(productNo);
-        if (cartItem != null) {
-            // 獲取商品價格
-            BigDecimal price = cartItem.getPrice();
+    public ResponseEntity<?> addToCart(@RequestBody AddToCartRequest addToCartRequest) {
+        try {
+            Integer memberNo = addToCartRequest.getMemberNo();
+            Integer productNo = addToCartRequest.getProductNo();
+            Integer quantity = addToCartRequest.getQuantity();
 
-            // 調用 cartService 的方法，傳遞價格（price）
-            cartService.addProductToCart(memberNo, productNo, quantity, price);
+            cartService.addProductToCart(memberNo, productNo, quantity);
             return ResponseEntity.ok("商品已成功加入購物車");
-        } else {
-            return ResponseEntity.badRequest().body("找不到指定商品");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
 
 
@@ -67,5 +67,4 @@ public class CombinedCartController {
         cartService.deleteCart(memberNo);
         return ResponseEntity.ok().build();
     }
-
 }

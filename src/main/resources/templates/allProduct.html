@@ -193,7 +193,7 @@
             <tr th:each="product : ${products}">
                 <td>
                     <img th:if="${product.productPictures.size() > 0}"
-                         th:src="@{'/uploads/' + ${product.productPictures.get(0).productPic}}"
+                         th:src="@{'/static/uploads/' + ${product.productPictures.get(0).productPic}}"
                          alt="商品照片" width="100" height="100"/>
                 </td>
                 <td th:text="${product.productNo}"></td>
