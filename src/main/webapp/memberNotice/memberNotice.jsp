@@ -228,7 +228,7 @@ body {
                 return;
             }
 
-            stompClient.send("/app/sendToAll", {}, JSON.stringify({ 'title': title, 'content': content }));
+            stompClient.send("/app/sendToAll", {}, JSON.stringify({ 'title': title, 'content': content}));
 
             // Show success notification
             Swal.fire({

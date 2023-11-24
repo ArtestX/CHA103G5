@@ -11,6 +11,7 @@ import com.cha103g5.petinfo.dto.PetInfoDto;
 import com.cha103g5.petinfo.model.PetPicVO;
 import com.cha103g5.petinfo.model.PetVO;
 import com.cha103g5.petinfo.service.PetInfoService;
+import com.cha103g5.petinfo.service.PetInfoServiceImpl;
 import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 
 import java.io.IOException;
@@ -126,79 +127,29 @@ public class AdoptedApplicationHibernateServiceImpl implements AdoptedApplicatio
         }
     }
 
-    AdminService adminService = new AdminService();
-    MemberService memberService = new MemberService();
-    PetInfoService petService = new PetInfoService() {
-        @Override
-        public PetInfoDto getPetById(Integer petId) {
-            return null;
-        }
-
-        @Override
-        public List<PetVO> getAllPetsWithPictures() {
-            return null;
-        }
-
-        @Override
-        public Boolean addPet(InsertPetInfoVIn insertPetInfoVIn) throws IOException {
-            return null;
-        }
-
-        @Override
-        public Boolean updatePet(InsertPetInfoVIn insertPetInfoVIn) {
-            return null;
-        }
-
-        @Override
-        public Boolean deletePet(Integer petId) {
-            return null;
-        }
-
-        @Override
-        public PetPicVO getPetPicById(Integer picId) {
-            return null;
-        }
-
-        @Override
-        public List<PetPicVO> getAllPetPics() {
-            return null;
-        }
-
-        @Override
-        public void addPetPic(PetPicVO petPic) {
-
-        }
-
-        @Override
-        public void updatePetPic(PetPicVO petPic) {
-
-        }
-
-        @Override
-        public void deletePetPic(Integer picId) {
-
-        }
-    };
-
-    @Override
-    public AdminVO getRandomAdmin() {
-        List<AdminVO> allAdmins = adminService.getAll();
-        Random random = new Random();
-        return allAdmins.get(random.nextInt(allAdmins.size()));
-    }
-
-    @Override
-    public MemberVO getRandomMember() {
-        List<MemberVO> allMembers = memberService.getAllMembers();
-        Random random = new Random();
-        return allMembers.get(random.nextInt(allMembers.size()));
-    }
-
-    @Override
-    public PetVO getRandomPet() {
-        List<PetVO> allPets = petService.getAllPetsWithPictures();
-        Random random = new Random();
-        return allPets.get(random.nextInt(allPets.size()));
-    }
+//    AdminService adminService = new AdminService();
+//    MemberService memberService = new MemberService();
+//    PetInfoService petService = new PetInfoServiceImpl();
+//
+//    @Override
+//    public AdminVO getRandomAdmin() {
+//        List<AdminVO> allAdmins = adminService.getAll();
+//        Random random = new Random();
+//        return allAdmins.get(random.nextInt(allAdmins.size()));
+//    }
+//
+//    @Override
+//    public MemberVO getRandomMember() {
+//        List<MemberVO> allMembers = memberService.getAllMembers();
+//        Random random = new Random();
+//        return allMembers.get(random.nextInt(allMembers.size()));
+//    }
+//
+//    @Override
+//    public PetVO getRandomPet() {
+//        List<PetVO> allPets = petService.getAllPetsWithPictures();
+//        Random random = new Random();
+//        return allPets.get(random.nextInt(allPets.size()));
+//    }
 
 }

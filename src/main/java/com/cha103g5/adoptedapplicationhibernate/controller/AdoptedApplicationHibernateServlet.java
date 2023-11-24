@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -55,6 +53,21 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 
 				request.setAttribute("someApplications", someApplications);
 				request.getRequestDispatcher("adoptedapplicationhibernate/listSome.jsp")
+						.forward(request, response);
+			}
+		}
+
+		if ("frontendGetByMemberNo".equals(action)) {
+			String memberNoStr = request.getParameter("memberNo");
+			if (memberNoStr.equals("")) {
+				response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+			} else {
+				Integer memberNo = Integer.parseInt(memberNoStr);
+				List<AdoptedApplicationHibernate> someApplications = aahService.getApplicationsByMemberNo(memberNo);
+
+				request.setAttribute("someApplications", someApplications);
+				request.setAttribute("includePath", "frontendListSome.jsp");
+				request.getRequestDispatcher("adoptedapplicationhibernate/frontmember.jsp")
 						.forward(request, response);
 			}
 		}
@@ -129,7 +142,6 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 			request.setAttribute("reservationMap", reservationMap);
 			request.getRequestDispatcher("adoptedapplicationhibernate/frontendCalendar.jsp").forward(request, response);
 		}
-
 
 		if ("addOption".equals(action)) {
 			List<AdoptedApplicationHibernate> allReservations = aahService.getAllApplications();

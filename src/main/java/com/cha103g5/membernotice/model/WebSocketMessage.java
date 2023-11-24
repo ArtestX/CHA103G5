@@ -1,5 +1,10 @@
 package com.cha103g5.membernotice.model;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 public class WebSocketMessage {
 
     private String title;
@@ -10,11 +15,20 @@ public class WebSocketMessage {
         this.timestamp = System.currentTimeMillis(); // 使用當前時間戳初始化
     }
 
-    public WebSocketMessage(String title, String content,long timestamp) {
+    public WebSocketMessage(String title, String content,String formattedDateTime) {
         this.title = title;
         this.content = content;
         this.timestamp = System.currentTimeMillis(); // 使用當前時間戳初始化
     }
+    
+	 // 新增一個方法用於獲取格式化的日期時間字符串
+	    public String getFormattedTimestamp() {
+	        Instant instant = Instant.ofEpochMilli(timestamp);
+	        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd  HH:mm:ss");
+	        String formattedDateTime = dateTime.format(formatter); // 格式化日期時間
+	        return formattedDateTime;
+	    }
 
     public String getTitle() {
         return title;
@@ -37,6 +51,6 @@ public class WebSocketMessage {
     }
 
     public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+        this.timestamp = System.currentTimeMillis();
     }
 }

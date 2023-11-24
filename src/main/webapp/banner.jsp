@@ -238,7 +238,7 @@
 			        messages.forEach(message => {
 			            const messageItem = document.createElement("li");
 			            messageItem.classList.add("notifications-block", "border-bottom", "pb-2", "mb-2");
-			            messageItem.innerHTML = '<b style="font-size:20px;">' + message.title + '</b><br>'  + message.content;
+			            messageItem.innerHTML = '<b style="font-size:20px;">' + message.title + '</b><br>' + message.content + '<br>' + message.formattedTimestamp;
 			            messageList.appendChild(messageItem);
 			        });
 			    } else {
