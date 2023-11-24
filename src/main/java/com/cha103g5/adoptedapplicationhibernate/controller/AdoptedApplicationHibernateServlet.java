@@ -66,7 +66,7 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 				List<AdoptedApplicationHibernate> someApplications = aahService.getApplicationsByMemberNo(memberNo);
 
 				request.setAttribute("someApplications", someApplications);
-				request.setAttribute("includePath", "frontendListSome.jsp");
+				request.setAttribute("applicationIncludePath", "frontendListSome.jsp");
 				request.getRequestDispatcher("adoptedapplicationhibernate/frontmember.jsp")
 						.forward(request, response);
 			}
@@ -308,40 +308,52 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 		}
 
 		if ("add".equals(action)) {
-			Integer adminNo = Integer.parseInt(request.getParameter("adminNo"));
-			Integer memberNo = Integer.parseInt(request.getParameter("memberNo"));
-			Integer petId = Integer.parseInt(request.getParameter("petId"));
+			try {
+				Integer adminNo = Integer.parseInt(request.getParameter("adminNo"));
+				Integer memberNo = Integer.parseInt(request.getParameter("memberNo"));
+				Integer petId = Integer.parseInt(request.getParameter("petId"));
 //			Date lotteryDate = Date.valueOf(request.getParameter("lotteryDate"));
-			Integer lotteryResult = Integer.parseInt(request.getParameter("lotteryResult"));
-			Date applicationDate = Date.valueOf(request.getParameter("applicationDate"));
-			Date interactionDate = Date.valueOf(request.getParameter("interactionDate"));
-			LocalTime interactionTime = LocalTime.parse(request.getParameter("interactionTime"));
-			Integer applicationStat = Integer.parseInt(request.getParameter("applicationStat"));
-			String applicantNotes = request.getParameter("applicantNotes");
+				Integer lotteryResult = Integer.parseInt(request.getParameter("lotteryResult"));
+				Date applicationDate = Date.valueOf(request.getParameter("applicationDate"));
+				Date interactionDate = Date.valueOf(request.getParameter("interactionDate"));
+				LocalTime interactionTime = LocalTime.parse(request.getParameter("interactionTime"));
+				Integer applicationStat = Integer.parseInt(request.getParameter("applicationStat"));
+				String applicantNotes = request.getParameter("applicantNotes");
 
 //			Part filePart = request.getPart("signaturePhoto");
 //			InputStream fileContent = filePart.getInputStream();
 //			byte[] signaturePhotoBytes = IOUtils.toByteArray(fileContent);
-			// 接收簽名數據
-			String signatureImageData = request.getParameter("signaturePhoto");
-			byte[] signaturePhotoBytes = Base64.getDecoder().decode(signatureImageData.split(",")[1]);
+				// 接收簽名數據
+				String signatureImageData = request.getParameter("signaturePhoto");
+				byte[] signaturePhotoBytes = Base64.getDecoder().decode(signatureImageData.split(",")[1]);
 
-			AdoptedApplicationHibernate application = new AdoptedApplicationHibernate();
-			application.setAdminNo(adminNo);
-			application.setMemberNo(memberNo);
-			application.setPetId(petId);
+				AdoptedApplicationHibernate application = new AdoptedApplicationHibernate();
+				application.setAdminNo(adminNo);
+				application.setMemberNo(memberNo);
+				application.setPetId(petId);
 //			application.setLotteryDate(lotteryDate);
-			application.setLotteryResult(lotteryResult);
-			application.setApplicationDate(applicationDate);
-			application.setInteractionDate(interactionDate);
-			application.setInteractionTime(interactionTime);
-			application.setApplicationStat(applicationStat);
-			application.setApplicantNotes(applicantNotes);
-			application.setSignaturePhoto(signaturePhotoBytes);
+				application.setLotteryResult(lotteryResult);
+				application.setApplicationDate(applicationDate);
+				application.setInteractionDate(interactionDate);
+				application.setInteractionTime(interactionTime);
+				application.setApplicationStat(applicationStat);
+				application.setApplicantNotes(applicantNotes);
+				application.setSignaturePhoto(signaturePhotoBytes);
 
-			aahService.addApplication(application);
-
-			response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+				int applicationNo = aahService.addApplication(application);
+				if (applicationNo == -1) {
+					request.getSession().setAttribute("addSuccess", false);
+				} else {
+					request.setAttribute("applicationNo", applicationNo);
+					request.getSession().setAttribute("addSuccess", true);
+				}
+			} catch (Exception e) {
+				request.getSession().setAttribute("addSuccess", false);
+				e.printStackTrace();
+			}
+//			response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+			request.getRequestDispatcher("adoptedapplicationhibernate/add.jsp")
+					.forward(request, response);
 		}
 	}
 }

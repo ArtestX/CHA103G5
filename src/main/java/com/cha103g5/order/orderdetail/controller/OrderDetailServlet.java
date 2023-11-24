@@ -46,6 +46,9 @@ public class OrderDetailServlet extends HttpServlet {
 			case "compositeQuery":
 				forwardPath = getOrderDetailsByCompositeQuery(request, response);
 				break;
+			case "getByOrderTableNoFrontend":
+				forwardPath = getOrderDetailsByOrderTableNoFrontend(request, response);
+				break;
 			default:
 				forwardPath = "/orderdetail/index.jsp";
 		}
@@ -125,6 +128,21 @@ public class OrderDetailServlet extends HttpServlet {
 			request.setAttribute("someOrderDetails", someOrderDetails);
 
 			return "/orderdetail/listSome.jsp";
+		}
+	}
+
+	private String getOrderDetailsByOrderTableNoFrontend(HttpServletRequest request, HttpServletResponse response) {
+		String orderTableNoStr = request.getParameter("currentOrderTableNo");
+		if (orderTableNoStr.equals("")) {
+			return null;
+		} else {
+			Integer orderTableNo = Integer.parseInt(orderTableNoStr);
+			List<OrderDetailVO> someOrderDetails = odService.getOrderDetailsByOrderTableNo(orderTableNo);
+
+			request.setAttribute("someOrderDetails", someOrderDetails);
+			request.setAttribute("orderDetailIncludePath", "../orderdetail/listSomeOrderDetailFrontend.jsp");
+
+			return "orderdetail/listSomeOrderDetailFrontend.jsp";
 		}
 	}
 
