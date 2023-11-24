@@ -81,6 +81,7 @@ h1 {
 #chat-icon:hover {
     background-color: #157575;
 }
+
 </style>
 
 </head>
@@ -205,16 +206,76 @@ h1 {
 	
 	        </div>
 	    </div>
+
+		<div class="">
+
+		</div>
+
+
+		<table class="table table-warning table table-hover">
+			<thead>
+			<tr>
+				<th scope="col"><span style="font-size: larger;">公告時間</span></th>
+				<th scope="col"><span style="font-size: larger;">公告種類</span></th>
+				<th scope="col"><span style="font-size: larger;">公告內容</span></th>
+			</tr>
+			</thead>
+			<tbody id="announcementTable">
+
+			</tbody>
+		</table>
+
+
 	    <!-- 即時客服 -->
     </section>
 	<jsp:include page="/footer.jsp" flush="true" />
+
+
     
         <!-- JAVASCRIPT FILES -->
+<%--	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>--%>
         <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	    <script src="<%=request.getContextPath()%>/js/customerChat.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	    <script src="https://kit.fontawesome.com/616f19a0b0.js" crossorigin="anonymous"></script>
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+	<script>
+		$(document).ready(function() {
+			// 頁面加載時自動執行的代碼
+			callSpringBootAPI();
+		});
+
+		function callSpringBootAPI() {
+			$.ajax({
+				url: '/CHA103G5/GetAllInformationAnnouncement', // 替換為你的Spring Boot Controller的API端點
+				type: 'GET', // 或 'POST'，取決於你的Controller設定
+				dataType: 'json',
+				success: function(data) {
+					let petHtml = data.map(info => {
+						return '<tr>' +
+								'<td>' + info.infoTime + '</td>' +
+								'<td>' + info.infoTitle + '</td>' +
+								'<td>' + info.infoContent + '</td>' +
+								'</tr>';
+
+					}).join('');
+					console.log(petHtml);
+					// 插入到表格中
+					$('#announcementTable').html(petHtml);
+					// 在這裡處理從API返回的數據
+					console.log(data);
+				},
+				error: function(xhr, status, error) {
+					// 處理錯誤
+					console.error('API呼叫失敗: ' + status + ', ' + error);
+				},
+
+			});
+		}
+	</script>
+
+
 		
 </body>
 </html>

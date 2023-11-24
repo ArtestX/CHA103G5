@@ -7,10 +7,13 @@ import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -28,7 +31,8 @@ public class PetInfoController {
 
     @GetMapping("/GetAllPetInfo")
     public List<PetVO> getAllPetsWithPictures() {
-        return petInfoService.getAllPetsWithPictures();
+        List<PetVO> a = petInfoService.getAllPetsWithPictures();
+        return a;
     }
 
     @PostMapping("/addPetInfo")
@@ -57,5 +61,13 @@ public class PetInfoController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("寵物資訊刪除失敗");
         }
+    }
+
+    @GetMapping("/pets")
+    public String listPets(Model model) {
+        List<PetVO> pets = petInfoService.getAllPetsWithPictures();
+        System.out.println("Pets: " + pets);
+        model.addAttribute("pets", pets);
+        return "pets"; // JSP 頁面名稱
     }
 }

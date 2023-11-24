@@ -182,8 +182,6 @@
 
 							</div>
 
-			<jsp:useBean id="petSel" scope="page" class="com.cha103g5.pet.service.PetService" />
-
 						<div class="col-md-4 d-flex justify-content-end"
 							 style="margin-left: 400px;">
 							<button class="btn btn-primary" id="navigateButton">新增</button>
@@ -194,40 +192,17 @@
 						<table class="table table-hover table-striped">
 							<thead>
 							<tr>
-								<th>編號</th>
-								<th>寵物類型</th>
-								<th>會員編號</th>
-								<th>姓名</th>
-								<th>寵物性別</th>
-								<th>寵物年齡</th>
-								<th>備註</th>
-								<th>狀態</th>
-								<th>截止日</th>
+								<th>公告編號</th>
+								<th>管理員編號</th>
+								<th>公告類型</th>
+								<th>公告內容</th>
+								<th>公告時間</th>
 							</tr>
 							</thead>
-							<tbody>
-<%--							<%@ include file="page1.file" %>--%>
-					<c:forEach var="petVO" items="${petSel.all}" >
-								<tr>
-									<th>${petVO.petid}</th>
-									<th>${petVO.animaltypeno}</th>
-									<th>${petVO.memberno}</th>
-									<th>${petVO.petname}</th>
-									<th>${petVO.petsex}</th>
-									<th>${petVO.petage}</th>
-									<th>${petVO.petnote}</th>
-									<th>${petVO.stat}</th>
-									<th>${petVO.applicationdeadline}</th>
+							<tbody id="announcementTable">
 
-
-									<th class="text-center">
-								<td>
-									<button class="btn btn-success updatebtn" type="submit" onclick="update(${petVO.petid})">修改</button>
-
-							</c:forEach>
 							</tbody>
 						</table>
-<%--						<%@ include file="page2.file" %>--%>
 
 
 					</div>
@@ -238,7 +213,51 @@
 	</div>
 </div>
 
+<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+
 <script>
+	$(document).ready(function() {
+		// 頁面加載時自動執行的代碼
+		callSpringBootAPI();
+	});
+
+	function callSpringBootAPI() {
+		$.ajax({
+			url: '/CHA103G5/GetAllInformationAnnouncement', // 替換為你的Spring Boot Controller的API端點
+			type: 'GET', // 或 'POST'，取決於你的Controller設定
+			dataType: 'json',
+			success: function(data) {
+				let petHtml = data.map(info => {
+					return	'<tr>' +
+							'<th>' + info.infoNo + '</th>' +
+							'<th>' + info.adminNo + '</th>' +
+							'<th>' + info.infoContent + '</th>' +
+							'<th>' + info.infoTitle + '</th>' +
+							'<th>' + info.infoTime + '</th>' +
+							'<td class="text-center">' +
+							'<button class="btn btn-success updatebtn" type="submit" onClick="update(' + info.infoNo + ')">修改</button>' +
+							'</td>' +
+							'</tr>'
+
+				}).join('');
+				console.log(petHtml);
+				// 插入到表格中
+				$('#announcementTable').html(petHtml);
+				// 在這裡處理從API返回的數據
+				console.log(data);
+			},
+			error: function(xhr, status, error) {
+				// 處理錯誤
+				console.error('API呼叫失敗: ' + status + ', ' + error);
+			},
+
+		});
+	}
+
+
+
 
 	document.addEventListener("DOMContentLoaded", function() {
 		// 監聽搜尋按鈕的點擊事件
@@ -297,7 +316,5 @@
 </script>
 
 
-<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </body>
 </html>

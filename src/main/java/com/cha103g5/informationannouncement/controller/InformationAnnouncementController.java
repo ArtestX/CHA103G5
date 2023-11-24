@@ -25,19 +25,19 @@ public class InformationAnnouncementController {
     }
 
     // 查詢公告
-    @GetMapping("/informationannouncement/{infoNo}")
+    @GetMapping("/informationAnnouncement/{infoNo}")
     public InformationAnnouncementVO getInformationAnnouncementById(@PathVariable @Valid Integer infoNo) {
         return informationAnnouncementService.getInformationAnnouncementById(infoNo);
     }
 
     // 查詢全部公告
-    @GetMapping("/informationannouncement")
+    @GetMapping("/GetAllInformationAnnouncement")
     public List<InformationAnnouncementVO> getAllInformationAnnouncements() {
         return informationAnnouncementService.getAllInformationAnnouncements();
     }
 
     // 更新公告
-    @PutMapping("/informationannouncement/{infoNo}")
+    @PutMapping("/informationAnnouncement/{infoNo}")
     public ResponseEntity<String> updateInformationAnnouncement(@PathVariable @Valid Integer infoNo,
                                                                 @RequestBody @Valid InformationAnnouncementVO info) {
         InformationAnnouncementVO existingInfo = informationAnnouncementService.getInformationAnnouncementById(infoNo);
@@ -55,7 +55,7 @@ public class InformationAnnouncementController {
     }
 
     // 删除公告
-    @DeleteMapping("/informationannouncement/{infoNo}")
+    @DeleteMapping("/informationAnnouncement/{infoNo}")
     public ResponseEntity<?> deleteInformationAnnouncement(@PathVariable Integer infoNo) {
 
         informationAnnouncementService.deleteInformationAnnouncement(infoNo);

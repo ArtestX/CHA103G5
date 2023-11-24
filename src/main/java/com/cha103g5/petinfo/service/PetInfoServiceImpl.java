@@ -8,12 +8,13 @@ import com.cha103g5.petinfo.repository.PetRepository;
 import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class PetInfoServiceImpl implements PetInfoService {
 
     @Autowired
@@ -53,20 +54,37 @@ public class PetInfoServiceImpl implements PetInfoService {
     @Override
     public List<PetVO> getAllPetsWithPictures() {
         try {
-            // 使用 Java 8 Stream API 來簡化邏輯
-            return petRepository.findAll().stream()
+            List<PetVO> a = petRepository.findAll().stream()
                     .peek(this::attachPetPictures)
                     .collect(Collectors.toList());
+            // 使用 Java 8 Stream API 來簡化邏輯
+            return a;
         } catch (Exception e) {
             System.out.println("獲取所有寵物信息錯誤: " + e.getMessage());
             return Collections.emptyList();
         }
     }
-            private void attachPetPictures(PetVO pet) {
-                // 為每個 PetVO 對象附加圖片信息
-                List<PetPicVO> petPics = petPicRepository.findByPetId(pet.getPetId());
-                pet.setPetPics(petPics);
+
+    private void attachPetPictures(PetVO pet) {
+        // 為每個 PetVO 對象附加圖片信息
+        List<PetPicVO> petPics = petPicRepository.findByPetId(pet.getPetId())
+                .stream()
+                .peek(this::convertPictureToBase64) // 新增的 Base64 轉換邏輯
+                .collect(Collectors.toList());
+        pet.setPetPics(petPics);
+    }
+
+    private void convertPictureToBase64(PetPicVO petPic) {
+        try {
+            if (petPic.getPetPic() != null) {
+                String base64Image = Base64.getEncoder().encodeToString(petPic.getPetPic());
+                petPic.setBase64Image(base64Image);
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Base64编码异常: " + e.getMessage());
+            // 处理异常，可以记录日志或采取其他适当的操作
+        }
+    }
 
     @Override
     public Boolean addPet(InsertPetInfoVIn insertPetInfoVIn) {
