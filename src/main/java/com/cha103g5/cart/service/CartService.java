@@ -69,4 +69,36 @@ public class CartService {
     private String getCartKey(Integer memberNo) {
         return "cart:" + memberNo;
     }
+
+
+    public void updateProductQuantity(Integer memberNo, Integer productNo, Integer quantity) {
+        Cart cart = getCart(memberNo);
+        if (cart != null && cart.getItems().containsKey(productNo)) {
+            Cart.CartItem item = cart.getItems().get(productNo);
+            if (quantity > 0) {
+                item.setQuantity(quantity);
+            } else {
+                cart.getItems().remove(productNo);
+            }
+            saveCart(memberNo, cart);
+        }
+    }
+
+    public void deleteProductFromCart(Integer memberNo, Integer productNo) {
+        Cart cart = getCart(memberNo);
+        if (cart != null) {
+            cart.getItems().remove(productNo);
+            saveCart(memberNo, cart);
+        }
+    }
+
+    public BigDecimal calculateTotalPrice(Integer memberNo) {
+        Cart cart = getCart(memberNo);
+        if (cart == null) {
+            return BigDecimal.ZERO;
+        }
+        return cart.getItems().values().stream()
+                .map(Cart.CartItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

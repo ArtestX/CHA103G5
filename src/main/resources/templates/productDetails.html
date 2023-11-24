@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            background-color: #8aa8c7;
+            background-color: #ace5c8;
             background-size: cover;
             background-attachment: fixed;
         }
@@ -66,7 +66,7 @@
             flex: 1;
             margin-left: 10px;
             border-radius: 50px;
-            background-color: #0a8fa1;
+            background-color: #1a6262;
             color: white;
             font-weight: bold;
             padding: 10px;
@@ -77,13 +77,32 @@
             background-color: #8be0e0;
         }
 
+        .back-button {
+            position: absolute;
+            top: 10px; /* 距離頂部10px */
+            left: 10px; /* 距離左側10px */
+            z-index: 2000; /* 確保按鈕顯示在最上層 */
+        }
+
+        #cartButton {
+            background-color: transparent; /* 移除背景色 */
+            color: #333; /* 設置字體顏色 */
+            border: none; /* 移除邊框 */
+            outline: none; /* 移除焦點時的輪廓 */
+        }
+
+        /* 當鼠標懸停時改變購物車按鈕的樣式 */
+        #cartButton:hover {
+            color: #555; /* 深一點的字體顏色 */
+        }
+
         .sidebar-cart {
             position: fixed;
             top: 0;
             right: 0;
             width: 300px;
             height: 100%;
-            background-color: #98cece;
+            background-color: rgba(189, 162, 162, 0.9);
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
             overflow-y: auto;
             z-index: 1000;
@@ -91,6 +110,23 @@
 
         .sidebar-cart-content {
             padding: 20px;
+            flex-direction: column;
+        }
+
+        /* 新增樣式為結帳按鈕 */
+        .checkout-button-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #f8f9fa; /* 與側邊欄背景相同 */
+            border-top: 2px solid #dee2e6; /* 添加上邊框 */
+        }
+
+        /* 新增樣式為總金額顯示 */
+        .total-price-display {
+            text-align: right;
+            padding-right: 20px; /* 確保與按鈕間有間距 */
         }
 
         .img-fluid {
@@ -102,13 +138,44 @@
 
         .sidebar-cart {
             background-color: rgba(189, 162, 162, 0.9);
+            overflow-y: auto; /* 確保垂直滾動 */
+            background-color: #f8f9fa; /* 設置現代化背景顏色 */
+            border-left: 2px solid #dee2e6; /* 添加邊框 */
         }
 
-        .sidebar-cart-content  {
+        .sidebar-cart-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 10px;
+        }
+
+        .quantity-change {
+            background-color: rgba(30, 105, 89, 0.89);
+            color: #98cece;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 8px;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        .quantity-change:hover {
+            background-color: rgba(68, 68, 148, 0.88);
+        }
+
+        /* 刪除按鈕樣式 */
+        .remove-product {
+            background-color: #d25864; /* 紅色背景 */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 8px;
+            cursor: pointer;
+        }
+
+        .remove-product:hover {
+            background-color: #dc4c5a;
         }
 
         .sidebar-cart-content .cart-item img {
@@ -124,34 +191,51 @@
                 margin-top: 10px;
             }
         }
+
+        .quantity-buttons button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #f1a150;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .quantity-buttons button:hover {
+            background-color: rgba(194, 183, 17, 0.45);
+        }
     </style>
+
 </head>
 <body>
-
 <div id="sidebarCart" class="sidebar-cart collapse">
-
     <div class="sidebar-cart-content">
         <p id="cartEmptyMessage">您的購物車是空的。</p>
     </div>
-    <button type="button" class="btn btn-success" onclick="goToCheckout()">結帳</button>
+    <div class="checkout-button-container">
+        <p class="total-price-display">總價格: <span id="totalPrice">0</span></p>
+        <button type="button" class="btn btn-success" onclick="goToCheckout()">結帳</button>
+    </div>
+
 </div>
 
 <div class="container">
-    <button type="button" class="btn btn-primary" onclick="goToCart()">
+    <button type="button" id="cartButton" class="btn">
         <i class="fas fa-shopping-cart"></i>
     </button>
-    <a th:href="@{/mall}" class="btn btn-secondary">回上一頁</a>
+    <a th:href="@{/mall}" class="btn btn-secondary back-button">
+        <i class="fas fa-arrow-left"></i> 回上一頁
+    </a>
     <div class="row">
         <div class="col-md-6">
-            <!-- 商品圖片 -->
             <img th:if="${product.productPictures.size() > 0}"
-                 th:src="@{'/static/uploads/' + ${product.productPictures.get(0).productPic}}" class="img-fluid" alt="商品圖片"/>
-
+                 th:src="@{'/static/uploads/' + ${product.productPictures.get(0).productPic}}" class="img-fluid"
+                 alt="商品圖片"/>
             <img th:unless="${product.productPictures.size() > 0}" src="@{/default.jpg}" class="img-fluid"
                  alt="商品圖片"/>
         </div>
         <div class="col-md-6 product-info">
-            <!-- 商品資訊 -->
             <h2 th:text="${product.productName}">商品名稱</h2>
             <p th:text="'商品資訊: ' + ${product.productInfo}">商品資訊</p>
             <p th:text="'價格: ' + ${product.productPrice}">價格</p>
@@ -168,12 +252,25 @@
     </div>
 </div>
 
-<input type="hidden" id="memberNo" th:value="${session.user != null ? session.user.memberno : null}" />
+<input type="hidden" id="memberNo" th:value="${session.user != null ? session.user.memberno : null}"/>
+<input type="hidden" id="productNo" th:value="${product.productNo}"/>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        // 當文檔準備好時隱藏側邊欄
+        $('#sidebarCart').collapse('hide');
+
+        // 在購物車按鈕點擊時切換側邊欄
+        $('#cartButton').click(function () {
+            $('#sidebarCart').collapse('toggle');
+        });
+        // 更新購物車側邊欄
+        updateCartSidebar();
+    });
+
     // 數量更改函數
     function changeQuantity(change) {
         var quantityInput = document.getElementById('quantity');
@@ -189,22 +286,20 @@
 
     // 加入購物車的函數
     function addToCart() {
-        console.log("addToCart function is called");
-        var quantityInput = document.getElementById('quantity');
-        var memberNoInput = document.getElementById('memberNo');
-        var productNo = [[${product.productNo}]];
+        var quantityInput = $('#quantity');
+        var memberNoInput = $('#memberNo');
+        var productNoInput = $('#productNo');
+        var quantity = quantityInput ? parseInt(quantityInput.val(), 10) : 1;
+        var memberNo = memberNoInput ? parseInt(memberNoInput.val(), 10) : null;
+        var productNo = productNoInput ? parseInt(productNoInput.val(), 10) : null;
 
-        var quantity = quantityInput ? parseInt(quantityInput.value, 10) : 1;
-        var memberNo = memberNoInput ? parseInt(memberNoInput.value, 10) : null;
 
-        if (!memberNo || isNaN(memberNo) || isNaN(parseInt(productNo, 10))) {
+        if (!memberNo || isNaN(memberNo) || !productNo || isNaN(productNo)) {
             alert("發生錯誤，請刷新頁面後重試。");
             return;
         }
 
-        var requestData = { memberNo, productNo, quantity };
-
-        console.log('Request data:', requestData);
+        var requestData = {memberNo, productNo, quantity};
 
         $.ajax({
             url: '/CHA103G5/cart/add',
@@ -221,62 +316,130 @@
             }
         });
     }
+
+    // 更新購物車側邊欄顯示的函數
     function updateCartSidebar() {
+        var memberNo = $("#memberNo").val();
+
         $.ajax({
-            url: '/CHA103G5/cart/' + $("#memberNo").val(),
+            url: '/CHA103G5/cart/' + memberNo,
             type: 'GET',
             success: function (cart) {
                 var cartContent = $('.sidebar-cart-content');
                 cartContent.empty();
+                var totalPrice = 0;
                 if (cart && cart.items && Object.keys(cart.items).length > 0) {
-                    Object.values(cart.items).forEach(function(item) {
+                    Object.values(cart.items).forEach(function (item) {
+                        totalPrice += item.price * item.quantity;
                         var itemElement = $('<div class="cart-item text-center"></div>');
                         var imageUrl = item.imageUrl ? '/CHA103G5/static/uploads/' + item.imageUrl : '/CHA103G5/static/uploads/default.jpg';
                         itemElement.append($('<img>').attr('src', imageUrl).addClass('cart-item-image'));
-                        var productName = item.productName ? item.productName : '未知商品';
-                        var itemPrice = item.price ? item.price : '未知價格';
-                        var itemTotalPrice = item.totalPrice ? item.totalPrice : '未知總價';
+                        var productName = item.productName || '未知商品';
+                        var itemPrice = item.price || '未知價格';
+                        var itemTotalPrice = (item.price * item.quantity).toFixed(2) || '未知總價';
+                        var quantityInputId = 'quantity-' + item.productNo;
                         itemElement.append($('<span>').text(productName + ': ').addClass('cart-item-name'));
                         itemElement.append($('<span>').text(itemPrice + ' x ' + item.quantity).addClass('cart-item-quantity'));
                         itemElement.append($('<span>').text(' = ' + itemTotalPrice).addClass('cart-item-total'));
+
+                        // 創建數量輸入框
+                        itemElement.append($('<input>').attr({
+                            type: 'number',
+                            id: quantityInputId,
+                            value: item.quantity,
+                            class: 'quantity-input'
+                        }));
+
+                        // 創建增加和減少按鈕
+                        var increaseBtn = $('<button>').text('+').addClass('quantity-change').data('product-no', item.productNo).click(function () {
+                            changeSidebarQuantity($(this).data('product-no'), 1);
+                        });
+                        var decreaseBtn = $('<button>').text('-').addClass('quantity-change').data('product-no', item.productNo).click(function () {
+                            changeSidebarQuantity($(this).data('product-no'), -1);
+                        });
+
+                        // 將按鈕添加到頁面
+                        itemElement.append(increaseBtn);
+                        itemElement.append(decreaseBtn);
+
+                        // 添加刪除按鈕
+                        var deleteBtn = $('<button>').text('刪除').addClass('remove-product').click(function () {
+                            deleteProduct(item.productNo);
+                        });
+                        itemElement.append(deleteBtn);
+
                         cartContent.append(itemElement);
                     });
+                    // 更新總價格顯示
+                    $('#totalPrice').text(totalPrice.toFixed(2)); // 這裡更新了總價格
                 } else {
-                    cartContent.html('<p class="text-center">您的購物車是空的。</p>');                }
+                    cartContent.html('<p class="text-center">您的購物車是空的。</p>');
+                    $('#totalPrice').text('0'); // 如果購物車為空，設置總價格為0
+                }
+            },
+            error: function (error) {
+                console.error('Error fetching cart:', error);
+            }
+        });
+    }
+
+    function changeSidebarQuantity(productNo, change) {
+        var quantityInput = $('#quantity-' + productNo);
+        console.log('Current input value:', quantityInput.val()); // 檢查輸入值
+        var currentQuantity = parseInt(quantityInput.val(), 10);
+        console.log('Parsed quantity:', currentQuantity); // 檢查解析後的數量
+
+        if (!isNaN(currentQuantity) && currentQuantity > 0) {
+            var newQuantity = currentQuantity + change;
+            if (newQuantity > 0) {
+                quantityInput.val(newQuantity);
+                updateQuantityOnServer(productNo, newQuantity);
+            }
+        } else {
+            console.error('Current quantity is invalid:', currentQuantity);
+        }
+    }
+
+
+    function updateQuantityOnServer(productNo, newQuantity) {
+        var memberNo = $('#memberNo').val();
+
+        console.log('Updating quantity on server for product ' + productNo + ' to ' + newQuantity);
+
+        if (newQuantity == null || isNaN(newQuantity)) {
+            console.error('數量更新失敗：數量為null或不是數字');
+            return;
+        }
+
+        $.ajax({
+            url: '/CHA103G5/cart/updateQuantity',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({memberNo, productNo, quantity: newQuantity}),
+            success: function (response) {
+                updateCartSidebar();
             },
             error: function (error) {
             }
         });
-        $('#sidebarCart').collapse('show');
+    }
 
-        // 新增結帳按鈕事件處理
-        $('.checkout-btn').click(function() {
-            // 實現跳轉到結帳頁面的邏輯
-            window.location.href = '/checkout';
-        });
-
-        // 新增增加和減少數量的事件處理
-        $('.increase-quantity, .decrease-quantity').click(function() {
-            var productId = $(this).data('product-id');
-            var change = $(this).hasClass('increase-quantity') ? 1 : -1;
-            updateQuantity(productId, change);
-        });
-
-        // 新增刪除商品的事件處理
-        $('.remove-product').click(function() {
-            var productId = $(this).data('product-id');
-            removeFromCart(productId);
+    // 刪除購物車中的商品
+    function deleteProduct(productNo) {
+        var memberNo = $('#memberNo').val();
+        $.ajax({
+            url: '/CHA103G5/cart/deleteProduct/' + memberNo + '/' + productNo,
+            type: 'DELETE',
+            success: function (response) {
+                alert('商品已從購物車中移除！');
+                updateCartSidebar(); // 更新側邊欄
+            },
+            error: function (error) {
+                alert('刪除商品失敗。');
+            }
         });
     }
 
-    function goToCart() {
-        updateCartSidebar();
-        $('#sidebarCart').collapse('toggle');
-    }
-
-    function goToCheckout() {
-        window.location.href = '/CHA103G5/checkout';
-    }
 </script>
 
 
