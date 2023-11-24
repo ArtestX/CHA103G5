@@ -66,7 +66,7 @@ font {
 .btn {
 	color: #422E2F;
 	background-color: #FAE899;
-	border: 1px solid rgba(#eeeaea, 0.5);
+	border: 1px solid rgba(238, 234, 234, 0.5);
 }
 
 .btn:hover {
