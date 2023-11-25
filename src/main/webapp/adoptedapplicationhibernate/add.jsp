@@ -1,26 +1,34 @@
-<%@ page import="com.cha103g5.admin.model.AdminVO" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>
-<%@ page import="com.cha103g5.member.model.MemberVO" %>
-<%@ page import="com.cha103g5.pet.model.PetVO" %>
+<%--<%@ page import="com.cha103g5.admin.model.AdminVO" %>--%>
+<%--<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>--%>
+<%--<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>--%>
+<%--<%@ page import="com.cha103g5.member.model.MemberVO" %>--%>
+<%--<%@ page import="com.cha103g5.petinfo.model.PetVO" %>--%>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="java.util.Random" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%--<%--%>
+<%--    AdoptedApplicationHibernateService aahService = new AdoptedApplicationHibernateServiceImpl();--%>
+<%--    AdminVO randomAdmin = aahService.getRandomAdmin();--%>
+<%--    pageContext.setAttribute("randomAdminNo", randomAdmin.getAdminNo());--%>
+<%--    pageContext.setAttribute("randomAdminName", randomAdmin.getAdminName());--%>
+<%--    MemberVO randomMember = aahService.getRandomMember();--%>
+<%--    pageContext.setAttribute("randomMemberNo", randomMember.getMemberno());--%>
+<%--    pageContext.setAttribute("randomMemberName", randomMember.getMembername());--%>
+<%--    PetVO randomPet = aahService.getRandomPet();--%>
+<%--    pageContext.setAttribute("randomPetId", randomPet.getPetId());--%>
+<%--    pageContext.setAttribute("randomPetName", randomPet.getPetName());--%>
+<%--    pageContext.setAttribute("randomPetStat", randomPet.getStat());--%>
 <%
-    AdoptedApplicationHibernateService aahService = new AdoptedApplicationHibernateServiceImpl();
-    AdminVO randomAdmin = aahService.getRandomAdmin();
-    pageContext.setAttribute("randomAdminNo", randomAdmin.getAdminNo());
-    pageContext.setAttribute("randomAdminName", randomAdmin.getAdminName());
-    MemberVO randomMember = aahService.getRandomMember();
-    pageContext.setAttribute("randomMemberNo", randomMember.getMemberno());
-    pageContext.setAttribute("randomMemberName", randomMember.getMembername());
-    PetVO randomPet = aahService.getRandomPet();
-    pageContext.setAttribute("randomPetId", randomPet.getPetid());
-    pageContext.setAttribute("randomPetName", randomPet.getPetname());
-    pageContext.setAttribute("randomPetStat", randomPet.getStat());
+    Random random = new Random();
+    int randomPetId = random.nextInt(5);
+    int randomPetStat = random.nextInt(5);
+    request.setAttribute("randomPetId", randomPetId);
+    request.setAttribute("randomPetStat", randomPetStat);
 
-    Byte petStatByte = randomPet.getStat();
+    Byte petStatByte = (byte) randomPetStat;
+//    Byte petStatByte = randomPet.getStat();
     boolean isPetAvailableForReservation = (petStatByte != null && petStatByte == 1);
     pageContext.setAttribute("isPetAvailableForReservation", isPetAvailableForReservation);
 %>
@@ -59,42 +67,42 @@
             <input type="hidden" name="action" value="add" />
             <div>
             <table>
-    <%--            <tr>--%>
-    <%--                <td>管理員編號：</td>--%>
-    <%--                <td><input type="number" name="adminNo" required /></td>--%>
-    <%--            </tr>--%>
                 <tr>
-                    <td>管理員編號-姓名：</td>
-                    <td>
-                        ${randomAdminNo} - ${randomAdminName}
-                        <input type="hidden" name="adminNo" value="${randomAdminNo}" />
-                    </td>
+                    <td>管理員編號：</td>
+                    <td><input type="number" name="adminNo" required /></td>
                 </tr>
-    <%--            <tr>--%>
-    <%--                <td>會員編號：</td>--%>
-    <%--                <td><input type="number" name="memberNo" required /></td>--%>
-    <%--            </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>管理員編號-姓名：</td>--%>
+<%--                    <td>--%>
+<%--                        ${randomAdminNo} - ${randomAdminName}--%>
+<%--                        <input type="hidden" name="adminNo" value="${randomAdminNo}" />--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
                 <tr>
-                    <td>會員編號-姓名：</td>
-                    <td>
-                        ${randomMemberNo} - ${randomMemberName}
-                        <input type="hidden" name="memberNo" value="${randomMemberNo}" />
-                    </td>
+                    <td>會員編號：</td>
+                    <td><input type="number" name="memberNo" required /></td>
                 </tr>
-    <%--            <tr>--%>
-    <%--                <td>寵物編號：</td>--%>
-    <%--                <td><input type="number" name="petId" required /></td>--%>
-    <%--            </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>會員編號-姓名：</td>--%>
+<%--                    <td>--%>
+<%--                        ${randomMemberNo} - ${randomMemberName}--%>
+<%--                        <input type="hidden" name="memberNo" value="${randomMemberNo}" />--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>寵物編號：</td>--%>
+<%--                    <td><input type="number" name="petId" required /></td>--%>
+<%--                </tr>--%>
                 <tr>
-                    <td>寵物編號-姓名(狀態)：</td>
+                    <td>寵物編號-狀態：</td>
                     <td>
-                        ${randomPetId} - ${randomPetName}(${randomPetStat}-
+                        ${randomPetId} - ${randomPetStat}
                             <c:choose>
-                                <c:when test="${randomPetStat == 0}">未上架-不可預約)</c:when>
-                                <c:when test="${randomPetStat == 1}">待領養-可預約)</c:when>
-                                <c:when test="${randomPetStat == 2}">不可領養-不可預約)</c:when>
-                                <c:when test="${randomPetStat == 3}">領養中-不可預約)</c:when>
-                                <c:when test="${randomPetStat == 4}">已領養-不可預約)</c:when>
+                                <c:when test="${randomPetStat == 0}">(未上架-不可預約)</c:when>
+                                <c:when test="${randomPetStat == 1}">(待領養-可預約)</c:when>
+                                <c:when test="${randomPetStat == 2}">(不可領養-不可預約)</c:when>
+                                <c:when test="${randomPetStat == 3}">(領養中-不可預約)</c:when>
+                                <c:when test="${randomPetStat == 4}">(已領養-不可預約)</c:when>
                                 <c:otherwise>未知狀態</c:otherwise>
                             </c:choose>
                         <input type="hidden" name="petId" value="${randomPetId}" />
