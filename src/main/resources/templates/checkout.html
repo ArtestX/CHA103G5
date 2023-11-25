@@ -80,16 +80,16 @@
             <h3>您的購物車</h3>
         </div>
         <div class="card-body">
-            <div th:each="item : ${cart.items}" class="row">
+            <div th:each="item, stat : ${cart.items}" class="row">
                 <div class="col-4" th:text="${item.value.productName}">商品名稱</div>
                 <div class="col-2 text-center" th:text="${item.value.price}">商品價格</div>
                 <div class="col-4 text-center quantity-controls">
-                    <button onclick="changeQuantity('${item.key}', -1)">-</button>
-                    <input type="text" id="quantity-[[${item.key}]]" name="quantity-[[${item.key}]]" th:value="${item.value.quantity}" readonly/>
-                    <button onclick="changeQuantity('${item.key}', 1)">+</button>
+                    <button onclick="changeQuantity([[${stat.index}]], -1)">-</button>
+                    <input type="text" th:id="'quantity-' + ${stat.index}" th:name="'quantity-' + ${stat.index}" th:value="${item.value.quantity}" readonly/>
+                    <button onclick="changeQuantity([[${stat.index}]], 1)">+</button>
                 </div>
                 <div class="col-2 text-center">
-                    <button class="delete-btn" onclick="deleteItem('${item.key}')">刪除</button>
+                    <button class="delete-btn" th:onclick="'deleteItem(' + ${stat.index} + ')'">刪除</button>
                 </div>
             </div>
             <div class="row justify-content-end">
