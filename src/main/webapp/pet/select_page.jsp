@@ -1,104 +1,346 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@page import="com.cha103g5.petinfo.service.PetInfoService"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.cha103g5.petinfo.model.*"%>
+<%@ page import="com.cha103g5.petinfo.service.PetInfoServiceImpl" %>
+<%@ page import="com.cha103g5.petinfo.repository.PetRepository" %>
 
-<html>
+<%
+	Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
+	if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
+		session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+		response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
+		return;
+	}
+%>
+
+<%
+	PetInfoServiceImpl petSvc = new PetInfoServiceImpl();
+	List<PetVO> list = petSvc.getAllPetsWithPictures();
+	pageContext.setAttribute("list", list);
+%>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Cha103G5 Pet:����</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>寵物管理系統</title>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
+	<style>
+		body {
+			background-image: url('../img/desktop.jpg');
+			background-size: cover;
+			background-attachment: fixed; /* 固定背景圖片 */
+			background-repeat: no-repeat;
+		}
 
-<style>
-table#table-1 {
-	width: 450px;
-	background-color: #7d979b;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	border: 3px ridge white;
-	height: 80px;
-	text-align: center;
-}
+		th {
+			text-align: center;
+		}
 
-table#table-1 h4 {
-	color: white;
-	display: block;
-	margin-bottom: 1px;
-}
-
-h4 {
-	color: blue;
-	display: inline;
-}
-</style>
+		.error-message {
+			color: red; /* 設置文字顏色為紅色，你可以根據需要進行調整 */
+			margin-top: 5px; /* 設置上邊距，控制它與<input>元素之間的距離 */
+			margin-left: 12px;
+		}
+	</style>
 
 </head>
-<body bgcolor='white'>
+<body>
+<nav class="navbar custom-bg-color">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="backendMain.jsp">
+			<img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+			後臺管理系統
+		</a>
+		<div class="ms-auto">
+			<form method="POST" action="./admin.do">
+				<button class="btn btn-danger">登出</button>
+				<input type="hidden" name="action" value="backendlogout">
+			</form>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-2 g-3">
+			<!--左邊-->
+			<div class="accordion" id="accordionExample">
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							員工管理
+						</button>
+					</h2>
+					<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
+						</div>
+						<%--				      <div class="accordion-body">--%>
+						<%--				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
+						<%--				      </div>--%>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							商品管理
+						</button>
+					</h2>
+					<div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+							訂單管理
+						</button>
+					</h2>
+					<div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+							客服管理
+						</button>
+					</h2>
+					<div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/customer/old/backendCustomer.jsp" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+							寵物領養管理
+						</button>
+					</h2>
+					<div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<strong><a href="select_page.jsp" class="list-group-item list-group-item-action">寵物列表</a></strong>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+							會員資料管理
+						</button>
+					</h2>
+					<div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+							公告資訊管理
+						</button>
+					</h2>
+					<div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--左邊-->
 
-	<table id="table-1">
-		<tr>
-			<td><h3>Cha103G5 Pet:����</h3>
-			<h4><a href="select_page.jsp"><img src="${pageContext.request.contextPath}/img/ok.png" width="50" height="50" border="0"><br>�^����</a></h4>
-				<h4>( MVC )</h4></td>
-				
-		</tr>
-	</table>
+		<div class="col-lg-10 g-3">
+			<!--右邊-->
+			<div class="card">
+				<div class="card-header">
+					寵物列表
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						 fill="currentColor" class="bi bi-box-fill" viewBox="0 0 16 16"
+						 style="float: right;">
+						<path fill-rule="evenodd"
+							  d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.004-.001.274-.11a.75.75 0 0 1 .558 0l.274.11.004.001 6.971 2.789Zm-1.374.527L8 5.962 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339Z" />
+					</svg>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<form method="post" action="admin.do" class="col-md-3">
+							<div>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="請輸入寵物編號"
+										   name="adminNo" value="${param.adminNo}"
+										   aria-label="Recipient's username"
+										   aria-describedby="button-addon2"> <input
+										type="hidden" name="action" value="getOne_For_Display">
+									<button class="btn btn-outline-secondary" type="submit"
+											id="button-addon2">搜尋</button>
+								</div>
+								<div class="error-message">${errorMsgs.adminNo}</div>
+							</div>
+						</form>
 
-	<p>This is the Home page for Cha103G5 Pet:����</p>
+						<jsp:useBean id="petSel" scope="page"
+									 class="com.cha103g5.pet.service.PetService" />
 
-	<h3>��Ƭd��:</h3>
+						<form method="post" action="admin.do" id="adminNoSel"
+							  class="dropdown col-md-2 ">
+							<div class="dropdown col-md-2">
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle"
+											type="submit" data-bs-toggle="dropdown" aria-expanded="false">選擇寵物編號</button>
+									<ul class="dropdown-menu" id="petIdMenu">
+										<c:forEach var="petVO" items="${petSel.all}">
+											<li><a class="dropdown-item" href="#"
+												   data-admin-no="${petVO.petid}"> ${petVO.petid}
+											</a></li>
+										</c:forEach>
+									</ul>
+									<input type="hidden" name="action" value="getOne_For_Display">
+								</div>
+							</div>
+						</form>
 
-<!-- 	���~���C -->
-	<c:if test="${not empty errorMsgs}">
-		<font style="color:red">�Эץ��H�U���~:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color:red">${message.value}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
+						<div class="col-md-4 d-flex justify-content-end"
+							 style="margin-left: 250px;">
+							<button class="btn btn-primary" id="navigateButton">新增</button>
+						</div>
+					</div>
+					<!--./row-->
+					<div>
+						<table class="table table-hover table-striped">
+							<thead>
+							<tr>
+								<th>編號</th>
+								<th>寵物類型</th>
+								<th>會員編號</th>
+								<th>姓名</th>
+								<th>寵物性別</th>
+								<th>寵物年齡</th>
+								<th>備註</th>
+								<th>狀態</th>
+								<th>截止日</th>
+							</tr>
+							</thead>
+							<tbody>
+							<%@ include file="page1.file" %>
+							<c:forEach var="petVO" items="${petSel.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+								<tr>
+									<th>${petVO.petid}</th>
+									<th>${petVO.animaltypeno}</th>
+									<th>${petVO.memberno}</th>
+									<th>${petVO.petname}</th>
+									<th>${petVO.petsex}</th>
+									<th>${petVO.petage}</th>
+									<th>${petVO.petnote}</th>
+									<th>${petVO.stat}</th>
+									<th>${petVO.applicationdeadline}</th>
 
-	<ul>
-		<li><a href='listAllPet.jsp'>List</a> all Pet. <br>
-		<br></li>
+
+									<th class="text-center">
+								<td>
+									<button class="btn btn-success updatebtn" type="submit" onclick="update(${petVO.petid})">修改</button>
+								</td>
+										<td>
+											<FORM METHOD="post"
+												  ACTION="<%=request.getContextPath()%>/admin/admin.do">
+												<button class="btn btn-danger" type="submit">刪除</button>
+												<input type="hidden" name="adminNo"
+													   value="${adminVO.adminNo}"> <input type="hidden"
+																						  name="action" value="delete">
+											</FORM>
+										</td>
+									</th>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+						<%@ include file="page2.file" %>
+
+						<!-- 							<nav aria-label="Page navigation example" class="text-center"> -->
+						<!-- 								<ul class="pagination"> -->
+						<!-- 									<li class="page-item" id="previousPage"><a -->
+						<!-- 										class="page-link" href="#" aria-label="Previous"><span -->
+						<!-- 											aria-hidden="true">&laquo;</span></a></li> -->
+						<!-- 									<li class="page-item" id="page1"><a class="page-link" -->
+						<!-- 										href="#">1</a></li> -->
+						<!-- 									<li class="page-item" id="page2"><a class="page-link" -->
+						<!-- 										href="#">2</a></li> -->
+						<!-- 									<li class="page-item" id="page3"><a class="page-link" -->
+						<!-- 										href="#">3</a></li> -->
+						<!-- 									<li class="page-item" id="nextPage"><a class="page-link" -->
+						<!-- 										href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li> -->
+						<!-- 								</ul> -->
+						<!-- 							</nav> -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--右邊-->
+	</div>
+</div>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		// 監聽導航按鈕的點擊事件
+		let navigateButton = document.getElementById('navigateButton');
+		navigateButton.addEventListener('click', function() {
+			window.location.href = 'addPet.jsp';
+
+		});
+
+		let updatebtns = document.querySelectorAll('.updatebtn');
+		console.log(updatebtns);
+
+		updatebtns.forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				// 獲取所選寵物的 petid
+				let petId = btn.parentElement.parentElement.querySelector('th:first-child').innerText;
+
+				console.log(petId);
+				// 將 petid 帶到新頁面
+				window.location.href = 'updatePet.jsp?petId=' + petId;
+			});
+		});
+
+		//監聽員工編號下拉菜单的點擊事件
+		let adminNameDropdown = document.getElementById("adminName");
+		let adminNameInput = document
+				.querySelector('input[name="adminNo"]');
+		let formName = document.getElementById("adminNameMenu");
+
+		adminNameDropdown.addEventListener("click", function(event) {
+			if (event.target.hasAttribute("data-admin-no")) {
+				const selectedAdminNo = event.target
+						.getAttribute("data-admin-no");
+				adminNameInput.value = selectedAdminNo;
+				formName.submit(); // 提交表单
+			}
+		});
+
+		//監聽員工編號下拉菜单的點擊事件
+		let adminNoDropdown = document.getElementById("adminNoSel");
+		let adminNoInput = document.querySelector('input[name="adminNo"]');
+		let formNo = document.getElementById("adminNoMenu");
+
+	});
+
+	function update(petId) {
+		console.log(petId);
+	}
+</script>
 
 
-		<li>
-			<FORM METHOD="post" ACTION="pet.do">
-				<b>��J�d���s��:</b> <input type="text" name="petid"
-					value="${param.petid}">
-				<input type="hidden" name="action" value="getOne_For_Display">
-				<input type="submit" value="�e�X">
-			</FORM>
-		</li>
-
-		<jsp:useBean id="petSvc" scope="page"
-			class="com.cha103g5.pet.service.PetService" />
-
-		<li>
-			<FORM METHOD="post" ACTION="pet.do">
-				<b>����d���s��:</b> <select size="1" name="petid">
-					<c:forEach var="petVO" items="${petSvc.all}">
-						<option value="${petVO.petid}">${petVO.petid}
-					</c:forEach>
-				</select> <input type="hidden" name="action" value="getOne_For_Display">
-				<input type="submit" value="�e�X">
-			</FORM>
-		</li>
-
-		<li>
-			<FORM METHOD="post" ACTION="pet.do">
-				<b>����d���W��:</b> <select size="1" name="petid">
-					<c:forEach var="petVO" items="${petSvc.all}">
-						<option value="${petVO.petid}">${petVO.petname}
-					</c:forEach>
-				</select> <input type="hidden" name="action" value="getOne_For_Display">
-				<input type="submit" value="�e�X">
-			</FORM>
-		</li>
-	</ul>
-	
-	<h3>�d���޲z</h3>
-
-<ul>
-    <li><a href='addPet.jsp'>�s�W</a> �s�W�d��</li>
-</ul>
-
+<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </body>
 </html>
