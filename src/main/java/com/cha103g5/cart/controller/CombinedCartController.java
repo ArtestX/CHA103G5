@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.math.BigDecimal;
 
 
 @RestController
@@ -81,4 +84,19 @@ public class CombinedCartController {
         cartService.deleteProductFromCart(memberNo, productNo);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/checkout/{memberNo}")
+    public ModelAndView checkoutPage(@PathVariable Integer memberNo) {
+        ModelAndView modelAndView = new ModelAndView("checkout");
+        try {
+            Cart cart = cartService.getCart(memberNo); // 使用會員編號來獲取購物車
+            BigDecimal totalPrice = cartService.calculateTotalPrice(memberNo); // 計算購物車總價格
+            modelAndView.addObject("cart", cart);
+            modelAndView.addObject("totalPrice", totalPrice); // 添加總價格到模型
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "未找到購物車", e);
+        }
+        return modelAndView;
+    }
+
 }

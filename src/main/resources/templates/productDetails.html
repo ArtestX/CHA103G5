@@ -215,7 +215,7 @@
     </div>
     <div class="checkout-button-container">
         <p class="total-price-display">總價格: <span id="totalPrice">0</span></p>
-        <button type="button" class="btn btn-success" onclick="goToCheckout()">結帳</button>
+        <button type="button" class="btn btn-success" id="checkoutButton">結帳</button>
     </div>
 
 </div>
@@ -269,6 +269,16 @@
         });
         // 更新購物車側邊欄
         updateCartSidebar();
+
+        // 結帳按鈕的點擊事件，跳轉到結帳頁面
+        $('#checkoutButton').click(function () {
+            var memberNo = $('#memberNo').val(); // 從隱藏字段中獲取會員號碼
+            if(memberNo) {
+                window.location.href = '/CHA103G5/cart/checkout/' + memberNo; // 修改為您的結帳頁面路徑
+            } else {
+                alert('請先登錄！');
+            }
+        });
     });
 
     // 數量更改函數
