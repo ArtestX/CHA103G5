@@ -53,6 +53,12 @@
             background-attachment: fixed; /* 固定背景圖片 */
             background-repeat: no-repeat;
         }
+
+        table td {
+            background-color: white;
+            border: 1px solid black;
+        }
+
     </style>
 
 </head>
@@ -61,7 +67,7 @@
 <nav class="navbar custom-bg-color">
     <div class="container-fluid">
         <a class="navbar-brand" href="<%=request.getContextPath()%>/admin/backendMain.jsp">
-            <img src="./img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            <img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
             後臺管理系統
         </a>
         <div class="ms-auto">
@@ -178,19 +184,19 @@
         <div class="col-lg-10 g-3">
             <!--右邊-->
 
-            <h1>領養表單<br>管理系統</h1>
+            <h2>領養查詢</h2>
 
-            <button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=showCalendar'">行事曆管理<br>(後台管理)</button>
-            <br><br>
+<%--            <button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=showCalendar'">行事曆管理<br>(後台管理)</button>--%>
+<%--            <br><br>--%>
 
-            <button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=getAll'">所有申請<br>(後台管理)</button>
-            <br><br>
+<%--            <button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=getAll'">所有申請<br>(後台管理)</button>--%>
+<%--            <br><br>--%>
 
             <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="get" class="search-form">
                 <%--	<form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="get" class="search-form">--%>
                 <div class="form-group">
                     <input type="hidden" name="action" value="getOne">
-                    <label for="applicationNo">申請編號:<br>(後台管理)</label>
+                    <label for="applicationNo">申請編號:</label>
                     <select name="applicationNo" id="applicationNo">
                         <option value="">請選擇</option>
                         <c:forEach var="application" items="${allApplications}" >
@@ -201,19 +207,19 @@
                 </div>
             </form>
 
-            <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="get" class="search-form">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="getByMemberNo">
-                    <label for="memberNo">會員編號:<br>(會員頁面)</label>
-                    <select name="memberNo" id="memberNo">
-                        <option value="">請選擇</option>
-                        <c:forEach var="memberNo" items="${distinctMemberNos}" >
-                            <option value="${memberNo}">${memberNo}</option>
-                        </c:forEach>
-                    </select>
-                    &nbsp;<input class="table-button" type="submit" value="查詢">
-                </div>
-            </form>
+<%--            <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="get" class="search-form">--%>
+<%--                <div class="form-group">--%>
+<%--                    <input type="hidden" name="action" value="getByMemberNo">--%>
+<%--                    <label for="memberNo">會員編號:<br>(會員頁面)</label>--%>
+<%--                    <select name="memberNo" id="memberNo">--%>
+<%--                        <option value="">請選擇</option>--%>
+<%--                        <c:forEach var="memberNo" items="${distinctMemberNos}" >--%>
+<%--                            <option value="${memberNo}">${memberNo}</option>--%>
+<%--                        </c:forEach>--%>
+<%--                    </select>--%>
+<%--                    &nbsp;<input class="table-button" type="submit" value="查詢">--%>
+<%--                </div>--%>
+<%--            </form>--%>
 
             <%--	<h2>抽籤排序查詢<br>(後台管理)</h2>--%>
             <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="get">
@@ -235,9 +241,9 @@
                 </div>
             </form>
             <br>
-            <button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=addOption'">預約<br>(寵物頁面)</button>
-            <%--	<button onclick="location.href='${pageContext.request.contextPath}/adoptedapplicationhibernate/add.jsp'">新增申請</button>--%>
-            <br><br>
+<%--            <button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=addOption'">預約<br>(寵物頁面)</button>--%>
+<%--            &lt;%&ndash;	<button onclick="location.href='${pageContext.request.contextPath}/adoptedapplicationhibernate/add.jsp'">新增申請</button>&ndash;%&gt;--%>
+<%--            <br><br>--%>
 
             <!--右邊-->
         </div>
