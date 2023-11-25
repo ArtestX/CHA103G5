@@ -244,7 +244,7 @@
       <!--右邊-->
 
       <%--<button class="fixed-button" onclick="location.href='${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp'">管理表單首頁</button>--%>
-      <button class="fixed-button" onclick="location.href='${pageContext.request.contextPath}/admin/backendMain.jsp'">管理系統首頁</button>
+      <button class="fixed-button" onclick="location.href='${pageContext.request.contextPath}/admin/backendMain.jsp'">後台首頁</button>
       <h1>當月行事曆</h1>
       <br>
       <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">

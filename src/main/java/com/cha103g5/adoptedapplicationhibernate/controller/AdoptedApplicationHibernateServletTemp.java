@@ -32,7 +32,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
         if ("getOne".equals(action)) {
             String applicationNoStr = request.getParameter("applicationNo");
             if (applicationNoStr.equals("")) {
-                response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+                response.sendRedirect("adoptedApplicationHibernateServletTemp?action=getAll");
             } else {
                 Integer applicationNo = Integer.parseInt(applicationNoStr);
                 AdoptedApplicationHibernate oneApplication = aahService.getApplicationById(applicationNo);
@@ -46,7 +46,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
         if ("getByMemberNo".equals(action)) {
             String memberNoStr = request.getParameter("memberNo");
             if (memberNoStr.equals("")) {
-                response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+                response.sendRedirect("adoptedApplicationHibernateServletTemp?action=getAll");
             } else {
                 Integer memberNo = Integer.parseInt(memberNoStr);
                 List<AdoptedApplicationHibernate> someApplications = aahService.getApplicationsByMemberNo(memberNo);
@@ -60,7 +60,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
         if ("frontendGetByMemberNo".equals(action)) {
             String memberNoStr = request.getParameter("memberNo");
             if (memberNoStr == null || memberNoStr.trim().isEmpty()) {
-//				response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+//				response.sendRedirect("adoptedApplicationHibernateServletTemp?action=getAll");
 //				response.sendRedirect("member/memberCenter.jsp");
                 request.getRequestDispatcher("adoptedapplicationhibernate/frontendListSome.jsp")
                         .forward(request, response);
@@ -238,7 +238,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
             Integer applicationNo = Integer.parseInt(request.getParameter("applicationNo"));
             aahService.deleteApplication(applicationNo);
 
-            response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+            response.sendRedirect("adoptedApplicationHibernateServletTemp?action=getAll");
         }
 
         if ("update".equals(action)) {
@@ -277,7 +277,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
 
             aahService.updateApplication(application);
 
-            response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+            response.sendRedirect("adoptedApplicationHibernateServletTemp?action=getAll");
         }
 
         if ("edit".equals(action)) {
@@ -308,7 +308,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
 //			boolean isPetAvailableForReservation = (petStatByte != null && petStatByte == 1);
 //			request.setAttribute("isPetAvailableForReservation", isPetAvailableForReservation);
 
-            request.getRequestDispatcher("adoptedapplicationhibernate/update.jsp")
+            request.getRequestDispatcher("adoptedapplicationhibernate/updateTemp.jsp")
                     .forward(request, response);
         }
 
@@ -356,7 +356,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
                 request.getSession().setAttribute("addSuccess", false);
                 e.printStackTrace();
             }
-//			response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+//			response.sendRedirect("adoptedApplicationHibernateServletTemp?action=getAll");
             request.getRequestDispatcher("adoptedapplicationhibernate/add.jsp")
                     .forward(request, response);
         }
