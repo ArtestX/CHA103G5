@@ -7,10 +7,8 @@ import com.cha103g5.adoptedapplicationhibernate.dao.AdoptedApplicationHibernateD
 import com.cha103g5.adoptedapplicationhibernate.model.AdoptedApplicationHibernate;
 import com.cha103g5.member.model.MemberService;
 import com.cha103g5.member.model.MemberVO;
-import com.cha103g5.pet.service.PetService;
 import com.cha103g5.petinfo.model.PetPicVO;
 import com.cha103g5.petinfo.model.PetVO;
-import com.cha103g5.petinfo.service.PetinfoService;
 import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 
 import java.io.IOException;

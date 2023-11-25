@@ -1,10 +1,8 @@
 package com.cha103g5.petinfo.controller;
 
 import com.cha103g5.petinfo.model.PetVO;
-import com.cha103g5.petinfo.service.PetinfoService;
 import com.cha103g5.petinfo.vin.InsertPetInfoVIn;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
