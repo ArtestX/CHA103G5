@@ -243,7 +243,7 @@
 
 					<li class="list-group-item">
 						<a href="#" onclick="document.getElementById('applicationForm').submit();">預約詳情</a>
-						<form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">
+						<form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="GET">
 							<input type="hidden" name="action" value="frontendGetByMemberNo">
 							<input type="hidden" name="memberNo" value="${user.memberno}">
 						</form>
