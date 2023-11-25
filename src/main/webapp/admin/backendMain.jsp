@@ -82,7 +82,7 @@ body {
 				    </h2>
 				    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="${pageContext.request.contextPath}/allProduct" class="list-group-item list-group-item-action">商品列表</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -94,7 +94,7 @@ body {
 				    </h2>
 				    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/ordertable/index.jsp" class="list-group-item list-group-item-action">訂單列表</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -117,22 +117,32 @@ body {
 				      </button>
 				    </h2>
 				    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
+						  <div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/pet/select_page.jsp" class="list-group-item list-group-item-action">寵物列表</a></strong>
+						  </div>
+						<div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/adoptedapplicationhibernate/indexTemp.jsp" class="list-group-item list-group-item-action">領養查詢</a></strong>
+						</div>
+						<div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/adoptedApplicationHibernateServletTemp?action=getAll" class="list-group-item list-group-item-action">所有預約查詢</a></strong>
+						</div>
+						<div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/adoptedApplicationHibernateServletTemp?action=showCalendar" class="list-group-item list-group-item-action">行事曆管理</a></strong>
+						</div>
 				    </div>
+
 				  </div>
 				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-				        會員資料管理
-				      </button>
-				    </h2>
-				    <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
+					  <h2 class="accordion-header">
+						  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+							  會員資料管理
+						  </button>
+					  </h2>
+					  <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+						  <div class="accordion-body">
+							  <strong><a href="<%=request.getContextPath()%>/member/allMembers.jsp" class="list-group-item list-group-item-action">會員列表</a></strong>
+						  </div>
+					  </div>
 				  </div>
 				  <div class="accordion-item">
 				    <h2 class="accordion-header">
@@ -142,7 +152,7 @@ body {
 				    </h2>
 				    <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/informationannouncement/select_page.jsp" class="list-group-item list-group-item-action">公告列表</a></strong>
 				      </div>
 				    </div>
 				  </div>

@@ -230,16 +230,24 @@
 					<li class="list-group-item">
 						<a href="<%=request.getContextPath()%>/member/memberCenter.jsp">基本資料</a>
 					</li>
+<%--					<li class="list-group-item">--%>
+<%--						<a href="#">訂單管理</a>--%>
+<%--					</li>							--%>
 					<li class="list-group-item">
-						<a href="#">訂單管理</a>
+						<a href="#" onclick="document.getElementById('orderForm').submit();">訂單明細</a>
+						<form style="display: none;" id="orderForm" action="${pageContext.request.contextPath}/orderTableServlet" method="GET">
+							<input type="hidden" name="action" value="getByMemberNoFrontend">
+							<input type="hidden" name="memberNo" value="${user.memberno}">
+						</form>
 					</li>
+
 					<li class="list-group-item">
-						<a href="#" onclick="document.getElementById('memberForm').submit();">個人預約</a>
-						<form style="display: none;" id="memberForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">
+						<a href="#" onclick="document.getElementById('applicationForm').submit();">預約詳情</a>
+						<form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="GET">
 							<input type="hidden" name="action" value="frontendGetByMemberNo">
 							<input type="hidden" name="memberNo" value="${user.memberno}">
 						</form>
-					</li>						
+					</li>
 				</ul>				
 			</div>
 		</div>
