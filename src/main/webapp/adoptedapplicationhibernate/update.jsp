@@ -47,7 +47,7 @@
                 <td>處理進度：</td>
                 <td>
                     <select name="lotteryResult">
-                        <option value="0" ${application.lotteryResult == 0 ? "selected" : ""}>處理表單</option>
+                        <option value="0" ${application.lotteryResult == 0 ? "selected" : ""}>處理表單中</option>
                         <option value="1" ${application.lotteryResult == 1 ? "selected" : ""}>成功領養</option>
                         <option value="2" ${application.lotteryResult == 2 ? "selected" : ""}>領養失敗</option>
                     </select>

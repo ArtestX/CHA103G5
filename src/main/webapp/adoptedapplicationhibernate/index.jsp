@@ -97,7 +97,7 @@
 		</div>
 	</form>
 	<br>
-	<button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=addOption'">新增<br>(寵物頁面)</button>
+	<button onclick="location.href='${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=addOption'">預約<br>(寵物頁面)</button>
 <%--	<button onclick="location.href='${pageContext.request.contextPath}/adoptedapplicationhibernate/add.jsp'">新增申請</button>--%>
 	<br><br>
 </body>

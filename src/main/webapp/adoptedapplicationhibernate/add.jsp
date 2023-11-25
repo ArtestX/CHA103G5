@@ -22,8 +22,12 @@
 <%--    pageContext.setAttribute("randomPetStat", randomPet.getStat());--%>
 <%
     Random random = new Random();
+    int adminNo = random.nextInt(5) + 1;
+    int memberNo = random.nextInt(5) + 1;
     int randomPetId = random.nextInt(5);
     int randomPetStat = random.nextInt(5);
+    request.setAttribute("adminNo", adminNo);
+    request.setAttribute("memberNo", memberNo);
     request.setAttribute("randomPetId", randomPetId);
     request.setAttribute("randomPetStat", randomPetStat);
 
@@ -38,10 +42,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/adoptedapplicationhibernate/main/main.css">
-    <title>新增</title>
+    <title>預約</title>
 
     <style>
+
         .square-button {
             width: 80px;   /* 設置寬度 */
             height: 80px;  /* 設置高度 */
@@ -50,13 +56,85 @@
             vertical-align: middle; /* 垂直居中 */
             line-height: 25px; /* 調整行高以適應兩行文字 */
         }
+
+        .modal {
+            /* 模態框的基本樣式 */
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            /* 模態框內容的基本樣式 */
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            text-align: center;
+            width: 50%; /* 調整寬度 */
+            height: 50%; /* 設置高度與寬度相同 */
+            margin: 25% auto; /* 調整垂直邊距以使其居中 */
+        }
+
+        #modal-icon {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #modal-message {
+            font-size: 48px; /* 調整字體大小 */
+            font-weight: bold; /* 設置字體為粗體 */
+        }
+
+        .success {
+            /* 成功的樣式：綠色勾勾 */
+            color: green;
+        }
+
+        .error {
+            /* 失敗的樣式：紅色叉叉 */
+            color: red;
+        }
+
+        .success, .error {
+            /* 其他樣式保持不變 */
+            font-size: 250px; /* 或其他適當的大小 */
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .green-text {
+            color: green;
+        }
+
+        .red-text {
+            color: red;
+        }
+
     </style>
 
 </head>
 <body>
 <%--    <a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp">申請表單首頁</a>--%>
     <button class="fixed-button" onclick="location.href='${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp'">管理表單首頁</button>
-    <h1>新增</h1>
+    <h1>預約</h1>
     <br>
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
@@ -67,10 +145,10 @@
             <input type="hidden" name="action" value="add" />
             <div>
             <table>
-                <tr>
-                    <td>管理員編號：</td>
-                    <td><input type="number" name="adminNo" required /></td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <td>管理員編號：</td>--%>
+<%--                    <td><input type="number" name="adminNo" required /></td>--%>
+<%--                </tr>--%>
 <%--                <tr>--%>
 <%--                    <td>管理員編號-姓名：</td>--%>
 <%--                    <td>--%>
@@ -79,9 +157,16 @@
 <%--                    </td>--%>
 <%--                </tr>--%>
                 <tr>
-                    <td>會員編號：</td>
-                    <td><input type="number" name="memberNo" required /></td>
+                    <td>管理員編號：</td>
+                    <td>
+                        ${adminNo}
+                        <input type="hidden" name="adminNo" value="${adminNo}" />
+                    </td>
                 </tr>
+<%--                <tr>--%>
+<%--                    <td>會員編號：</td>--%>
+<%--                    <td><input type="number" name="memberNo" required /></td>--%>
+<%--                </tr>--%>
 <%--                <tr>--%>
 <%--                    <td>會員編號-姓名：</td>--%>
 <%--                    <td>--%>
@@ -89,6 +174,13 @@
 <%--                        <input type="hidden" name="memberNo" value="${randomMemberNo}" />--%>
 <%--                    </td>--%>
 <%--                </tr>--%>
+                <tr>
+                    <td>會員編號：</td>
+                    <td>
+                        ${memberNo}
+                        <input type="hidden" name="memberNo" value="${memberNo}" />
+                    </td>
+                </tr>
 <%--                <tr>--%>
 <%--                    <td>寵物編號：</td>--%>
 <%--                    <td><input type="number" name="petId" required /></td>--%>
@@ -98,12 +190,12 @@
                     <td>
                         ${randomPetId} - ${randomPetStat}
                             <c:choose>
-                                <c:when test="${randomPetStat == 0}">(未上架-不可預約)</c:when>
-                                <c:when test="${randomPetStat == 1}">(待領養-可預約)</c:when>
-                                <c:when test="${randomPetStat == 2}">(不可領養-不可預約)</c:when>
-                                <c:when test="${randomPetStat == 3}">(領養中-不可預約)</c:when>
-                                <c:when test="${randomPetStat == 4}">(已領養-不可預約)</c:when>
-                                <c:otherwise>未知狀態</c:otherwise>
+                                <c:when test="${randomPetStat == 0}"><span class="red-text">(未上架-不可預約)</span></c:when>
+                                <c:when test="${randomPetStat == 1}"><span class="green-text">(待領養-可預約)</span></c:when>
+                                <c:when test="${randomPetStat == 2}"><span class="red-text">(不可領養-不可預約)</span></c:when>
+                                <c:when test="${randomPetStat == 3}"><span class="red-text">(領養中-不可預約)</span></c:when>
+                                <c:when test="${randomPetStat == 4}"><span class="red-text">(已領養-不可預約)</span></c:when>
+                                <c:otherwise><span class="red-text">未知狀態</span></c:otherwise>
                             </c:choose>
                         <input type="hidden" name="petId" value="${randomPetId}" />
                     </td>
@@ -115,7 +207,7 @@
                 <tr>
                     <td>處理進度：</td>
                     <td>
-                        <span>處理表單</span>
+                        <span>處理表單中</span>
                         <input type="hidden" name="lotteryResult" value="0" />
                     </td>
                 </tr>
@@ -191,7 +283,7 @@
                 <br>
                 <tr>
                     <td colspan="2">
-                        <input class="table-button" type="submit" value="新增" />
+                        <input class="table-button" type="submit" value="預約" />
                     </td>
                 </tr>
             </table>
@@ -199,6 +291,14 @@
         </form>
         <div>
             <img src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/領養協議書.png" alt="領養協議書範例" style="width: 800px; height: 1000px;" />
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <span id="modal-icon"></span>
+            <p id="modal-message"></p>
         </div>
     </div>
 
@@ -255,32 +355,6 @@
             document.getElementById('signaturePhoto').value = '';
         });
 
-        window.onload = function() {
-            let today = new Date();
-            let formattedDate = today.getFullYear() + '-' +
-                ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
-                ('0' + today.getDate()).slice(-2);
-
-            document.getElementById('applicationDateDisplay').textContent = formattedDate;
-            document.getElementById('applicationDateInput').value = formattedDate;
-
-            let isPetAvailableForReservation = <%= pageContext.getAttribute("isPetAvailableForReservation") %>;
-            let interactionDateInput = document.getElementById('interactionDateInput');
-            let interactionTimeInput = document.getElementById('interactionTimeInput');
-
-            let tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            let maxDate = new Date(tomorrow);
-            maxDate.setDate(maxDate.getDate() + 19);
-
-            interactionDateInput.min = tomorrow.toISOString().split('T')[0];
-            interactionDateInput.max = maxDate.toISOString().split('T')[0];
-
-            interactionDateInput.disabled = !isPetAvailableForReservation;
-            interactionTimeInput.disabled = !isPetAvailableForReservation;
-
-        };
-
         // var today = new Date();
         // var maxDate = new Date();
         // maxDate.setDate(today.getDate() + 7);
@@ -318,7 +392,7 @@
             var popupWindow = window.open(
                 '${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=frontendCalendar', // 更改為您的實際路徑
                 'CalendarPopup',
-                'width=600,height=400,left=200,top=200' // 調整為您想要的尺寸和位置
+                'width=600,height=600,left=200,top=200' // 調整為您想要的尺寸和位置
             );
             popupWindow.focus(); // 將焦點設置到新開啟的窗口
         }
@@ -342,7 +416,7 @@
             if (dateReservations) {
                 let timeIndex = getTimeSlotIndex(selectedTime);
                 if (dateReservations[timeIndex]) {
-                    alert("該預約時段已滿，請參照行事曆重新選擇");
+                    alert("預約時段已滿，請查看行事曆重新選擇");
                     return false;
                 }
             }
@@ -356,6 +430,57 @@
             if (hour >= 18 && hour < 21) return 2;
             return -1;
         }
+
+        $(document).ready(function() {
+            let addSuccess = '<%= (session.getAttribute("addSuccess") != null) ? session.getAttribute("addSuccess").toString() : "" %>';
+
+            if (addSuccess === 'true') {
+                $('#modal-icon').addClass('success').text('✔');
+                $('#modal-message').text('預約成功');
+                $('#myModal').show();
+            } else if (addSuccess === 'false') {
+                $('#modal-icon').addClass('error').text('✖');
+                $('#modal-message').text('預約失敗');
+                $('#myModal').show();
+            } else {
+                $('#myModal').hide();
+            }
+            <% session.removeAttribute("addSuccess"); %>
+
+            $('#closeModal').click(function() {
+                $('#myModal').hide();
+            });
+
+            $(window).click(function(event) {
+                if (!$(event.target).closest('.modal-content').length) {
+                    $('#myModal').hide();
+                }
+            });
+
+            let today = new Date();
+            let formattedDate = today.getFullYear() + '-' +
+                ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+                ('0' + today.getDate()).slice(-2);
+
+            document.getElementById('applicationDateDisplay').textContent = formattedDate;
+            document.getElementById('applicationDateInput').value = formattedDate;
+
+            let isPetAvailableForReservation = <%= pageContext.getAttribute("isPetAvailableForReservation") %>;
+            let interactionDateInput = document.getElementById('interactionDateInput');
+            let interactionTimeInput = document.getElementById('interactionTimeInput');
+
+            let tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            let maxDate = new Date(tomorrow);
+            maxDate.setDate(maxDate.getDate() + 19);
+
+            interactionDateInput.min = tomorrow.toISOString().split('T')[0];
+            interactionDateInput.max = maxDate.toISOString().split('T')[0];
+
+            interactionDateInput.disabled = !isPetAvailableForReservation;
+            interactionTimeInput.disabled = !isPetAvailableForReservation;
+
+        });
 
     </script>
 
