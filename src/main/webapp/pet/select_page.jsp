@@ -8,7 +8,7 @@
 <%
 	Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
 	if (adminAccount == null) {                                             // 如為 null, 代表此user未登入過 , 才做以下工作
-		session.setAttribute("location", request.getRequestURI());       		//*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
+		session.setAttribute("location", request.getRequestURI());         //*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁
 		response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
 		return;
 	}
@@ -50,7 +50,7 @@
 <body>
 <nav class="navbar custom-bg-color">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="backendMain.jsp">
+		<a class="navbar-brand" href="http://localhost:8080/CHA103G5/admin/backendMain.jsp">
 			<img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
 			後臺管理系統
 		</a>
@@ -77,9 +77,9 @@
 						<div class="accordion-body">
 							<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
 						</div>
-						<%--				      <div class="accordion-body">--%>
-						<%--				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
-						<%--				      </div>--%>
+						<%--          <div class="accordion-body">--%>
+						<%--           <strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
+						<%--          </div>--%>
 					</div>
 				</div>
 				<div class="accordion-item">
@@ -172,17 +172,17 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-							<div class="col-md-3">
-								<div class="input-group" >
-									<input type="text" class="form-control" placeholder="請輸入寵物編號"
-										   aria-label="Recipient's username"
-										   aria-describedby="button-addon2">
-									<button class="btn btn-outline-secondary" type="submit" id="search">搜尋</button>
-								</div>
-
+						<div class="col-md-3">
+							<div class="input-group" >
+								<input type="text" class="form-control" placeholder="請輸入寵物編號"
+									   aria-label="Recipient's username"
+									   aria-describedby="button-addon2">
+								<button class="btn btn-outline-secondary" type="submit" id="search">搜尋</button>
 							</div>
 
-			<jsp:useBean id="petSel" scope="page" class="com.cha103g5.pet.service.PetService" />
+						</div>
+
+						<jsp:useBean id="petSel" scope="page" class="com.cha103g5.pet.service.PetService" />
 
 						<div class="col-md-4 d-flex justify-content-end"
 							 style="margin-left: 400px;">
@@ -206,28 +206,28 @@
 							</tr>
 							</thead>
 							<tbody>
-<%--							<%@ include file="page1.file" %>--%>
-					<c:forEach var="petVO" items="${petSel.all}" >
-								<tr>
-									<th>${petVO.petid}</th>
-									<th>${petVO.animaltypeno}</th>
-									<th>${petVO.memberno}</th>
-									<th>${petVO.petname}</th>
-									<th>${petVO.petsex}</th>
-									<th>${petVO.petage}</th>
-									<th>${petVO.petnote}</th>
-									<th>${petVO.stat}</th>
-									<th>${petVO.applicationdeadline}</th>
+							<%--       <%@ include file="page1.file" %>--%>
+							<c:forEach var="petVO" items="${petSel.all}" >
+							<tr>
+								<th>${petVO.petid}</th>
+								<th>${petVO.animaltypeno}</th>
+								<th>${petVO.memberno}</th>
+								<th>${petVO.petname}</th>
+								<th>${petVO.petsex}</th>
+								<th>${petVO.petage}</th>
+								<th>${petVO.petnote}</th>
+								<th>${petVO.stat}</th>
+								<th>${petVO.applicationdeadline}</th>
 
 
-									<th class="text-center">
+								<th class="text-center">
 								<td>
 									<button class="btn btn-success updatebtn" type="submit" onclick="update(${petVO.petid})">修改</button>
 
-							</c:forEach>
+									</c:forEach>
 							</tbody>
 						</table>
-<%--						<%@ include file="page2.file" %>--%>
+						<%--      <%@ include file="page2.file" %>--%>
 
 
 					</div>
@@ -281,7 +281,7 @@
 		updatebtns.forEach(function(btn) {
 			btn.addEventListener('click', function() {
 				// 獲取所選寵物的 petid
-				let petId = btn.parentElement.parentElement.querySelector('th:first-child').innerText;
+				let petId = btn.parentElement.parentElement.parentElement.querySelector('th:first-child').innerText;
 
 				console.log(petId);
 				// 將 petid 帶到新頁面

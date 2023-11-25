@@ -114,7 +114,6 @@ public class AdminLoginHandler extends HttpServlet {
 			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 			HttpSession session = req.getSession();  //【帳號 , 密碼有效時, 才做以下工作】
 			session.setAttribute("adminAccount", adminAccount);   //*工作1: 才在session內做已經登入過的標識
-
 			try {
 				String location = (String) session.getAttribute("location");
 				if (location != null) {

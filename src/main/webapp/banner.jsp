@@ -53,19 +53,13 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#">
-							<b>最新消息</b>
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link click-scroll" href="http://localhost:8080/CHA103G5/pet/pets.html">
+						<a class="nav-link click-scroll" href="${pageContext.request.contextPath}/pet/pets.html">
 							<b>寵物領養</b>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="http://localhost:8080/mall">
+						<a class="nav-link click-scroll" href="${pageContext.request.contextPath}/mall">
 							<b>精選商城</b>
 						</a>
 					</li>

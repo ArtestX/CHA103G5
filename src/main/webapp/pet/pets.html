@@ -71,12 +71,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#">
-                        <b>最新消息</b>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link click-scroll" href="http://localhost:8080/CHA103G5/pet/pets.html">
                         <b>寵物領養</b>
                     </a>
@@ -361,7 +355,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                                <button class="btn btn-lg btn-primary w-100 fs-6" onclick = "reserves(${pet.petId}, ${pet.stat})">預約領養</button>
+                                <button class="btn btn-lg btn-primary w-100 fs-6" onclick = "reserves(${pet.petId})">預約領養</button>
                         </div>
                         <br>
                     </div>`
@@ -374,10 +368,9 @@
         });
     });
 
-    function reserves(petId, stat) {
+    function reserves(petId) {
         console.log(petId);
-        console.log((stat));
-        window.location.href = '../adoptedapplicationhibernate/add.jsp' + "?petId=" + petId + "&stat=" + stat;
+        window.location.href = '../adoptedApplicationHibernateServletTemp?action=addOption' + "&petId=" + petId;
     }
 
 

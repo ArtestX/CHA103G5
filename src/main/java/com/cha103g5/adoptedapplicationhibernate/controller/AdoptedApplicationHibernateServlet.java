@@ -45,8 +45,11 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 
 		if ("getByMemberNo".equals(action)) {
 			String memberNoStr = request.getParameter("memberNo");
-			if (memberNoStr.equals("")) {
-				response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+			if (memberNoStr == null || memberNoStr.trim().isEmpty()) {
+//				response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+//				response.sendRedirect("member/memberCenter.jsp");
+				request.getRequestDispatcher("adoptedapplicationhibernate/frontendListSome.jsp")
+						.forward(request, response);
 			} else {
 				Integer memberNo = Integer.parseInt(memberNoStr);
 				List<AdoptedApplicationHibernate> someApplications = aahService.getApplicationsByMemberNo(memberNo);
@@ -59,16 +62,17 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 
 		if ("frontendGetByMemberNo".equals(action)) {
 			String memberNoStr = request.getParameter("memberNo");
-			if (memberNoStr.equals("")) {
-				response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+			if (memberNoStr == null || memberNoStr.trim().isEmpty()) {
+//    response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+				response.sendRedirect("member/memberCenter.jsp");
 			} else {
 				Integer memberNo = Integer.parseInt(memberNoStr);
 				List<AdoptedApplicationHibernate> someApplications = aahService.getApplicationsByMemberNo(memberNo);
 
 				request.setAttribute("someApplications", someApplications);
 				request.setAttribute("applicationIncludePath", "frontendListSome.jsp");
-//				request.getRequestDispatcher("adoptedapplicationhibernate/frontmember.jsp")
-//						.forward(request, response);
+//    request.getRequestDispatcher("adoptedapplicationhibernate/frontmember.jsp")
+//      .forward(request, response);
 				request.getRequestDispatcher("adoptedapplicationhibernate/frontendListSome.jsp")
 						.forward(request, response);
 			}

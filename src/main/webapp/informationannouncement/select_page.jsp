@@ -50,7 +50,7 @@
 <body>
 <nav class="navbar custom-bg-color">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="backendMain.jsp">
+		<a class="navbar-brand" href="http://localhost:8080/CHA103G5/admin/backendMain.jsp">
 			<img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
 			後臺管理系統
 		</a>
