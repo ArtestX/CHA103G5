@@ -45,8 +45,11 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 
 		if ("getByMemberNo".equals(action)) {
 			String memberNoStr = request.getParameter("memberNo");
-			if (memberNoStr.equals("")) {
-				response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+			if (memberNoStr == null || memberNoStr.trim().isEmpty()) {
+//				response.sendRedirect("adoptedApplicationHibernateServlet?action=getAll");
+//				response.sendRedirect("member/memberCenter.jsp");
+				request.getRequestDispatcher("adoptedapplicationhibernate/frontendListSome.jsp")
+						.forward(request, response);
 			} else {
 				Integer memberNo = Integer.parseInt(memberNoStr);
 				List<AdoptedApplicationHibernate> someApplications = aahService.getApplicationsByMemberNo(memberNo);
