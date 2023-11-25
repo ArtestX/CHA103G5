@@ -13,7 +13,7 @@
         position: absolute;
         top: 50px; /* 距離頂部的距離，根據實際需要調整 */
         right: 10px; /* 距離右側的距離，根據實際需要調整 */
-       
+
     }
 </style>
 </head>
@@ -28,13 +28,13 @@
 			</a>
 
 			<div class="d-lg-none ms-auto me-4">
-				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
 					<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon1">
 				</a>
 
 				<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
 					<input type="hidden" name="action" value="logout"> 
-					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon"> 
+					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon">
 						<img src="<%=request.getContextPath()%>/img/logout.png" alt="Login out" id="logoutIcon1">
 					</a>
 				</form>
@@ -59,7 +59,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#section_3">
+						<a class="nav-link click-scroll" href="http://localhost:8080/CHA103G5/pet/pets.html">
 							<b>寵物領養</b>
 						</a>
 					</li>
@@ -134,7 +134,7 @@
 				
 				<div class="d-none d-lg-block narrow-div">
 			<!-- 	********登入按鈕********* -->
-					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
 					</a>
 			<!-- 	********登出按鈕********* -->

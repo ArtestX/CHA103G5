@@ -23,9 +23,6 @@ public class PetPicVO implements Serializable {
 	@Column(name = "petpic")
 	private byte[] petPic;
 
-//	@JsonBackReference
-//	@ManyToOne // 多對一關聯表格
-//	@JoinColumn(name = "petid", insertable = false, updatable = false, referencedColumnName = "petid")
-//	private PetVO petVo;
-
+	@Transient
+	private String base64Image;
 }

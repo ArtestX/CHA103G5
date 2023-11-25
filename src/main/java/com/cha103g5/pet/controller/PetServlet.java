@@ -227,7 +227,7 @@ public class PetServlet extends HttpServlet {
 			// Send the use back to the form, if there were errors
 			if (!errorMsgs.isEmpty()) {
 				req.setAttribute("petVO", petVO); // 含有輸入格式錯誤的petVO物件,也存入req
-				RequestDispatcher failureView = req.getRequestDispatcher("/pet/addPet.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/pet/addInformationAnnouncement.jsp");
 				failureView.forward(req, res);
 				return;
 			}

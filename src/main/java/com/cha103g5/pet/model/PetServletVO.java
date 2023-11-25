@@ -36,7 +36,7 @@ public class PetServletVO {
 	private String petnote;
 
 	@Column(name = "stat", columnDefinition = "tinyint")
-	private byte stat;
+	private Byte stat;
 
 	@Column(name = "applicationdeadline")
 	private Date applicationdeadline;

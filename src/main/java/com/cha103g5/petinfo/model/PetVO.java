@@ -46,10 +46,4 @@ public class PetVO implements Serializable {
     @Transient // 這個註解表示該屬性不會映射到數據庫表中
     private List<PetPicVO> petPics = new ArrayList<>();
 
-//    @JsonBackReference
-//    @OneToMany(mappedBy = "petVo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<PetPicVO> petPics;
-
-
-
 }

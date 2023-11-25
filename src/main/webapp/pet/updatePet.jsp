@@ -20,7 +20,7 @@
         }
 
         .box-area {
-            width: 530px;
+            width: 630px;
         }
 
         ::placeholder {
@@ -47,10 +47,16 @@
         </div>
         <div class="row g-1 align-items-center ms-5">
             <div class="col-auto offset-1">
-                <label for="text1" class="col-form-label">寵物編號 : <font color=red><b>*</b></font></label>
-                <div class="col-auto">
-                    <input type="text" name="petId" id="petId" readonly>
+
+                <div class="row g-1 align-items-center ms-5">
+                    <div class="col-auto offset-1">
+                        <label class="col-form-label">寵物編號 :</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" name="petId" id="petId" readonly class="form-control">
+                    </div>
                 </div>
+
                 <div class="row g-1 align-items-center ms-5">
                     <div class="col-auto offset-1">
                         <label class="col-form-label">寵物類型 :
@@ -187,7 +193,7 @@
         src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 <style>
     .xdsoft_datetimepicker .xdsoft_datepicker {
-        width: 300px; /* width:  300px; */
+        width: 300px; /* width:  250px; */
     }
 
     .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
@@ -217,7 +223,8 @@
         //minDate:               '-1970-01-01', // 去除今日(不含)之前
         //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
     });
-//========================拿URL的值去查資料======================
+
+    //========================拿URL的值去查資料======================
     function loadFirst() {
         // 獲取 URL 中的查詢參數
         const urlParams = new URLSearchParams(window.location.search);
@@ -264,70 +271,66 @@
     }
 
 
+    document.getElementById('updateButton').addEventListener('click', function () {
+        console.log("送出按鈕有被綁到");
+        // 要發送的數據
+        const petId = document.getElementById('petId').value;
+        const petType = document.getElementById('petType').value;
+        const memberNo = document.getElementById('memberNo').value;
+        const petName = document.getElementById('petName').value;
+        const petSex = document.querySelector('[name="petSex"]').value;
+        const petAge = document.getElementById('petAge').value;
+        const petNote = document.getElementById('petNote').value;
+        const applicationDeadLine = document.getElementById('applicationDeadLine').value;
+        const stat = document.getElementById('stat').value;
+        const fileInput = document.getElementById('petPic');
+        const files = fileInput.files;
+        const petPic = [];
 
-        document.getElementById('updateButton').addEventListener('click', function () {
-            console.log("送出按鈕有被綁到");
-            let b = document.getElementById('executeFunctionButton');
-            console.log(b);
-            // 要發送的數據
-            const petId = document.getElementById('petId').value;
-            const petType = document.getElementById('petType').value;
-            const memberNo = document.getElementById('memberNo').value;
-            const petName = document.getElementById('petName').value;
-            const petSex = document.querySelector('[name="petSex"]').value;
-            const petAge = document.getElementById('petAge').value;
-            const petNote = document.getElementById('petNote').value;
-            const applicationDeadLine = document.getElementById('applicationDeadLine').value;
-            const stat = document.getElementById('stat').value;
-            const fileInput = document.getElementById('petPic');
-            const files = fileInput.files;
-            const petPic = [];
+        // 錯誤訊息容器
+        let errorMessage = "";
 
-            // 錯誤訊息容器
-            let errorMessage = "";
-
-            // 驗證寵物類型
-            if (petType === "") {
-                errorMessage += "請選擇寵物類型。\n";
-            }
+        // 驗證寵物類型
+        if (petType === "") {
+            errorMessage += "請選擇寵物類型。\n";
+        }
 
 
-            // 驗證寵物名稱
-            if (petName === "") {
-                errorMessage += "請輸入寵物名稱。\n";
-            } else if (petName.length > 10) {
-                errorMessage += "寵物名稱太長，請輸入不超過" + 10 + "個字元。\n";
-            }
+        // 驗證寵物名稱
+        if (petName === "") {
+            errorMessage += "請輸入寵物名稱。\n";
+        } else if (petName.length > 10) {
+            errorMessage += "寵物名稱太長，請輸入不超過" + 10 + "個字元。\n";
+        }
 
-            // 驗證寵物性別
-            if (!petSex) {
-                errorMessage += "請選擇寵物性別。\n";
-            }
+        // 驗證寵物性別
+        if (!petSex) {
+            errorMessage += "請選擇寵物性別。\n";
+        }
 
-            // 驗證寵物年齡
-            if (petAge === "") {
-                errorMessage += "請輸入寵物年齡。\n";
-            } else if (isNaN(petAge) || parseInt(petAge) <= 0) {
-                errorMessage += "請輸入有效的寵物年齡(數字)。\n";
-            }
+        // 驗證寵物年齡
+        if (petAge === "") {
+            errorMessage += "請輸入寵物年齡。\n";
+        } else if (isNaN(petAge) || parseInt(petAge) <= 0) {
+            errorMessage += "請輸入有效的寵物年齡(數字)。\n";
+        }
 
-            // 驗證截止日期
-            if (applicationDeadLine === "") {
-                errorMessage += "請選擇截止日期。\n";
-            }
+        // 驗證截止日期
+        if (applicationDeadLine === "") {
+            errorMessage += "請選擇截止日期。\n";
+        }
 
-            // 驗證寵物狀態
-            if (stat === "") {
-                errorMessage += "請選擇寵物狀態。\n";
-            }
+        // 驗證寵物狀態
+        if (stat === "") {
+            errorMessage += "請選擇寵物狀態。\n";
+        }
 
 
-
-            // 如果有錯誤，顯示錯誤訊息
-            if (errorMessage !== "") {
-                alert(errorMessage);
-                return;
-            }
+        // 如果有錯誤，顯示錯誤訊息
+        if (errorMessage !== "") {
+            alert(errorMessage);
+            return;
+        }
 
         if (files.length > 0) {
             const promises = [];
@@ -386,6 +389,7 @@
                     });
             });
         }
+        window.location.href = 'select_page.jsp';
 
     });
 
