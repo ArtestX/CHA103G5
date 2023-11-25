@@ -1,8 +1,3 @@
-<%@ page import="com.cha103g5.admin.model.AdminVO" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>
-<%@ page import="com.cha103g5.member.model.MemberVO" %>
-<%@ page import="com.cha103g5.pet.model.PetVO" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
