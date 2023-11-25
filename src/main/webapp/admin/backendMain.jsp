@@ -82,7 +82,7 @@ body {
 				    </h2>
 				    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="${pageContext.request.contextPath}/allProduct" class="list-group-item list-group-item-action">商品編輯</a></strong>
+						<strong><a href="${pageContext.request.contextPath}/allProduct" class="list-group-item list-group-item-action">商品列表</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -152,7 +152,7 @@ body {
 				    </h2>
 				    <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="http://localhost:8080/CHA103G5/informationannouncement/select_page.jsp" class="list-group-item list-group-item-action">公告列表</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/informationannouncement/select_page.jsp" class="list-group-item list-group-item-action">公告列表</a></strong>
 				      </div>
 				    </div>
 				  </div>
