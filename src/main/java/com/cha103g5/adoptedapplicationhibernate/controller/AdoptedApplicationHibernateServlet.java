@@ -67,7 +67,9 @@ public class AdoptedApplicationHibernateServlet extends HttpServlet {
 
 				request.setAttribute("someApplications", someApplications);
 				request.setAttribute("applicationIncludePath", "frontendListSome.jsp");
-				request.getRequestDispatcher("adoptedapplicationhibernate/frontmember.jsp")
+//				request.getRequestDispatcher("adoptedapplicationhibernate/frontmember.jsp")
+//						.forward(request, response);
+				request.getRequestDispatcher("adoptedapplicationhibernate/frontendListSome.jsp")
 						.forward(request, response);
 			}
 		}

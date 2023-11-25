@@ -145,7 +145,8 @@ public class OrderTableServlet extends HttpServlet {
 			request.setAttribute("someOrderTables", someOrderTables);
 			request.setAttribute("orderTableIncludePath", "../ordertable/listSomeOrderTableFrontend.jsp");
 
-			return "/adoptedapplicationhibernate/frontmember.jsp";
+//			return "/adoptedapplicationhibernate/frontmember.jsp";
+			return "/ordertable/listSomeOrderTableFrontend.jsp";
 		}
 	}
 
