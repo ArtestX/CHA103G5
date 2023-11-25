@@ -129,4 +129,17 @@
    height: 60px;
    margin-left: 22px !important;
 
+
+button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
 }

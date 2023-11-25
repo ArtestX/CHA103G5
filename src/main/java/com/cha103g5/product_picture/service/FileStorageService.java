@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileStorageService {
 
     private Path fileStorageLocation;
-    private final long maxFileSize = 10 * 1024 * 1024; // 例如，限制為10MB
+    private final long maxFileSize = 100 * 1024 * 1024;
     private final List<String> allowedFileExtensions = Arrays.asList(".jpg", ".png", ".gif");
 
     @Value("${file.storage.directory}")

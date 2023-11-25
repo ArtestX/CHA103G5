@@ -259,12 +259,11 @@ public class MemberServlet extends HttpServlet {
 					errorMsgs.put("memberphone","不符合手機號碼格式");
 	            }
 				
-				String memberaddress = req.getParameter("memberaddress").trim();
 				 String county = req.getParameter("county");
 			     String district = req.getParameter("district");
 			     String zipcode = req.getParameter("zipcode");
 			     String address = req.getParameter("address");
-			     memberaddress =  county.concat(zipcode).concat(district).concat(address);
+			     String memberaddress =  county.concat(zipcode).concat(district).concat(address);
 				
 				Date memberbirthday = null;
 				String memberBirthdayParameter = req.getParameter("memberbirthday");
@@ -610,8 +609,7 @@ public class MemberServlet extends HttpServlet {
 		
 	}
 	 
-	public void doGet(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse res)throws ServletException, IOException {
 		doPost(req, res);
 		
 	    int width = 130;
@@ -656,8 +654,7 @@ public class MemberServlet extends HttpServlet {
 	/**********************檢查帳號**********************/
 	/**********************檢查帳號**********************/
 	/**********************檢查帳號**********************/	
-	private void checkAccount(HttpServletRequest req, HttpServletResponse res)
-		    throws IOException {
+	private void checkAccount(HttpServletRequest req, HttpServletResponse res)throws IOException {
 		    String memberemail = req.getParameter("memberemail");
 		    System.out.println("進來比對了");
 		    boolean isAccountExists = checkAccountInDatabase(memberemail);

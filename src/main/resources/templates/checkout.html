@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${productName} + ' - 結帳頁面'">結帳頁面</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #b6d9e0;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            padding-top: 2rem;
+        }
+        .card {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-header, .card-footer {
+            background-color: #ffffff;
+        }
+        .card-header {
+            border-bottom: 1px solid #eeeeee;
+        }
+        .card-footer {
+            border-top: 1px solid #eeeeee;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-back {
+            color: #007bff;
+            text-decoration: none;
+            padding-left: 20px;
+        }
+        .btn-back:hover {
+            text-decoration: underline;
+        }
+        .row {
+            border-bottom: 1px solid #c0d3c7;
+            padding: 0.75rem 0;
+            margin: 0;
+        }
+        .row:last-child {
+            border-bottom: 0;
+        }
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333333;
+        }
+        .quantity-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .quantity-controls button {
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .quantity-controls input {
+            width: 50px;
+            text-align: center;
+        }
+        .delete-btn {
+            border: none;
+            background: none;
+            color: #d9938e;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header text-center">
+            <h3>您的購物車</h3>
+        </div>
+        <div class="card-body">
+            <div th:each="item : ${cart.items}" class="row">
+                <div class="col-4" th:text="${item.value.productName}">商品名稱</div>
+                <div class="col-2 text-center" th:text="${item.value.price}">商品價格</div>
+                <div class="col-4 text-center quantity-controls">
+                    <button onclick="changeQuantity('${item.key}', -1)">-</button>
+                    <input type="text" id="quantity-[[${item.key}]]" name="quantity-[[${item.key}]]" th:value="${item.value.quantity}" readonly/>
+                    <button onclick="changeQuantity('${item.key}', 1)">+</button>
+                </div>
+                <div class="col-2 text-center">
+                    <button class="delete-btn" onclick="deleteItem('${item.key}')">刪除</button>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-4 text-right total-price" th:text="${totalPrice}">總計</div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-primary">結帳</button>
+            <a th:href="@{/mall}" class="btn-back">回到商品頁面</a>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="memberNo" th:value="${memberNo}" />
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function changeQuantity(itemKey, change) {
+        var memberNo = $('#memberNo').val();
+        var quantityInput = $('#quantity-' + itemKey);
+        var newQuantity = parseInt(quantityInput.val()) + change;
+        var data = {
+            memberNo: memberNo,
+            productNo: itemKey,
+            quantity: newQuantity
+        };
+
+        $.ajax({
+            url: '/cart/updateQuantity',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                location.reload();  // 重新載入頁面以更新顯示
+            },
+            error: function(error) {
+                console.error('Error updating quantity:', error);
+            }
+        });
+    }
+
+    function deleteItem(itemKey) {
+        var memberNo = $('#memberNo').val();
+
+        $.ajax({
+            url: '/cart/deleteProduct/' + memberNo + '/' + itemKey,
+            type: 'DELETE',
+            success: function(response) {
+                location.reload();  // 重新載入頁面以更新顯示
+            },
+            error: function(error) {
+                console.error('Error deleting item:', error);
+            }
+        });
+    }
+</script>
+</body>
+</html>

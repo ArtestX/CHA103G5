@@ -25,7 +25,7 @@ public class WebSocketMessage {
 	    public String getFormattedTimestamp() {
 	        Instant instant = Instant.ofEpochMilli(timestamp);
 	        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd  HH:mm:ss");
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd   HH:mm");
 	        String formattedDateTime = dateTime.format(formatter); // 格式化日期時間
 	        return formattedDateTime;
 	    }

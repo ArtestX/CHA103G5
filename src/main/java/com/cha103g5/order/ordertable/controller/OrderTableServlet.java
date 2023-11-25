@@ -48,6 +48,9 @@ public class OrderTableServlet extends HttpServlet {
 			case "compositeQuery":
 				forwardPath = getOrderTablesByCompositeQuery(request, response);
 				break;
+			case "getByMemberNoFrontend":
+				forwardPath = getOrderTablesByMemberNoFrontend(request, response);
+				break;
 			default:
 				forwardPath = "/ordertable/index.jsp";
 		}
@@ -128,6 +131,22 @@ public class OrderTableServlet extends HttpServlet {
 			request.setAttribute("someOrderTables", someOrderTables);
 
 			return "/ordertable/listSome.jsp";
+		}
+	}
+
+	private String getOrderTablesByMemberNoFrontend(HttpServletRequest request, HttpServletResponse response) {
+		String memberNoStr = request.getParameter("memberNo");
+		if (memberNoStr.equals("")) {
+			return null;
+		} else {
+			Integer memberNo = Integer.parseInt(memberNoStr);
+			List<OrderTableVO> someOrderTables = otService.getOrderTablesByMemberNo(memberNo);
+
+			request.setAttribute("someOrderTables", someOrderTables);
+			request.setAttribute("orderTableIncludePath", "../ordertable/listSomeOrderTableFrontend.jsp");
+
+//			return "/adoptedapplicationhibernate/frontmember.jsp";
+			return "/ordertable/listSomeOrderTableFrontend.jsp";
 		}
 	}
 
