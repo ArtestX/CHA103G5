@@ -21,11 +21,17 @@
     <title>領養表單</title>
 
     <style>
+
         body {
             background-image: url('<%=request.getContextPath()%>/img/desktop.jpg');
             background-size: cover;
             background-attachment: fixed; /* 固定背景圖片 */
             background-repeat: no-repeat;
+        }
+
+        table td {
+            background-color: white;
+            border: 1px solid black;
         }
 
     </style>
@@ -36,7 +42,7 @@
 <nav class="navbar custom-bg-color">
     <div class="container-fluid">
         <a class="navbar-brand" href="<%=request.getContextPath()%>/admin/backendMain.jsp">
-            <img src="./img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            <img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
             後臺管理系統
         </a>
         <div class="ms-auto">

@@ -124,7 +124,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
             }
 
             request.setAttribute("reservationMap", reservationMap);
-            request.getRequestDispatcher("adoptedapplicationhibernate/showCalendar.jsp").forward(request, response);
+            request.getRequestDispatcher("adoptedapplicationhibernate/showCalendarTemp.jsp").forward(request, response);
         }
 
         if ("frontendCalendar".equals(action)) {
@@ -230,7 +230,7 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
             }
 
             request.setAttribute("reservationMap", reservationMap);
-            request.getRequestDispatcher("adoptedapplicationhibernate/showCalendar.jsp")
+            request.getRequestDispatcher("adoptedapplicationhibernate/showCalendarTemp.jsp")
                     .forward(request, response);
         }
 

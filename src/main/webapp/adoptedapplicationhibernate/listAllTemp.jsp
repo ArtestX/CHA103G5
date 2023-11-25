@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
     <style>
+
         .page-nav {
             color: grey; /* 預設顏色 */
             cursor: default;
@@ -44,6 +45,10 @@
             background-repeat: no-repeat;
         }
 
+        table td {
+            background-color: white;
+            border: 1px solid black;
+        }
     </style>
 
 </head>
@@ -52,7 +57,7 @@
     <nav class="navbar custom-bg-color">
         <div class="container-fluid">
             <a class="navbar-brand" href="<%=request.getContextPath()%>/admin/backendMain.jsp">
-                <img src="./img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                <img src="<%=request.getContextPath()%>/img/backpack2-fill.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                 後臺管理系統
             </a>
             <div class="ms-auto">
