@@ -65,7 +65,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="http://localhost:8080/CHA103G5/mall">
+						<a class="nav-link click-scroll" href="http://localhost:8080/mall">
 							<b>精選商城</b>
 						</a>
 					</li>
@@ -224,6 +224,9 @@
 			function updateNotificationArea() {
 			    const badge = document.getElementById("badge");
 			    const bellIcon = document.getElementById("bellIcon");
+			 // 過濾未讀消息
+			    const unreadMessages = messages.filter(message => !message.read);
+
 
 			    if (messages.length > 0) {
 			        // 有消息時，顯示未讀消息數字和使按鈕可點擊
@@ -238,14 +241,15 @@
 			        messages.forEach(message => {
 			            const messageItem = document.createElement("li");
 			            messageItem.classList.add("notifications-block", "border-bottom", "pb-2", "mb-2");
-			            messageItem.innerHTML = '<b style="font-size:20px;">' + message.title + '</b><br>' + message.content + '<br>' + message.formattedTimestamp;
+			            messageItem.innerHTML = '<b style="font-size:20px;">' + message.title + '</b><br>'  + message.content + "<br><p  style='font-size:13px; color:gray'>" + message.formattedTimestamp +"</p>";
 			            messageList.appendChild(messageItem);
 			        });
 			    } else {
 			        // 沒有消息時，隱藏未讀消息數字並使按鈕不可點擊
 			        badge.style.display = "none";
 			        bellIcon.disabled = true;
-			        messageList.style.display = "none"; // 隱藏消息列表
+			        
+			        messageList.innerHTML = '<li class="notifications-block">無最新消息</li>';
 			    }
 			}
 
@@ -259,17 +263,15 @@
 			// 初始化通知區域
 			updateNotificationArea();
 			
-			// 添加事件監聽器，在滑鼠移動到小鈴鐺時顯示消息列表
-			bellIcon.addEventListener("mouseover", function() {
-			    if (messages.length > 0) {
-			        messageList.style.display = "block";
-			    }
-			});
-
-			// 添加事件監聽器，在滑鼠離開小鈴鐺時隱藏消息列表
-			bellIcon.addEventListener("mouseout", function() {
-			    messageList.style.display = "none";
-			});
+			// 添加事件監聽器，在點擊小鈴鐺時顯示或隱藏消息列表
+			   bellIcon.addEventListener("click", function() {
+			       if (messages.length > 0) {
+			           const messageList = document.getElementById("messageList");
+			           messageList.style.display = messageList.style.display === "block" ? "none" : "block";
+			           updateNotificationArea();
+			       }
+			   });
+		
 	</script>
 
 
