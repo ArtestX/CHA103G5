@@ -33,9 +33,7 @@ public class MemberNoticeVO implements java.io.Serializable{
     private Timestamp noticetime;
 	
 	@Column(name="readstat")
-    private Integer readstat = 0;
-	
-//	private MemberVO memberVO;
+    private Integer readstat = 0;//0是未讀，1是已讀
 
 	public MemberNoticeVO() {
 		super();

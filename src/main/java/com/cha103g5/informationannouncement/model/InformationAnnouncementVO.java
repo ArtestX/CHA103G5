@@ -17,7 +17,7 @@ public class InformationAnnouncementVO implements Serializable {
 
     @NotNull
     @Column(name="adminno")
-    private Integer adminNo;
+    private String adminNo;
 
     @NotNull
     @Column(name="infocontent")
@@ -39,11 +39,11 @@ public class InformationAnnouncementVO implements Serializable {
         this.infoNo = infoNo;
     }
 
-    public Integer getAdminNo() {
+    public String getAdminNo() {
         return adminNo;
     }
 
-    public void setAdminNo(Integer adminNo) {
+    public void setAdminNo(String adminNo) {
         this.adminNo = adminNo;
     }
 

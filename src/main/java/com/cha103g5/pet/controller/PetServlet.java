@@ -97,8 +97,8 @@ public class PetServlet extends HttpServlet {
 					+ "&petage=" + petVO.getPetage() + "&petnote=" + petVO.getPetnote() + "&stat=" + petVO.getStat()
 					+ "&applicationdeadline" + petVO.getApplicationdeadline();
 
-			String url = "/pet/updatePet.jsp" + param;
-			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 updatePet.jsp
+			String url = "/pet/updateInformationannouncement.jsp" + param;
+			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 updateInformationannouncement.jsp
 			successView.forward(req, res);
 		}
 
@@ -149,7 +149,7 @@ public class PetServlet extends HttpServlet {
 			}
 
 			if (!errorMsgs.isEmpty()) {
-				RequestDispatcher failureView = req.getRequestDispatcher("/pet/updatePet.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/pet/updateInformationannouncement.jsp");
 				failureView.forward(req, res);
 				return; // 程式中斷
 			}

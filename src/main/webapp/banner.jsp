@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -53,19 +54,13 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#">
-							<b>最新消息</b>
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#section_3">
+						<a class="nav-link click-scroll" href="${pageContext.request.contextPath}/pet/pets.html">
 							<b>寵物領養</b>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="http://localhost:8080/mall">
+						<a class="nav-link click-scroll" href="${pageContext.request.contextPath}/mall">
 							<b>精選商城</b>
 						</a>
 					</li>
@@ -125,7 +120,12 @@
 						    </button>
 
 						    <ul class="dropdown-menu notifications-block-wrap bg-white shadow" id="messageList" style="padding:10px;">
-						                <!-- 這裡放置消息內容 -->
+						          <c:forEach var="message" items="${noticeMessages}">
+							        <li class="notifications-block border-bottom pb-2 mb-2">
+							            <b style="font-size:20px;">${message['Title']}</b><br>${message['Content']}<br>
+							            <p style='font-size:13px; color:gray'>${message['Timestamp']}</p>
+							        </li>
+							     </c:forEach>
 						    </ul>
 						</div>
 			        </div>

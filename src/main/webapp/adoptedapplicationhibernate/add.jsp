@@ -1,12 +1,16 @@
-<%--<%@ page import="com.cha103g5.admin.model.AdminVO" %>--%>
-<%--<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>--%>
-<%--<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>--%>
-<%--<%@ page import="com.cha103g5.member.model.MemberVO" %>--%>
-<%--<%@ page import="com.cha103g5.petinfo.model.PetVO" %>--%>
+<%@ page import="com.cha103g5.admin.model.AdminVO" %>
+<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>
+<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>
+<%@ page import="com.cha103g5.member.model.MemberVO" %>
+<%@ page import="com.cha103g5.petinfo.model.PetVO" %>
+<%@ page import="com.cha103g5.member.model.*"%>
+<%@ page import="com.cha103g5.order.ordertable.model.OrderTableVO" %>
 <%@ page import="com.google.gson.Gson" %>
-<%@ page import="java.util.Random" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:include page="/banner.jsp" flush="true" />
+<%@ page import="com.cha103g5.member.model.*"%>
+<%@ page import="java.util.*"%>
 
 <%--<%--%>
 <%--    AdoptedApplicationHibernateService aahService = new AdoptedApplicationHibernateServiceImpl();--%>
@@ -20,15 +24,25 @@
 <%--    pageContext.setAttribute("randomPetId", randomPet.getPetId());--%>
 <%--    pageContext.setAttribute("randomPetName", randomPet.getPetName());--%>
 <%--    pageContext.setAttribute("randomPetStat", randomPet.getStat());--%>
+<%--%>--%>
+<%
+    // 把MemberVO的資料從session取出
+    com.cha103g5.member.model.MemberVO user = (com.cha103g5.member.model.MemberVO) session.getAttribute("user");
+
+%>
+
 <%
     Random random = new Random();
-    int adminNo = random.nextInt(5) + 1;
-    int memberNo = random.nextInt(5) + 1;
-    int randomPetId = random.nextInt(5);
+    int adminNo = random.nextInt(10) + 1;
+//    int memberNo = random.nextInt(6) + 1;
+//    int randomPetId = random.nextInt(5);
     int randomPetStat = random.nextInt(5);
     request.setAttribute("adminNo", adminNo);
-    request.setAttribute("memberNo", memberNo);
-    request.setAttribute("randomPetId", randomPetId);
+//    request.setAttribute("memberNo", memberNo);
+//    request.setAttribute("randomPetId", randomPetId);
+    int petId = Integer.parseInt(request.getParameter("petId"));
+    System.out.println(petId);
+    request.setAttribute("petId", petId);
     request.setAttribute("randomPetStat", randomPetStat);
 
     Byte petStatByte = (byte) randomPetStat;
@@ -43,10 +57,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <%-- <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sweetalert2.css"> --%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/adoptedapplicationhibernate/main/main.css">
     <title>預約</title>
 
     <style>
+
+        body {
+            background-color: rgb(243, 243, 243);
+            margin: 0;
+            padding: 0;
+        }
+
+        a{
+            text-decoration: none;
+            color:black;
+        }
+
+        font {
+            color:red;
+            margin-top:10px;
+            float: right;
+            font-size: 15px;
+        }
+
+        #passwordError, #checkpasswordError{
+            color: red ;
+            float: left;
+            font-size: 14px;
+            margin-top: 5px;
+            width: 200px;
+        }
+
+        /*****側邊選單*****/
+        .card {
+            margin-top: 70px;
+            width:220px;
+            border: none;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .card-header{
+            background-color: #655353;
+            color: white;
+        }
+
+        .list-group-item:hover {
+            background-color: rgb(222, 215, 212);
+        }
+
+        /*****按鈕樣式*****/
+        .btn {
+            color: #422E2F;
+            background-color: #FAE899;
+            border: 1px solid rgba(238, 234, 234, 0.5);
+        }
+
+        .btn:hover {
+            background-color: #bae5f3fb;
+            box-shadow: 0 1px 4px rgba(64, 64, 64, 1);
+        }
 
         .square-button {
             width: 80px;   /* 設置寬度 */
@@ -87,7 +158,7 @@
         }
 
         #modal-message {
-            font-size: 48px; /* 調整字體大小 */
+            font-size: 18px; /* 調整字體大小 */
             font-weight: bold; /* 設置字體為粗體 */
         }
 
@@ -103,13 +174,13 @@
 
         .success, .error {
             /* 其他樣式保持不變 */
-            font-size: 250px; /* 或其他適當的大小 */
+            font-size: 180px; /* 或其他適當的大小 */
         }
 
         .close-btn {
             color: #aaa;
             float: right;
-            font-size: 48px;
+            font-size: 18px;
             font-weight: bold;
         }
 
@@ -128,12 +199,22 @@
             color: red;
         }
 
+        table td {
+            background-color: white;
+            border: 1px solid black;
+        }
+
     </style>
 
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <!-- ----------left start---------- -->
+        <div class="col-md-9">
+
 <%--    <a href="${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp">申請表單首頁</a>--%>
-    <button class="fixed-button" onclick="location.href='${pageContext.request.contextPath}/adoptedapplicationhibernate/index.jsp'">管理表單首頁</button>
+    <button class="fixed-button" onclick="location.href='${pageContext.request.contextPath}/pet/pets.html'">瀏覽動物</button>
     <h1>預約</h1>
     <br>
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
@@ -156,13 +237,13 @@
 <%--                        <input type="hidden" name="adminNo" value="${randomAdminNo}" />--%>
 <%--                    </td>--%>
 <%--                </tr>--%>
-                <tr>
-                    <td>管理員編號：</td>
-                    <td>
-                        ${adminNo}
-                        <input type="hidden" name="adminNo" value="${adminNo}" />
-                    </td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <td>管理員編號：</td>--%>
+<%--                    <td>--%>
+<%--                        ${adminNo}--%>
+<%--                        <input type="hidden" name="adminNo" value="${adminNo}" />--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
 <%--                <tr>--%>
 <%--                    <td>會員編號：</td>--%>
 <%--                    <td><input type="number" name="memberNo" required /></td>--%>
@@ -174,13 +255,13 @@
 <%--                        <input type="hidden" name="memberNo" value="${randomMemberNo}" />--%>
 <%--                    </td>--%>
 <%--                </tr>--%>
-                <tr>
-                    <td>會員編號：</td>
-                    <td>
-                        ${memberNo}
-                        <input type="hidden" name="memberNo" value="${memberNo}" />
-                    </td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <td>會員編號：</td>--%>
+<%--                    <td>--%>
+<%--                        ${user.memberno}--%>
+<%--                        <input type="hidden" name="memberNo" value="${user.memberno}" />--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
 <%--                <tr>--%>
 <%--                    <td>寵物編號：</td>--%>
 <%--                    <td><input type="number" name="petId" required /></td>--%>
@@ -188,7 +269,7 @@
                 <tr>
                     <td>寵物編號-狀態：</td>
                     <td>
-                        ${randomPetId} - ${randomPetStat}
+                        ${petId} - ${randomPetStat}
                             <c:choose>
                                 <c:when test="${randomPetStat == 0}"><span class="red-text">(未上架-不可預約)</span></c:when>
                                 <c:when test="${randomPetStat == 1}"><span class="green-text">(待領養-可預約)</span></c:when>
@@ -197,7 +278,7 @@
                                 <c:when test="${randomPetStat == 4}"><span class="red-text">(已領養-不可預約)</span></c:when>
                                 <c:otherwise><span class="red-text">未知狀態</span></c:otherwise>
                             </c:choose>
-                        <input type="hidden" name="petId" value="${randomPetId}" />
+                        <input type="hidden" name="petId" value="${petId}" />
                     </td>
                 </tr>
 <%--                <tr>--%>
@@ -229,18 +310,18 @@
                                 <option value="11:01:00">早上 11:00 ~ 12:00</option>
                             </optgroup>
                             <optgroup label="下午">
-                                <option value="14:01:00">早上 2:00 ~ 3:00</option>
-                                <option value="15:01:00">早上 3:00 ~ 4:00</option>
-                                <option value="16:01:00">早上 4:00 ~ 5:00</option>
+                                <option value="14:01:00">下午 2:00 ~ 3:00</option>
+                                <option value="15:01:00">下午 3:00 ~ 4:00</option>
+                                <option value="16:01:00">下午 4:00 ~ 5:00</option>
                             </optgroup>
                             <optgroup label="晚上">
-                                <option value="18:01:00">早上 6:00 ~ 7:00</option>
-                                <option value="19:01:00">早上 7:00 ~ 8:00</option>
-                                <option value="20:01:00">早上 8:00 ~ 9:00</option>
+                                <option value="18:01:00">晚上 6:00 ~ 7:00</option>
+                                <option value="19:01:00">晚上 7:00 ~ 8:00</option>
+                                <option value="20:01:00">晚上 8:00 ~ 9:00</option>
                             </optgroup>
                         </select>
     <%--                    <input type="time" name="interactionTime" id="interactionTimeInput" step="60" required />--%>
-                        <button type="button" onclick="showCalendarPopup();" class="square-button">顯示<br>行事曆</button>
+                        <button type="button" onclick="showCalendarPopup();" class="square-button">可預約<br>時段</button>
     <%--                    <div id="timeError" style="color:black;">請選擇有效時間（早上 9~12, 下午 2~5, 晚上 6~9）</div>--%>
     <%--                    <div id="timeError" style="color:red; display:none;">請選擇有效時間（早上 9~12, 下午 2~5, 晚上 6~9）</div>--%>
     <%--                    <select name="interactionTime" id="interactionTimeInput">--%>
@@ -307,6 +388,52 @@
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/inversecat.png">
     <br><br>
+
+    <div class="row" style="min-height: 350px;"></div>
+
+
+
+
+        </div>
+        <!-- ----------left end---------- -->
+        <!-- ----------right start---------- -->
+<%--        <div class="col-md-3">--%>
+<%--            <div class="card" >--%>
+<%--                <div class="card-header">--%>
+<%--                    <c:out value="您好，${user.membername}！" />--%>
+<%--                </div>--%>
+
+<%--                <ul class="list-group list-group-flush">--%>
+
+<%--                    <li class="list-group-item">--%>
+<%--                        <a href="<%=request.getContextPath()%>/member/memberCenter.jsp">基本資料</a>--%>
+<%--                    </li>--%>
+
+<%--                    <li class="list-group-item">--%>
+<%--                        <a href="#" onclick="document.getElementById('orderForm').submit();">訂單明細</a>--%>
+<%--                        <form style="display: none;" id="orderForm" action="${pageContext.request.contextPath}/orderTableServlet" method="GET">--%>
+<%--                            <input type="hidden" name="action" value="getByMemberNoFrontend">--%>
+<%--                            <input type="hidden" name="memberNo" value="${user.memberno}">--%>
+<%--                        </form>--%>
+<%--                    </li>--%>
+
+<%--                    <li class="list-group-item">--%>
+<%--                        <a href="#" onclick="document.getElementById('applicationForm').submit();">預約詳情</a>--%>
+<%--                        <form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">--%>
+<%--                            <input type="hidden" name="action" value="frontendGetByMemberNo">--%>
+<%--                            <input type="hidden" name="memberNo" value="${user.memberno}">--%>
+<%--                        </form>--%>
+<%--                    </li>--%>
+
+<%--                </ul>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+        <!-- ----------right end---------- -->
+    </div>
+</div>
+
+<jsp:include page="/footer.jsp" flush="true" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
     <script>
@@ -416,7 +543,7 @@
             if (dateReservations) {
                 let timeIndex = getTimeSlotIndex(selectedTime);
                 if (dateReservations[timeIndex]) {
-                    alert("預約時段已滿，請查看行事曆重新選擇");
+                    alert("預約時段已滿，請查看時段重新選擇");
                     return false;
                 }
             }
