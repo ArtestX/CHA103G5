@@ -179,10 +179,9 @@ th {
 										<input type="text" class="form-control" placeholder="請輸入員工編號"
 											name="adminNo" value="${param.adminNo}"
 											aria-label="Recipient's username"
-											aria-describedby="button-addon2"> <input
-											type="hidden" name="action" value="getOne_For_Display">
-										<button class="btn btn-outline-secondary" type="submit"
-											id="button-addon2">搜尋</button>
+											aria-describedby="button-addon2">
+										<input type="hidden" name="action" value="getOne_For_Display">
+										<button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜尋</button>
 									</div>
 									<div class="error-message">${errorMsgs.adminNo}</div>
 								</div>

@@ -207,7 +207,7 @@ body {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	<script>
 		// 接到WebSocket
-        const socket = new SockJS("<%=request.getContextPath()%>/ws");  
+        const socket = new SockJS("<%=request.getContextPath()%>/ws");
         const stompClient = Stomp.over(socket);
 
         stompClient.connect({}, function (frame) {

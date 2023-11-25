@@ -20,13 +20,13 @@
 			</a>
 
 			<div class="d-lg-none ms-auto me-4">
-				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
 					<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon1">
 				</a>
 
 				<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
 					<input type="hidden" name="action" value="logout"> 
-					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon"> 
+					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon">
 						<img src="<%=request.getContextPath()%>/img/logout.png" alt="Login out" id="logoutIcon1">
 					</a>
 				</form>
@@ -122,7 +122,7 @@
 <%-- 					<input type="text" name="action" value="${sessionScope.user}"> --%>
 					${sessionScope.user}
 			<!-- 	********登入按鈕********* -->
-					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
 					</a>
 			<!-- 	********登出按鈕********* -->

@@ -1,11 +1,9 @@
 <%@page import="com.cha103g5.petinfo.service.PetInfoService"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.cha103g5.petinfo.model.*"%>
-<%@ page import="com.cha103g5.petinfo.service.PetInfoServiceImpl" %>
-<%@ page import="com.cha103g5.petinfo.repository.PetRepository" %>
+<%@ page import="com.cha103g5.pet.service.PetService" %>
+<%@ page import="com.cha103g5.pet.model.PetServletVO" %>
 
 <%
 	Object adminAccount = session.getAttribute("adminAccount");                  // 從 session內取出 (key) adminVO的值
@@ -17,8 +15,8 @@
 %>
 
 <%
-	PetInfoServiceImpl petSvc = new PetInfoServiceImpl();
-	List<PetVO> list = petSvc.getAllPetsWithPictures();
+	PetService petSvc = new PetService();
+	List<PetServletVO> list = petSvc.getAll();
 	pageContext.setAttribute("list", list);
 %>
 
@@ -174,44 +172,20 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<form method="post" action="admin.do" class="col-md-3">
-							<div>
-								<div class="input-group">
+							<div class="col-md-3">
+								<div class="input-group" >
 									<input type="text" class="form-control" placeholder="請輸入寵物編號"
-										   name="adminNo" value="${param.adminNo}"
 										   aria-label="Recipient's username"
-										   aria-describedby="button-addon2"> <input
-										type="hidden" name="action" value="getOne_For_Display">
-									<button class="btn btn-outline-secondary" type="submit"
-											id="button-addon2">搜尋</button>
+										   aria-describedby="button-addon2">
+									<button class="btn btn-outline-secondary" type="submit" id="search">搜尋</button>
 								</div>
-								<div class="error-message">${errorMsgs.adminNo}</div>
-							</div>
-						</form>
 
-						<jsp:useBean id="petSel" scope="page"
-									 class="com.cha103g5.pet.service.PetService" />
-
-						<form method="post" action="admin.do" id="adminNoSel"
-							  class="dropdown col-md-2 ">
-							<div class="dropdown col-md-2">
-								<div class="dropdown">
-									<button class="btn btn-secondary dropdown-toggle"
-											type="submit" data-bs-toggle="dropdown" aria-expanded="false">選擇寵物編號</button>
-									<ul class="dropdown-menu" id="petIdMenu">
-										<c:forEach var="petVO" items="${petSel.all}">
-											<li><a class="dropdown-item" href="#"
-												   data-admin-no="${petVO.petid}"> ${petVO.petid}
-											</a></li>
-										</c:forEach>
-									</ul>
-									<input type="hidden" name="action" value="getOne_For_Display">
-								</div>
 							</div>
-						</form>
+
+			<jsp:useBean id="petSel" scope="page" class="com.cha103g5.pet.service.PetService" />
 
 						<div class="col-md-4 d-flex justify-content-end"
-							 style="margin-left: 250px;">
+							 style="margin-left: 400px;">
 							<button class="btn btn-primary" id="navigateButton">新增</button>
 						</div>
 					</div>
@@ -232,8 +206,8 @@
 							</tr>
 							</thead>
 							<tbody>
-							<%@ include file="page1.file" %>
-							<c:forEach var="petVO" items="${petSel.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+<%--							<%@ include file="page1.file" %>--%>
+					<c:forEach var="petVO" items="${petSel.all}" >
 								<tr>
 									<th>${petVO.petid}</th>
 									<th>${petVO.animaltypeno}</th>
@@ -249,38 +223,12 @@
 									<th class="text-center">
 								<td>
 									<button class="btn btn-success updatebtn" type="submit" onclick="update(${petVO.petid})">修改</button>
-								</td>
-										<td>
-											<FORM METHOD="post"
-												  ACTION="<%=request.getContextPath()%>/admin/admin.do">
-												<button class="btn btn-danger" type="submit">刪除</button>
-												<input type="hidden" name="adminNo"
-													   value="${adminVO.adminNo}"> <input type="hidden"
-																						  name="action" value="delete">
-											</FORM>
-										</td>
-									</th>
-								</tr>
+
 							</c:forEach>
 							</tbody>
 						</table>
-						<%@ include file="page2.file" %>
+<%--						<%@ include file="page2.file" %>--%>
 
-						<!-- 							<nav aria-label="Page navigation example" class="text-center"> -->
-						<!-- 								<ul class="pagination"> -->
-						<!-- 									<li class="page-item" id="previousPage"><a -->
-						<!-- 										class="page-link" href="#" aria-label="Previous"><span -->
-						<!-- 											aria-hidden="true">&laquo;</span></a></li> -->
-						<!-- 									<li class="page-item" id="page1"><a class="page-link" -->
-						<!-- 										href="#">1</a></li> -->
-						<!-- 									<li class="page-item" id="page2"><a class="page-link" -->
-						<!-- 										href="#">2</a></li> -->
-						<!-- 									<li class="page-item" id="page3"><a class="page-link" -->
-						<!-- 										href="#">3</a></li> -->
-						<!-- 									<li class="page-item" id="nextPage"><a class="page-link" -->
-						<!-- 										href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li> -->
-						<!-- 								</ul> -->
-						<!-- 							</nav> -->
 
 					</div>
 				</div>
@@ -289,12 +237,41 @@
 		<!--右邊-->
 	</div>
 </div>
+
 <script>
+
+	document.addEventListener("DOMContentLoaded", function() {
+		// 監聽搜尋按鈕的點擊事件
+		let searchButton = document.getElementById('search');
+		searchButton.addEventListener('click', function () {
+			// 獲取搜尋關鍵字
+			let searchKeyword = document.querySelector('.form-control').value.trim();
+			console.log(searchKeyword);
+
+			// 獲取所有寵物行
+			let petRows = document.querySelectorAll('.table tbody tr');
+			console.log(petRows);
+
+			// 遍歷所有寵物行，根據搜尋關鍵字過濾顯示
+			petRows.forEach(function (row) {
+				let petNumber = row.querySelector('th:first-child').innerText;
+				if (petNumber.includes(searchKeyword)) {
+					// 如果寵物名字包含搜尋關鍵字，顯示該行
+					row.style.display = 'table-row';
+				} else {
+					// 如果寵物名字不包含搜尋關鍵字，隱藏該行
+					row.style.display = 'none';
+				}
+			});
+		});
+	});
+
+
 	document.addEventListener("DOMContentLoaded", function() {
 		// 監聽導航按鈕的點擊事件
 		let navigateButton = document.getElementById('navigateButton');
 		navigateButton.addEventListener('click', function() {
-			window.location.href = 'addPet.jsp';
+			window.location.href = 'addInformationAnnouncement.jsp';
 
 		});
 
@@ -311,26 +288,6 @@
 				window.location.href = 'updatePet.jsp?petId=' + petId;
 			});
 		});
-
-		//監聽員工編號下拉菜单的點擊事件
-		let adminNameDropdown = document.getElementById("adminName");
-		let adminNameInput = document
-				.querySelector('input[name="adminNo"]');
-		let formName = document.getElementById("adminNameMenu");
-
-		adminNameDropdown.addEventListener("click", function(event) {
-			if (event.target.hasAttribute("data-admin-no")) {
-				const selectedAdminNo = event.target
-						.getAttribute("data-admin-no");
-				adminNameInput.value = selectedAdminNo;
-				formName.submit(); // 提交表单
-			}
-		});
-
-		//監聽員工編號下拉菜单的點擊事件
-		let adminNoDropdown = document.getElementById("adminNoSel");
-		let adminNoInput = document.querySelector('input[name="adminNo"]');
-		let formNo = document.getElementById("adminNoMenu");
 
 	});
 

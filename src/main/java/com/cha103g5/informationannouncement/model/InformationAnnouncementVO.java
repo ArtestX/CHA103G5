@@ -3,6 +3,7 @@ package com.cha103g5.informationannouncement.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -28,7 +29,7 @@ public class InformationAnnouncementVO implements Serializable {
 
     @NotNull
     @Column(name="infotime")
-    private Timestamp infoTime;
+    private Date infoTime;
 
     public Integer getInfoNo() {
         return infoNo;
@@ -62,11 +63,11 @@ public class InformationAnnouncementVO implements Serializable {
         this.infoTitle = infoTitle;
     }
 
-    public Timestamp getInfoTime() {
+    public Date getInfoTime() {
         return infoTime;
     }
 
-    public void setInfoTime(Timestamp infoTime) {
+    public void setInfoTime(Date infoTime) {
         this.infoTime = infoTime;
     }
 }

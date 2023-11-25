@@ -2,11 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cha103g5.member.model.*"%>
 <%@ page import="java.util.*"%>
+<%@ page import="com.cha103g5.order.ordertable.model.OrderTableVO" %>
 <jsp:include page="/banner.jsp" flush="true" />
 
 <%
 	// 把MemberVO的資料從session取出
 	com.cha103g5.member.model.MemberVO user = (com.cha103g5.member.model.MemberVO) session.getAttribute("user");
+
+	Random rand = new Random();
+	int memberNo = rand.nextInt(6) + 1;
+
 %>
 <!DOCTYPE html>
 <html>
@@ -61,7 +66,7 @@ font {
 .btn {
 	color: #422E2F;
 	background-color: #FAE899;
-	border: 1px solid rgba(#eeeaea, 0.5);
+	border: 1px solid rgba(238, 234, 234, 0.5);
 }
 
 .btn:hover {
@@ -79,11 +84,20 @@ font {
 		<div class="col-md-9">
 
 			<%
-				String includePath = (String) request.getAttribute("includePath");
+				String orderTableIncludePath = (String) request.getAttribute("orderTableIncludePath");
+//				String orderDetailIncludePath = (String) request.getAttribute("orderDetailIncludePath");
+				String applicationIncludePath = (String) request.getAttribute("applicationIncludePath");
+
+//				List<OrderTableVO> someOrderTablesList = (List<OrderTableVO>) request.getAttribute("someOrderTables");
 			%>
 
-			<% if (includePath != null) { %>
-			<jsp:include page="<%= includePath %>" />
+			<% if (orderTableIncludePath != null) { %>
+			<jsp:include page="<%= orderTableIncludePath %>" />
+<%--			<jsp:include page="<%= orderDetailIncludePath %>" />--%>
+			<% } %>
+
+			<% if (applicationIncludePath != null) { %>
+			<jsp:include page="<%= applicationIncludePath %>" />
 			<% } %>
 
 			<div class="row" style="min-height: 350px;"></div>
@@ -101,23 +115,27 @@ font {
 				</div>
 				
 				<ul class="list-group list-group-flush">
+
 					<li class="list-group-item">
 						<a href="<%=request.getContextPath()%>/member/memberCenter.jsp">基本資料</a>
 					</li>
+
 					<li class="list-group-item">
-						<a href="#">訂單管理</a>
+						<a href="#" onclick="document.getElementById('orderForm').submit();">訂單明細</a>
+						<form style="display: none;" id="orderForm" action="${pageContext.request.contextPath}/orderTableServlet" method="GET">
+							<input type="hidden" name="action" value="getByMemberNoFrontend">
+							<input type="hidden" name="memberNo" value="<%= memberNo %>">
+						</form>
 					</li>
+
 					<li class="list-group-item">
-						<a href="#" onclick="document.getElementById('memberForm').submit();">個人預約</a>
-						<%
-							Random rand = new Random();
-							int memberNo = rand.nextInt(6) + 1;
-						%>
-						<form style="display: none;" id="memberForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">
+						<a href="#" onclick="document.getElementById('applicationForm').submit();">預約詳情</a>
+						<form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">
 							<input type="hidden" name="action" value="frontendGetByMemberNo">
 							<input type="hidden" name="memberNo" value="<%= memberNo %>">
 						</form>
 					</li>
+
 				</ul>				
 			</div>
 		</div>
