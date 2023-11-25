@@ -13,7 +13,7 @@
         position: absolute;
         top: 50px; /* 距離頂部的距離，根據實際需要調整 */
         right: 10px; /* 距離右側的距離，根據實際需要調整 */
-
+       
     }
 </style>
 </head>
@@ -28,13 +28,13 @@
 			</a>
 
 			<div class="d-lg-none ms-auto me-4">
-				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
+				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
 					<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon1">
 				</a>
 
 				<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
 					<input type="hidden" name="action" value="logout"> 
-					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon">
+					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon"> 
 						<img src="<%=request.getContextPath()%>/img/logout.png" alt="Login out" id="logoutIcon1">
 					</a>
 				</form>
@@ -59,17 +59,16 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="http://localhost:8080/CHA103G5/pet/pets.html">
+						<a class="nav-link click-scroll" href="#section_3">
 							<b>寵物領養</b>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="${pageContext.request.contextPath}/mall">
+						<a class="nav-link click-scroll" href="http://localhost:8080/mall">
 							<b>精選商城</b>
 						</a>
 					</li>
-
 
 					<li class="nav-item dropdown hover" id="customerCenter">
 						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/customer/emailService.jsp" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="true">
@@ -134,7 +133,7 @@
 				
 				<div class="d-none d-lg-block narrow-div">
 			<!-- 	********登入按鈕********* -->
-					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
+					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
 					</a>
 			<!-- 	********登出按鈕********* -->
@@ -225,6 +224,9 @@
 			function updateNotificationArea() {
 			    const badge = document.getElementById("badge");
 			    const bellIcon = document.getElementById("bellIcon");
+			 // 過濾未讀消息
+			    const unreadMessages = messages.filter(message => !message.read);
+
 
 			    if (messages.length > 0) {
 			        // 有消息時，顯示未讀消息數字和使按鈕可點擊
@@ -239,14 +241,15 @@
 			        messages.forEach(message => {
 			            const messageItem = document.createElement("li");
 			            messageItem.classList.add("notifications-block", "border-bottom", "pb-2", "mb-2");
-			            messageItem.innerHTML = '<b style="font-size:20px;">' + message.title + '</b><br>' + message.content + '<br>' + message.formattedTimestamp;
+			            messageItem.innerHTML = '<b style="font-size:20px;">' + message.title + '</b><br>'  + message.content + "<br><p  style='font-size:13px; color:gray'>" + message.formattedTimestamp +"</p>";
 			            messageList.appendChild(messageItem);
 			        });
 			    } else {
 			        // 沒有消息時，隱藏未讀消息數字並使按鈕不可點擊
 			        badge.style.display = "none";
 			        bellIcon.disabled = true;
-			        messageList.style.display = "none"; // 隱藏消息列表
+			        
+			        messageList.innerHTML = '<li class="notifications-block">無最新消息</li>';
 			    }
 			}
 
@@ -260,17 +263,15 @@
 			// 初始化通知區域
 			updateNotificationArea();
 			
-			// 添加事件監聽器，在滑鼠移動到小鈴鐺時顯示消息列表
-			bellIcon.addEventListener("mouseover", function() {
-			    if (messages.length > 0) {
-			        messageList.style.display = "block";
-			    }
-			});
-
-			// 添加事件監聽器，在滑鼠離開小鈴鐺時隱藏消息列表
-			bellIcon.addEventListener("mouseout", function() {
-			    messageList.style.display = "none";
-			});
+			// 添加事件監聽器，在點擊小鈴鐺時顯示或隱藏消息列表
+			   bellIcon.addEventListener("click", function() {
+			       if (messages.length > 0) {
+			           const messageList = document.getElementById("messageList");
+			           messageList.style.display = messageList.style.display === "block" ? "none" : "block";
+			           updateNotificationArea();
+			       }
+			   });
+		
 	</script>
 
 
