@@ -232,7 +232,18 @@
 					</li>
 					<li class="list-group-item">
 						<a href="#">訂單管理</a>
-					</li>							
+					</li>
+					<li class="list-group-item">
+						<a href="#" onclick="document.getElementById('memberForm').submit();">個人預約</a>
+						<%
+							Random rand = new Random();
+							int memberNo = rand.nextInt(6) + 1;
+						%>
+						<form style="display: none;" id="memberForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">
+							<input type="hidden" name="action" value="frontendGetByMemberNo">
+							<input type="hidden" name="memberNo" value="<%= memberNo %>">
+						</form>
+					</li>						
 				</ul>				
 			</div>
 		</div>
