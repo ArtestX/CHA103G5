@@ -25,7 +25,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>寵物管理系統</title>
+	<title>公告管理系統</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 	<style>
 		body {
@@ -162,7 +162,7 @@
 			<!--右邊-->
 			<div class="card">
 				<div class="card-header">
-					寵物列表
+					公告列表
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 						 fill="currentColor" class="bi bi-box-fill" viewBox="0 0 16 16"
 						 style="float: right;">
@@ -174,7 +174,7 @@
 					<div class="row">
 							<div class="col-md-3">
 								<div class="input-group" >
-									<input type="text" class="form-control" placeholder="請輸入寵物編號"
+									<input type="text" class="form-control" placeholder="請輸入公告編號"
 										   aria-label="Recipient's username"
 										   aria-describedby="button-addon2">
 									<button class="btn btn-outline-secondary" type="submit" id="search">搜尋</button>
@@ -193,18 +193,14 @@
 							<thead>
 							<tr>
 								<th>公告編號</th>
-								<th>管理員編號</th>
+								<th>管理員</th>
 								<th>公告類型</th>
 								<th>公告內容</th>
 								<th>公告時間</th>
 							</tr>
 							</thead>
-							<tbody id="announcementTable">
-
-							</tbody>
+							<tbody id="announcementTable"></tbody>
 						</table>
-
-
 					</div>
 				</div>
 			</div>
@@ -225,16 +221,16 @@
 
 	function callSpringBootAPI() {
 		$.ajax({
-			url: '/CHA103G5/GetAllInformationAnnouncement', // 替換為你的Spring Boot Controller的API端點
-			type: 'GET', // 或 'POST'，取決於你的Controller設定
+			url: '/CHA103G5/GetAllInformationAnnouncement', //Spring Boot Controller的API端點
+			type: 'GET', // 或 'POST'
 			dataType: 'json',
 			success: function(data) {
 				let petHtml = data.map(info => {
 					return	'<tr>' +
 							'<th>' + info.infoNo + '</th>' +
 							'<th>' + info.adminNo + '</th>' +
-							'<th>' + info.infoContent + '</th>' +
 							'<th>' + info.infoTitle + '</th>' +
+							'<th>' + info.infoContent + '</th>' +
 							'<th>' + info.infoTime + '</th>' +
 							'<td class="text-center">' +
 							'<button class="btn btn-success updatebtn" type="submit" onClick="update(' + info.infoNo + ')">修改</button>' +
@@ -242,11 +238,9 @@
 							'</tr>'
 
 				}).join('');
-				console.log(petHtml);
 				// 插入到表格中
 				$('#announcementTable').html(petHtml);
 				// 在這裡處理從API返回的數據
-				console.log(data);
 			},
 			error: function(xhr, status, error) {
 				// 處理錯誤
@@ -256,9 +250,6 @@
 		});
 	}
 
-
-
-
 	document.addEventListener("DOMContentLoaded", function() {
 		// 監聽搜尋按鈕的點擊事件
 		let searchButton = document.getElementById('search');
@@ -267,15 +258,15 @@
 			let searchKeyword = document.querySelector('.form-control').value.trim();
 			console.log(searchKeyword);
 
-			// 獲取所有寵物行
+			// 獲取所有公告行
 			let petRows = document.querySelectorAll('.table tbody tr');
 			console.log(petRows);
 
-			// 遍歷所有寵物行，根據搜尋關鍵字過濾顯示
+			// 遍歷所有公告行，根據搜尋關鍵字過濾顯示
 			petRows.forEach(function (row) {
 				let petNumber = row.querySelector('th:first-child').innerText;
 				if (petNumber.includes(searchKeyword)) {
-					// 如果寵物名字包含搜尋關鍵字，顯示該行
+					// 如果公告包含搜尋關鍵字，顯示該行
 					row.style.display = 'table-row';
 				} else {
 					// 如果寵物名字不包含搜尋關鍵字，隱藏該行
@@ -295,24 +286,28 @@
 		});
 
 		let updatebtns = document.querySelectorAll('.updatebtn');
-		console.log(updatebtns);
+		console.log("按鈕有綁到");
 
 		updatebtns.forEach(function(btn) {
 			btn.addEventListener('click', function() {
-				// 獲取所選寵物的 petid
-				let petId = btn.parentElement.parentElement.querySelector('th:first-child').innerText;
+				// 獲取所選公告的 infoNo
+				let infoNo = btn.closest('tr').querySelector('th:first-child').innerText;
 
-				console.log(petId);
-				// 將 petid 帶到新頁面
-				window.location.href = 'updatePet.jsp?petId=' + petId;
+				update(infoNo);
+				// 將 infoNo 帶到新頁面
+				window.location.href = 'updateInformationannouncement.jsp?infoNo=' + infoNo;
 			});
 		});
 
 	});
 
-	function update(petId) {
-		console.log(petId);
+	function update(infoNo) {
+		console.log(infoNo);
+
+		window.location.href = 'updateInformationannouncement.jsp?infoNo=' + infoNo;
 	}
+
+
 </script>
 
 

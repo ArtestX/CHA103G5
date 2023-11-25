@@ -59,7 +59,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="#section_3">
+						<a class="nav-link click-scroll" href="http://localhost:8080/CHA103G5/pet/pets.html">
 							<b>寵物領養</b>
 						</a>
 					</li>

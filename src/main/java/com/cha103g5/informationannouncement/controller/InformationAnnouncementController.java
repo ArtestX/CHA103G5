@@ -26,7 +26,7 @@ public class InformationAnnouncementController {
 
     // 查詢公告
     @GetMapping("/informationAnnouncement/{infoNo}")
-    public InformationAnnouncementVO getInformationAnnouncementById(@PathVariable @Valid Integer infoNo) {
+    public InformationAnnouncementVO getInformationAnnouncementById(@PathVariable Integer infoNo) {
         return informationAnnouncementService.getInformationAnnouncementById(infoNo);
     }
 

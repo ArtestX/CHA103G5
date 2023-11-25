@@ -33,6 +33,7 @@ public class InformationAnnouncementServiceImpl implements InformationAnnounceme
 
     @Override
     public InformationAnnouncementVO getInformationAnnouncementById(Integer infoNo) {
+
         return infoRepository.findById(infoNo).orElse(null);
     }
 

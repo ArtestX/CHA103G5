@@ -13,11 +13,6 @@
 		return;
 	}
 
-	// 從 session 中取得 adminVO 物件
-	Object adminVO = session.getAttribute("adminVO");
-
-	// 取得 adminNo 的值
-	Object adminNo = (adminVO != null) ? ((AdminVO) adminVO).getAdminNo() : null;
 %>
 
 <%
@@ -72,6 +67,15 @@
 
 			<div class="row g-1 align-items-center ms-5">
 				<div class="col-auto offset-1">
+					<label class="col-form-label">管理員帳號 :</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" name="adminAccount" id="adminAccount" readonly class="form-control">
+				</div>
+			</div>
+
+			<div class="row g-1 align-items-center ms-5">
+				<div class="col-auto offset-1">
 					<label  class="col-form-label">公告類型 :
 						<select class="col-form-label" id="infoTitle" name="infoTitle">
 							<option value="商城公告">商城公告</option>
@@ -85,10 +89,12 @@
 
 			<div class="row g-1 align-items-center ms-5">
 				<div class="col-auto offset-1">
-					<label  class="col-form-label">公告內容 :</label>
-						<div class="col-auto">
-							<input type="text" name="infoContent" placeholder="請輸入公告內容" id="infoContent">
-						</div>
+					<label class="col-form-label">公告內容 :</label>
+				</div>
+				<div class="col-auto">
+					<div class="col-auto">
+						<input type="text" name="infoContent" placeholder="請輸入公告內容" id="infoContent">
+					</div>
 				</div>
 			</div>
 
@@ -108,18 +114,18 @@
 	</div>
 
 <script>
+
 	let pathName = window.document.location.pathname;
 	let projectName = pathName.substring(0, pathName.substring(1).indexOf("/") + 1);
 
-	// 取得 adminNo 的值
-	var adminNo = <%= adminNo %>;
+	// 假設 ${adminAccount} 是從伺服器端動態獲取的值
+	const adminAccountValue = "${adminAccount}";
 
-	// 設定要發送的數據，包括 adminNo 的值
-	var postData = {
-		adminNo: adminNo,
-		// 其他要送出的資料...
-	};
+	// 找到相應的 <input> 元素
+	const adminAccountInput = document.getElementById("adminAccount");
 
+	// 設置 <input> 元素的值
+	adminAccountInput.value = adminAccountValue;
 
 		document.getElementById('executeFunctionButton').addEventListener('click',async function() {
 			// 要發送的數據
@@ -160,7 +166,7 @@
 					infoTitle: infoTitle,
 					infoContent: infoContent,
 					infoTime: infoTime,
-					adminNo: adminNo,
+					adminNo: adminAccountValue,
 				};
 				console.log(data);
 

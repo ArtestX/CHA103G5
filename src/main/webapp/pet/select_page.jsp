@@ -271,7 +271,7 @@
 		// 監聽導航按鈕的點擊事件
 		let navigateButton = document.getElementById('navigateButton');
 		navigateButton.addEventListener('click', function() {
-			window.location.href = 'addInformationAnnouncement.jsp';
+			window.location.href = 'addPet.jsp';
 
 		});
 
@@ -285,7 +285,7 @@
 
 				console.log(petId);
 				// 將 petid 帶到新頁面
-				window.location.href = 'updatePet.jsp?petId=' + petId;
+				window.location.href = 'updateInformationannouncement.jsp?petId=' + petId;
 			});
 		});
 
