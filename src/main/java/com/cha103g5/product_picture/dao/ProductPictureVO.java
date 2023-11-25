@@ -1,4 +1,4 @@
-// ProductPictureVO.java
+
 package com.cha103g5.product_picture.dao;
 
 import javax.persistence.Column;

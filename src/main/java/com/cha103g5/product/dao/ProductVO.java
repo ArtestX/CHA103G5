@@ -57,7 +57,6 @@ public class ProductVO {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductCommentVO> productComments = new ArrayList<>();
 
-    // Getters and Setters
     public Integer getProductNo() {
         return productNo;
     }

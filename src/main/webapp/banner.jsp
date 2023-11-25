@@ -65,10 +65,11 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link click-scroll" href="http://localhost:8080/CHA103G5/mall">
+						<a class="nav-link click-scroll" href="${pageContext.request.contextPath}/mall">
 							<b>精選商城</b>
 						</a>
 					</li>
+
 
 					<li class="nav-item dropdown hover" id="customerCenter">
 						<a class="nav-link click-scroll" href="<%=request.getContextPath()%>/customer/emailService.jsp" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="true">
