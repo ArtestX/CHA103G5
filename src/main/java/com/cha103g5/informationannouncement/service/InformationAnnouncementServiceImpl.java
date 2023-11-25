@@ -14,8 +14,21 @@ public class InformationAnnouncementServiceImpl implements InformationAnnounceme
     private InformationAnnouncementRepository infoRepository;
 
     @Override
-    public void addInformationAnnouncement(InformationAnnouncementVO info) {
-        infoRepository.save(info);
+    public Boolean addInformationAnnouncement(InformationAnnouncementVO info) {
+
+        try {
+            info.setInfoNo(info.getInfoNo());
+            info.setAdminNo(info.getAdminNo());
+            info.setInfoContent(info.getInfoContent());
+            info.setInfoTitle(info.getInfoTitle());
+            info.setInfoTime(info.getInfoTime());
+
+            infoRepository.save(info);
+        } catch (Exception e) {
+            System.out.println("新增公告錯誤");
+            return false;
+        }
+        return true;
     }
 
     @Override

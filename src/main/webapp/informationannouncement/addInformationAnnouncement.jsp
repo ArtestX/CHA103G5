@@ -12,6 +12,12 @@
 		response.sendRedirect(request.getContextPath()+"/admin/adminLogin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
 		return;
 	}
+
+	// 從 session 中取得 adminVO 物件
+	Object adminVO = session.getAttribute("adminVO");
+
+	// 取得 adminNo 的值
+	Object adminNo = (adminVO != null) ? ((AdminVO) adminVO).getAdminNo() : null;
 %>
 
 <%
@@ -105,63 +111,41 @@
 	let pathName = window.document.location.pathname;
 	let projectName = pathName.substring(0, pathName.substring(1).indexOf("/") + 1);
 
+	// 取得 adminNo 的值
+	var adminNo = <%= adminNo %>;
 
-		document.getElementById('executeFunctionButton').addEventListener('click', function() {
+	// 設定要發送的數據，包括 adminNo 的值
+	var postData = {
+		adminNo: adminNo,
+		// 其他要送出的資料...
+	};
+
+
+		document.getElementById('executeFunctionButton').addEventListener('click',async function() {
 			// 要發送的數據
-			const petType = document.getElementById('petType').value;
-			const memberNo = document.getElementById('memberNo').value;
-			const petName = document.getElementById('petName').value;
-			const petSex = document.querySelector('[name="petSex"]').value;
-			const petAge = document.getElementById('petAge').value;
-			const petNote = document.getElementById('petNote').value;
-			const applicationDeadLine = document.getElementById('applicationDeadLine').value;
-			const stat = document.getElementById('stat').value;
-			const fileInput = document.getElementById('petPic');
-			const files = fileInput.files;
-			const petPic = [];
+			const infoTitle = document.getElementById('infoTitle').value;
+			const infoContent = document.getElementById('infoContent').value;
+			const infoTime = document.getElementById('infoTime').value;
+
 
 			// 錯誤訊息容器
 			let errorMessage = "";
 
-			// 驗證寵物類型
-			if (petType === "") {
-				errorMessage += "請選擇寵物類型。\n";
+			// 驗證公告類型
+			if (infoTitle === "") {
+				errorMessage += "請選擇公告類型。\n";
 			}
 
-
-			// 驗證寵物名稱
-			if (petName === "") {
-				errorMessage += "請輸入寵物名稱。\n";
-			}else if (petName.length > 10 ) {
-				errorMessage += "寵物名稱太長，請輸入不超過" + 10 + "個字元。\n";
-			}
-
-			// 驗證寵物性別
-			if (!petSex) {
-				errorMessage += "請選擇寵物性別。\n";
-			}
-
-			// 驗證寵物年齡
-			if (petAge === "") {
-				errorMessage += "請輸入寵物年齡。\n";
-			} else if (isNaN(petAge) || parseInt(petAge) <= 0) {
-				errorMessage += "請輸入有效的寵物年齡(數字)。\n";
+			// 驗證公告內容
+			if (infoContent === "") {
+				errorMessage += "請輸入公告內容。\n";
 			}
 
 			// 驗證截止日期
-			if (applicationDeadLine === "") {
-				errorMessage += "請選擇截止日期。\n";
+			if (infoTime === "") {
+				errorMessage += "請選擇公告日期。\n";
 			}
 
-			// 驗證寵物狀態
-			if (stat === "") {
-				errorMessage += "請選擇寵物狀態。\n";
-			}
-
-			// 驗證寵物照片
-			if (files.length === 0) {
-				errorMessage += "請上傳寵物照片。\n";
-			}
 
 			// 如果有錯誤，顯示錯誤訊息
 			if (errorMessage !== "") {
@@ -170,71 +154,43 @@
 			}
 
 			// 如果通過前端驗證，則繼續發送POST請求
-			const promises = [];
 
-			if (files.length > 0) {
-				const promises = [];
+				// 建立要傳送的數據對象
+				const data = {
+					infoTitle: infoTitle,
+					infoContent: infoContent,
+					infoTime: infoTime,
+					adminNo: adminNo,
+				};
+				console.log(data);
 
-				for (let i = 0; i < files.length; i++) {
-					const file = files[i];
-					const reader = new FileReader();
-
-					promises.push(new Promise((resolve, reject) => {
-						reader.onloadend = function () {
-							petPic.push(reader.result);
-							resolve();
-						}
-						reader.readAsDataURL(file);
-					}));
-				}
-
-				// 等待所有 Promise 完成後再執行 fetch
-				Promise.all(promises).then(() => {
-					const postData = {
-						"animalTypeNo": petType,
-						"memberNo": memberNo,
-						"petName": petName,
-						"petSex": petSex,
-						"petAge": petAge,
-						"petNote": petNote,
-						"stat": stat,
-						"applicationDeadLine": applicationDeadLine,
-						"petPic": petPic
-					};
-
-					// API端點
-					const apiUrl = projectName + '/addPetInfo';
-
-					// 發送POST請求
-					fetch(apiUrl, {
+				try {
+					const response = await fetch('/CHA103G5/informationAnnouncement', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
-							// 如果需要身份驗證或其他標頭，請在此處添加
 						},
-						body: JSON.stringify(postData),
-					})
-							.then(response => response.json())
-							.then(data => {
-								// 處理成功響應
-								console.log('成功：', data);
+						body: JSON.stringify(data),
+					});
 
-								// 在這裡跳轉到 select_page.jsp
-								window.location.href = 'select_page.jsp';
-							})
-							.catch(error => {
-								// 處理錯誤
-								console.error('錯誤：', error);
-							});
-				});
-			}
+					if (response.ok) {
+						// 請求成功
+						const responseData = await response.json();
+						console.log(responseData);
+					} else {
+						// 請求失敗
+						console.error('請求失敗。');
+					}
+				} catch (error) {
+					console.error('發生錯誤:', error);
+				}
 		});
 </script>
 
 <script>
 	let mainPage = document.getElementById('mainPage');
 	mainPage.addEventListener('click', function() {
-		window.location.href = projectName + '/pet/select_page.jsp';
+		window.location.href = projectName + '/informationannouncement/select_page.jsp';
 	});
 </script>
 
