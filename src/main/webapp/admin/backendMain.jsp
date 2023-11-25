@@ -94,7 +94,7 @@ body {
 				    </h2>
 				    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/ordertable/index.jsp" class="list-group-item list-group-item-action">訂單列表</a></strong>
 				      </div>
 				    </div>
 				  </div>
@@ -117,10 +117,20 @@ body {
 				      </button>
 				    </h2>
 				    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="http://localhost:8080/CHA103G5/pet/select_page.jsp" class="list-group-item list-group-item-action">寵物列表</a></strong>
-				      </div>
+						  <div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/pet/select_page.jsp" class="list-group-item list-group-item-action">寵物列表</a></strong>
+						  </div>
+						<div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/adoptedapplicationhibernate/indexTemp.jsp" class="list-group-item list-group-item-action">領養查詢</a></strong>
+						</div>
+						<div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/adoptedApplicationHibernateServletTemp?action=getAll" class="list-group-item list-group-item-action">所有預約查詢</a></strong>
+						</div>
+						<div class="accordion-body">
+							<strong><a href="<%=request.getContextPath()%>/adoptedApplicationHibernateServletTemp?action=showCalendar" class="list-group-item list-group-item-action">行事曆管理</a></strong>
+						</div>
 				    </div>
+
 				  </div>
 				  <div class="accordion-item">
 					  <h2 class="accordion-header">
