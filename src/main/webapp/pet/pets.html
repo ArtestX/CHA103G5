@@ -26,7 +26,7 @@
         }
 
         .pet-card {
-            background-color: #FAE899;
+            background-color: whitesmoke;
         }
 
         .pet-image {
@@ -322,64 +322,65 @@
             dataType: 'json',
             success: function (pets) {
                 let petsHtml = pets.map((pet, index) => {
-                    // 為每個寵物創建一個唯一的ID
                     let petImageContainerId = `petImageContainer${index}`;
+                    let showDetailsButtonId = `showDetailsButton${index}`;
+                    let petDetailsId = `petDetails${index}`;
                     let nextButtonId = `nextButton${index}`;
 
                     return `<div class="col-md-4 mb-3">
-                    <div class="card pet-card">
-                        <div class="container">
-                            <table class="table table-bordered table-striped table-warning">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2" class="text-center"><h5>${pet.petName}</h5></td>
-                                    </tr>
-                                    <tr>
-                                        <td>寵物編號：</td>
-                                        <td>${pet.petId}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>寵物性別：</td>
-                                        <td>${pet.petSex}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>寵物年齡：</td>
-                                        <td>${pet.petAge}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>備註：</td>
-                                        <td>${pet.petNote}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>申請截止日期：</td>
-                                        <td>${pet.applicationDeadLine}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class="text-center">
+                                <div class="card pet-card">
+                                    <div class="container">
+                                        <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+                                            <h5 class="text-center">${pet.petName}</h5>
                                             <div id="${petImageContainerId}">
                                                 ${pet.petPics && pet.petPics.length > 0 ? `<img src="data:image/jpeg;base64,${pet.petPics[0].base64Image}" alt="寵物圖片" class="img-fluid pet-image"/>` : ''}
                                             </div>
-                                            <br>
-                                            <button id="${nextButtonId}" class="btn btn-info">看更多圖片</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <button class="btn btn-lg btn-primary w-100 fs-6" onclick="reserves(${pet.petId})">預約領養</button>
-                    </div>
-                    <br>
-                </div>`;
+                                        <button id="${nextButtonId}" class="btn btn-secondary">看更多圖片</button>
+                                        <button id="${showDetailsButtonId}" class="btn btn-info">顯示詳細資訊</button>
+                                    </div>
+                                        <div id="${petDetailsId}" class="pet-details" style="display: none;">
+                                            <table class="table table-bordered table-striped table-warning">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>寵物編號：</td>
+                                                        <td>${pet.petId}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>寵物性別：</td>
+                                                        <td>${pet.petSex}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>寵物年齡：</td>
+                                                        <td>${pet.petAge}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>備註：</td>
+                                                        <td>${pet.petNote}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>申請截止日期：</td>
+                                                        <td>${pet.applicationDeadLine}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <button class="btn btn-lg btn-primary w-100 fs-6" onclick="reserves(${pet.petId})">預約領養</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
                 }).join('');
 
                 $("#pets-container").html(petsHtml);
 
-                // 為每個寵物的按鈕添加事件監聽器
                 pets.forEach((pet, index) => {
                     let currentPicIndex = 0;
                     $(`#nextButton${index}`).click(function () {
                         currentPicIndex = (currentPicIndex + 1) % pet.petPics.length;
                         $(`#petImageContainer${index} img`).attr('src', 'data:image/jpeg;base64,' + pet.petPics[currentPicIndex].base64Image);
+                    });
+
+                    $(`#showDetailsButton${index}`).click(function () {
+                        $(`#petDetails${index}`).toggle();
                     });
                 });
             },
@@ -394,8 +395,8 @@
         window.location.href = '../adoptedApplicationHibernateServletTemp?action=addOption' + "&petId=" + petId;
     }
 
+
     $(document).ready(function () {
-        // ... 其他代碼 ...
 
         // 為每個寵物添加事件處理器
         pets.forEach(pet => {
@@ -410,7 +411,6 @@
             });
         });
 
-        // ... 其他代碼 ...
     });
 
 
