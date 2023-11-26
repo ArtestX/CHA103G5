@@ -81,6 +81,46 @@ h1 {
 #chat-icon:hover {
     background-color: #157575;
 }
+/*****公告資訊******/
+.announcement-table {
+  border-collapse: separate;
+  margin: 20px auto; /* 調整margin使其水平置中 */
+  width: 90%;
+  border: 1px solid #fff;
+  border-radius: 15px; /* 調整為一半，使其呈現圓弧形 */
+  
+}
+
+th, td {
+  border: 1px solid #ddd;;
+  border-radius: 15px; 
+  padding: 15px; /* 調整padding */
+  text-align: left;
+}
+
+th {
+  background-color: #bfb8ab;
+   text-align: center;
+}
+
+#timeHeader {
+  display: inline-block;
+  color: #422E2F;
+  border-radius: 20px;
+  text-align: center;
+}
+
+#typeHeader {
+/*   display: inline-block; */
+/*   position: relative; */
+  text-align: center;
+}
+
+#contentHeader {
+  display: inline-block;
+  color: #422E2F;
+  text-align: center;
+}
 
 </style>
 
@@ -212,17 +252,23 @@ h1 {
 		</div>
 
 
-		<table class="table table-warning table table-hover">
-			<thead>
-			<tr>
-				<th scope="col"><span style="font-size: larger;">公告時間</span></th>
-				<th scope="col"><span style="font-size: larger;">公告種類</span></th>
-				<th scope="col"><span style="font-size: larger;">公告內容</span></th>
-			</tr>
-			</thead>
-			<tbody id="announcementTable">
-
-			</tbody>
+		<table class="announcement-table">
+			  <thead>
+			    <tr>
+				      <th scope="col">
+				        <span id="timeHeader" class="circle">公告時間</span>
+				      </th>
+				      <th scope="col">
+				        <span id="typeHeader" class="corner">公告種類</span>
+				      </th>
+				      <th scope="col">
+				        <span id="contentHeader" class="curve">公告內容</span>
+				      </th>
+			    </tr>
+			  </thead>
+			  <tbody id="announcementTable">
+					    <!-- Your table body content goes here -->
+			  </tbody>
 		</table>
 
 
