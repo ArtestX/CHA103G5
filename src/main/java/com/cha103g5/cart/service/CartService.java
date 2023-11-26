@@ -1,15 +1,14 @@
 package com.cha103g5.cart.service;
 
-import com.cha103g5.cart.dao.Cart;
-import com.cha103g5.product.dao.ProductRepository;
-import com.cha103g5.product.dao.ProductVO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import com.cha103g5.cart.dao.Cart;
+import com.cha103g5.product.dao.ProductRepository;
+import com.cha103g5.product.dao.ProductVO;
 
 @Service
 public class CartService {
