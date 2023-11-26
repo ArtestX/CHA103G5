@@ -285,7 +285,7 @@
             <div class="<%= slots[0] ? "reserved-slot" : "" %> all-apply">
               早: <%= slots[0] ? "<span style='color:red;'>&#10004;</span>" : "" %>
               <% if (slots[0]) { %>
-              <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">
+              <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="post">
                 <input type="hidden" name="action" value="deleteCalendar">
                 <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">
                 <input type="hidden" name="timeSlot" value="morning">
@@ -297,7 +297,7 @@
             <div class="<%= slots[1] ? "reserved-slot" : "" %> all-apply">
               午: <%= slots[1] ? "<span style='color:red;'>&#10004;</span>" : "" %>
               <% if (slots[1]) { %>
-              <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">
+              <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="post">
                 <input type="hidden" name="action" value="deleteCalendar">
                 <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">
                 <input type="hidden" name="timeSlot" value="afternoon">
@@ -309,7 +309,7 @@
             <div class="<%= slots[2] ? "reserved-slot" : "" %> all-apply">
               晚: <%= slots[2] ? "<span style='color:red;'>&#10004;</span>" : "" %>
               <% if (slots[2]) { %>
-              <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post">
+              <form action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="post">
                 <input type="hidden" name="action" value="deleteCalendar">
                 <input type="hidden" name="interactionDate" value="<%= sdf.format(currentDate) %>">
                 <input type="hidden" name="timeSlot" value="night">

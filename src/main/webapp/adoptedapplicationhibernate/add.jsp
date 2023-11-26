@@ -1,30 +1,12 @@
-<%@ page import="com.cha103g5.admin.model.AdminVO" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>
-<%@ page import="com.cha103g5.member.model.MemberVO" %>
-<%@ page import="com.cha103g5.petinfo.model.PetVO" %>
-<%@ page import="com.cha103g5.member.model.*"%>
-<%@ page import="com.cha103g5.order.ordertable.model.OrderTableVO" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/banner.jsp" flush="true" />
-<%@ page import="com.cha103g5.member.model.*"%>
 <%@ page import="java.util.*"%>
+<%@ page import="com.cha103g5.pet.service.PetService" %>
+<%@ page import="com.cha103g5.pet.model.PetServletVO" %>
+<%@ page import="java.sql.Date" %>
 
-<%--<%--%>
-<%--    AdoptedApplicationHibernateService aahService = new AdoptedApplicationHibernateServiceImpl();--%>
-<%--    AdminVO randomAdmin = aahService.getRandomAdmin();--%>
-<%--    pageContext.setAttribute("randomAdminNo", randomAdmin.getAdminNo());--%>
-<%--    pageContext.setAttribute("randomAdminName", randomAdmin.getAdminName());--%>
-<%--    MemberVO randomMember = aahService.getRandomMember();--%>
-<%--    pageContext.setAttribute("randomMemberNo", randomMember.getMemberno());--%>
-<%--    pageContext.setAttribute("randomMemberName", randomMember.getMembername());--%>
-<%--    PetVO randomPet = aahService.getRandomPet();--%>
-<%--    pageContext.setAttribute("randomPetId", randomPet.getPetId());--%>
-<%--    pageContext.setAttribute("randomPetName", randomPet.getPetName());--%>
-<%--    pageContext.setAttribute("randomPetStat", randomPet.getStat());--%>
-<%--%>--%>
 <%
     // 把MemberVO的資料從session取出
     com.cha103g5.member.model.MemberVO user = (com.cha103g5.member.model.MemberVO) session.getAttribute("user");
@@ -36,19 +18,27 @@
     int adminNo = random.nextInt(10) + 1;
 //    int memberNo = random.nextInt(6) + 1;
 //    int randomPetId = random.nextInt(5);
-    int randomPetStat = random.nextInt(5);
+//    int randomPetStat = random.nextInt(5);
     request.setAttribute("adminNo", adminNo);
 //    request.setAttribute("memberNo", memberNo);
 //    request.setAttribute("randomPetId", randomPetId);
     int petId = Integer.parseInt(request.getParameter("petId"));
-    System.out.println(petId);
     request.setAttribute("petId", petId);
-    request.setAttribute("randomPetStat", randomPetStat);
-
-    Byte petStatByte = (byte) randomPetStat;
+//    request.setAttribute("randomPetStat", randomPetStat);
+//    System.out.println("petId= " + petId);
+    PetService petService = new PetService();
+    PetServletVO onePet = petService.getOnePet(petId);
+    byte petStat = onePet.getStat();
+//    System.out.println("petStat= " + petStat);
+    request.setAttribute("petStat", petStat);
+    Byte petStatByte = (byte) petStat;
+//    Byte petStatByte = (byte) randomPetStat;
 //    Byte petStatByte = randomPet.getStat();
     boolean isPetAvailableForReservation = (petStatByte != null && petStatByte == 1);
     pageContext.setAttribute("isPetAvailableForReservation", isPetAvailableForReservation);
+//    Map<Date, boolean[]> reservationMap = (Map<Date, boolean[]>) request.getAttribute("reservationMap");
+//    System.out.println("Reservation Map: " + reservationMap);
+
 %>
 
 <!DOCTYPE html>
@@ -222,7 +212,7 @@
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
     <br>
     <div style="display: grid; grid-template-columns: auto auto; align-items: start; gap: 20px;">
-        <form id="myForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post" enctype="multipart/form-data" onsubmit="return checkReservation()">
+        <form id="myForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="post" enctype="multipart/form-data" onsubmit="return checkReservation()">
             <input type="hidden" name="action" value="add" />
             <div>
             <table>
@@ -241,7 +231,7 @@
 <%--                    <td>管理員編號：</td>--%>
 <%--                    <td>--%>
 <%--                        ${adminNo}--%>
-<%--                        <input type="hidden" name="adminNo" value="${adminNo}" />--%>
+                        <input type="hidden" name="adminNo" value="${adminNo}" />
 <%--                    </td>--%>
 <%--                </tr>--%>
 <%--                <tr>--%>
@@ -259,7 +249,7 @@
 <%--                    <td>會員編號：</td>--%>
 <%--                    <td>--%>
 <%--                        ${user.memberno}--%>
-<%--                        <input type="hidden" name="memberNo" value="${user.memberno}" />--%>
+                        <input type="hidden" name="memberNo" value="${user.memberno}" />
 <%--                    </td>--%>
 <%--                </tr>--%>
 <%--                <tr>--%>
@@ -267,15 +257,15 @@
 <%--                    <td><input type="number" name="petId" required /></td>--%>
 <%--                </tr>--%>
                 <tr>
-                    <td>寵物編號-狀態：</td>
+                    <td>寵物狀態：</td>
                     <td>
-                        ${petId} - ${randomPetStat}
+<%--                        ${petId} - ${petStat}--%>
                             <c:choose>
-                                <c:when test="${randomPetStat == 0}"><span class="red-text">(未上架-不可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 1}"><span class="green-text">(待領養-可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 2}"><span class="red-text">(不可領養-不可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 3}"><span class="red-text">(領養中-不可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 4}"><span class="red-text">(已領養-不可預約)</span></c:when>
+                                <c:when test="${petStat == 0}"><span class="red-text">(未上架-不可預約)</span></c:when>
+                                <c:when test="${petStat == 1}"><span class="green-text">(待領養-可預約)</span></c:when>
+                                <c:when test="${petStat == 2}"><span class="red-text">(不可領養-不可預約)</span></c:when>
+                                <c:when test="${petStat == 3}"><span class="red-text">(領養中-不可預約)</span></c:when>
+                                <c:when test="${petStat == 4}"><span class="red-text">(已領養-不可預約)</span></c:when>
                                 <c:otherwise><span class="red-text">未知狀態</span></c:otherwise>
                             </c:choose>
                         <input type="hidden" name="petId" value="${petId}" />
@@ -419,7 +409,7 @@
 
 <%--                    <li class="list-group-item">--%>
 <%--                        <a href="#" onclick="document.getElementById('applicationForm').submit();">預約詳情</a>--%>
-<%--                        <form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">--%>
+<%--                        <form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="GET">--%>
 <%--                            <input type="hidden" name="action" value="frontendGetByMemberNo">--%>
 <%--                            <input type="hidden" name="memberNo" value="${user.memberno}">--%>
 <%--                        </form>--%>
@@ -517,7 +507,7 @@
 
         function showCalendarPopup() {
             var popupWindow = window.open(
-                '${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=frontendCalendar', // 更改為您的實際路徑
+                '${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=frontendCalendar', // 更改為您的實際路徑
                 'CalendarPopup',
                 'width=600,height=600,left=200,top=200' // 調整為您想要的尺寸和位置
             );
@@ -596,13 +586,13 @@
             let interactionDateInput = document.getElementById('interactionDateInput');
             let interactionTimeInput = document.getElementById('interactionTimeInput');
 
-            let tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            let maxDate = new Date(tomorrow);
-            maxDate.setDate(maxDate.getDate() + 19);
-
-            interactionDateInput.min = tomorrow.toISOString().split('T')[0];
-            interactionDateInput.max = maxDate.toISOString().split('T')[0];
+            // let tomorrow = new Date(today);
+            // tomorrow.setDate(tomorrow.getDate() + 1);
+            // let maxDate = new Date(tomorrow);
+            // maxDate.setDate(maxDate.getDate() + 19);
+            //
+            // interactionDateInput.min = tomorrow.toISOString().split('T')[0];
+            // interactionDateInput.max = maxDate.toISOString().split('T')[0];
 
             interactionDateInput.disabled = !isPetAvailableForReservation;
             interactionTimeInput.disabled = !isPetAvailableForReservation;

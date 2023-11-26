@@ -94,7 +94,7 @@ body {
 				    </h2>
 				    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
-						<strong><a href="<%=request.getContextPath()%>/ordertable/index.jsp" class="list-group-item list-group-item-action">訂單列表</a></strong>
+						<strong><a href="<%=request.getContextPath()%>/orderTableServlet?action=getAll" class="list-group-item list-group-item-action">訂單列表</a></strong>
 				      </div>
 				    </div>
 				  </div>

@@ -109,6 +109,7 @@
                 <th>訂單狀態</th>
                 <th>付費方式</th>
                 <th>運送方式</th>
+                <th>送貨地址</th>
                 <th>明細</th>
             </tr>
 
@@ -142,6 +143,7 @@
                         <c:when test="${orderTable.shipMethod == 1}">超商取貨</c:when>
                     </c:choose>
                 </td>
+                <td>${orderTable.shippingAddress}</td>
                 <td>
                     <button onclick="loadOrderDetails(${orderTable.orderTableNo}, 'detail${status.index}')">顯示/隱藏<br>訂單明細</button>
                 </td>

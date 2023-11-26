@@ -28,6 +28,7 @@
                     <th>訂單狀態</th>
                     <th>付費方式</th>
                     <th>運送方式</th>
+                    <th>送貨地址</th>
                     <th>修改</th>
                     <th>刪除</th>
                 </tr>
@@ -58,6 +59,7 @@
                             <c:when test="${oneOrderTable.shipMethod == 1}">超商取貨</c:when>
                         </c:choose>
                     </td>
+                    <td>${orderTable.shippingAddress}</td>
                     <td>
                         <form action="${pageContext.request.contextPath}/orderTableServlet" method="post">
                             <input type="hidden" name="action" value="edit" />
