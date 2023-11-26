@@ -28,7 +28,7 @@ public class WebSocketController {
 
 	    Jedis jedis = new Jedis("localhost", 6379);
 	  
-	    jedis.select(3);
+	    jedis.select(15);
 	    Gson gson = new Gson();
 	    String bellmessage = gson.toJson(bellText);
 
