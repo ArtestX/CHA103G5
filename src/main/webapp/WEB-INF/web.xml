@@ -37,14 +37,13 @@
  		<filter-name>LoginFilter</filter-name>
  		<url-pattern>/customer/chat.jsp</url-pattern>
  		<url-pattern>/customer/chat.do</url-pattern>
- 		<url-pattern>/member/memberCenter.jsp</url-pattern>
  		<dispatcher>REQUEST</dispatcher>
  		<dispatcher>FORWARD</dispatcher>
  		<dispatcher>INCLUDE</dispatcher>
  		<dispatcher>ERROR</dispatcher>
  		<dispatcher>ASYNC</dispatcher>
  	</filter-mapping>
- 	
+
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/TestDB</res-ref-name>
