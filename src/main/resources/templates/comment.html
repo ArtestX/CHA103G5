@@ -10,7 +10,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url("/bg1.png");
+            background-image: url("/uploads/bg1.png");
             background-size: cover; /* 確保背景圖片覆蓋整個視窗 */
             background-position: center; /* 背景圖片居中 */
             background-attachment: fixed; /* 背景圖片固定，不隨滾動移動 */
@@ -120,6 +120,8 @@
 </div>
 
 <a href="/CHA103G5/mall" class="btn btn-secondary mb-3">返回商城</a>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -142,10 +144,10 @@
                     rating: parseInt(rating)
                 }),
                 success: function(response) {
-                    alert("評論已成功提交！");
+                    Swal.fire('評論已成功提交！');
                 },
                 error: function(xhr, status, error) {
-                    alert("提交評論失敗，請檢查您的評論內容和評分。");
+                    Swal.fire('評論失敗，請檢查您的評論內容和評分！');
                 }
             });
         });
@@ -166,11 +168,11 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ comment: updatedComment }),
                     success: function(response) {
-                        alert("評論已成功更新！");
+                        Swal.fire('評論已更新！');
                         location.reload();  // 或者更新頁面上的評論內容
                     },
                     error: function(xhr, status, error) {
-                        alert("更新評論失敗：" + xhr.responseText);
+                        Swal.fire('更新評論失敗：" + xhr.responseText');
                     }
                 });
             });
@@ -185,11 +187,10 @@
                     url: '/CHA103G5/product/comments/delete/' + commentId, // 正確的評論ID
                     type: 'DELETE',
                     success: function(result) {
-                        alert("評論已被刪除");
-                        // 刪除成功後，從頁面上移除該評論
+                        Swal.fire('評論已刪除！');
                     },
                     error: function(xhr, status, error) {
-                        alert("刪除評論失敗，請重試。");
+                        Swal.fire('刪除評論失敗！');
                     }
                 });
             }

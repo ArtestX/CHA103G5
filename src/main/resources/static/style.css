@@ -1,7 +1,7 @@
 body {
     background-color: #faf4de;
     font-family: 'Arial', sans-serif;
-    background-image: url('/static/bg1.png');
+    background-image: url('uploads/bg1.png');
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -154,12 +154,12 @@ a:hover, button:hover {
 }
 
 #scroll-up.active {
-    opacity: 1; /* 完全不透明 */
-    bottom: 40px; /* 距離底部更遠以避免遮擋其他元素 */
+    opacity: 1;
+    bottom: 40px;
 }
 
 #scroll-up:hover {
     background: rgba(194, 183, 17, 0.7);
     opacity: 1;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5); /* 添加陰影 */
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }

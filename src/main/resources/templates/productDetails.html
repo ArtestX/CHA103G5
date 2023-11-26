@@ -255,6 +255,7 @@
 <input type="hidden" id="memberNo" th:value="${session.user != null ? session.user.memberno : null}"/>
 <input type="hidden" id="productNo" th:value="${product.productNo}"/>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -276,7 +277,7 @@
             if(memberNo) {
                 window.location.href = '/CHA103G5/cart/checkout/' + memberNo; // 修改為您的結帳頁面路徑
             } else {
-                alert('請先登錄！');
+                Swal.fire('請先登入 ！');
             }
         });
     });
@@ -305,7 +306,8 @@
 
 
         if (!memberNo || isNaN(memberNo) || !productNo || isNaN(productNo)) {
-            alert("發生錯誤，請刷新頁面後重試。");
+            Swal.fire('先登入 才能加入購物車！');
+
             return;
         }
 
@@ -317,12 +319,11 @@
             contentType: 'application/json',
             data: JSON.stringify(requestData),
             success: function (response) {
-                alert("商品已加入購物車！");
+                Swal.fire('已加入購物車！');
                 updateCartSidebar();
             },
             error: function (error) {
                 alert("加入購物車失敗，請稍後再試！");
-                console.error('Error:', error);
             }
         });
     }
@@ -441,7 +442,7 @@
             url: '/CHA103G5/cart/deleteProduct/' + memberNo + '/' + productNo,
             type: 'DELETE',
             success: function (response) {
-                alert('商品已從購物車中移除！');
+                Swal.fire('已從購物車中移除！');
                 updateCartSidebar(); // 更新側邊欄
             },
             error: function (error) {
