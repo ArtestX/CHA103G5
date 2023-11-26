@@ -79,7 +79,7 @@ public class CartService {
             } else {
                 cart.getItems().remove(productNo);
             }
-            saveCart(memberNo, cart);
+            saveCart(memberNo, cart); // 這會將更新寫入到 Redis
         }
     }
 

@@ -62,23 +62,18 @@ public class CombinedCartController {
         }
     }
 
-
-
-
     @DeleteMapping("/{memberNo}/delete")
     public ResponseEntity<Void> deleteCart(@PathVariable Integer memberNo) {
         cartService.deleteCart(memberNo);
         return ResponseEntity.ok().build();
     }
 
-    // Endpoint to update product quantity in the cart
     @PostMapping("/updateQuantity")
     public ResponseEntity<?> updateQuantity(@RequestBody AddToCartRequest request) {
         cartService.updateProductQuantity(request.getMemberNo(), request.getProductNo(), request.getQuantity());
         return ResponseEntity.ok().build();
     }
 
-    // Endpoint to delete a product from the cart
     @DeleteMapping("/deleteProduct/{memberNo}/{productNo}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer memberNo, @PathVariable Integer productNo) {
         cartService.deleteProductFromCart(memberNo, productNo);

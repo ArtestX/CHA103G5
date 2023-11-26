@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-image: url("/bg2.png");
+            background-image: url("/uploads/bg2.png");
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-position: center center; /* 圖片置中 */
             background-size: cover; /* 覆蓋整個視窗 */
@@ -168,6 +168,8 @@
 <nav class="navbar navbar-custom">
     <a href='addProduct'>新增商品</a>
     <a href='mall'>商城</a>
+    <a th:href="@{/backendMainTemplate.jsp}" class="btn btn-custom">回到後台管理</a>
+
 </nav>
 
 <div class="container">

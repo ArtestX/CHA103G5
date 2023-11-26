@@ -29,13 +29,13 @@
 			</a>
 
 			<div class="d-lg-none ms-auto me-4">
-				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+				<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
 					<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon1">
 				</a>
 
 				<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
-					<input type="hidden" name="action" value="logout"> 
-					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon"> 
+					<input type="hidden" name="action" value="logout">
+					<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon">
 						<img src="<%=request.getContextPath()%>/img/logout.png" alt="Login out" id="logoutIcon1">
 					</a>
 				</form>
@@ -83,7 +83,7 @@
 					</li>
 
 					<li class="nav-item dropdown hover" id="membercenter" >
-						<a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="true"> 
+						<a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="true">
 							<b>會員中心</b>
 						</a>
 
@@ -106,7 +106,7 @@
 					</li>
 				</ul>
 			<!-- 	********購物車按鈕********* -->
-				<a href="#" class="navbar-icon"> 
+				<a href="#" class="navbar-icon">
    					<img src="<%=request.getContextPath()%>/img/cart.png" alt="Shopping Cart" id="CartIcon">
   				</a>
 			<!-- 	********小鈴鐺按鈕********* -->
@@ -115,10 +115,10 @@
 			           <div class="dropdown ps-3">
 						    <button type="button" class="btn btn-primary position-relative" id="bellIcon">
 						        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="badge">
-						           <!-- 這裡放置未讀消息數字，動態生成 --> 
+						           <!-- 這裡放置未讀消息數字，動態生成 -->
 						        </span>
 						    </button>
-						
+
 						    <ul class="dropdown-menu notifications-block-wrap bg-white shadow" id="messageList" style="padding:10px;">
 						          <c:forEach var="message" items="${noticeMessages}">
 							        <li class="notifications-block border-bottom pb-2 mb-2">
@@ -129,21 +129,21 @@
 						    </ul>
 						</div>
 			        </div>
-			    </div>  
-				
+			    </div>
+
 				<div class="d-none d-lg-block narrow-div">
 			<!-- 	********登入按鈕********* -->
-					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon"> 
+					<a href="<%=request.getContextPath()%>/member/memberLogin.jsp" class="navbar-icon">
 						<img src="<%=request.getContextPath()%>/img/login.png" alt="Login in" id="loginIcon">
 					</a>
 			<!-- 	********登出按鈕********* -->
 					<form METHOD="post" ACTION="<%=request.getContextPath()%>/member/mem.do" class="form">
-						<input type="hidden" name="action" value="logout"> 
+						<input type="hidden" name="action" value="logout">
 						<a href="<%=request.getContextPath()%>/member/mem.do?action=logout" class="navbar-icon">
 						  <img src="<%=request.getContextPath()%>/img/logout.png" alt="Login out" id="logoutIcon">
 						</a>
-					</form>	
-				</div>	
+					</form>
+				</div>
 			</div>
 		</div>
 		<input type="hidden"  id="userMemberName" value="${user.membername}">

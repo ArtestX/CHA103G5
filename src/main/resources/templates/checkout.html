@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="zh-TW">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,24 +80,26 @@
             <h3>您的購物車</h3>
         </div>
         <div class="card-body">
-            <div th:each="item : ${cart.items}" class="row">
+            <div th:each="item, stat : ${cart.items}" class="row" th:id="'row-' + ${stat.index}">
                 <div class="col-4" th:text="${item.value.productName}">商品名稱</div>
-                <div class="col-2 text-center" th:text="${item.value.price}">商品價格</div>
+                <div class="col-2 text-center">
+                    <span class="price" th:text="${item.value.price}">商品價格</span>
+                </div>
                 <div class="col-4 text-center quantity-controls">
-                    <button onclick="changeQuantity('${item.key}', -1)">-</button>
-                    <input type="text" id="quantity-[[${item.key}]]" name="quantity-[[${item.key}]]" th:value="${item.value.quantity}" readonly/>
-                    <button onclick="changeQuantity('${item.key}', 1)">+</button>
+                    <button th:onclick="'changeQuantity(' + ${stat.index} + ', -1);'">-</button>
+                    <input type="number" th:class="'quantity'" th:id="'quantity-' + ${stat.index}" th:name="'quantity-' + ${stat.index}" th:value="${item.value.quantity}" />
+                    <button th:onclick="'changeQuantity(' + ${stat.index} + ', 1);'">+</button>
                 </div>
                 <div class="col-2 text-center">
-                    <button class="delete-btn" onclick="deleteItem('${item.key}')">刪除</button>
+                    <button class="delete-btn" th:onclick="'deleteItem(' + ${stat.index} + ');'">刪除</button>
                 </div>
             </div>
             <div class="row justify-content-end">
-                <div class="col-4 text-right total-price" th:text="${totalPrice}">總計</div>
+                <div class="col-4 text-right" id="total-price" th:text="${totalPrice}">總計</div>
             </div>
         </div>
         <div class="card-footer text-center">
-            <button class="btn btn-primary">結帳</button>
+            <button class="btn btn-primary" onclick="sendOrderInfoToJSP()">結帳</button>
             <a th:href="@{/mall}" class="btn-back">回到商品頁面</a>
         </div>
     </div>
@@ -108,43 +110,83 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     function changeQuantity(itemKey, change) {
+        console.log('Attempting to change quantity. Item Key:', itemKey, 'Change:', change);
         var memberNo = $('#memberNo').val();
         var quantityInput = $('#quantity-' + itemKey);
         var newQuantity = parseInt(quantityInput.val()) + change;
+
+        // 確保數量不會小於1
+        newQuantity = Math.max(newQuantity, 1);
+
         var data = {
             memberNo: memberNo,
             productNo: itemKey,
             quantity: newQuantity
         };
+        console.log('Sending AJAX request to update quantity. Data:', data);
 
+        // 修改 URL，包含會員編號
         $.ajax({
-            url: '/cart/updateQuantity',
+            url: '/CHA103G5/cart/updateQuantity', // 移除會員編號
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function(response) {
-                location.reload();  // 重新載入頁面以更新顯示
+                console.log('Quantity update success:', response);
+                // 更新數量輸入框
+                $('#quantity-' + itemKey).val(newQuantity);
+                // 更新總價格
+                updateTotalPrice();
             },
             error: function(error) {
                 console.error('Error updating quantity:', error);
             }
         });
     }
-
+    // 刪除商品的函數
     function deleteItem(itemKey) {
+        console.log('Attempting to delete item. Item Key:', itemKey);
         var memberNo = $('#memberNo').val();
+        console.log('Sending AJAX request to delete item.');
 
+        // 修改 URL，包含會員編號
         $.ajax({
-            url: '/cart/deleteProduct/' + memberNo + '/' + itemKey,
+            url: `/CHA103G5/cart/deleteProduct/${memberNo}/${itemKey}`, // 修改 URL
             type: 'DELETE',
             success: function(response) {
-                location.reload();  // 重新載入頁面以更新顯示
+                console.log('Product delete success:', response);
+                // 移除商品行
+                $('#row-' + itemKey).remove();
+                // 更新總價格
+                updateTotalPrice();
             },
             error: function(error) {
                 console.error('Error deleting item:', error);
             }
         });
     }
+
+    // 更新總價格的函數
+    function updateTotalPrice() {
+        console.log('Updating total price.');
+        var total = 0;
+        $('.row').each(function() {
+            var price = parseFloat($(this).find('.price').text());
+            var quantity = parseInt($(this).find('.quantity').val(), 10);
+
+            if (!isNaN(price) && !isNaN(quantity)) {
+                total += price * quantity;
+            } else {
+                console.error('One of the values is NaN. Price:', price, 'Quantity:', quantity);
+            }
+        });
+
+        // 確保 total-price 是存在於 HTML 中的元素 ID
+        $('#total-price').text(total.toFixed(2));
+        console.log('Calculated total price:', total.toFixed(2));
+    }
+
+
 </script>
 </body>
 </html>

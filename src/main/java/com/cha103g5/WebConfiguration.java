@@ -16,7 +16,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 確保這裡的路徑是正確的，並且與您存放圖片的目錄相匹配
         registry.addResourceHandler("/static/uploads/**").addResourceLocations("file:///C:/CHA103_Workspace/CHA103G5/src/main/resources/static/uploads/");
+
     }
 }
