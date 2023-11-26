@@ -12,13 +12,13 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
-	<!-- 定义过滤器 -->
+	<!-- 定義過濾器 -->
 <!-- 	<filter> -->
 <!-- 		<filter-name>AdminLoginFilter</filter-name> -->
 <!-- 		<filter-class>com.cha103g5.admin.filter.AdminLoginFilter</filter-class> -->
 <!-- 	</filter> -->
 
-	<!-- 配置过滤器映射 -->
+	<!-- 配置過濾器 -->
 <!-- 	<filter-mapping> -->
 <!-- 		<filter-name>AdminLoginFilter</filter-name> -->
 <!-- 		<url-pattern>/admin/backendMain.jsp</url-pattern> -->

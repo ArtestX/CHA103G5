@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>商品</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+</head>
+<body>
+<input type="hidden" id="memberNo" th:value="${session.user != null ? session.user.memberno : null}"/>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/mall}">商城</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+            <a class="nav-link" th:href="@{/index.jsp}">首頁</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="favoriteDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    我的收藏
+                </a>
+                <div class="dropdown-menu" aria-labelledby="favoriteDropdown" id="favoriteListDropdown">
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <select id="categoryFilter" class="form-control" onchange="filterByCategory()">
+                <option value="">所有類別</option>
+                <option th:each="productCategory : ${categories}"
+                        th:value="${productCategory.getProductCatNo()}"
+                        th:text="${productCategory.getProductCatName()}">類別名稱
+                </option>
+            </select>
+        </form>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    <h1 class="text-center mb-4" style="font-family: Arial, sans-serif; color: #1b8f8f;">商品</h1>
+    <!-- 新增的搜尋表單 -->
+    <form class="form-inline my-2 my-lg-0" th:action="@{/searchProducts}" method="get">
+        <input class="form-control mr-sm-2" type="search" placeholder="搜尋商品" aria-label="Search" name="keyword">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜尋</button>
+    </form>
+    <div th:if="${noProductsFound}" class="alert alert-warning" role="alert">
+        沒有找到相關商品。
+    </div>
+    <div class="row">
+        <div class="row" id="productList">
+            <div class="col-md-4 mb-3" th:each="product : ${products}" th:if="${product.productStat == 1}"
+                 th:attr="data-category=${product.productCatNo}, data-product-id=${product.productNo}">
+                <div class="card h-100" th:attr="data-product-id=${product.productNo}">
+                    <div th:if="${product.productPictures.size() > 0}">
+                        <div th:each="pic, iterStat : ${product.productPictures}">
+                            <img th:src="@{'/static/uploads/' + ${pic.productPic}}" alt="商品圖片" class="card-img-top"
+                                 th:if="${iterStat.index == 0}"/>
+
+                        </div>
+                    </div>
+                    <img th:unless="${product.productPictures.size() > 0}" th:src="@{/default.jpg}" alt="商品圖片"
+                         class="card-img-top"/>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${product.productName}">商品名稱</h5>
+                        <p class="card-text" th:text="${product.productInfo}">商品資訊</p>
+                        <p class="card-text"><small class="text-muted" th:text="${product.productPrice}">價格</small>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">評價: <span th:text="${product.productEval}">5</span> 星</small>
+                        <form th:action="@{/productTrack/toggleTrack}" method="post">
+                            <input type="hidden" name="productNo" th:value="${product.productNo}"/>
+                            <!-- 在每個收藏按鈕上添加一個額外的 class 用於識別，例如 'toggle-track' -->
+                            <button type="button" class="btn btn-primary btn-sm toggle-track"
+                                    th:attr="data-product-id=${product.productNo}"
+                                    data-product-name="${product.productName}">
+                                <i class="fa fa-paw" style="color: #f3f2f2;"></i>
+                                <span class="track-text"
+                                      th:text="${trackedProducts != null and #lists.contains(trackedProducts, product.productNo) ? '已收藏' : '收藏'}">收藏</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 text-center mt-3" id="noProductsMessage" style="display: none;">
+            <h5>無商品</h5>
+        </div>
+    </div>
+</div>
+
+<!-- 回上層按鈕 -->
+<a href="/mall" class="fas fa-angle-up" id="scroll-up"></a>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script th:inline="javascript">
+    var contextPath = /*[[@{/}]]*/'';
+    var trackedProducts = [];
+    var memberNo = null;  // 全局變量
+
+    function filterByCategory() {
+        var selectedCategory = document.getElementById('categoryFilter').value;
+        var productCards = document.querySelectorAll('.col-md-4.mb-3');
+        var noProductsMessage = document.getElementById('noProductsMessage');
+        var displayCount = 0;
+
+        productCards.forEach(function (card) {
+            var productCategory = card.getAttribute('data-category');
+            if (selectedCategory === "" || productCategory === selectedCategory) {
+                card.style.display = '';
+                displayCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        noProductsMessage.style.display = displayCount === 0 ? '' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        memberNo = document.getElementById('memberNo').value;
+        console.log('會員編號:', memberNo);
+
+        // 如果會員已登入（memberNo 不為 null），則加載收藏列表
+        if (memberNo) {
+            loadFavoritesAndUpdateButtons();
+            loadFavorites();
+        } else {
+            // 如果會員未登入，顯示沒有收藏商品的消息
+            var favoriteDropdown = document.getElementById('favoriteListDropdown');
+            favoriteDropdown.innerHTML = '<a class="dropdown-item" href="#">沒有收藏商品</a>';
+        }
+
+
+        // 商品卡片的處理
+        var productCards = document.querySelectorAll('.col-md-4.mb-3');
+        productCards.forEach(function (card) {
+            var productId = card.getAttribute('data-product-id');
+            var trackButton = card.querySelector('.toggle-track');
+
+            // 添加點擊事件處理程序，以切換收藏狀態
+            trackButton.addEventListener('click', function (event) {
+                event.stopPropagation();
+                toggleTrack(productId, this);
+            });
+
+            card.addEventListener('click', function (event) {
+                // 確保點擊的不是收藏按鈕
+                if (!event.target.classList.contains('toggle-track') && !event.target.closest('.toggle-track')) {
+                    redirectToProductDetails(productId);
+                }
+            });
+        });
+
+
+        function redirectToProductDetails(productId) {
+            window.location.href = contextPath + 'product/details/' + productId;
+        }
+    });
+
+    function loadFavoritesAndUpdateButtons() {
+
+        $.ajax({
+            url: '/CHA103G5/productTrack/favorites/' + memberNo, // 動態添加會員編號至 URL
+            type: 'GET',
+            success: function (tracks) {
+                // 更新 trackedProducts 變數
+                trackedProducts = tracks.map(track => track.productNo);
+
+                // 更新收藏按鈕的狀態
+                console.log(trackedProducts); // 檢查 trackedProducts 是否已經更新
+                updateFavoriteButtonsState();
+            },
+            error: function () {
+                console.error('無法載入收藏列表');
+            }
+        });
+    }
+
+    function updateFavoriteButtonsState() {
+        var trackButtons = document.querySelectorAll('.toggle-track');
+        console.log('trackButtons found:', trackButtons.length); // 檢查是否找到按鈕
+        trackButtons.forEach(function (button) {
+            var productId = parseInt(button.getAttribute('data-product-id'), 10); // 將字符串轉換為數字
+            console.log('Checking product ID:', productId); // 檢查每個按鈕的產品編號
+            if (trackedProducts.includes(productId)) {
+                button.querySelector('.track-text').textContent = '已收藏';
+            } else {
+                button.querySelector('.track-text').textContent = '收藏';
+            }
+        });
+    }
+
+
+    function toggleTrack(productId, buttonElement) {
+        if (!memberNo) {
+            alert('請先登入！');
+            return;
+        }
+        var isTracked = trackedProducts.includes(productId);
+
+        $.ajax({
+            url: '/CHA103G5/productTrack/toggleTrackAjax',
+            type: 'POST',
+            data: {
+                productNo: productId,
+                memberNo: memberNo
+            },
+            success: function (response) {
+                if (response.tracked) {
+                    if (!isTracked) {
+                        trackedProducts.push(productId);
+                        buttonElement.querySelector('.track-text').textContent = '已收藏';
+                    }
+                } else {
+                    trackedProducts = trackedProducts.filter(function (id) {
+                        return id !== productId;
+                    });
+                    buttonElement.querySelector('.track-text').textContent = '收藏';
+                }
+                // 重新加載收藏列表
+                loadFavorites();
+            },
+            error: function () {
+                alert('操作失敗');
+            }
+        });
+    }
+
+
+    function loadFavorites() {
+        if (!memberNo) {
+            return; // 如果未登入，則不進行請求
+        }
+
+        $.ajax({
+            url: '/CHA103G5/productTrack/favorites/' + memberNo, // 動態添加會員編號至 URL
+            type: 'GET',
+            success: function (tracks) {
+                var favoriteDropdown = document.getElementById('favoriteListDropdown');
+                favoriteDropdown.innerHTML = '';
+
+                if (tracks.length === 0) {
+                    favoriteDropdown.innerHTML = '<a class="dropdown-item" href="#">沒有收藏商品</a>';
+                } else {
+                    tracks.forEach(function (track) {
+                        var dropdownItem = document.createElement('a');
+                        dropdownItem.className = 'dropdown-item';
+                        dropdownItem.href = '/CHA103G5/product/details/' + track.productNo;
+                        dropdownItem.textContent = track.productName;
+                        favoriteDropdown.appendChild(dropdownItem);
+                    });
+                }
+            },
+            error: function () {
+                console.error('請先登入才能收藏喔!!!!');
+                favoriteDropdown.innerHTML = '<a class="dropdown-item" href="#">無法載入</a>';
+            }
+        });
+    }
+
+
+    window.onscroll = () => {
+        if (window.scrollY > 60) {
+            document.querySelector("#scroll-up").classList.add("active");
+        } else {
+            document.querySelector("#scroll-up").classList.remove("active");
+        }
+    };
+
+    // 設定滾動至頂部按鈕的點擊事件
+    document.querySelector("#scroll-up").addEventListener("click", function (event) {
+        event.preventDefault(); // 防止執行錨點預設的跳轉行為
+        window.scrollTo({
+            top: 0, // 滾動至頁面最頂部
+            behavior: 'smooth' // 指定平滑滾動
+        });
+    });
+
+</script>
+
+<footer class="text-center text-lg-start bg-light text-muted">
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <div class="me-5 d-none d-lg-block">
+            <span>與我們聯繫：</span>
+        </div>
+        <div>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </section>
+</footer>
+</body>
+</html>

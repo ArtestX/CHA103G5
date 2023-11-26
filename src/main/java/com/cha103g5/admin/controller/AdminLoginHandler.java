@@ -9,6 +9,8 @@ import javax.servlet.http.*;
 
 import com.cha103g5.admin.model.AdminVO;
 import com.cha103g5.admin.service.AdminService;
+import com.cha103g5.member.model.MemberService;
+import com.cha103g5.member.model.MemberVO;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -23,9 +25,9 @@ public class AdminLoginHandler extends HttpServlet {
 		AdminVO adminVO = adminService.userAuth(adminAccount, adminPassword);
 
 		if (adminVO != null) {
-			return true; // 找到匹配的管理员记录
+			return true; // 找到匹配的管理员紀錄
 		} else {
-			return false; // 未找到匹配的管理员记录
+			return false; // 未找到匹配的管理员紀錄
 		}
 	}
 
@@ -89,6 +91,7 @@ public class AdminLoginHandler extends HttpServlet {
 				// 從資料庫獲取 adminStat 的值
 				AdminService adminService = new AdminService();
 				AdminVO adminVO = adminService.userAuth(adminAccount, adminPassword);
+				MemberService memberService =new MemberService();
 				if (adminVO != null) {
 					Integer adminStat = adminVO.getAdminStat();
 					// 設置adminStat 属性的值到 HttpSession
@@ -111,7 +114,6 @@ public class AdminLoginHandler extends HttpServlet {
 			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 			HttpSession session = req.getSession();  //【帳號 , 密碼有效時, 才做以下工作】
 			session.setAttribute("adminAccount", adminAccount);   //*工作1: 才在session內做已經登入過的標識
-
 			try {
 				String location = (String) session.getAttribute("location");
 				if (location != null) {

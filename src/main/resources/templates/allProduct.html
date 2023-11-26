@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>所有商品</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("/bg2.png");
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-position: center center; /* 圖片置中 */
+            background-size: cover; /* 覆蓋整個視窗 */
+            background-attachment: fixed; /* 背景圖片固定，不隨滾動條移動 */
+            background-repeat: no-repeat; /* 不重複圖片 */
+        }
+
+        .navbar-custom {
+            background-color: #2a9d8f;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-custom a {
+            color: white;
+            margin-right: 20px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .table-custom {
+            background-color: white;
+            margin-top: 20px;
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .table-custom th, .table-custom td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px 15px;
+        }
+
+        .table-custom th {
+            background-color: #2a9d8f;
+            color: white;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .table-custom td.product-info, .table-custom th.product-info {
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+
+        .btn-custom {
+            display: inline-block; /* 或者使用 'block' 以使按鈕獨占一行 */
+            width: 100%; /* 設定按鈕寬度為容器的100% */
+            background-color: #007bff; /* 選擇您希望的按鈕顏色 */
+            color: white; /* 文字顏色設為白色 */
+            text-align: center; /* 文字居中 */
+            padding: 10px 0; /* 上下內邊距為10px，左右為0 */
+            margin-bottom: 5px; /* 與下一個元素的距離 */
+            border: none; /* 無邊框 */
+            border-radius: 5px; /* 邊框圓角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 盒子陰影 */
+            transition: background-color 0.3s ease; /* 滑鼠懸停效果 */
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-custom:active {
+            background-color: #004085;
+        }
+
+        .btn-custom:focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-delete {
+            color: white;
+            background-color: #dc3545;
+            border: none;
+            transition: background-color 0.3s ease;
+            margin: 0 5px 5px 0;
+            display: inline-block;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        input[type="submit"] {
+            color: #fff;
+            background-color: #28a745;
+            border-color: #28a745;
+            box-shadow: none;
+            padding: .375rem .75rem;
+            border-radius: .25rem;
+            line-height: 1.5;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            margin-left: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        input[type="submit"]:active {
+            background-color: #1e7e34;
+            border-color: #1c7430;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .table-responsive {
+            padding-left: 15px;
+            padding-right: 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+
+        .table {
+            width: auto;
+            max-width: none;
+            margin-bottom: 0;
+        }
+
+        .btn-custom, .btn-delete, input[type="submit"] {
+            white-space: nowrap;
+        }
+
+        .btn-custom.btn-sm, .btn-delete.btn-sm {
+            padding: .25rem .5rem;
+            font-size: .875rem;
+            line-height: 1.5;
+            border-radius: .2rem;
+        }
+
+        form {
+            flex-wrap: nowrap;
+        }
+
+        .table-custom th:nth-child(1), .table-custom td:nth-child(1) {
+            width: 120px;
+        }
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-custom">
+    <a href='addProduct'>新增商品</a>
+    <a href='mall'>商城</a>
+</nav>
+
+<div class="container">
+    <h3 class="text-center my-4">商品</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-custom">
+            <thead>
+            <tr>
+                <th>照片</th>
+                <th>商品編號</th>
+                <th>類別編號</th>
+                <th>名稱</th>
+                <th>價格</th>
+                <th >資訊</th>
+                <th>狀態</th>
+                <th>評價</th>
+                <th>總評價</th>
+                <th>銷售數量</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td>
+                    <img th:if="${product.productPictures.size() > 0}"
+                         th:src="@{'/static/uploads/' + ${product.productPictures.get(0).productPic}}"
+                         alt="商品照片" width="100" height="100"/>
+                </td>
+                <td th:text="${product.productNo}"></td>
+                <td th:text="${product.productCatNo}"></td>
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.productPrice}"></td>
+                <td th:text="${product.productInfo}"></td>
+                <td>
+                    <!-- 商品狀態單選按鈕 -->
+                    <form th:action="@{/updateProductStatus}" method="post">
+                        <input type="hidden" th:name="productNo" th:value="${product.productNo}"/>
+                        <input type="radio" name="status" th:value="1" th:checked="${product.productStat == 1}"> 上架
+                        <input type="radio" name="status" th:value="0" th:checked="${product.productStat == 0}"> 下架
+                        <input type="submit" value="送出">
+                    </form>
+                </td>
+                <td th:text="${product.productEval}"></td>
+                <td th:text="${product.productEvalTotal}"></td>
+                <td th:text="${product.productSaleNum}"></td>
+                <td>
+                    <!-- 編輯按鈕 -->
+                    <a class="btn btn-custom" th:href="@{/editProduct/{productNo}(productNo=${product.productNo})}">編輯</a>
+
+                    <!-- 刪除按鈕 -->
+                    <form th:action="@{/deleteProduct/{productNo}(productNo=${product.productNo})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <input type="submit" value="刪除" onclick="return confirm('確定刪除這個商品嗎？')" class="btn btn-custom"/> <!-- 確保按鈕使用 btn-custom 類別 -->
+                    </form>
+
+                    <!-- 新增上傳圖片按鈕 -->
+                    <a class="btn btn-custom" th:href="@{/product-pictures/uploadForm/{productNo}(productNo=${product.productNo})}">圖片</a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

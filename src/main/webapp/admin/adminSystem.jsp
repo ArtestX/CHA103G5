@@ -32,15 +32,9 @@ pageContext.setAttribute("list", list);
 body {
             background-image: url('../img/desktop.jpg');
             background-size: cover;
-            background-attachment: fixed; /* 可选，固定背景图片 */
+            background-attachment: fixed; /* 固定背景圖片 */
             background-repeat: no-repeat;
         }
-        
- .custom-bg-color { 
-/* 	background-color: #EDEEF0; /* 自定义颜色代码 */ */
-	} 
-
-
 
 th {
     text-align: center;
@@ -72,95 +66,92 @@ th {
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-2 g-3">
-			<!--左邊-->
+				<!--左邊-->
 				<div class="accordion" id="accordionExample">
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-				        員工管理
-				      </button>
-				    </h2>
-				    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-				      	<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action">員工列表</a></strong>
-				      </div>
-<%--				      <div class="accordion-body">--%>
-<%--				      	<strong><a href="#" class="list-group-item list-group-item-action">權限管理</a></strong>--%>
-<%--				      </div>--%>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-				        商品管理
-				      </button>
-				    </h2>
-				    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-				        訂單管理
-				      </button>
-				    </h2>
-				    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-				        客服管理
-				      </button>
-				    </h2>
-				    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="<%=request.getContextPath()%>/customer/backendCustomer.jsp" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-				        寵物領養管理
-				      </button>
-				    </h2>
-				    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-				        會員資料管理
-				      </button>
-				    </h2>
-				    <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="accordion-item">
-				    <h2 class="accordion-header">
-				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
-				        公告資訊管理
-				      </button>
-				    </h2>
-				    <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-				      <div class="accordion-body">
-						<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
-				      </div>
-				    </div>
-				  </div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								員工管理
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<strong><a href="adminSystem.jsp" class="list-group-item list-group-item-action" onclick="return checkAdminStat();">員工列表</a></strong>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+								商品管理
+							</button>
+						</h2>
+						<div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<strong><a href="${pageContext.request.contextPath}/allProduct" class="list-group-item list-group-item-action">商品編輯</a></strong>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+								訂單管理
+							</button>
+						</h2>
+						<div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+								客服管理
+							</button>
+						</h2>
+						<div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<strong><a href="<%=request.getContextPath()%>/customer/backChat.jsp" class="list-group-item list-group-item-action">即時客服</a></strong>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+								寵物領養管理
+							</button>
+						</h2>
+						<div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<strong><a href="http://localhost:8080/CHA103G5/pet/select_page.jsp" class="list-group-item list-group-item-action">寵物列表</a></strong>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+								會員資料管理
+							</button>
+						</h2>
+						<div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<strong><a href="<%=request.getContextPath()%>/member/allMembers.jsp" class="list-group-item list-group-item-action">會員列表</a></strong>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+								公告資訊管理
+							</button>
+						</h2>
+						<div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<strong><a href="http://localhost:8080/CHA103G5/informationannouncement/select_page.jsp" class="list-group-item list-group-item-action">公告列表</a></strong>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!--左邊-->
@@ -185,10 +176,9 @@ th {
 										<input type="text" class="form-control" placeholder="請輸入員工編號"
 											name="adminNo" value="${param.adminNo}"
 											aria-label="Recipient's username"
-											aria-describedby="button-addon2"> <input
-											type="hidden" name="action" value="getOne_For_Display">
-										<button class="btn btn-outline-secondary" type="submit"
-											id="button-addon2">搜尋</button>
+											aria-describedby="button-addon2">
+										<input type="hidden" name="action" value="getOne_For_Display">
+										<button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜尋</button>
 									</div>
 									<div class="error-message">${errorMsgs.adminNo}</div>
 								</div>

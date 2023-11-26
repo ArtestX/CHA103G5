@@ -13,20 +13,20 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	    Transaction transaction = null;
 	    AnimalType animalType = null;
-	    
+
 	    try {
 	        transaction = session.beginTransaction();
-	        
+
 	        animalType = new AnimalType();
 	        animalType.setAnimalTypeName(animalTypeName);
 	        session.save(animalType);
-	        
+
 	        transaction.commit();
 	    } catch (Exception e) {
 	        if (transaction != null) transaction.rollback();
 	        e.printStackTrace();
 	    }
-	    
+
 	    return animalType;
 	}
 
@@ -35,8 +35,8 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	    Transaction transaction = null;
 	    AnimalType animalType = null;
-	    String hql = "FROM AnimalType WHERE animaltypename = :oldAnimalTypeName";
-	    
+	    String hql = "FROM AnimalType WHERE animalTypeName = :oldAnimalTypeName";
+
 	    try {
 	        transaction = session.beginTransaction();
 
@@ -47,13 +47,13 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 	            animalType.setAnimalTypeName(newAnimalTypeName);
 	            session.update(animalType);
 	        }
-	        
+
 	        transaction.commit();
 	    } catch (Exception e) {
 	        if (transaction != null) transaction.rollback();
 	        e.printStackTrace();
 	    }
-	    
+
 	    return animalType;
 	}
 
@@ -61,11 +61,11 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 	public void delete(String animalTypeName) {
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	    Transaction transaction = null;
-	    String hql = "FROM AnimalType WHERE animaltypename = :animalTypeName";
-	    
+	    String hql = "FROM AnimalType WHERE animalTypeName = :animalTypeName";
+
 	    try {
 	        transaction = session.beginTransaction();
-	        
+
 	        Query<AnimalType> query = session.createQuery(hql, AnimalType.class);
 	        query.setParameter("animalTypeName", animalTypeName);
 	        List<AnimalType> animalTypes = query.list();
@@ -77,7 +77,7 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 	                System.out.println("刪除完成");  // 新增這一行來確認刪除操作已執行
 	            }
 	        }
-	      
+
 	        transaction.commit();
 	    } catch (Exception e) {
 	        if (transaction != null) transaction.rollback();
@@ -90,11 +90,11 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	    Transaction transaction = null;
 	    AnimalType animalType = null;
-	    String hql = "FROM AnimalType WHERE animaltypename = :animalTypeName";
-	    
+	    String hql = "FROM AnimalType WHERE animalTypeName = :animalTypeName";
+
 	    try {
 	        transaction = session.beginTransaction();
-	        
+
 	        Query<AnimalType> query = session.createQuery(hql, AnimalType.class);
 	        query.setParameter("animalTypeName", animalTypeName);
 	        query.setMaxResults(1);
@@ -102,13 +102,13 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 	        if (!results.isEmpty()) {
 	            animalType = results.get(0);
 	        }
-	        
+
 	        transaction.commit();
 	    } catch (Exception e) {
 	        if (transaction != null) transaction.rollback();
 	        e.printStackTrace();
 	    }
-	    
+
 	    return animalType;
 	}
 
@@ -118,19 +118,19 @@ public class AnimalTypeDaoImpl implements AnimalTypeDao  {
 		Transaction transaction = null;
 	    List<AnimalType> list = null;
 	    String hql = "FROM AnimalType";
-	    
+
 	    try {
 	    	transaction = session.beginTransaction();
-	    	
+
 	        Query query = session.createQuery(hql);
 	        list = query.list();
-	        
+
 	        transaction.commit();
 	    } catch (Exception e) {
 	    	if (transaction != null) transaction.rollback();
 	        e.printStackTrace();
 	    }
-	    
+
 	    return list;
 	}
 }

@@ -4,150 +4,8 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-        
-<style>
-* {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/memberSignUp.css" />      
 
-.hero-section#sign_up {
-    background: url(../img/bg.png) no-repeat center center / cover;
-    height: 100vh;
-}
-
-.hero-section#sign_up  > :first-child {
-    width:700px;
-    height: auto;
-    padding: 25px;
-    background-color: rgba(#000, 0.6);
-    border-radius: 50px;
-    border: 5px solid #fff;
-    box-shadow: 0 0 30px #000;
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-}
-
-h4 {
-    /*註冊會員*/
-    color: #422E2F;
-    text-align: left;
-}
-
-div.col-md-6{ 
-    color: #422E2F;
-    margin-top: 13px;
-    margin-left: 27px;
-    width: 250px;
-    margin-right: 28px; /* 欄位間距调整 */
-}
-
-.login_btn {
-    /*註冊按鈕*/
-    padding: 13px 5px 0px;
-    color: #422E2F;
-    text-align: right;
-    margin-right: 65px;
-    margin-bottom: 0x;
-}
-
-.btnAccess {
-    /*註冊按鈕*/
-    color: #422E2F;
-    background-color: #FAE899;
-    border: 1px solid  rgba(#eeeaea, 0.5);
-    
-}
-
-.btnAccess:hover {
-	 /*註冊按鈕*/
-    background-color: #bae5f3fb;
-    box-shadow: 0 1px 4px rgba(64, 64, 64, 1);
-}
-
-/* 性别按鈕 */
-.btn-outline-primary, .btn-outline-danger {
-    color: #422E2F;
-    background-color:  rgba(#000, 1);
-    border-color: #422E2F; 
-    border-radius: 40px;
-}
-
-.btn-outline-primary{
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: ;
-    width: 65px;
-}
-
-.btn-outline-danger{
-    width: 65px;
-}
-
-div.col-md-6 b{ 
-    margin-top: 30px;
-}
-
-.login_btn img#imgValidate{
-    margin-right:350px;
-    padding:0px;
-}
-
-/*帳號檢查*/
-#accountExistsMessage{
-    float: right;
-    font-size: 14px;
-     margin-top: 5px;
-}
-
-.form-label {
-	/*隱藏密碼*/
-      position: relative;
-}
-
-.password-toggle{
-	/*隱藏密碼*/
-         position: absolute;
-         top: 44%;
-         right: 390px; 
-         transform: translateY(-50%); 
-		 cursor: pointer; 
-		 width: 24px;
-}
-
-/*確認密碼檢查*/
-#passwordErrorMessage{
-	color: red ;
-    float: right;
-    font-size: 14px;
-     margin-top: 5px;
-}
-
-font{
-	 float: right;
-    font-size: 14px;
-     margin-top: 5px;
-}
-
-@media screen and (max-width: 768px) {
-    body {
-        min-width: 768px; /* 設置最小寬度 */
-    }
-}
-/*日期欄位*/
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }
-
-</style>
-</head>
 <body>
  <section class="hero-section d-flex justify-content-center align-items-center" id="sign_up"> 
         <form class="row g-3" METHOD="post" ACTION="mem.do"  name="form1">
@@ -196,12 +54,12 @@ font{
             <input type="hidden" name="memberstat" value=0>
 
             <div class="col-md-6">
-                <label for="inputCheckNumber" class="form-label"><b>驗證碼</b></label><font color=red>${errorMsgs.verificationCode}</font>
+                <label for="inputCheckNumber" class="form-label"><b>驗證碼*</b></label><font color=red>${errorMsgs.verificationCode}</font>
                 <input type="text" name="verificationCode" class="form-control" id="inputCheckNumber" placeholder="請輸入驗證碼">
             </div>
 
             <div class="col-md-6">
-                <b>性別</b>
+                <b>性別*</b>
                 	 <input type="radio" name="membergender" value=1  class="btn-check" id="gender_boy">  
                 	 <label class="btn btn-outline-primary" for="gender_boy"><b>男</b></label>
                 	 

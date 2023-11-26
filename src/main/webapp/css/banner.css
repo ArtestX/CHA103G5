@@ -4,10 +4,11 @@
 	position: sticky;
 	top: 0;
 	z-index: 1000; /*確定導覽列在其他元素上層顯示 */
-	background-color: #FAE899;
+	background-color: #FAE899 ;
 }
 
 .nav-item, .nav-item dropdown {
+	background-color: #FAE899 ;
 	color: #422E2F;
 	font-size: 17px;
 }
@@ -116,7 +117,7 @@
 #bellIcon {
    background:url(../img/bell.png);
    width: 40px; 
-   height:35px;
+   height:30px;
    background-size: cover;
    cursor: pointer;
    border: none;
@@ -128,4 +129,17 @@
    height: 60px;
    margin-left: 22px !important;
 
+
+button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
 }

@@ -41,7 +41,7 @@ public class MemberService {
     }
 
 	public MemberVO updateMember(Integer memberno, String membername, Integer membergender, String memberpassword,
-			String memberphone, String memberaddress, Date memberbirthday, String membernation, byte[] memberpic, 
+			String memberphone, String memberaddress, Date memberbirthday, byte[] memberpic, 
 			String membercard, String memberid, String memberjob, Integer membersal) {
 		
 		MemberVO memberVO = dao.findByPrimaryKey(memberno); // 先獲取現有的 MemberVO 物件
@@ -52,7 +52,6 @@ public class MemberService {
 				memberVO.setMemberphone(memberphone);
 				memberVO.setMemberaddress(memberaddress);
 				memberVO.setMemberbirthday(memberbirthday);
-				memberVO.setMembernation(membernation);
 				memberVO.setMemberpic(memberpic);
 				memberVO.setMembercard(membercard);
 				memberVO.setMemberid(memberid);
@@ -82,5 +81,14 @@ public class MemberService {
 		return dao.findByMemberEmail(memberemail);
 	}
 
-	
+	 public MemberVO updateMembers(MemberVO memberVO) {
+	     int updateResult = dao.update(memberVO);
+	     
+	     if (updateResult == 1) {
+	         // 更新成功
+	         return memberVO;
+	     } else {
+	         return null;
+	     }
+	 }
 }
