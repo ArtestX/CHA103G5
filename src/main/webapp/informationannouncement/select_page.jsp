@@ -126,7 +126,7 @@
 					</h2>
 					<div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 						<div class="accordion-body">
-							<strong><a href="select_page.jsp" class="list-group-item list-group-item-action">寵物列表</a></strong>
+							<strong><a href="<%=request.getContextPath()%>/pet/select_page.jsp" class="list-group-item list-group-item-action">寵物列表</a></strong>
 						</div>
 					</div>
 				</div>
@@ -150,7 +150,7 @@
 					</h2>
 					<div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 						<div class="accordion-body">
-							<strong><a href="#" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
+							<strong><a href="<%=request.getContextPath()%>/informationannouncement/select_page.jsp" class="list-group-item list-group-item-action">填寫功能名稱</a></strong>
 						</div>
 					</div>
 				</div>

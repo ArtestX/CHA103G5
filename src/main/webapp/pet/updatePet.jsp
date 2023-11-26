@@ -332,23 +332,28 @@
             return;
         }
 
-        if (files.length > 0) {
-            const promises = [];
 
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const reader = new FileReader();
+        function updatePetInfo() {
+            let promises = [];
+            let petPic = [];
 
-                promises.push(new Promise((resolve, reject) => {
-                    reader.onloadend = function () {
-                        petPic.push(reader.result);
-                        resolve();
-                    }
-                    reader.readAsDataURL(file);
-                }));
+            if (files.length > 0) {
+                // 如果有檔案，則讀取檔案
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+
+                    promises.push(new Promise((resolve, reject) => {
+                        reader.onloadend = function () {
+                            petPic.push(reader.result);
+                            resolve();
+                        };
+                        reader.readAsDataURL(file);
+                    }));
+                }
             }
 
-            // 等待所有 Promise 完成後再執行 fetch
+            // 無論是否有檔案，都執行 PUT 請求的邏輯
             Promise.all(promises).then(() => {
                 const putData = {
                     "petId": petId,
@@ -368,28 +373,31 @@
 
                 // 發送 PUT 請求
                 fetch(apiUrl, {
-                    method: 'PUT',  // 將方法改為 PUT
+                    method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json',
-                        // 如果需要身份驗證或其他標頭，請在此處添加
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(putData),
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP錯誤: ${response.status}`);
+                        }
+                        return response.text(); // 繼續使用 response.text() 處理純文字訊息
+                    })
                     .then(data => {
-                        // 處理成功響應
                         console.log('成功：', data);
-
-                        // 在這裡跳轉到 select_page.jsp
                         window.location.href = 'select_page.jsp';
                     })
                     .catch(error => {
-                        // 處理錯誤
                         console.error('錯誤：', error);
                     });
             });
         }
-        window.location.href = 'select_page.jsp';
+
+        // 呼叫更新寵物資訊的函數
+        updatePetInfo();
+        // window.location.href = 'select_page.jsp';
 
     });
 

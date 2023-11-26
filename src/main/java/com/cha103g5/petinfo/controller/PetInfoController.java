@@ -31,8 +31,7 @@ public class PetInfoController {
 
     @GetMapping("/GetAllPetInfo")
     public List<PetVO> getAllPetsWithPictures() {
-        List<PetVO> a = petInfoService.getAllPetsWithPictures();
-        return a;
+        return petInfoService.getAllPetsWithPictures();
     }
 
     @PostMapping("/addPetInfo")
