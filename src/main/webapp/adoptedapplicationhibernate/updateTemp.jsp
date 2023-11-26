@@ -166,7 +166,7 @@
             <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
             <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
             <br>
-            <form id="myForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post" enctype="multipart/form-data" onsubmit="return checkReservation()">
+            <form id="myForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="post" enctype="multipart/form-data" onsubmit="return checkReservation()">
                 <input type="hidden" name="action" value="update" />
                 <input type="hidden" name="applicationNo" value="${application.applicationNo}" />
                 <table>
@@ -410,7 +410,7 @@
 
     function showCalendarPopup() {
         var popupWindow = window.open(
-            '${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=frontendCalendar', // 更改為您的實際路徑
+            '${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=frontendCalendar', // 更改為您的實際路徑
             'CalendarPopup',
             'width=600,height=400,left=200,top=200' // 調整為您想要的尺寸和位置
         );

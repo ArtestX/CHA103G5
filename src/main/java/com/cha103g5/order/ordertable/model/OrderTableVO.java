@@ -35,4 +35,7 @@ public class OrderTableVO {
     @Column(name = "shipmethod", nullable = false)
     private Byte shipMethod;
 
+    @Column(name = "shippingaddress", nullable = false)
+    private String shippingAddress;
+
 }

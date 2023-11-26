@@ -107,9 +107,7 @@ public class OrderTableServlet extends HttpServlet {
 	private String getAllOrderTables(HttpServletRequest request, HttpServletResponse response) {
 		String page = request.getParameter("page");
 		int currentPage = (page == null) ? 1 : Integer.parseInt(page);
-		System.out.println("1");
 		List<OrderTableVO> allOrderTables = otService.getAllOrderTables(currentPage);
-		System.out.println("2");
 		if (request.getAttribute("orderTablesPageQty") == null) {
 			int orderTablesPageQty = otService.getPageTotal();
 			request.setAttribute("orderTablesPageQty", orderTablesPageQty);
@@ -117,7 +115,7 @@ public class OrderTableServlet extends HttpServlet {
 		request.setAttribute("allOrderTables", allOrderTables);
 		request.setAttribute("currentPage", currentPage);
 
-		return "/ordertable/listAll.jsp";
+		return "/ordertable/listAllOrderTableBackend.jsp";
 	}
 
 	private String getOrderTablesByMemberNo(HttpServletRequest request, HttpServletResponse response) {
@@ -166,7 +164,7 @@ public class OrderTableServlet extends HttpServlet {
 		otService.deleteOrderTable(orderTableNo);
 		getAllOrderTables(request, response);
 
-		return "/ordertable/listAll.jsp";
+		return "/ordertable/listAllOrderTableBackend.jsp";
 	}
 
 	private String updateOrderTable(HttpServletRequest request, HttpServletResponse response) {
@@ -177,6 +175,7 @@ public class OrderTableServlet extends HttpServlet {
 		Byte orderStat = Byte.parseByte(request.getParameter("orderStat"));
 		Byte paymentMethod = Byte.parseByte(request.getParameter("paymentMethod"));
 		Byte shipMethod = Byte.parseByte(request.getParameter("shipMethod"));
+		String shippingAddress = request.getParameter("shippingAddress");
 
 		OrderTableVO orderTable = otService.getOrderTableById(orderTableNo);
 		orderTable.setMemberNo(memberNo);
@@ -184,9 +183,10 @@ public class OrderTableServlet extends HttpServlet {
 		orderTable.setOrderStat(orderStat);
 		orderTable.setPaymentMethod(paymentMethod);
 		orderTable.setShipMethod(shipMethod);
+		orderTable.setShippingAddress(shippingAddress);
 		otService.updateOrderTable(orderTable);
 		getAllOrderTables(request, response);
-		return "/ordertable/listAll.jsp";
+		return "/ordertable/listAllOrderTableBackend.jsp";
 	}
 
 	private String editoption(HttpServletRequest request, HttpServletResponse response) {
@@ -208,6 +208,7 @@ public class OrderTableServlet extends HttpServlet {
 		Byte orderStat = Byte.parseByte(request.getParameter("orderStat"));
 		Byte paymentMethod = Byte.parseByte(request.getParameter("paymentMethod"));
 		Byte shipMethod = Byte.parseByte(request.getParameter("shipMethod"));
+		String shippingAddress = request.getParameter("shippingAddress");
 
 		OrderTableVO orderTable = new OrderTableVO();
 		orderTable.setMemberNo(memberNo);
@@ -216,11 +217,12 @@ public class OrderTableServlet extends HttpServlet {
 		orderTable.setOrderStat(orderStat);
 		orderTable.setPaymentMethod(paymentMethod);
 		orderTable.setShipMethod(shipMethod);
+		orderTable.setShippingAddress(shippingAddress);
 
 		otService.addOrderTable(orderTable);
 		getAllOrderTables(request, response);
 
-		return "/ordertable/listAll.jsp";
+		return "/ordertable/listAllOrderTableBackend.jsp";
 	}
 
 }

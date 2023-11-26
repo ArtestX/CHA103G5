@@ -41,7 +41,6 @@
 //    request.setAttribute("memberNo", memberNo);
 //    request.setAttribute("randomPetId", randomPetId);
     int petId = Integer.parseInt(request.getParameter("petId"));
-    System.out.println(petId);
     request.setAttribute("petId", petId);
     request.setAttribute("randomPetStat", randomPetStat);
 
@@ -222,7 +221,7 @@
     <img width="140px" height="100px" alt="要飛囉貓貓" src="${pageContext.request.contextPath}/adoptedapplicationhibernate/images/cat.png">
     <br>
     <div style="display: grid; grid-template-columns: auto auto; align-items: start; gap: 20px;">
-        <form id="myForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="post" enctype="multipart/form-data" onsubmit="return checkReservation()">
+        <form id="myForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="post" enctype="multipart/form-data" onsubmit="return checkReservation()">
             <input type="hidden" name="action" value="add" />
             <div>
             <table>
@@ -237,13 +236,13 @@
 <%--                        <input type="hidden" name="adminNo" value="${randomAdminNo}" />--%>
 <%--                    </td>--%>
 <%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>管理員編號：</td>--%>
-<%--                    <td>--%>
-<%--                        ${adminNo}--%>
-<%--                        <input type="hidden" name="adminNo" value="${adminNo}" />--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
+                <tr>
+                    <td>管理員編號：</td>
+                    <td>
+                        ${adminNo}
+                        <input type="hidden" name="adminNo" value="${adminNo}" />
+                    </td>
+                </tr>
 <%--                <tr>--%>
 <%--                    <td>會員編號：</td>--%>
 <%--                    <td><input type="number" name="memberNo" required /></td>--%>
@@ -255,13 +254,13 @@
 <%--                        <input type="hidden" name="memberNo" value="${randomMemberNo}" />--%>
 <%--                    </td>--%>
 <%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>會員編號：</td>--%>
-<%--                    <td>--%>
-<%--                        ${user.memberno}--%>
-<%--                        <input type="hidden" name="memberNo" value="${user.memberno}" />--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
+                <tr>
+                    <td>會員編號：</td>
+                    <td>
+                        ${user.memberno}
+                        <input type="hidden" name="memberNo" value="${user.memberno}" />
+                    </td>
+                </tr>
 <%--                <tr>--%>
 <%--                    <td>寵物編號：</td>--%>
 <%--                    <td><input type="number" name="petId" required /></td>--%>
@@ -419,7 +418,7 @@
 
 <%--                    <li class="list-group-item">--%>
 <%--                        <a href="#" onclick="document.getElementById('applicationForm').submit();">預約詳情</a>--%>
-<%--                        <form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServlet" method="GET">--%>
+<%--                        <form style="display: none;" id="applicationForm" action="${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp" method="GET">--%>
 <%--                            <input type="hidden" name="action" value="frontendGetByMemberNo">--%>
 <%--                            <input type="hidden" name="memberNo" value="${user.memberno}">--%>
 <%--                        </form>--%>
@@ -517,7 +516,7 @@
 
         function showCalendarPopup() {
             var popupWindow = window.open(
-                '${pageContext.request.contextPath}/adoptedApplicationHibernateServlet?action=frontendCalendar', // 更改為您的實際路徑
+                '${pageContext.request.contextPath}/adoptedApplicationHibernateServletTemp?action=frontendCalendar', // 更改為您的實際路徑
                 'CalendarPopup',
                 'width=600,height=600,left=200,top=200' // 調整為您想要的尺寸和位置
             );
