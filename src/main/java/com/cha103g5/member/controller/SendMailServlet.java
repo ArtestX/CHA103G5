@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.cha103g5.member.model.MemberService;
@@ -55,7 +56,7 @@ public class SendMailServlet extends HttpServlet {
 			    		
 			    		String activeCode = generateRandomString(6);
 			    		
-			    		String link = "http://localhost:8081/CHA103G5/member/sendemail?action=action&activeCode=" + activeCode + "&memberemail=" + to;
+			    		String link = "http://lovepethome.ddns.net/CHA103G5/member/sendemail?action=action&activeCode=" + activeCode + "&memberemail=" + to;
 			    		String messageText =" 你好, 你在浪愛有家的會員帳號已經創建! \n請點擊以下連結完成信箱認證\n"+ link ;			    				
 			    		SendMailService SendMailService = new SendMailService();
 			    		SendMailService.sendMail(to, subject, messageText);
@@ -161,7 +162,7 @@ public class SendMailServlet extends HttpServlet {
 						    		
 						    		String activeCode = generateRandomString(6);
 						    		
-						    		String link = "http://localhost:8081/CHA103G5/member/sendemail?action=action&activeCode=" + activeCode + "&memberemail=" + to;
+						    		String link = "http://lovepethome.ddns.net/CHA103G5/member/sendemail?action=action&activeCode=" + activeCode + "&memberemail=" + to;
 						    		String messageText =" 你好! \n請點擊以下連結完成信箱認證\n"+ link ;			    				
 						    		SendMailService SendMailService = new SendMailService();
 						    		SendMailService.sendMail(to, subject, messageText);
@@ -190,6 +191,7 @@ public class SendMailServlet extends HttpServlet {
 /**********************驗證(註冊)**********************/
 /**********************驗證(註冊)**********************/				
 			if("action".equals(action)) {
+				  System.out.println("驗證");
 			      String getActiveCode = req.getParameter("activeCode");
 			      String memberemail = req.getParameter("memberemail");
 
