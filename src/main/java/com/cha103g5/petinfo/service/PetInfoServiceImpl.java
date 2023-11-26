@@ -54,11 +54,10 @@ public class PetInfoServiceImpl implements PetInfoService {
     @Override
     public List<PetVO> getAllPetsWithPictures() {
         try {
-            List<PetVO> a = petRepository.findAll().stream()
+            // 使用 Java 8 Stream API 來簡化邏輯
+            return petRepository.findAll().stream()
                     .peek(this::attachPetPictures)
                     .collect(Collectors.toList());
-            // 使用 Java 8 Stream API 來簡化邏輯
-            return a;
         } catch (Exception e) {
             System.out.println("獲取所有寵物信息錯誤: " + e.getMessage());
             return Collections.emptyList();

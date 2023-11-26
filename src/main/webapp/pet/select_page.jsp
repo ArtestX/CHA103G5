@@ -222,8 +222,7 @@
 
 								<th class="text-center">
 								<td>
-									<button class="btn btn-success updatebtn" type="submit" onclick="update(${petVO.petid})">修改</button>
-
+										<button class="btn btn-success updatebtn" type="submit" onclick="update(${petVO.petid})">修改</button>
 									</c:forEach>
 							</tbody>
 						</table>
@@ -275,24 +274,25 @@
 
 		});
 
-		let updatebtns = document.querySelectorAll('.updatebtn');
-		console.log(updatebtns);
+		// let updatebtns = document.querySelectorAll('.updatebtn');
+		// console.log(updatebtns);
 
-		updatebtns.forEach(function(btn) {
-			btn.addEventListener('click', function() {
-				// 獲取所選寵物的 petid
-				let petId = btn.parentElement.parentElement.parentElement.querySelector('th:first-child').innerText;
-
-				console.log(petId);
-				// 將 petid 帶到新頁面
-				window.location.href = 'updateInformationannouncement.jsp?petId=' + petId;
-			});
-		});
+		// updatebtns.forEach(function(btn) {
+		// 	btn.addEventListener('click', function() {
+		// 		// 獲取所選寵物的 petid
+		// 		let petId = btn.parentElement.parentElement.parentElement.querySelector('th:first-child').innerText;
+		//
+		// 		console.log(petId);
+		// 		將 petid 帶到新頁面
+		// 		window.location.href = 'updatePet.jsp?petId=' + petId;
+		// 	});
+		// });
 
 	});
 
 	function update(petId) {
-		console.log(petId);
+		window.location.href = 'updatePet.jsp?petId=' + petId;
+		console.log(petId + "下面的");
 	}
 </script>
 

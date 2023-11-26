@@ -2,6 +2,10 @@
 
 <html lang="zh-TW">
 <head>
+    <script>
+        let pathName = window.document.location.pathname;
+        let projectName = pathName.substring(0, pathName.substring(1).indexof("/") + 1);
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +17,13 @@
     <link rel="stylesheet" href="/CHA103G5/css/bootstrap-icons.css">
     <link rel="stylesheet" href="/CHA103G5/css/banner.css">
     <style>
+
+        body {
+            background-image: url('../img/petsback.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
 
         .pet-card {
             background-color: #FAE899;
@@ -180,6 +191,10 @@
     <!-- 		</nav> -->
 </nav>
 
+<div class="container mt-5">
+    <div id="pets-container" class="row mt-4"></div>
+</div>
+
 
 <!-- JAVASCRIPT FILES -->
 <script src="/CHA103G5/js/bootstrap.bundle.min.js"></script>
@@ -187,12 +202,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
-
-
-    // let pathName = window.document.location.pathname;
-    // let projectName = pathName.substring(0, pathName.substring(1).indexof("/") + 1);
-    // console.log(projectName);
-
 
     function watchUser() {
         let loginIcon1 = document.getElementById("loginIcon1");
@@ -302,12 +311,6 @@
 
 </script>
 
-
-<div class="container mt-5">
-    <h1>寵物</h1>
-    <div id="pets-container" class="row mt-4"></div>
-</div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -318,49 +321,67 @@
             type: 'GET',
             dataType: 'json',
             success: function (pets) {
-                let petsHtml = pets.map(pet =>
-                    `<div class="col-md-4 mb-3">
-                        <div class="card pet-card">
-                            <div class="container">
-                                <table class="table table-bordered table-striped table-warning">
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="2" class="text-center"><h5>${pet.petName}</h5></td>
-                                        </tr>
-                                        <tr>
-                                            <td>寵物編號：</td>
-                                            <td>${pet.petId}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>寵物性別：</td>
-                                            <td>${pet.petSex}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>寵物年齡：</td>
-                                            <td>${pet.petAge}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>備註：</td>
-                                            <td>${pet.petNote}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>申請截止日期：</td>
-                                            <td>${pet.applicationDeadLine}</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-center">
+                let petsHtml = pets.map((pet, index) => {
+                    // 為每個寵物創建一個唯一的ID
+                    let petImageContainerId = `petImageContainer${index}`;
+                    let nextButtonId = `nextButton${index}`;
+
+                    return `<div class="col-md-4 mb-3">
+                    <div class="card pet-card">
+                        <div class="container">
+                            <table class="table table-bordered table-striped table-warning">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="text-center"><h5>${pet.petName}</h5></td>
+                                    </tr>
+                                    <tr>
+                                        <td>寵物編號：</td>
+                                        <td>${pet.petId}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>寵物性別：</td>
+                                        <td>${pet.petSex}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>寵物年齡：</td>
+                                        <td>${pet.petAge}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>備註：</td>
+                                        <td>${pet.petNote}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>申請截止日期：</td>
+                                        <td>${pet.applicationDeadLine}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-center">
+                                            <div id="${petImageContainerId}">
                                                 ${pet.petPics && pet.petPics.length > 0 ? `<img src="data:image/jpeg;base64,${pet.petPics[0].base64Image}" alt="寵物圖片" class="img-fluid pet-image"/>` : ''}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                                <button class="btn btn-lg btn-primary w-100 fs-6" onclick = "reserves(${pet.petId})">預約領養</button>
+                                            </div>
+                                            <br>
+                                            <button id="${nextButtonId}" class="btn btn-info">看更多圖片</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <br>
-                    </div>`
-                ).join('');
+                        <button class="btn btn-lg btn-primary w-100 fs-6" onclick="reserves(${pet.petId})">預約領養</button>
+                    </div>
+                    <br>
+                </div>`;
+                }).join('');
+
                 $("#pets-container").html(petsHtml);
+
+                // 為每個寵物的按鈕添加事件監聽器
+                pets.forEach((pet, index) => {
+                    let currentPicIndex = 0;
+                    $(`#nextButton${index}`).click(function () {
+                        currentPicIndex = (currentPicIndex + 1) % pet.petPics.length;
+                        $(`#petImageContainer${index} img`).attr('src', 'data:image/jpeg;base64,' + pet.petPics[currentPicIndex].base64Image);
+                    });
+                });
             },
             error: function (error) {
                 console.log(error);
@@ -372,6 +393,27 @@
         console.log(petId);
         window.location.href = '../adoptedApplicationHibernateServletTemp?action=addOption' + "&petId=" + petId;
     }
+
+    $(document).ready(function () {
+        // ... 其他代碼 ...
+
+        // 為每個寵物添加事件處理器
+        pets.forEach(pet => {
+            let currentImageIndex = 0;  // 記錄當前圖片索引
+            let petImages = pet.petPics; // 寵物的所有圖片
+
+            // 為每個按鈕添加點擊事件
+            $(`#nextButton${pet.petId}`).click(function() {
+                currentImageIndex = (currentImageIndex + 1) % petImages.length; // 更新索引
+                let nextImage = petImages[currentImageIndex].base64Image; // 獲取下一張圖片
+                $(`#petImage${pet.petId}`).attr("src", `data:image/jpeg;base64,${nextImage}`); // 更新圖片
+            });
+        });
+
+        // ... 其他代碼 ...
+    });
+
+
 
 
 </script>
