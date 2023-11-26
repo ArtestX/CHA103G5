@@ -1,30 +1,12 @@
-<%@ page import="com.cha103g5.admin.model.AdminVO" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateService" %>
-<%@ page import="com.cha103g5.adoptedapplicationhibernate.service.AdoptedApplicationHibernateServiceImpl" %>
-<%@ page import="com.cha103g5.member.model.MemberVO" %>
-<%@ page import="com.cha103g5.petinfo.model.PetVO" %>
-<%@ page import="com.cha103g5.member.model.*"%>
-<%@ page import="com.cha103g5.order.ordertable.model.OrderTableVO" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/banner.jsp" flush="true" />
-<%@ page import="com.cha103g5.member.model.*"%>
 <%@ page import="java.util.*"%>
+<%@ page import="com.cha103g5.pet.service.PetService" %>
+<%@ page import="com.cha103g5.pet.model.PetServletVO" %>
+<%@ page import="java.sql.Date" %>
 
-<%--<%--%>
-<%--    AdoptedApplicationHibernateService aahService = new AdoptedApplicationHibernateServiceImpl();--%>
-<%--    AdminVO randomAdmin = aahService.getRandomAdmin();--%>
-<%--    pageContext.setAttribute("randomAdminNo", randomAdmin.getAdminNo());--%>
-<%--    pageContext.setAttribute("randomAdminName", randomAdmin.getAdminName());--%>
-<%--    MemberVO randomMember = aahService.getRandomMember();--%>
-<%--    pageContext.setAttribute("randomMemberNo", randomMember.getMemberno());--%>
-<%--    pageContext.setAttribute("randomMemberName", randomMember.getMembername());--%>
-<%--    PetVO randomPet = aahService.getRandomPet();--%>
-<%--    pageContext.setAttribute("randomPetId", randomPet.getPetId());--%>
-<%--    pageContext.setAttribute("randomPetName", randomPet.getPetName());--%>
-<%--    pageContext.setAttribute("randomPetStat", randomPet.getStat());--%>
-<%--%>--%>
 <%
     // 把MemberVO的資料從session取出
     com.cha103g5.member.model.MemberVO user = (com.cha103g5.member.model.MemberVO) session.getAttribute("user");
@@ -36,18 +18,27 @@
     int adminNo = random.nextInt(10) + 1;
 //    int memberNo = random.nextInt(6) + 1;
 //    int randomPetId = random.nextInt(5);
-    int randomPetStat = random.nextInt(5);
+//    int randomPetStat = random.nextInt(5);
     request.setAttribute("adminNo", adminNo);
 //    request.setAttribute("memberNo", memberNo);
 //    request.setAttribute("randomPetId", randomPetId);
     int petId = Integer.parseInt(request.getParameter("petId"));
     request.setAttribute("petId", petId);
-    request.setAttribute("randomPetStat", randomPetStat);
-
-    Byte petStatByte = (byte) randomPetStat;
+//    request.setAttribute("randomPetStat", randomPetStat);
+//    System.out.println("petId= " + petId);
+    PetService petService = new PetService();
+    PetServletVO onePet = petService.getOnePet(petId);
+    byte petStat = onePet.getStat();
+//    System.out.println("petStat= " + petStat);
+    request.setAttribute("petStat", petStat);
+    Byte petStatByte = (byte) petStat;
+//    Byte petStatByte = (byte) randomPetStat;
 //    Byte petStatByte = randomPet.getStat();
     boolean isPetAvailableForReservation = (petStatByte != null && petStatByte == 1);
     pageContext.setAttribute("isPetAvailableForReservation", isPetAvailableForReservation);
+//    Map<Date, boolean[]> reservationMap = (Map<Date, boolean[]>) request.getAttribute("reservationMap");
+//    System.out.println("Reservation Map: " + reservationMap);
+
 %>
 
 <!DOCTYPE html>
@@ -236,13 +227,13 @@
 <%--                        <input type="hidden" name="adminNo" value="${randomAdminNo}" />--%>
 <%--                    </td>--%>
 <%--                </tr>--%>
-                <tr>
-                    <td>管理員編號：</td>
-                    <td>
-                        ${adminNo}
+<%--                <tr>--%>
+<%--                    <td>管理員編號：</td>--%>
+<%--                    <td>--%>
+<%--                        ${adminNo}--%>
                         <input type="hidden" name="adminNo" value="${adminNo}" />
-                    </td>
-                </tr>
+<%--                    </td>--%>
+<%--                </tr>--%>
 <%--                <tr>--%>
 <%--                    <td>會員編號：</td>--%>
 <%--                    <td><input type="number" name="memberNo" required /></td>--%>
@@ -254,27 +245,27 @@
 <%--                        <input type="hidden" name="memberNo" value="${randomMemberNo}" />--%>
 <%--                    </td>--%>
 <%--                </tr>--%>
-                <tr>
-                    <td>會員編號：</td>
-                    <td>
-                        ${user.memberno}
+<%--                <tr>--%>
+<%--                    <td>會員編號：</td>--%>
+<%--                    <td>--%>
+<%--                        ${user.memberno}--%>
                         <input type="hidden" name="memberNo" value="${user.memberno}" />
-                    </td>
-                </tr>
+<%--                    </td>--%>
+<%--                </tr>--%>
 <%--                <tr>--%>
 <%--                    <td>寵物編號：</td>--%>
 <%--                    <td><input type="number" name="petId" required /></td>--%>
 <%--                </tr>--%>
                 <tr>
-                    <td>寵物編號-狀態：</td>
+                    <td>寵物狀態：</td>
                     <td>
-                        ${petId} - ${randomPetStat}
+<%--                        ${petId} - ${petStat}--%>
                             <c:choose>
-                                <c:when test="${randomPetStat == 0}"><span class="red-text">(未上架-不可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 1}"><span class="green-text">(待領養-可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 2}"><span class="red-text">(不可領養-不可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 3}"><span class="red-text">(領養中-不可預約)</span></c:when>
-                                <c:when test="${randomPetStat == 4}"><span class="red-text">(已領養-不可預約)</span></c:when>
+                                <c:when test="${petStat == 0}"><span class="red-text">(未上架-不可預約)</span></c:when>
+                                <c:when test="${petStat == 1}"><span class="green-text">(待領養-可預約)</span></c:when>
+                                <c:when test="${petStat == 2}"><span class="red-text">(不可領養-不可預約)</span></c:when>
+                                <c:when test="${petStat == 3}"><span class="red-text">(領養中-不可預約)</span></c:when>
+                                <c:when test="${petStat == 4}"><span class="red-text">(已領養-不可預約)</span></c:when>
                                 <c:otherwise><span class="red-text">未知狀態</span></c:otherwise>
                             </c:choose>
                         <input type="hidden" name="petId" value="${petId}" />
@@ -595,13 +586,13 @@
             let interactionDateInput = document.getElementById('interactionDateInput');
             let interactionTimeInput = document.getElementById('interactionTimeInput');
 
-            let tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            let maxDate = new Date(tomorrow);
-            maxDate.setDate(maxDate.getDate() + 19);
-
-            interactionDateInput.min = tomorrow.toISOString().split('T')[0];
-            interactionDateInput.max = maxDate.toISOString().split('T')[0];
+            // let tomorrow = new Date(today);
+            // tomorrow.setDate(tomorrow.getDate() + 1);
+            // let maxDate = new Date(tomorrow);
+            // maxDate.setDate(maxDate.getDate() + 19);
+            //
+            // interactionDateInput.min = tomorrow.toISOString().split('T')[0];
+            // interactionDateInput.max = maxDate.toISOString().split('T')[0];
 
             interactionDateInput.disabled = !isPetAvailableForReservation;
             interactionTimeInput.disabled = !isPetAvailableForReservation;

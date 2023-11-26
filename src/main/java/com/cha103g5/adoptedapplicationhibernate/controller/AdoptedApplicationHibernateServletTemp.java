@@ -313,6 +313,25 @@ public class AdoptedApplicationHibernateServletTemp extends HttpServlet {
         }
 
         if ("add".equals(action)) {
+
+            List<AdoptedApplicationHibernate> allReservations = aahService.getAllApplications();
+            Map<Date, boolean[]> reservationMap = new HashMap<>();
+            for (AdoptedApplicationHibernate reservation : allReservations) {
+                Date date = reservation.getInteractionDate();
+                LocalTime time = reservation.getInteractionTime();
+                boolean[] reservedSlots = reservationMap.getOrDefault(date, new boolean[3]);
+                if (time != null) {
+                    int hour = time.getHour();
+                    if (hour >= 9 && hour <= 12) reservedSlots[0] = true;
+                    else if (hour >= 14 && hour <= 17) reservedSlots[1] = true;
+                    else if (hour >= 18 && hour <= 21) reservedSlots[2] = true;
+                }
+
+                reservationMap.put(date, reservedSlots);
+            }
+
+            request.setAttribute("reservationMap", reservationMap);
+
             try {
                 Integer adminNo = Integer.parseInt(request.getParameter("adminNo"));
                 Integer memberNo = Integer.parseInt(request.getParameter("memberNo"));
