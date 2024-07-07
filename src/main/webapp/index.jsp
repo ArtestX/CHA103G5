@@ -294,7 +294,7 @@ th {
 
 		function callSpringBootAPI() {
 			$.ajax({
-				url: '/CHA103G5/GetAllInformationAnnouncement', // 替換為你的Spring Boot Controller的API端點
+				url: '/CHA103G5/GetAllInformationFiveAnnouncement', // 替換為你的Spring Boot Controller的API端點
 				type: 'GET', // 或 'POST'，取決於你的Controller設定
 				dataType: 'json',
 				success: function(data) {

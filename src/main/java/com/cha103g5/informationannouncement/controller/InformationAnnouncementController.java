@@ -36,6 +36,11 @@ public class InformationAnnouncementController {
         return informationAnnouncementService.getAllInformationAnnouncements();
     }
 
+    @GetMapping("/GetAllInformationFiveAnnouncement")
+    public List<InformationAnnouncementVO> getAllInformationFiveAnnouncements() {
+        return informationAnnouncementService.getAllInformationFiveAnnouncements();
+    }
+
     // 更新公告
     @PutMapping("/informationAnnouncement/{infoNo}")
     public ResponseEntity<String> updateInformationAnnouncement(@PathVariable @Valid Integer infoNo,

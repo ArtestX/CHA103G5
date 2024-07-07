@@ -3,6 +3,8 @@ package com.cha103g5.informationannouncement.service;
 import com.cha103g5.informationannouncement.dao.InformationAnnouncementRepository;
 import com.cha103g5.informationannouncement.model.InformationAnnouncementVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +41,17 @@ public class InformationAnnouncementServiceImpl implements InformationAnnounceme
 
     @Override
     public List<InformationAnnouncementVO> getAllInformationAnnouncements() {
-        return infoRepository.findAll();
+//        查找到的資料降冪排序
+        Sort sort = Sort.by(Sort.Direction.DESC, "infoTime");
+        return infoRepository.findAll(sort);
+    }
+    @Override
+    public List<InformationAnnouncementVO> getAllInformationFiveAnnouncements() {
+        // 建立分頁請求，取得最後5筆資料
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "infoTime"));
+
+        // 使用分頁查詢
+        return infoRepository.findAll(pageRequest).getContent();
     }
 
     @Override

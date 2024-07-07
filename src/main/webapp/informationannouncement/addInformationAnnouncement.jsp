@@ -181,8 +181,10 @@
 
 					if (response.ok) {
 						// 請求成功
-						const responseData = await response.json();
-						console.log(responseData);
+						// const responseData = await response.json();
+						// console.log(responseData);
+						alert("新增寵物資訊成功");
+						window.location.href = '/CHA103G5/informationannouncement/select_page.jsp';
 					} else {
 						// 請求失敗
 						console.error('請求失敗。');
